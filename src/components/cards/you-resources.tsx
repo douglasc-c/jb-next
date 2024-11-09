@@ -16,12 +16,14 @@ export function YorResources() {
         <DoughnutChart labels={labels} data={data} colors={colors} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <p>U$ 999,999.99</p>
-          <p className="text-xs font-light">{textYourResources.estimatedAssets}</p>
-    </div>
+          <p className="text-xs font-light">
+            {textYourResources.estimatedAssets}
+          </p>
+        </div>
       </section>
       <span className="border border-zinc-500" />
-      <section className='flex flex-col justify-center'>
-        <h1 className='uppercase'>{textYourResources.youResources}</h1>
+      <section className="flex flex-col justify-center">
+        <h1 className="uppercase">{textYourResources.youResources}</h1>
         <div>
           <div className="flex items-center space-x-2 font-light p-2">
             <span className="p-2 bg-white rounded-full" />
