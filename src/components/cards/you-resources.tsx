@@ -13,7 +13,7 @@ export function YorResources() {
   return (
     <div className="flex p-5 bg-zinc-700 rounded-xl h-auto space-x-8">
       <section className="relative flex justify-center items-center">
-        <DoughnutChart labels={labels} data={data} colors={colors} />
+        {/* <DoughnutChart labels={labels} data={data} colors={colors} /> */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <p>U$ 999,999.99</p>
           <p className="text-xs font-light">
