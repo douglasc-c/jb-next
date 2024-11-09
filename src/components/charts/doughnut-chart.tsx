@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 
 interface DoughnutChartProps {
-  labels: string[]
   data: number[]
   colors: string[]
 }
