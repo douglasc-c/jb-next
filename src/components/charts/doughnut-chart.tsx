@@ -17,8 +17,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
   useEffect(() => {
     if (!chartRef.current) return
 
-    const width = 200
-    const height = 200
+    const width = 230
+    const height = 230
     const radius = Math.min(width, height) / 2
 
     const svg = d3.select(chartRef.current)
