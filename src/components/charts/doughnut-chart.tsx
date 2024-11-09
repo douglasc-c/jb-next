@@ -7,11 +7,7 @@ interface DoughnutChartProps {
   colors: string[]
 }
 
-const DoughnutChart: React.FC<DoughnutChartProps> = ({
-  labels,
-  data,
-  colors,
-}) => {
+const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, colors }) => {
   const chartRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
@@ -45,13 +41,13 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       .data(arcs)
       .enter()
       .append('path')
-      .attr('d', arc as any)
+      .attr('d', arc)
       .attr('fill', (_, i) => colors[i])
       .attr('stroke-width', 2)
   }, [data, colors])
 
   return (
-    <div className="">
+    <div>
       <svg ref={chartRef} />
     </div>
   )
