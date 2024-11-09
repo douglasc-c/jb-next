@@ -20,6 +20,11 @@
       "estimatedAssets":"Patrimônio estimado",
       "numberOfHouse":"Número de casas",
       "land":"Terrenos",
-      "avaliableValue":"Valor Disponível"
+      "avaliableValue":"Valor Disponível",
+      "totalBalance":"Saldo total",
+      "balanceInvested":"Saldo investido",
+      "developments":"Empreendimentos",
+      "portfolio":"Carteira",
+      "invested":"Investido"
   }
 }

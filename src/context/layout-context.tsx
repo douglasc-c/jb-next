@@ -10,6 +10,13 @@ export interface LayoutContextProps {
     land: string
     avaliableValue: string
   }
+  textDataInvestments: {
+    totalBalance: string
+    balanceInvested: string
+    developments: string
+    portfolio: string
+    invested: string
+  }
 
   locale: string
 }
