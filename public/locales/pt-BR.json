@@ -1,0 +1,25 @@
+{
+  "TextLang": {
+      "enter": "Entrar",
+      "useYour4HandsLoginToAccess": "Utilize seu login 4 Hands para acessar",
+      "email": "E-mail",
+      "password": "Senha",
+      "forgotYourPassword": "Esqueçeu sua senha?",
+      "signIn": "Acessar",
+      "privacyCookPolicy":"Privacy & Cookie Policy",
+      "TermsOfService":"Terms of Service",
+      "yourInformationIsSafe":"Suas informações estão seguras",
+      "welcome":"Bem vindo,",
+      "contracts":"Contratos",
+      "compliance":"Compliance",
+      "myData":"Meus dados",
+      "progressOfTheWork":"Evolução da obra",
+      "support":"Suporte",
+      "signOut":"Sair",
+      "youResources":"Seus recursos",
+      "estimatedAssets":"Patrimônio estimado",
+      "numberOfHouse":"Número de casas",
+      "land":"Terrenos",
+      "avaliableValue":"Valor Disponível"
+  }
+}
