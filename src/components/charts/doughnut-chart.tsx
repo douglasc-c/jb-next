@@ -25,7 +25,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     svg.selectAll('*').remove()
 
     const arc = d3
-      .arc<d3.PieArcDatum<number>>() 
+      .arc<d3.PieArcDatum<number>>()
       .innerRadius(radius - 40)
       .outerRadius(radius)
 
