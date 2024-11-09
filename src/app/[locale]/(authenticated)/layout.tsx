@@ -41,8 +41,17 @@ export default async function RootLayout({
     avaliableValue: t('TextLang.avaliableValue'),
   }
 
+  const textDataInvestments = {
+    totalBalance: t('TextLang.totalBalance'),
+    balanceInvested: t('TextLang.balanceInvested'),
+    developments: t('TextLang.developments'),
+    portfolio: t('TextLang.portfolio'),
+    invested: t('TextLang.invested'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
+    textDataInvestments,
     locale,
   }
 

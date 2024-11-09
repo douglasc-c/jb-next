@@ -10,7 +10,7 @@ export function YorResources() {
   const colors = ['#bac914', '#a4a96b', '#525820']
 
   return (
-    <div className="flex p-5 bg-zinc-700 rounded-xl h-auto space-x-8">
+    <div className="flex p-6 bg-zinc-700 rounded-xl h-auto justify-around">
       <section className="relative flex justify-center items-center">
         <DoughnutChart data={data} colors={colors} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">

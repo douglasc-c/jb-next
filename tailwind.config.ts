@@ -16,7 +16,10 @@ const config: Config = {
         backgroundStart: 'rgb(var(--background-start-rgb))',
         backgroundEnd: 'rgb(var(--background-end-rgb))',
         foreground: 'rgb(var(--foreground-rgb))',
-        primary: 'rgba(186, 201, 20, 1)',
+        primary: '#bac914',
+        secondary: '#717C2F',
+        tertiary: '#747756',
+        quaternary: '#A4A96B',
         'index-number-of-house':
           'linear-gradient(0deg, #bac914 30%, #78ffd6 100%)',
         'index-land': 'linear-gradient(0deg, #230057 30%, #71f697 100%)',
