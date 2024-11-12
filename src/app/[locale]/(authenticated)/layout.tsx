@@ -26,6 +26,7 @@ export default async function RootLayout({
 
   const textHeader = {
     welcome: t('TextLang.welcome'),
+    dashboard: t('TextLang.dashboard'),
     contracts: t('TextLang.contracts'),
     compliance: t('TextLang.compliance'),
     myData: t('TextLang.myData'),

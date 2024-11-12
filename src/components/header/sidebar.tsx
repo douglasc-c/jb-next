@@ -5,6 +5,7 @@ import ButtonMenu from '../buttons/menu'
 
 interface SidebarProps {
   text: {
+    dashboard: string
     contracts: string
     compliance: string
     myData: string
@@ -27,10 +28,17 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
       </div>
       <nav className="space-y-2 flex-grow">
+        {/* <ButtonMenu
+          params={{
+            title: text.dashboard,
+            path: `/${locale}/dashboard`,
+            icon: 'dashboard',
+          }}
+        /> */}
         <ButtonMenu
           params={{
             title: text.contracts,
-            path: `/${locale}/dashboard`,
+            path: `/${locale}/contracts`,
             icon: 'home',
           }}
         />
