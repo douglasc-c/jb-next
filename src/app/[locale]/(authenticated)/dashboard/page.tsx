@@ -18,7 +18,7 @@ export default function Dashboard() {
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex items-start p-10">
       <section className="flex w-full space-x-6">
-        <div className="flex flex-col w-1/2">
+        <div className="flex flex-col w-2/3">
           <YorResources />
         </div>
         <div className="flex flex-col space-y-5">
