@@ -18,6 +18,14 @@ export interface LayoutContextProps {
     invested: string
   }
 
+  textNewOpportunities: {
+    newOpportunitiesPortifolio: string
+    document: string
+    startDate: string
+    address: string
+    seeMore: string
+  }
+
   locale: string
 }
 

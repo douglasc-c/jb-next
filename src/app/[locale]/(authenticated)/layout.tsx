@@ -27,10 +27,10 @@ export default async function RootLayout({
   const textHeader = {
     welcome: t('TextLang.welcome'),
     dashboard: t('TextLang.dashboard'),
-    contracts: t('TextLang.contracts'),
+    constructionCircuit: t('TextLang.constructionCircuit'),
     compliance: t('TextLang.compliance'),
     myData: t('TextLang.myData'),
-    progressOfTheWork: t('TextLang.progressOfTheWork'),
+    myVentures: t('TextLang.myVentures'),
     support: t('TextLang.support'),
     signOut: t('TextLang.signOut'),
   }
@@ -50,9 +50,18 @@ export default async function RootLayout({
     invested: t('TextLang.invested'),
   }
 
+  const textNewOpportunities = {
+    newOpportunitiesPortifolio: t('TextLang.newOpportunitiesPortifolio'),
+    document: t('TextLang.document'),
+    startDate: t('TextLang.startDate'),
+    address: t('TextLang.address'),
+    seeMore: t('TextLang.seeMore'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
+    textNewOpportunities,
     locale,
   }
 
