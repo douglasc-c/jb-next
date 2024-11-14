@@ -3,6 +3,7 @@
 import { useLayoutContext } from '@/context/layout-context'
 import { OpportunitiesPreview } from './opportunities-preview'
 import { SmallOpportunitiesPreview } from './small-opportunities-preview'
+import Image from 'next/image'
 
 export function NewOpportunities() {
   const { textNewOpportunities } = useLayoutContext()
@@ -13,7 +14,16 @@ export function NewOpportunities() {
         <h3 className="uppercase font-medium">
           {textNewOpportunities.newOpportunitiesPortifolio}
         </h3>
-        <div>
+        <div className="relative flex flex-row-reverse">
+          <div className="absolute bg-zinc-600 rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3">
+            <Image
+              src="/images/svg/arrowRightGreen.svg"
+              alt="arrow icon"
+              height={14}
+              width={14}
+            />
+          </div>
+
           <OpportunitiesPreview />
         </div>
       </div>
