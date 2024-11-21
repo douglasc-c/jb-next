@@ -15,14 +15,14 @@ export function NewOpportunities() {
           {textNewOpportunities.newOpportunitiesPortifolio}
         </h3>
         <div className="relative flex flex-row-reverse">
-          <div className="absolute bg-zinc-600 rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3">
+          <button className="absolute bg-zinc-600 rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3">
             <Image
               src="/images/svg/arrowRightGreen.svg"
               alt="arrow icon"
               height={14}
               width={14}
             />
-          </div>
+          </button>
 
           <OpportunitiesPreview />
         </div>

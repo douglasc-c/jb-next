@@ -58,10 +58,20 @@ export default async function RootLayout({
     seeMore: t('TextLang.seeMore'),
   }
 
+  const textMyContracts = {
+    status: t('TextLang.status'),
+    company: t('TextLang.company'),
+    date: t('TextLang.date'),
+    amountInvested: t('TextLang.amountInvested'),
+    amountTransferred: t('TextLang.amountTransferred'),
+    shares: t('TextLang.shares'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
     textNewOpportunities,
+    textMyContracts,
     locale,
   }
 

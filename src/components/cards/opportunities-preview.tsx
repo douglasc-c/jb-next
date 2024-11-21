@@ -11,7 +11,7 @@ export function OpportunitiesPreview() {
       <section className="hidden md:block w-full h-40 relative">
         <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
       </section>
-      <section className="flex flex-col text-xs w-2/3 space-y-3 py-5">
+      <section className="flex flex-col text-xs w-2/3 space-y-3 pt-4">
         <div className="flex  uppercase">
           <div className="w-full flex flex-col space-y-3">
             <p className="font-medium">{textNewOpportunities.document}</p>

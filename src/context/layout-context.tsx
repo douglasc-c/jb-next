@@ -26,6 +26,15 @@ export interface LayoutContextProps {
     seeMore: string
   }
 
+  textMyContracts: {
+    status: string
+    company: string
+    date: string
+    amountInvested: string
+    amountTransferred: string
+    shares: string
+  }
+
   locale: string
 }
 

@@ -31,6 +31,12 @@
       "document":"Documento",
       "startDate":"Data de início",
       "address":"Endereço",
-      "seeMore":"Ver mais"
+      "seeMore":"Ver mais",
+      "status":"Status",
+      "company":"Empresa",
+      "date":"Data",
+      "amountInvested":"Valor investido",
+      "amountTransferred":"Valor repassado",
+      "shares":"Ações"
   }
 }
