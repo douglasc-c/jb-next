@@ -11,11 +11,6 @@ interface HeaderProps {
 }
 
 export default function Header({ text, locale }: HeaderProps) {
-  const availableLocales = [
-    { code: 'en', flag: '/images/flags/en.svg', label: 'English' },
-    { code: 'pt-BR', flag: '/images/flags/pt-BR.svg', label: 'Português' },
-  ]
-  console.log(availableLocales)
   return (
     <div className="w-full z-50 flex justify-between items-center px-5 md:px-20 py-5 transition-all duration-300 bg-zinc-900">
       <div className="hidden md:flex flex-row space-x-1">

@@ -55,7 +55,7 @@ export default function SignIn() {
       setLoading(false)
     }
   }
-  console.log(loading)
+
   return (
     <main className="h-screen flex">
       <section className="hidden md:block w-1/3 relative">

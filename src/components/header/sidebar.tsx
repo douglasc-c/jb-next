@@ -6,10 +6,10 @@ import ButtonMenu from '../buttons/menu'
 interface SidebarProps {
   text: {
     dashboard: string
-    contracts: string
+    constructionCircuit: string
     compliance: string
     myData: string
-    progressOfTheWork: string
+    myVentures: string
     support: string
     signOut: string
   }
@@ -18,7 +18,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
   return (
-    <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 text-white z-40 border-r-2 border-zinc-700 flex flex-col space-y-12">
+    <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 flex flex-col space-y-12">
       <div className="p-4 justify-center flex">
         <Image
           src={`/images/svg/logoGreen.svg`}
@@ -28,18 +28,18 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
       </div>
       <nav className="space-y-2 flex-grow">
-        {/* <ButtonMenu
+        <ButtonMenu
           params={{
             title: text.dashboard,
             path: `/${locale}/dashboard`,
-            icon: 'dashboard',
+            icon: 'home',
           }}
-        /> */}
+        />
         <ButtonMenu
           params={{
-            title: text.contracts,
+            title: text.constructionCircuit,
             path: `/${locale}/contracts`,
-            icon: 'home',
+            icon: 'arrowDiagonalGreen',
           }}
         />
         <ButtonMenu
@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
         <ButtonMenu
           params={{
-            title: text.progressOfTheWork,
+            title: text.myVentures,
             path: `/${locale}/work`,
             icon: 'clock',
           }}

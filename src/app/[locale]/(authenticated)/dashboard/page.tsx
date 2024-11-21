@@ -1,6 +1,8 @@
 'use client'
 
 import { DataInvestments } from '@/components/cards/data-investments'
+import { MyContracts } from '@/components/cards/my-contracts'
+import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
 
@@ -16,7 +18,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex items-start p-10">
+    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
       <section className="flex w-full space-x-6">
         <div className="flex flex-col w-2/3">
           <YorResources />
@@ -39,6 +41,12 @@ export default function Dashboard() {
             }}
           />
         </div>
+      </section>
+      <section className="flex w-full space-x-6">
+        <NewOpportunities />
+      </section>
+      <section className="flex w-full space-x-6">
+        <MyContracts />
       </section>
     </main>
   )

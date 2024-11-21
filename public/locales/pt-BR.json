@@ -11,10 +11,10 @@
       "yourInformationIsSafe":"Suas informações estão seguras",
       "welcome":"Bem vindo,",
       "dashboard":"Dashboard",
-      "contracts":"Contratos",
+      "constructionCircuit":"Circuito construtivo",
       "compliance":"Compliance",
       "myData":"Meus dados",
-      "progressOfTheWork":"Evolução da obra",
+      "myVentures":"Meus empreendimentos",
       "support":"Suporte",
       "signOut":"Sair",
       "youResources":"Seus recursos",
@@ -26,6 +26,17 @@
       "balanceInvested":"Saldo investido",
       "developments":"Empreendimentos",
       "portfolio":"Carteira",
-      "invested":"Investido"
+      "invested":"Investido",
+      "newOpportunitiesPortifolio": "Novas oportunidades portifólio",
+      "document":"Documento",
+      "startDate":"Data de início",
+      "address":"Endereço",
+      "seeMore":"Ver mais",
+      "status":"Status",
+      "company":"Empresa",
+      "date":"Data",
+      "amountInvested":"Valor investido",
+      "amountTransferred":"Valor repassado",
+      "shares":"Ações"
   }
 }

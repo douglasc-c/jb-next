@@ -21,7 +21,7 @@ export default function ButtonMenu({ params }: IDataProps) {
     <ul className="flex">
       <a
         href={path}
-        className={`w-full pl-10 py-5 justify-start items-center space-x-3 flex font-regular text-sm uppercase  text-zinc-300 ${
+        className={`w-full pl-12 py-5 justify-start items-center space-x-3 flex font-regular text-sm uppercase  text-zinc-300 ${
           isActive ? 'bg-zinc-800' : 'bg-tranparent'
         }`}
       >

@@ -18,6 +18,23 @@ export interface LayoutContextProps {
     invested: string
   }
 
+  textNewOpportunities: {
+    newOpportunitiesPortifolio: string
+    document: string
+    startDate: string
+    address: string
+    seeMore: string
+  }
+
+  textMyContracts: {
+    status: string
+    company: string
+    date: string
+    amountInvested: string
+    amountTransferred: string
+    shares: string
+  }
+
   locale: string
 }
 
