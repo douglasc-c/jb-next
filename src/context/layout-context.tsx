@@ -35,6 +35,23 @@ export interface LayoutContextProps {
     shares: string
   }
 
+  textMyData: {
+    myData: string
+    name: string
+    lastName: string
+    email: string
+    documentNumber: string
+    dateOfBith: string
+    country: string
+    address: string
+    city: string
+    password: string
+    confirmPassword: string
+    at4HandsRealEstateInvestments: string
+    tochangeInformationPleaseContactOur: string
+    technicalSupport: string
+  }
+
   locale: string
 }
 

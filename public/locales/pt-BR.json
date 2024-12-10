@@ -37,6 +37,16 @@
       "date":"Data",
       "amountInvested":"Valor investido",
       "amountTransferred":"Valor repassado",
-      "shares":"Ações"
+      "shares":"Ações",
+      "name":"Nome",
+      "lastName":"Sobrenome",
+      "documentNumber":"CPF",
+      "dateOfBith":"Data de nascimento",
+      "country":"País",
+      "city":"Cidade",
+      "confirmPassword":"Confirme Senha",
+      "at4HandsRealEstateInvestments":"Na 4 Hands Real Estate Investments, todos os seus dados estão conectados à sua conta 4 Hands.",
+      "tochangeInformationPleaseContactOur":"Para alterar uma informação, entre em contato com nosso",
+      "technicalSupport":"suporte técnico."
   }
 }

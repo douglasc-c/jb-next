@@ -67,11 +67,32 @@ export default async function RootLayout({
     shares: t('TextLang.shares'),
   }
 
+  const textMyData = {
+    myData: t('TextLang.myData'),
+    name: t('TextLang.name'),
+    lastName: t('TextLang.lastName'),
+    email: t('TextLang.email'),
+    documentNumber: t('TextLang.documentNumber'),
+    dateOfBith: t('TextLang.dateOfBith'),
+    country: t('TextLang.country'),
+    address: t('TextLang.address'),
+    city: t('TextLang.city'),
+    password: t('TextLang.password'),
+    confirmPassword: t('TextLang.confirmPassword'),
+    shares: t('TextLang.shares'),
+    at4HandsRealEstateInvestments: t('TextLang.at4HandsRealEstateInvestments'),
+    tochangeInformationPleaseContactOur: t(
+      'TextLang.tochangeInformationPleaseContactOur',
+    ),
+    technicalSupport: t('TextLang.technicalSupport'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
     textNewOpportunities,
     textMyContracts,
+    textMyData,
     locale,
   }
 
