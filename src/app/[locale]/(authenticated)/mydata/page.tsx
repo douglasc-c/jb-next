@@ -4,7 +4,7 @@ import { useLayoutContext } from '@/context/layout-context'
 import Image from 'next/image'
 import { useState } from 'react'
 
-export default function Dashboard() {
+export default function MyData() {
   const { textMyData } = useLayoutContext()
   const [showPassword, setShowPassword] = useState(false)
 

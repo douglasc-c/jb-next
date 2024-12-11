@@ -52,6 +52,26 @@ export interface LayoutContextProps {
     technicalSupport: string
   }
 
+  textCompliance: {
+    compliance: string
+    verifyYourIdentity: string
+    documentType: string
+    idOfTheIssuingBody: string
+    orDragYourDocumentHere: string
+    attach: string
+    support: string
+    step: string
+    from: string
+    previo: string
+    next: string
+    finish: string
+    at4HandsRealEstateInvestmentsWeNeedTo: string
+    lgptLaws: string
+    verificationCompleted: string
+    congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep: string
+    howDoIChangeMyDataAndDocuments: string
+  }
+
   locale: string
 }
 

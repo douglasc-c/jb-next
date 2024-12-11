@@ -87,12 +87,40 @@ export default async function RootLayout({
     technicalSupport: t('TextLang.technicalSupport'),
   }
 
+  const textCompliance = {
+    compliance: t('TextLang.compliance'),
+    verifyYourIdentity: t('TextLang.verifyYourIdentity'),
+    documentType: t('TextLang.documentType'),
+    idOfTheIssuingBody: t('TextLang.idOfTheIssuingBody'),
+    orDragYourDocumentHere: t('TextLang.orDragYourDocumentHere'),
+    attach: t('TextLang.attach'),
+    support: t('TextLang.support'),
+    step: t('TextLang.step'),
+    from: t('TextLang.from'),
+    previo: t('TextLang.previo'),
+    next: t('TextLang.next'),
+    finish: t('TextLang.finish'),
+    at4HandsRealEstateInvestmentsWeNeedTo: t(
+      'TextLang.at4HandsRealEstateInvestmentsWeNeedTo',
+    ),
+    lgptLaws: t('TextLang.lgptLaws'),
+    verificationCompleted: t('TextLang.verificationCompleted'),
+    congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep:
+      t(
+        'TextLang.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep',
+      ),
+    howDoIChangeMyDataAndDocuments: t(
+      'TextLang.howDoIChangeMyDataAndDocuments',
+    ),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
     textNewOpportunities,
     textMyContracts,
     textMyData,
+    textCompliance,
     locale,
   }
 
