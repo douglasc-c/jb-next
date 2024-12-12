@@ -15,14 +15,14 @@ export function middleware(request: NextRequest) {
 
   const protectedRoutes = ['dashboard']
 
-  // if (
-  //   !token &&
-  //   protectedRoutes.some((route) =>
-  //     request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
-  //   )
-  // ) {
-  //   return NextResponse.redirect(new URL(`/${locale}`, request.url))
-  // }
+  if (
+    !token &&
+    protectedRoutes.some((route) =>
+      request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
+    )
+  ) {
+    return NextResponse.redirect(new URL(`/${locale}`, request.url))
+  }
 
   return intlResponse
 }
