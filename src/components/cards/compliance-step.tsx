@@ -1,6 +1,8 @@
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutContext } from '@/context/layout-context'
-import Image from 'next/image'
+
+import { useUploadContext } from '@/context/upload-context'
+import DocumentUploader from './document-uploader'
 
 export default function ComplianceStep({
   documentType,
@@ -9,6 +11,7 @@ export default function ComplianceStep({
   onNext,
   onPrev,
   isFirstStep,
+  onFileUpload,
   step,
   totalSteps,
 }: {
@@ -19,13 +22,21 @@ export default function ComplianceStep({
   onPrev: () => void
   isFirstStep: boolean
   isLastStep: boolean
+  onFileUpload: (newFiles: File[]) => void
   step: number
   totalSteps: number
 }) {
   const { textCompliance } = useLayoutContext()
+  const { files, addFiles } = useUploadContext()
+
+  const handleUpload = (newFiles: File[]) => {
+    addFiles(step, newFiles)
+    onFileUpload(newFiles)
+    console.log('Arquivos carregados:', newFiles)
+  }
 
   return (
-    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-10">
+    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-6">
       <h1 className="text-xl font-semibold">
         {textCompliance.verifyYourIdentity}
       </h1>
@@ -48,22 +59,19 @@ export default function ComplianceStep({
         </div>
       </section>
 
-      <section className="flex flex-row justify-center items-center py-24 bg-zinc-700 rounded-xl space-y-3 border-dashed border-2 border-gray-500 space-x-10">
-        <Image
-          src="/images/svg/document.svg"
-          width={40}
-          height={40}
-          alt="Document"
-        />
-        <div className="flex flex-row space-x-1">
-          <span className="text-2xl font-medium underline text-zinc-500">
-            {textCompliance.attach}
-          </span>
-          <span className="text-2xl font-light text-zinc-500">
-            {textCompliance.orDragYourDocumentHere}
-          </span>
-        </div>
-      </section>
+      <DocumentUploader
+        onUpload={handleUpload}
+        attachLabel={textCompliance.attach}
+        dragHint={textCompliance.orDragYourDocumentHere}
+      />
+
+      <div className="mt-4">
+        {files[step]?.map((file, index) => (
+          <p key={index} className="text-sm text-zinc-400">
+            {file.name}
+          </p>
+        ))}
+      </div>
 
       <section className="flex flex-row justify-between items-center rounded-xl">
         <div className="border border-gray-500 rounded-md py-2 flex justify-center font-light text-sm w-1/3">

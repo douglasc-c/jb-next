@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import Header from '@/components/header/header'
 import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar'
+import { UploadProvider } from '@/context/upload-context'
 
 const languages = ['pt-BR']
 export const dynamic = 'force-dynamic'
@@ -130,7 +131,9 @@ export default async function RootLayout({
         <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
           <Header text={textHeader} locale={locale} />
-          <LayoutProvider value={layoutValue}>{children}</LayoutProvider>
+          <LayoutProvider value={layoutValue}>
+            <UploadProvider>{children}</UploadProvider>
+          </LayoutProvider>
         </div>
       </body>
     </html>
