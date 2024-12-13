@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
   const [, locale] = request.nextUrl.pathname.split('/')
   const token = request.cookies.get('auth-token')
 
+  // const protectedRoutes = ['dashboard', 'mydata', 'compliance']
   const protectedRoutes = ['dashboard']
 
   if (

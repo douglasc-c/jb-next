@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import './globals.css'
 import { AuthProvider } from '@/context/auth-context'
 
@@ -14,17 +14,16 @@ export async function generateStaticParams() {
 }
 
 export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({
   children,
-  params: { lng },
+  params,
 }: {
   children: React.ReactNode
-  params: {
-    lng: string
-  }
+  params: { lng: string }
 }) {
-  const locale = await getLocale()
-  const t = await getTranslations(lng)
+  const lng = params.lng // Resolvido diretamente
+  const t = await getTranslations(lng) // Busca as traduções com base no idioma
 
   const textSignIn = {
     enter: t('TextLang.enter'),
@@ -38,7 +37,7 @@ export default async function RootLayout({
     yourInformationIsSafe: t('TextLang.yourInformationIsSafe'),
   }
 
-  const layoutValue = { textSignIn, locale }
+  const layoutValue = { textSignIn, locale: lng }
 
   return (
     <html lang={lng}>
