@@ -46,6 +46,8 @@ export function MyContracts() {
         <h3 className="">{textMyContracts.amountInvested}</h3>
         <h3 className="">{textMyContracts.amountTransferred}</h3>
         <h3 className="text-center">{textMyContracts.shares}</h3>
+        <h3 className="text-center">{textMyContracts.shares}</h3>
+        <h3 className="text-center">{textMyContracts.company}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
       {data.map((row, index) => (

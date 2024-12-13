@@ -13,16 +13,17 @@ export function middleware(request: NextRequest) {
   const [, locale] = request.nextUrl.pathname.split('/')
   const token = request.cookies.get('auth-token')
 
+  // const protectedRoutes = ['dashboard', 'mydata', 'compliance']
   const protectedRoutes = ['dashboard']
 
-  // if (
-  //   !token &&
-  //   protectedRoutes.some((route) =>
-  //     request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
-  //   )
-  // ) {
-  //   return NextResponse.redirect(new URL(`/${locale}`, request.url))
-  // }
+  if (
+    !token &&
+    protectedRoutes.some((route) =>
+      request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
+    )
+  ) {
+    return NextResponse.redirect(new URL(`/${locale}`, request.url))
+  }
 
   return intlResponse
 }

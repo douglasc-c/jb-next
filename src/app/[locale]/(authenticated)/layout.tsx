@@ -1,9 +1,9 @@
-// src/app/layout.tsx
 import '@/app/globals.css'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import Header from '@/components/header/header'
 import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar'
+import { UploadProvider } from '@/context/upload-context'
 
 const languages = ['pt-BR']
 export const dynamic = 'force-dynamic'
@@ -12,16 +12,17 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
 
+interface RootLayoutProps {
+  children: React.ReactNode
+  params: { lng: string }
+}
+
 export default async function RootLayout({
   children,
-  params: { lng },
-}: {
-  children: React.ReactNode
-  params: {
-    lng: string
-  }
-}) {
-  const locale = await getLocale()
+  params,
+}: RootLayoutProps) {
+  const { lng } = params
+  const locale = lng
   const t = await getTranslations(lng)
 
   const textHeader = {
@@ -67,11 +68,60 @@ export default async function RootLayout({
     shares: t('TextLang.shares'),
   }
 
+  const textMyData = {
+    myData: t('TextLang.myData'),
+    name: t('TextLang.name'),
+    lastName: t('TextLang.lastName'),
+    email: t('TextLang.email'),
+    documentNumber: t('TextLang.documentNumber'),
+    dateOfBith: t('TextLang.dateOfBith'),
+    country: t('TextLang.country'),
+    address: t('TextLang.address'),
+    city: t('TextLang.city'),
+    password: t('TextLang.password'),
+    confirmPassword: t('TextLang.confirmPassword'),
+    shares: t('TextLang.shares'),
+    at4HandsRealEstateInvestments: t('TextLang.at4HandsRealEstateInvestments'),
+    tochangeInformationPleaseContactOur: t(
+      'TextLang.tochangeInformationPleaseContactOur',
+    ),
+    technicalSupport: t('TextLang.technicalSupport'),
+  }
+
+  const textCompliance = {
+    compliance: t('TextLang.compliance'),
+    verifyYourIdentity: t('TextLang.verifyYourIdentity'),
+    documentType: t('TextLang.documentType'),
+    idOfTheIssuingBody: t('TextLang.idOfTheIssuingBody'),
+    orDragYourDocumentHere: t('TextLang.orDragYourDocumentHere'),
+    attach: t('TextLang.attach'),
+    support: t('TextLang.support'),
+    step: t('TextLang.step'),
+    from: t('TextLang.from'),
+    previo: t('TextLang.previo'),
+    next: t('TextLang.next'),
+    finish: t('TextLang.finish'),
+    at4HandsRealEstateInvestmentsWeNeedTo: t(
+      'TextLang.at4HandsRealEstateInvestmentsWeNeedTo',
+    ),
+    lgptLaws: t('TextLang.lgptLaws'),
+    verificationCompleted: t('TextLang.verificationCompleted'),
+    congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep:
+      t(
+        'TextLang.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep',
+      ),
+    howDoIChangeMyDataAndDocuments: t(
+      'TextLang.howDoIChangeMyDataAndDocuments',
+    ),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
     textNewOpportunities,
     textMyContracts,
+    textMyData,
+    textCompliance,
     locale,
   }
 
@@ -81,7 +131,9 @@ export default async function RootLayout({
         <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
           <Header text={textHeader} locale={locale} />
-          <LayoutProvider value={layoutValue}>{children}</LayoutProvider>
+          <LayoutProvider value={layoutValue}>
+            <UploadProvider>{children}</UploadProvider>
+          </LayoutProvider>
         </div>
       </body>
     </html>

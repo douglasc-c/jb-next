@@ -37,6 +37,45 @@
       "date":"Data",
       "amountInvested":"Valor investido",
       "amountTransferred":"Valor repassado",
-      "shares":"Ações"
+      "shares":"Ações",
+      "name":"Nome",
+      "lastName":"Sobrenome",
+      "documentNumber":"CPF",
+      "dateOfBith":"Data de nascimento",
+      "country":"País",
+      "city":"Cidade",
+      "confirmPassword":"Confirme Senha",
+      "at4HandsRealEstateInvestments":"Na 4 Hands Real Estate Investments, todos os seus dados estão conectados à sua conta 4 Hands.",
+      "tochangeInformationPleaseContactOur":"Para alterar uma informação, entre em contato com nosso",
+      "technicalSupport":"suporte técnico.",
+      "verifyYourIdentity": "Verifique sua identidade",
+      "documentType": "Tipo de documento",
+      "idOfTheIssuingBody": "ID do órgão expedior",
+      "orDragYourDocumentHere": "ou arraste seu documento aqui",
+      "attach": "Anexe",
+      "step": "Etapa",
+      "from": "de",
+      "previo": "Anterior",
+      "next": "Proximo",
+      "finish": "Concluir",
+      "at4HandsRealEstateInvestmentsWeNeedTo": "Na 4 Hands Real Estate Investments precisamos confirmar a sua identidade para que você possa realizar todas as ações disponíveis, e aproveitar o máximo que temos a oferecer em nossa plataforma. Para isso, vamos precisar que você nos envie cópias de seu RG, CPF, declaração de Imposto de Renda e comprovante de endereço. Não se preocupe, seus dados estão seguros, de acordo com as",
+      "lgptLaws": "Leis LGPD.",
+      "verificationCompleted": "Verificação concluída!",
+      "congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep": "Parabéns! Você enviou seus documentos e concluiu a etapa obrigatória de Compliance.",
+      "howDoIChangeMyDataAndDocuments": "Como faço para alterar meus dados e documentos?"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

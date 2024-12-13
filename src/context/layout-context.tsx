@@ -35,6 +35,43 @@ export interface LayoutContextProps {
     shares: string
   }
 
+  textMyData: {
+    myData: string
+    name: string
+    lastName: string
+    email: string
+    documentNumber: string
+    dateOfBith: string
+    country: string
+    address: string
+    city: string
+    password: string
+    confirmPassword: string
+    at4HandsRealEstateInvestments: string
+    tochangeInformationPleaseContactOur: string
+    technicalSupport: string
+  }
+
+  textCompliance: {
+    compliance: string
+    verifyYourIdentity: string
+    documentType: string
+    idOfTheIssuingBody: string
+    orDragYourDocumentHere: string
+    attach: string
+    support: string
+    step: string
+    from: string
+    previo: string
+    next: string
+    finish: string
+    at4HandsRealEstateInvestmentsWeNeedTo: string
+    lgptLaws: string
+    verificationCompleted: string
+    congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep: string
+    howDoIChangeMyDataAndDocuments: string
+  }
+
   locale: string
 }
 
