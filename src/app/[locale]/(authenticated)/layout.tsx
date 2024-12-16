@@ -115,8 +115,12 @@ export default async function RootLayout({
     ),
   }
 
-  const textContracts = {
+  const textConstructionCircuit = {
     constructionCircuit: t('TextLang.constructionCircuit'),
+  }
+  
+  const textMyVentures = {
+    myVentures: t('TextLang.myVentures'),
   }
 
   const layoutValue: LayoutContextProps = {
@@ -126,7 +130,8 @@ export default async function RootLayout({
     textMyContracts,
     textMyData,
     textCompliance,
-    textContracts,
+    textConstructionCircuit,
+    textMyVentures,
     locale,
   }
 

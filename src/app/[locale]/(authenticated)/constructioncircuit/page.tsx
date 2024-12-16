@@ -1,11 +1,11 @@
 'use client'
 
-import { ConstructionCircuit } from '@/components/cards/construction-circuit'
+import { Contract } from '@/components/cards/contract'
 import { useLayoutContext } from '@/context/layout-context'
 // import Image from 'next/image'
 
-export default function Contracts() {
-  const { textContracts } = useLayoutContext()
+export default function ConstructionCircuit() {
+  const { textConstructionCircuit } = useLayoutContext()
 
   const data = [
     {
@@ -33,11 +33,10 @@ export default function Contracts() {
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col p-6 pr-36">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
-        <h1 className="uppercase font-medium">{textContracts.constructionCircuit}</h1>
+        <h1 className="uppercase font-medium">{textConstructionCircuit.constructionCircuit}</h1>
         {data.map((item, index) => (
-          <ConstructionCircuit key={index} data={item} />
+          <Contract key={index} data={item} />
         ))}
-        {/* <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none" /> */}
       </div>
     </main>
   )

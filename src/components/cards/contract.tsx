@@ -12,7 +12,7 @@ interface ContractProps {
   }
 }
 
-export function ConstructionCircuit({ data }: ContractProps) {
+export function Contract({ data }: ContractProps) {
   const { textNewOpportunities } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
 

@@ -17,6 +17,30 @@ export default function Dashboard() {
     type: textDataInvestments.invested,
   }
 
+  const data = [
+    {
+      status: 'AGUARDANDO',
+      empresa: 'RAZÃO SOCIAL DA EMPRESA',
+      data: '02/06/2024',
+      valorInvestimento: 'R$ 999.999,99',
+      valorRepassado: 'R$ 999.999,99',
+    },
+    {
+      status: 'CONFIRMADO',
+      empresa: 'RAZÃO SOCIAL DA EMPRESA',
+      data: '01/02/2024',
+      valorInvestimento: 'R$ 999.999,00',
+      valorRepassado: 'R$ 999.999,00',
+    },
+    {
+      status: 'CONFIRMADO',
+      empresa: 'RAZÃO SOCIAL DA EMPRESA',
+      data: '13/10/2023',
+      valorInvestimento: 'R$ 999.999,00',
+      valorRepassado: 'R$ 999.999,00',
+    },
+  ]
+
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
       <section className="flex w-full space-x-6">
@@ -46,7 +70,7 @@ export default function Dashboard() {
         <NewOpportunities />
       </section>
       <section className="flex w-full space-x-6">
-        <MyContracts />
+        <MyContracts  bgColor="bg-zinc-700" data={data} />
       </section>
     </main>
   )
