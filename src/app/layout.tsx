@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import './globals.css'
 import { AuthProvider } from '@/context/auth-context'
 
@@ -17,14 +17,16 @@ export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
   children,
-  params,
+  params: { lng },
 }: {
   children: React.ReactNode
-  params: { lng: string }
+  params: {
+    lng: string
+  }
 }) {
-  const lng = params.lng // Resolvido diretamente
-  const t = await getTranslations(lng) // Busca as traduções com base no idioma
-
+  const locale = await getLocale()
+  const t = await getTranslations(lng)
+  
   const textSignIn = {
     enter: t('TextLang.enter'),
     useYour4HandsLoginToAccess: t('TextLang.useYour4HandsLoginToAccess'),
@@ -37,7 +39,7 @@ export default async function RootLayout({
     yourInformationIsSafe: t('TextLang.yourInformationIsSafe'),
   }
 
-  const layoutValue = { textSignIn, locale: lng }
+  const layoutValue = { textSignIn, locale }
 
   return (
     <html lang={lng}>

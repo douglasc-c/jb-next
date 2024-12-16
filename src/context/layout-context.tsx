@@ -72,6 +72,10 @@ export interface LayoutContextProps {
     howDoIChangeMyDataAndDocuments: string
   }
 
+  textContracts:{
+    constructionCircuit: string
+  }
+
   locale: string
 }
 
