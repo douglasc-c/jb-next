@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import Header from '@/components/header/header'
 import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar'
@@ -12,17 +12,17 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
 
-interface RootLayoutProps {
-  children: React.ReactNode
-  params: { lng: string }
-}
 
-export default async function RootLayout({
+export default async function RootLayout({ 
   children,
-  params,
-}: RootLayoutProps) {
-  const { lng } = params
-  const locale = lng
+  params: { lng },
+}: {
+  children: React.ReactNode
+  params: {
+    lng: string
+  }
+}) {
+  const locale = await getLocale()
   const t = await getTranslations(lng)
 
   const textHeader = {
@@ -115,6 +115,10 @@ export default async function RootLayout({
     ),
   }
 
+  const textContracts = {
+    constructionCircuit: t('TextLang.constructionCircuit'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
@@ -122,6 +126,7 @@ export default async function RootLayout({
     textMyContracts,
     textMyData,
     textCompliance,
+    textContracts,
     locale,
   }
 

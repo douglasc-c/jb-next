@@ -15,8 +15,8 @@ interface SidebarProps {
   }
   locale: string
 }
-
 const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
+
   return (
     <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 flex flex-col space-y-12">
       <div className="p-4 justify-center flex">
@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         <ButtonMenu
           params={{
             title: text.myVentures,
-            path: `/${locale}/work`,
+            path: `/${locale}/bussines`,
             icon: 'clock',
           }}
         />

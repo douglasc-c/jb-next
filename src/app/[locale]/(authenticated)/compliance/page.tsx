@@ -67,7 +67,6 @@ export default function Compliance() {
         <h1 className="uppercase font-medium">{textCompliance.compliance}</h1>
 
         {!isSubmitted ? (
-          // Exibe o formulário de etapas até o envio
           <ComplianceStep
             documentType={steps[currentStep].documentType}
             issuingBody={steps[currentStep].issuingBody}
