@@ -12,8 +12,7 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
 
-
-export default async function RootLayout({ 
+export default async function RootLayout({
   children,
   params: { lng },
 }: {
@@ -66,6 +65,7 @@ export default async function RootLayout({
     amountInvested: t('TextLang.amountInvested'),
     amountTransferred: t('TextLang.amountTransferred'),
     shares: t('TextLang.shares'),
+    seeMore: t('TextLang.seeMore'),
   }
 
   const textMyData = {
@@ -118,9 +118,30 @@ export default async function RootLayout({
   const textConstructionCircuit = {
     constructionCircuit: t('TextLang.constructionCircuit'),
   }
-  
+
   const textMyVentures = {
     myVentures: t('TextLang.myVentures'),
+  }
+  const textDetailContract = {
+    typeOfConstruction: t('TextLang.typeOfConstruction'),
+    contributionAmount: t('TextLang.contributionAmount'),
+    amountPassed: t('TextLang.amountPassed'),
+    postalCode: t('TextLang.postalCode'),
+    valueM2: t('TextLang.valueM2'),
+    footage: t('TextLang.footage'),
+    floors: t('TextLang.floors'),
+    seeContract: t('TextLang.seeContract'),
+    provisionalCompletion: t('TextLang.provisionalCompletion'),
+    constructionStatus: t('TextLang.constructionStatus'),
+    stage: t('TextLang.stage'),
+    city: t('TextLang.city'),
+    status: t('TextLang.status'),
+    topography: t('TextLang.topography'),
+    masonry: t('TextLang.masonry'),
+    inspections: t('TextLang.inspections'),
+    thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
+    roofInsulation: t('TextLang.roofInsulation'),
+    doors: t('TextLang.doors'),
   }
 
   const layoutValue: LayoutContextProps = {
@@ -132,6 +153,7 @@ export default async function RootLayout({
     textCompliance,
     textConstructionCircuit,
     textMyVentures,
+    textDetailContract,
     locale,
   }
 

@@ -2,13 +2,29 @@
 
 import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
-import ButtonGlobal from '../buttons/global'
+import { DetailContract } from './detail-contract'
 
 interface ContractProps {
   data: {
+    status?: string
+    company?: string
+    name?: string
     document: string
     initialDate: string
     address: string
+    typeOfConstruction: string
+    contributionAmount: string
+    amountPassed: string
+    postalCode: string
+    city: string
+    valueM2: string
+    footage: string
+    floors: string
+    data: string
+    provisionalCompletion: string
+    progressStatus: string
+    constructionStatus: number
+    stage: number
   }
 }
 
@@ -32,11 +48,15 @@ export function Contract({ data }: ContractProps) {
       <section className="flex flex-col text-xs space-y-3 pt-4">
         <div className="flex ">
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{textNewOpportunities.document}</p>
+            <p className="font-medium uppercase">
+              {textNewOpportunities.document}
+            </p>
             <span className="font-light"> {data.document}</span>
           </div>
           <div className="w-full flex justify-end space-x-3">
-            <p className="font-medium uppercase">{textNewOpportunities.startDate}</p>
+            <p className="font-medium uppercase">
+              {textNewOpportunities.startDate}
+            </p>
             <span className="font-light">{data.initialDate}</span>
           </div>
         </div>
@@ -48,35 +68,20 @@ export function Contract({ data }: ContractProps) {
             <span className="font-light">{data.address}</span>
           </div>
           <div className="flex justify-end w-2/6 space-x-3">
-            <ButtonGlobal
-              type="button"
-              params={{
-                title: textNewOpportunities.seeMore,
-                color: 'bg-primary',
-              }}
+            <button
               onClick={openModal}
-            />
+              className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent w-full`}
+            >
+              {textNewOpportunities.seeMore}
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-zinc-800 p-6 rounded-lg w-1/2">
-            <h2 className="text-lg font-medium mb-4">
-              {/* {textNewOpportunities.modalTitle} */}
-              AHS
-            </h2>
-            {/* <p>{textNewOpportunities.modalContent}</p> */}
-            CONTENTE
-            <button
-              onClick={closeModal}
-              className="mt-4 bg-primary text-white px-4 py-2 rounded"
-            >
-              {/* {textNewOpportunities.close} */}
-              CLOSE
-            </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+            <DetailContract onClick={closeModal} data={data} />
           </div>
         </div>
       )}
