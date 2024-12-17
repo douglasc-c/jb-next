@@ -26,7 +26,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale()
   const t = await getTranslations(lng)
-  
+
   const textSignIn = {
     enter: t('TextLang.enter'),
     useYour4HandsLoginToAccess: t('TextLang.useYour4HandsLoginToAccess'),

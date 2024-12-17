@@ -32,7 +32,7 @@ export default function SignIn() {
     event.preventDefault()
     setLoading(true)
     setError('')
-    console.log( router.push(`${locale}/dashboard`))
+    console.log(router.push(`${locale}/dashboard`))
 
     if (!locale) {
       setError('Erro: Locale não definido.')
