@@ -79,7 +79,10 @@
       "inspections": "inspeções",
       "thermalInsulationOfTheWalls": "Isolamento térmico das paredes",
       "roofInsulation": "Isolamento térmico do telhado",
-      "doors": "Portas"
+      "doors": "Portas",
+      "frequentlyAskedQuestions": "Perguntas frequestes",
+      "talkToTheSupport": "Falar com o suporte",
+      "stillHaveQuestions": "Ainda tem dúvida?"
   }
 }
 
