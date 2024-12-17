@@ -3,7 +3,37 @@
 import { useLayoutContext } from '@/context/layout-context'
 import Image from 'next/image'
 
-export function SmallOpportunitiesPreview() {
+interface RowData {
+  status: string
+  company: string
+  name: string
+  document: string
+  initialDate: string
+  address: string
+  typeOfConstruction: string
+  contributionAmount: string
+  amountPassed: string
+  postalCode: string
+  city: string
+  valueM2: string
+  footage: string
+  floors: string
+  data: string
+  provisionalCompletion: string
+  progressStatus: string
+  constructionStatus: number
+  stage: number
+}
+
+interface OpportunitiesPreviewProps {
+  data: RowData
+  onClick: (row: RowData) => void
+}
+
+export function SmallOpportunitiesPreview({
+  data,
+  onClick,
+}: OpportunitiesPreviewProps) {
   const { textNewOpportunities } = useLayoutContext()
 
   return (
@@ -14,10 +44,13 @@ export function SmallOpportunitiesPreview() {
       <section className="flex flex-row text-[10px] w-full justify-between pt-2">
         <div className="flex uppercase space-x-3">
           <p className="font-medium">{textNewOpportunities.document}</p>
-          <span className="font-light"> 123456789</span>
+          <span className="font-light"> {data.document}</span>
         </div>
         <div className="flex">
-          <a href="#" className="flex space-x-2 items-center">
+          <button
+            className="flex space-x-2 items-center"
+            onClick={() => onClick(data)}
+          >
             <p className="font-normal">{textNewOpportunities.seeMore}</p>
             <Image
               src={`/images/svg/arrowRight.svg`}
@@ -25,7 +58,7 @@ export function SmallOpportunitiesPreview() {
               height={12}
               width={12}
             />
-          </a>
+          </button>
         </div>
       </section>
     </div>

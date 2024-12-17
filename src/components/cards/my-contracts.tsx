@@ -1,44 +1,52 @@
 'use client'
 
 import { useLayoutContext } from '@/context/layout-context'
-// import Image from 'next/image'
+import { useState } from 'react'
+import { DetailContract } from './detail-contract'
 
-type RowData = {
-  status: string
-  empresa: string
+interface RowData {
+  status?: string
+  company?: string
+  name?: string
+  document: string
+  initialDate: string
+  address: string
+  typeOfConstruction: string
+  contributionAmount: string
+  amountPassed: string
+  postalCode: string
+  city: string
+  valueM2: string
+  footage: string
+  floors: string
   data: string
-  valorInvestimento: string
-  valorRepassado: string
+  provisionalCompletion: string
+  progressStatus: string
+  constructionStatus: number
+  stage: number
 }
-export function MyContracts() {
-  const { textMyContracts } = useLayoutContext()
 
-  const data: RowData[] = [
-    {
-      status: 'AGUARDANDO',
-      empresa: 'RAZÃO SOCIAL DA EMPRESA',
-      data: '02/06/2024',
-      valorInvestimento: 'R$ 999.999,99',
-      valorRepassado: 'R$ 999.999,99',
-    },
-    {
-      status: 'CONFIRMADO',
-      empresa: 'RAZÃO SOCIAL DA EMPRESA',
-      data: '01/02/2024',
-      valorInvestimento: 'R$ 999.999,00',
-      valorRepassado: 'R$ 999.999,00',
-    },
-    {
-      status: 'CONFIRMADO',
-      empresa: 'RAZÃO SOCIAL DA EMPRESA',
-      data: '13/10/2023',
-      valorInvestimento: 'R$ 999.999,00',
-      valorRepassado: 'R$ 999.999,00',
-    },
-  ]
+interface MyContractsProps {
+  data: RowData[]
+}
+
+export function MyContracts({ data }: MyContractsProps) {
+  const { textMyContracts } = useLayoutContext()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedContract, setSelectedContract] = useState<RowData | null>(null)
+
+  const openModal = (row: RowData) => {
+    setSelectedContract(row)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedContract(null)
+  }
 
   return (
-    <section className="flex flex-col p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full">
+    <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
       <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
         <h3 className="text-center">{textMyContracts.status}</h3>
         <h3 className="col-span-2">{textMyContracts.company}</h3>
@@ -46,31 +54,41 @@ export function MyContracts() {
         <h3 className="">{textMyContracts.amountInvested}</h3>
         <h3 className="">{textMyContracts.amountTransferred}</h3>
         <h3 className="text-center">{textMyContracts.shares}</h3>
-        <h3 className="text-center">{textMyContracts.shares}</h3>
-        <h3 className="text-center">{textMyContracts.company}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
       {data.map((row, index) => (
         <div
           key={index}
-          className="grid grid-cols-7 gap-2 w-full text-sm font-normal py-1 items-center"
+          className="grid grid-cols-7 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
         >
           <div
-            className={`border rounded-full text-center border-green-500 py-0.5 ${
+            className={`border rounded-full text-center border-primary py-0.5 ${
               row.status === 'CONFIRMADO'
-                ? 'bg-green-500 text-zinc-700'
+                ? 'bg-primary text-zinc-700'
                 : 'bg-transparent'
             }`}
           >
             <p>{row.status}</p>
           </div>
-          <p className="col-span-2">{row.empresa}</p>
+          <p className="col-span-2">{row.company}</p>
           <p className="">{row.data}</p>
-          <p className="">{row.valorInvestimento}</p>
-          <p className="">{row.valorRepassado}</p>
-          <p className="text-center">{textMyContracts.shares}</p>
+          <p className="">U$ {row.contributionAmount}</p>
+          <p className="">U$ {row.amountPassed}</p>
+          <button
+            className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
+            onClick={() => openModal(row)}
+          >
+            {textMyContracts.seeMore}
+          </button>
         </div>
       ))}
+      {isModalOpen && selectedContract && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+            <DetailContract onClick={closeModal} data={selectedContract} />
+          </div>
+        </div>
+      )}
     </section>
   )
 }

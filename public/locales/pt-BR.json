@@ -50,7 +50,7 @@
       "technicalSupport":"suporte técnico.",
       "verifyYourIdentity": "Verifique sua identidade",
       "documentType": "Tipo de documento",
-      "idOfTheIssuingBody": "ID do órgão expedior",
+      "idOfTheIssuingBody": "Órgão expedidor",
       "orDragYourDocumentHere": "ou arraste seu documento aqui",
       "attach": "Anexe",
       "step": "Etapa",
@@ -62,10 +62,26 @@
       "lgptLaws": "Leis LGPD.",
       "verificationCompleted": "Verificação concluída!",
       "congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep": "Parabéns! Você enviou seus documentos e concluiu a etapa obrigatória de Compliance.",
-      "howDoIChangeMyDataAndDocuments": "Como faço para alterar meus dados e documentos?"
+      "howDoIChangeMyDataAndDocuments": "Como faço para alterar meus dados e documentos?",
+      "typeOfConstruction": "Tipo de construção",
+      "contributionAmount": "Valor de aporte",
+      "amountPassed": "Valor repassado",
+      "postalCode": "Código postal",
+      "valueM2": "Valor M2",
+      "footage": "Metragem",
+      "floors": "Andates",
+      "seeContract": "Ver contrato",
+      "provisionalCompletion": "Previsao de complusão",
+      "constructionStatus": "Status de construção",
+      "stage": "Etapa",
+      "topography": "Topografia",
+      "masonry": "Alvenaria",
+      "inspections": "inspeções",
+      "thermalInsulationOfTheWalls": "Isolamento térmico das paredes",
+      "roofInsulation": "Isolamento térmico do telhado",
+      "doors": "Portas"
   }
 }
-
 
 
 

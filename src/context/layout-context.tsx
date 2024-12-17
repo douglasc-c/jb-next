@@ -33,6 +33,7 @@ export interface LayoutContextProps {
     amountInvested: string
     amountTransferred: string
     shares: string
+    seeMore: string
   }
 
   textMyData: {
@@ -72,8 +73,34 @@ export interface LayoutContextProps {
     howDoIChangeMyDataAndDocuments: string
   }
 
-  textContracts:{
+  textConstructionCircuit: {
     constructionCircuit: string
+  }
+
+  textMyVentures: {
+    myVentures: string
+  }
+
+  textDetailContract: {
+    typeOfConstruction: string
+    contributionAmount: string
+    amountPassed: string
+    postalCode: string
+    valueM2: string
+    footage: string
+    floors: string
+    seeContract: string
+    provisionalCompletion: string
+    constructionStatus: string
+    stage: string
+    city: string
+    status: string
+    topography: string
+    masonry: string
+    inspections: string
+    thermalInsulationOfTheWalls: string
+    roofInsulation: string
+    doors: string
   }
 
   locale: string

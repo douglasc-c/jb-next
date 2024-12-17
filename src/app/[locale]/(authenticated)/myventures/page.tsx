@@ -1,21 +1,10 @@
 'use client'
 
-import { DataInvestments } from '@/components/cards/data-investments'
 import { MyContracts } from '@/components/cards/my-contracts'
-import { NewOpportunities } from '@/components/cards/new-opportunities'
-import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
 
-export default function Dashboard() {
-  const { textDataInvestments } = useLayoutContext()
-  const textPortfoli0 = {
-    balance: textDataInvestments.totalBalance,
-    type: textDataInvestments.portfolio,
-  }
-  const textInvested = {
-    balance: textDataInvestments.balanceInvested,
-    type: textDataInvestments.invested,
-  }
+export default function MyVentures() {
+  const { textMyVentures } = useLayoutContext()
 
   const data = [
     {
@@ -84,36 +73,13 @@ export default function Dashboard() {
   ]
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
-      <section className="flex w-full space-x-6">
-        <div className="flex flex-col w-2/3">
-          <YorResources />
-        </div>
-        <div className="flex flex-col space-y-5">
-          <DataInvestments
-            params={{
-              text: textPortfoli0,
-              bgColor: 'bg-secondary',
-              image: 'wallet',
-              imageColor: 'bg-primary',
-            }}
-          />
-          <DataInvestments
-            params={{
-              text: textInvested,
-              bgColor: 'bg-tertiary',
-              image: 'investment',
-              imageColor: 'bg-quaternary',
-            }}
-          />
-        </div>
-      </section>
-      <section className="flex w-full space-x-6">
-        <NewOpportunities />
-      </section>
-      <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
-        <MyContracts data={data} />
-      </section>
+    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col p-6 pr-36">
+      <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
+        <h1 className="uppercase font-medium">{textMyVentures.myVentures}</h1>
+        <section className="flex w-full rounded-xl bg-zinc-800 space-x-6 overflow-auto">
+          <MyContracts data={data} />
+        </section>
+      </div>
     </main>
   )
 }
