@@ -34,6 +34,7 @@ export default async function RootLayout({
     support: t('TextLang.support'),
     signOut: t('TextLang.signOut'),
   }
+
   const textYourResources = {
     youResources: t('TextLang.youResources'),
     estimatedAssets: t('TextLang.estimatedAssets'),
@@ -122,6 +123,7 @@ export default async function RootLayout({
   const textMyVentures = {
     myVentures: t('TextLang.myVentures'),
   }
+
   const textDetailContract = {
     typeOfConstruction: t('TextLang.typeOfConstruction'),
     contributionAmount: t('TextLang.contributionAmount'),
@@ -144,6 +146,12 @@ export default async function RootLayout({
     doors: t('TextLang.doors'),
   }
 
+  const textSupport = {
+    frequentlyAskedQuestions: t('TextLang.frequentlyAskedQuestions'),
+    talkToTheSupport: t('TextLang.talkToTheSupport'),
+    stillHaveQuestions: t('TextLang.stillHaveQuestions'),
+  }
+
   const layoutValue: LayoutContextProps = {
     textYourResources,
     textDataInvestments,
@@ -154,6 +162,7 @@ export default async function RootLayout({
     textConstructionCircuit,
     textMyVentures,
     textDetailContract,
+    textSupport,
     locale,
   }
 

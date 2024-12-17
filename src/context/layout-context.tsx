@@ -103,6 +103,12 @@ export interface LayoutContextProps {
     doors: string
   }
 
+  textSupport: {
+    frequentlyAskedQuestions: string
+    talkToTheSupport: string
+    stillHaveQuestions: string
+  }
+
   locale: string
 }
 
