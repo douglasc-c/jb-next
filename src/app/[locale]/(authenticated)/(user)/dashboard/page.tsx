@@ -1,7 +1,7 @@
 'use client'
 
 import { DataInvestments } from '@/components/cards/data-investments'
-import { MyContracts } from '@/components/cards/my-contracts'
+import { MyContracts } from '@/components/tables/my-contracts'
 import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'

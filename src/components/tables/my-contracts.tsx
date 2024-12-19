@@ -2,7 +2,7 @@
 
 import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
-import { DetailContract } from './detail-contract'
+import { DetailContract } from '../cards/detail-contract'
 
 interface RowData {
   status?: string
