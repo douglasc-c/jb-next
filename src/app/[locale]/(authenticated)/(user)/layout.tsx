@@ -171,7 +171,7 @@ export default async function RootLayout({
       <body className="bg-neutral-950 text-white flex">
         <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
-          <Header text={textHeader} locale={locale} />
+          <Header text={textHeader} />
           <LayoutProvider value={layoutValue}>
             <UploadProvider>{children}</UploadProvider>
           </LayoutProvider>
