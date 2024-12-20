@@ -6,16 +6,16 @@ import ButtonMenu from '../buttons/menu'
 interface SidebarProps {
   text: {
     dashboard: string
-    constructionCircuit: string
+    users: string
     compliance: string
-    myData: string
-    myVentures: string
+    ventures: string
+    interests: string
+    stages: string
     support: string
     signOut: string
   }
-  locale: string
 }
-const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
+const Sidebar: React.FC<SidebarProps> = ({ text }) => {
   return (
     <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 flex flex-col space-y-12">
       <div className="p-4 justify-center flex">
@@ -36,29 +36,37 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
         <ButtonMenu
           params={{
-            title: text.constructionCircuit,
-            path: `/constructioncircuit`,
-            icon: 'arrowDiagonalGreen',
+            title: text.users,
+            path: `/users`,
+            icon: 'users',
           }}
         />
+
         <ButtonMenu
           params={{
             title: text.compliance,
             path: `/compliance`,
-            icon: 'shock',
-          }}
-        />
-        <ButtonMenu
-          params={{
-            title: text.myData,
-            path: `/mydata`,
             icon: 'cash',
           }}
         />
         <ButtonMenu
           params={{
-            title: text.myVentures,
-            path: `/myventures`,
+            title: text.ventures,
+            path: `/ventures`,
+            icon: 'shock',
+          }}
+        />
+        <ButtonMenu
+          params={{
+            title: text.interests,
+            path: `/interests`,
+            icon: 'interests',
+          }}
+        />
+        <ButtonMenu
+          params={{
+            title: text.stages,
+            path: `/stages`,
             icon: 'clock',
           }}
         />
@@ -72,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
       </nav>
       <div className="mt-auto">
         <a
-          href={`/${locale}/`}
+          href={`/`}
           className={`w-full pl-10 py-5 justify-start items-center space-x-3 flex font-regular text-sm uppercase  text-zinc-300 `}
         >
           <div className="p-2 rounded-lg">

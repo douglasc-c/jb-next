@@ -1,6 +1,6 @@
 'use client'
 
-import { MyContracts } from '@/components/cards/my-contracts'
+import { MyContracts } from '@/components/tables/my-contracts'
 import { useLayoutContext } from '@/context/layout-context'
 
 export default function MyVentures() {

@@ -7,10 +7,9 @@ interface HeaderProps {
   text: {
     welcome: string
   }
-  locale: string
 }
 
-export default function Header({ text, locale }: HeaderProps) {
+export default function Header({ text }: HeaderProps) {
   return (
     <div className="w-full z-50 flex justify-between items-center px-5 md:px-20 py-5 transition-all duration-300 bg-zinc-900">
       <div className="hidden md:flex flex-row space-x-1">
@@ -26,7 +25,7 @@ export default function Header({ text, locale }: HeaderProps) {
             width={18}
           />
         </button>
-        <ButtonAvatar params={{ path: `/${locale}/mydata` }} />
+        <ButtonAvatar params={{ path: `/mydata` }} />
       </div>
     </div>
   )
