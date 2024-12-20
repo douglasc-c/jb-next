@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import Header from '@/components/header/header'
 // import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar-admin'
@@ -20,7 +20,6 @@ export default async function RootLayout({
     lng: string
   }
 }) {
-  const locale = await getLocale()
   const t = await getTranslations(lng)
 
   const textHeader = {
@@ -28,22 +27,24 @@ export default async function RootLayout({
     dashboard: t('TextLang.dashboard'),
     constructionCircuit: t('TextLang.constructionCircuit'),
     compliance: t('TextLang.compliance'),
-    myData: t('TextLang.myData'),
-    myVentures: t('TextLang.myVentures'),
+    users: t('TextLang.users'),
+    stages: t('TextLang.stages'),
+    interests: t('TextLang.interests'),
+    ventures: t('TextLang.ventures'),
     support: t('TextLang.support'),
     signOut: t('TextLang.signOut'),
   }
 
   // const layoutValue: LayoutContextProps = {
-  //   locale,
+
   // }
 
   return (
     <html lang={lng}>
       <body className="bg-neutral-950 text-white flex">
-        <Sidebar text={textHeader} locale={locale} />
+        <Sidebar text={textHeader} />
         <div className="ml-64 flex-grow">
-          <Header text={textHeader} locale={locale} />
+          <Header text={textHeader} />
           {/* <LayoutProvider value={layoutValue}> */}
           {children}
           {/* </LayoutProvider> */}

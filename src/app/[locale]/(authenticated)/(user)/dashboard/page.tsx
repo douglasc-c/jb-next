@@ -86,10 +86,10 @@ export default function Dashboard() {
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
       <section className="flex w-full space-x-6">
-        <div className="flex flex-col w-2/3">
+        <div className="flex flex-col w-9/12">
           <YorResources />
         </div>
-        <div className="flex flex-col space-y-5">
+        <div className="flex flex-col w-4/12 space-y-5">
           <DataInvestments
             params={{
               text: textPortfoli0,

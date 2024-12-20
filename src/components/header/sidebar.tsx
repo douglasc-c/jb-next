@@ -30,42 +30,42 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         <ButtonMenu
           params={{
             title: text.dashboard,
-            path: `/${locale}/dashboard`,
+            path: `/dashboard`,
             icon: 'home',
           }}
         />
         <ButtonMenu
           params={{
             title: text.constructionCircuit,
-            path: `/${locale}/constructioncircuit`,
+            path: `/constructioncircuit`,
             icon: 'arrowDiagonalGreen',
           }}
         />
         <ButtonMenu
           params={{
             title: text.compliance,
-            path: `/${locale}/compliance`,
+            path: `/compliance`,
             icon: 'shock',
           }}
         />
         <ButtonMenu
           params={{
             title: text.myData,
-            path: `/${locale}/mydata`,
+            path: `/mydata`,
             icon: 'cash',
           }}
         />
         <ButtonMenu
           params={{
             title: text.myVentures,
-            path: `/${locale}/myventures`,
+            path: `/myventures`,
             icon: 'clock',
           }}
         />
         <ButtonMenu
           params={{
             title: text.support,
-            path: `/${locale}/support`,
+            path: `/support`,
             icon: 'support',
           }}
         />
