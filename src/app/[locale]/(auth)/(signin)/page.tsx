@@ -4,17 +4,17 @@ import { useState, FormEvent } from 'react'
 import Image from 'next/image'
 import Input from '@/components/inputs/input'
 import { useAuthContext } from '@/context/auth-context'
-// import { useDispatch } from 'react-redux'
-// import { setToken } from '@/redux/auth-slice'
+import { useDispatch } from 'react-redux'
+import { setAuthData } from '@/redux/auth-slice'
 import { useRouter } from 'next/navigation'
-// import { AppDispatch } from '@/redux/store'
-// import api from '@/lib/api'
+import { AppDispatch } from '@/redux/store'
+import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
 
 export default function SignIn() {
   const { textSignIn, locale } = useAuthContext()
 
-  // const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
@@ -32,7 +32,6 @@ export default function SignIn() {
     event.preventDefault()
     setLoading(true)
     setError('')
-    console.log(router.push(`${locale}/dashboard`))
 
     if (!locale) {
       setError('Erro: Locale não definido.')
@@ -42,23 +41,34 @@ export default function SignIn() {
     }
 
     try {
-      router.push(`${locale}/dashboard`)
-      // const response = await api.post('/sessions', formData)
-      // if (response.status === 200) {
-      //   const data = response.data
-      //   if (data.token) {
-      //     const maxAge = 60 * 60
-      //     document.cookie = `auth-token=${data.token}; Max-Age=${maxAge}; path=/; SameSite=Strict`
-      //     dispatch(setToken(data.token))
-      //     router.push(`${locale}/dashboard`)
-      //   } else {
-      //     setError('Token não encontrado na resposta')
-      //     console.error('Token não encontrado na resposta')
-      //   }
-      // } else {
-      //   setError('Falha no login')
-      //   console.error('Falha no login:', response.statusText)
-      // }
+      const response = await api.post('/users/signin', formData)
+      if (response.status === 200) {
+        const data = response.data
+        console.log(data)
+        if (data.token) {
+          const maxAge = 60 * 60
+          document.cookie = `auth-token=${data.token}; Max-Age=${maxAge}; path=/; SameSite=Strict`
+          dispatch(
+            setAuthData({
+              token: data.token,
+              mustChangePassword: data.mustChangePassword,
+              user: data.user,
+            }),
+          )
+
+          if (data.user.role === 'ADMIN') {
+            router.push(`${locale}/admin/dashboard`)
+          } else {
+            router.push(`${locale}/dashboard`)
+          }
+        } else {
+          setError('Token não encontrado na resposta')
+          console.error('Token não encontrado na resposta')
+        }
+      } else {
+        setError('Falha no login')
+        console.error('Falha no login:', response.statusText)
+      }
     } catch (error) {
       setError('Erro ao conectar ao servidor')
       console.error('Erro na requisição:', error)

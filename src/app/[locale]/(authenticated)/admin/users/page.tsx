@@ -1,7 +1,186 @@
 'use client'
 
-export default function Dashboard() {
+import { useEffect, useState } from 'react'
+import api from '@/lib/api'
+import { UsersTable } from '@/components/tables/users'
+import ButtonGlobal from '@/components/buttons/global'
+import Image from 'next/image'
+import AddUserModal from '@/components/modals/add-user'
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
+
+interface User {
+  id: string
+  firstName: string
+  lastName: string
+  role: string
+  complianceStatus: string
+}
+
+interface FormData {
+  email: string
+  password: string
+  username: string
+  firstName: string
+  lastName: string
+  userType: 'INDIVIDUAL' | 'COMPANY'
+  role: 'ADMIN' | 'USER'
+}
+
+interface Totals {
+  total: number
+  totalUsers: number
+  totalAdmins: number
+}
+
+export default function Users() {
+  const { textUsers } = useLayoutAdminContext()
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const [totals, setTotals] = useState<Totals>({
+    total: 0,
+    totalUsers: 0,
+    totalAdmins: 0,
+  })
+
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+    userType: 'INDIVIDUAL',
+    role: 'USER',
+  })
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const response = await api.post('/admin/register', formData)
+      console.log(response)
+      if (response.status === 201) {
+        setUsers([...users, response.data.user])
+        closeModal()
+      } else {
+        setError(response.data.message || 'Erro ao adicionar usuário')
+      }
+    } catch (err) {
+      setError('Erro na comunicação com a API')
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setError(null)
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await api.get('/admin/get-all-users')
+        const fetchedUsers: User[] = response.data.users
+
+        const computedTotals = fetchedUsers.reduce<Totals>(
+          (acc, user) => {
+            acc.total += 1
+            if (user.role === 'USER') acc.totalUsers += 1
+            if (user.role === 'ADMIN') acc.totalAdmins += 1
+            return acc
+          },
+          { total: 0, totalUsers: 0, totalAdmins: 0 },
+        )
+
+        setUsers(fetchedUsers)
+        setTotals(computedTotals)
+      } catch (err) {
+        console.error('Erro ao buscar usuários:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUsers()
+  }, [])
+
+  if (loading) {
+    return <div className="text-white">Carregando...</div>
+  }
+
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4"></main>
+    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
+      <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+          <Image
+            src="/images/svg/users.svg"
+            width={30}
+            height={30}
+            alt="Document"
+          />
+          <p>
+            {textUsers.total}: {totals.total}
+          </p>
+        </div>
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+          <Image
+            src="/images/svg/user.svg"
+            width={30}
+            height={30}
+            alt="Document"
+          />
+          <p>
+            {textUsers.users}: {totals.totalUsers}
+          </p>
+        </div>
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+          <Image
+            src="/images/svg/admin.svg"
+            width={30}
+            height={30}
+            alt="Document"
+          />
+          <p>
+            {textUsers.admins}: {totals.totalAdmins}
+          </p>
+        </div>
+        <div className="col-span-1 flex justify-center items-center">
+          <ButtonGlobal
+            type="button"
+            params={{
+              title: textUsers.addUser,
+              color: 'bg-primary',
+            }}
+            onClick={openModal}
+          />
+        </div>
+      </div>
+      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+        <UsersTable data={users} />
+      </section>
+
+      {isModalOpen && (
+        <AddUserModal
+          isOpen={isModalOpen}
+          formData={formData}
+          error={error}
+          loading={loading}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          closeModal={closeModal}
+        />
+      )}
+    </main>
   )
 }

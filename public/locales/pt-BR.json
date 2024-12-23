@@ -85,8 +85,25 @@
       "stillHaveQuestions": "Ainda tem dúvida?",
       "users": "Usuários",
       "ventures": "Empreendimentos",
+      "type": "Tipo",
       "interests": "Interesses",
-      "stages": "Etapas"
+      "stages": "Etapas",
+      "pendingAddress": "Endereço pendente",
+      "pendingDocuments": "Documentos pendentes",
+      "unknownStatus": "Status desconhecido",
+      "validated": "Validado",
+      "underReview": "Em Revisão",
+      "total":"Total",
+      "admins":"Administradores",
+      "addUser":"Adicionar usuário",
+      "userType": "Tipo de usuário",
+      "role": "Cargo",
+      "username": "Nome de usuário",
+      "cancel": "Cancelar",
+      "add": "Adicionar",
+      "admin": "Administrador",
+      "user": "Usuário",
+      "individual": "Adicionar"
   }
 }
 

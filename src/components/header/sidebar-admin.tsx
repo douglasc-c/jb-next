@@ -14,8 +14,9 @@ interface SidebarProps {
     support: string
     signOut: string
   }
+  locale: string
 }
-const Sidebar: React.FC<SidebarProps> = ({ text }) => {
+const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
   return (
     <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 flex flex-col space-y-12">
       <div className="p-4 justify-center flex">
@@ -30,14 +31,14 @@ const Sidebar: React.FC<SidebarProps> = ({ text }) => {
         <ButtonMenu
           params={{
             title: text.dashboard,
-            path: `/dashboard`,
+            path: `/${locale}/admin/dashboard`,
             icon: 'home',
           }}
         />
         <ButtonMenu
           params={{
             title: text.users,
-            path: `/users`,
+            path: `/${locale}/admin/users`,
             icon: 'users',
           }}
         />
@@ -45,35 +46,35 @@ const Sidebar: React.FC<SidebarProps> = ({ text }) => {
         <ButtonMenu
           params={{
             title: text.compliance,
-            path: `/compliance`,
+            path: `/${locale}/admin/compliance`,
             icon: 'cash',
           }}
         />
         <ButtonMenu
           params={{
-            title: text.ventures,
-            path: `/ventures`,
-            icon: 'shock',
-          }}
-        />
-        <ButtonMenu
-          params={{
             title: text.interests,
-            path: `/interests`,
+            path: `/${locale}/admin/interests`,
             icon: 'interests',
           }}
         />
         <ButtonMenu
           params={{
+            title: text.ventures,
+            path: `/${locale}/admin/ventures`,
+            icon: 'shock',
+          }}
+        />
+        <ButtonMenu
+          params={{
             title: text.stages,
-            path: `/stages`,
+            path: `/${locale}/admin/stages`,
             icon: 'clock',
           }}
         />
         <ButtonMenu
           params={{
             title: text.support,
-            path: `/support`,
+            path: `/${locale}/admin/support`,
             icon: 'support',
           }}
         />
