@@ -44,7 +44,7 @@ export default function SignIn() {
       const response = await api.post('/users/signin', formData)
       if (response.status === 200) {
         const data = response.data
-        console.log(data)
+
         if (data.token) {
           const maxAge = 60 * 60
           document.cookie = `auth-token=${data.token}; Max-Age=${maxAge}; path=/; SameSite=Strict`
@@ -67,6 +67,7 @@ export default function SignIn() {
         }
       } else {
         setError('Falha no login')
+
         console.error('Falha no login:', response.statusText)
       }
     } catch (error) {

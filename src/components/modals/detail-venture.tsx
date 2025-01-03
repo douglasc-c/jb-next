@@ -1,4 +1,32 @@
-import { useLayoutContext } from "@/context/layout-context";
+'use client'
+
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
+
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
 
 interface Venture {
   id: number
@@ -24,16 +52,18 @@ interface Venture {
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase: CurrentPhase
+  currentTask: CurrentTask
+  contractInterests: ContractInterest[]
 }
 
 interface ContractProps {
-  data: Venture;
-  onClick: () => void;
-  handleClick: (id: number) => void;
+  data: Venture
+  onClick: () => void
 }
 
-export function DetailContract({ data, onClick, handleClick }: ContractProps) {
-  const { textDetailContract } = useLayoutContext()
+export function DetailVenture({ data, onClick }: ContractProps) {
+  const { textDetailContract } = useLayoutAdminContext()
 
   const stages: Record<number, string> = {
     1: textDetailContract.topography,
@@ -42,9 +72,9 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
     4: textDetailContract.thermalInsulationOfTheWalls,
     5: textDetailContract.roofInsulation,
     6: textDetailContract.doors,
-  };
+  }
 
-  const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida';
+  const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
@@ -129,12 +159,6 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
           >
             {textDetailContract.seeContract}
           </button>
-          <button
-            onClick={() => handleClick(data.id)}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {textDetailContract.seeContract}
-          </button>
         </div>
       </section>
       <section className="flex flex-col gap-4 w-full">
@@ -157,5 +181,5 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         </div>
       </section>
     </div>
-  );
+  )
 }

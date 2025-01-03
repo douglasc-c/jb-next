@@ -122,7 +122,7 @@ export default function Users() {
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -133,7 +133,7 @@ export default function Users() {
             {textUsers.total}: {totals.total}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/user.svg"
             width={30}
@@ -144,7 +144,7 @@ export default function Users() {
             {textUsers.users}: {totals.totalUsers}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center">
+        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/admin.svg"
             width={30}

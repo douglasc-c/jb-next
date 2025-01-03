@@ -66,7 +66,70 @@ export default async function RootLayout({
     individual: t('TextLang.individual'),
   }
 
-  const layoutValue: LayoutAdminContextProps = { textUsers, locale }
+  const textVenture = {
+    total: t('TextLang.total'),
+    addVenture: t('TextLang.addVenture'),
+    available: t('TextLang.available'),
+    inProgress: t('TextLang.inProgress'),
+    ventureName: t('TextLang.ventureName'),
+    description: t('TextLang.description'),
+    corporateName: t('TextLang.corporateName'),
+    investmentType: t('TextLang.investmentType'),
+    isAvailable: t('TextLang.isAvailable'),
+    constructionType: t('TextLang.constructionType'),
+    fundingAmount: t('TextLang.fundingAmount'),
+    transferAmount: t('TextLang.transferAmount'),
+    squareMeterValue: t('TextLang.squareMeterValue'),
+    area: t('TextLang.area'),
+    floorNumber: t('TextLang.floorNumber'),
+    completionDate: t('TextLang.completionDate'),
+    address: t('TextLang.address'),
+    city: t('TextLang.city'),
+    postalCode: t('TextLang.postalCode'),
+    cancel: t('TextLang.cancel'),
+    add: t('TextLang.add'),
+    property: t('TextLang.property'),
+    other: t('TextLang.other'),
+  }
+
+  const textMyContracts = {
+    status: t('TextLang.status'),
+    company: t('TextLang.company'),
+    date: t('TextLang.date'),
+    amountInvested: t('TextLang.amountInvested'),
+    amountTransferred: t('TextLang.amountTransferred'),
+    shares: t('TextLang.shares'),
+    seeMore: t('TextLang.seeMore'),
+  }
+  const textDetailContract = {
+    typeOfConstruction: t('TextLang.typeOfConstruction'),
+    contributionAmount: t('TextLang.contributionAmount'),
+    amountPassed: t('TextLang.amountPassed'),
+    postalCode: t('TextLang.postalCode'),
+    valueM2: t('TextLang.valueM2'),
+    footage: t('TextLang.footage'),
+    floors: t('TextLang.floors'),
+    seeContract: t('TextLang.seeContract'),
+    provisionalCompletion: t('TextLang.provisionalCompletion'),
+    constructionStatus: t('TextLang.constructionStatus'),
+    stage: t('TextLang.stage'),
+    city: t('TextLang.city'),
+    status: t('TextLang.status'),
+    topography: t('TextLang.topography'),
+    masonry: t('TextLang.masonry'),
+    inspections: t('TextLang.inspections'),
+    thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
+    roofInsulation: t('TextLang.roofInsulation'),
+    doors: t('TextLang.doors'),
+  }
+
+  const layoutValue: LayoutAdminContextProps = {
+    textUsers,
+    textVenture,
+    textMyContracts,
+    textDetailContract,
+    locale,
+  }
 
   return (
     <html lang={lng}>

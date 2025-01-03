@@ -1,41 +1,76 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
-import { useState } from 'react'
-import { DetailContract } from '../modals/detail-contract'
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
-interface RowData {
-  status?: string
-  company?: string
-  name?: string
-  document: string
-  initialDate: string
-  address: string
-  typeOfConstruction: string
-  contributionAmount: string
-  amountPassed: string
+import { useState } from 'react'
+import { DetailVenture } from '../modals/detail-venture'
+
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface Venture {
+  id: number
+  name: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
   postalCode: string
+  address: string
   city: string
-  valueM2: string
-  footage: string
-  floors: string
-  data: string
-  provisionalCompletion: string
-  progressStatus: string
-  constructionStatus: number
-  stage: number
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
+  currentPhase: CurrentPhase
+  currentTask: CurrentTask
+  contractInterests: ContractInterest[]
 }
 
 interface MyContractsProps {
-  data: RowData[]
+  data: Venture[]
 }
 
 export function VenturesTable({ data }: MyContractsProps) {
-  const { textMyContracts } = useLayoutContext()
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<RowData | null>(null)
+  const { textMyContracts } = useLayoutAdminContext()
 
-  const openModal = (row: RowData) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
+
+  const openModal = (row: Venture) => {
     setSelectedContract(row)
     setIsModalOpen(true)
   }
@@ -50,9 +85,9 @@ export function VenturesTable({ data }: MyContractsProps) {
       <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
         <h3 className="text-center">{textMyContracts.status}</h3>
         <h3 className="col-span-2">{textMyContracts.company}</h3>
-        <h3 className="">{textMyContracts.date}</h3>
-        <h3 className="">{textMyContracts.amountInvested}</h3>
-        <h3 className="">{textMyContracts.amountTransferred}</h3>
+        <h3 className="text-center">{textMyContracts.date}</h3>
+        <h3 className="text-center">{textMyContracts.amountInvested}</h3>
+        <h3 className="text-center">{textMyContracts.amountTransferred}</h3>
         <h3 className="text-center">{textMyContracts.shares}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
@@ -70,10 +105,16 @@ export function VenturesTable({ data }: MyContractsProps) {
           >
             <p>{row.status}</p>
           </div>
-          <p className="col-span-2">{row.company}</p>
-          <p className="">{row.data}</p>
-          <p className="">U$ {row.contributionAmount}</p>
-          <p className="">U$ {row.amountPassed}</p>
+          <p className="col-span-2">{row.name}</p>
+          <p className="text-center">
+            {new Date(row.completionDate).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </p>
+          <p className="text-center">U$ {row.fundingAmount}</p>
+          <p className="text-center">U$ {row.transferAmount}</p>
           <button
             className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
             onClick={() => openModal(row)}
@@ -85,7 +126,7 @@ export function VenturesTable({ data }: MyContractsProps) {
       {isModalOpen && selectedContract && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} data={selectedContract} />
+            <DetailVenture onClick={closeModal} data={selectedContract} />
           </div>
         </div>
       )}

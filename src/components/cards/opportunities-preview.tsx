@@ -3,31 +3,35 @@
 import { useLayoutContext } from '@/context/layout-context'
 import Image from 'next/image'
 
-interface RowData {
-  status: string
-  company: string
+interface Enterprise {
+  id: number
   name: string
-  document: string
-  initialDate: string
-  address: string
-  typeOfConstruction: string
-  contributionAmount: string
-  amountPassed: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
   postalCode: string
+  address: string
   city: string
-  valueM2: string
-  footage: string
-  floors: string
-  data: string
-  provisionalCompletion: string
-  progressStatus: string
-  constructionStatus: number
-  stage: number
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
 }
 
 interface OpportunitiesPreviewProps {
-  data: RowData
-  onClick: (row: RowData) => void
+  data: Enterprise 
+  onClick: (row: Enterprise) => void
 }
 
 export function OpportunitiesPreview({
@@ -48,8 +52,14 @@ export function OpportunitiesPreview({
             <p className="font-medium">{textNewOpportunities.startDate}</p>
           </div>
           <div className="w-full flex flex-col space-y-3">
-            <span className="font-light">{data.document}</span>
-            <span className="font-light">{data.initialDate}</span>
+            <span className="font-light">{data.id}</span>
+            <span className="font-light">
+              {new Date(data.completionDate).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}
+            </span>
           </div>
         </div>
         <p className="font-medium uppercase">

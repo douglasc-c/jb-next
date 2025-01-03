@@ -71,7 +71,13 @@ export function MyContracts({ data }: MyContractsProps) {
             <p>{row.status}</p>
           </div>
           <p className="col-span-2">{row.company}</p>
-          <p className="">{row.data}</p>
+          <p className="">
+            {new Date(row.data).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </p>
           <p className="">U$ {row.contributionAmount}</p>
           <p className="">U$ {row.amountPassed}</p>
           <button

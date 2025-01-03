@@ -3,31 +3,35 @@
 import { useLayoutContext } from '@/context/layout-context'
 import Image from 'next/image'
 
-interface RowData {
-  status: string
-  company: string
+interface Enterprise {
+  id: number
   name: string
-  document: string
-  initialDate: string
-  address: string
-  typeOfConstruction: string
-  contributionAmount: string
-  amountPassed: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
   postalCode: string
+  address: string
   city: string
-  valueM2: string
-  footage: string
-  floors: string
-  data: string
-  provisionalCompletion: string
-  progressStatus: string
-  constructionStatus: number
-  stage: number
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
 }
 
 interface OpportunitiesPreviewProps {
-  data: RowData
-  onClick: (row: RowData) => void
+  data: Enterprise
+  onClick: (row: Enterprise) => void
 }
 
 export function SmallOpportunitiesPreview({
@@ -44,7 +48,7 @@ export function SmallOpportunitiesPreview({
       <section className="flex flex-row text-[10px] w-full justify-between pt-2">
         <div className="flex uppercase space-x-3">
           <p className="font-medium">{textNewOpportunities.document}</p>
-          <span className="font-light"> {data.document}</span>
+          <span className="font-light">{data.id}</span>
         </div>
         <div className="flex">
           <button
@@ -54,7 +58,7 @@ export function SmallOpportunitiesPreview({
             <p className="font-normal">{textNewOpportunities.seeMore}</p>
             <Image
               src={`/images/svg/arrowRight.svg`}
-              alt="image"
+              alt="arrow icon"
               height={12}
               width={12}
             />

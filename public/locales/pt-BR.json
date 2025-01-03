@@ -103,7 +103,24 @@
       "add": "Adicionar",
       "admin": "Administrador",
       "user": "Usuário",
-      "individual": "Adicionar"
+      "individual": "Individual",
+      "addVenture": "Adicionar empreendimento",
+      "available": "Disponivel",
+      "inProgress": "Em progresso",
+      "ventureName": "Nome do empreendimento",
+      "description": "Descrição do empreendimento",
+      "corporateName": "Razão Social",
+      "investmentType": "Tipo de investimento",
+      "isAvailable": "Disponibilidade",
+      "constructionType": "Tipo de construção",
+      "fundingAmount": "Valor de investimento",
+      "transferAmount": "Valor de transferência",
+      "squareMeterValue": "Valor por metro quadrado",
+      "area": "Área (m²)",
+      "floorNumber": "Número de andares",
+      "completionDate": "Data de conclusão",
+      "property": "Propriedade",
+      "other": "Outro"
   }
 }
 
