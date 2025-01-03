@@ -7,44 +7,43 @@ import { useEffect, useState } from 'react'
 
 export default function ConstructionCircuit() {
   const { textConstructionCircuit } = useLayoutContext()
-  const [ enterprises, setEnterprises ] = useState([])
-  const [ loading, setLoading ] = useState(true)
-  const [ error, setError ] = useState<string | null>(null)
+  const [enterprises, setEnterprises] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-      const fetchConstructionCircuit = async () => {
-        try {
-          const response = await api.get('/users/enterprise/available')
-          const fetchedEnterprises = response.data
+    const fetchConstructionCircuit = async () => {
+      try {
+        const response = await api.get('/users/enterprise/available')
+        const fetchedEnterprises = response.data
 
-          setEnterprises(fetchedEnterprises)
-        } catch (err) {
-          console.error('Erro ao buscar dados do circuito contrutivo:', err)
-          setError('Erro ao carregar os dados. Tente novamente mais tarde.')
-        } finally {
-          setLoading(false)
-        }
+        setEnterprises(fetchedEnterprises)
+      } catch (err) {
+        console.error('Erro ao buscar dados do circuito contrutivo:', err)
+        setError('Erro ao carregar os dados. Tente novamente mais tarde.')
+      } finally {
+        setLoading(false)
       }
-  
-      fetchConstructionCircuit()
-    }, [])
-
-    if (loading) {
-      return (
-        <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
-          <span>Carregando...</span> 
-        </div>
-      )
-    }
-  
-    if (error) {
-      return (
-        <div className="flex justify-center items-center w-full h-full">
-          <span>{error}</span>
-        </div>
-      )
     }
 
+    fetchConstructionCircuit()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
+        <span>Carregando...</span>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <span>{error}</span>
+      </div>
+    )
+  }
 
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col p-6 pr-36">

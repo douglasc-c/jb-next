@@ -4,38 +4,42 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
 import { DetailContract } from '../modals/detail-contract'
 
-interface RowData {
-  status?: string
-  company?: string
-  name?: string
-  document: string
-  initialDate: string
-  address: string
-  typeOfConstruction: string
-  contributionAmount: string
-  amountPassed: string
+interface Venture {
+  id: number
+  name: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
   postalCode: string
+  address: string
   city: string
-  valueM2: string
-  footage: string
-  floors: string
-  data: string
-  provisionalCompletion: string
-  progressStatus: string
-  constructionStatus: number
-  stage: number
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
 }
 
 interface MyContractsProps {
-  data: RowData[]
+  data: Venture[]
 }
 
 export function InterestsTable({ data }: MyContractsProps) {
   const { textMyContracts } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<RowData | null>(null)
+  const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
 
-  const openModal = (row: RowData) => {
+  const openModal = (row: Venture) => {
     setSelectedContract(row)
     setIsModalOpen(true)
   }
@@ -70,10 +74,16 @@ export function InterestsTable({ data }: MyContractsProps) {
           >
             <p>{row.status}</p>
           </div>
-          <p className="col-span-2">{row.company}</p>
-          <p className="">{row.data}</p>
-          <p className="">U$ {row.contributionAmount}</p>
-          <p className="">U$ {row.amountPassed}</p>
+          <p className="col-span-2">{row.name}</p>
+          <p className="">
+            {new Date(row.completionDate).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </p>
+          <p className="">U$ {row.fundingAmount}</p>
+          <p className="">U$ {row.transferAmount}</p>
           <button
             className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
             onClick={() => openModal(row)}

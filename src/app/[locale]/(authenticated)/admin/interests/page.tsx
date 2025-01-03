@@ -1,9 +1,8 @@
 'use client'
 
-import { VenturesTable } from "@/components/tables/ventures"
-import { useLayoutAdminContext } from "@/context/layout-admin-context"
-import api from "@/lib/api"
-import { useEffect, useState } from "react"
+// import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import api from '@/lib/api'
+import { useEffect, useState } from 'react'
 
 interface User {
   id: number
@@ -75,10 +74,10 @@ interface Venture {
 }
 
 export default function Interests() {
-  const { textVenture } = useLayoutAdminContext()
+  // const { textVenture } = useLayoutAdminContext()
   const [loading, setLoading] = useState(true)
   const [ventures, setVentures] = useState<Venture[]>([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export default function Interests() {
     fetchVentures()
   }, [])
 
-        console.log(ventures)
+  console.log(ventures)
   if (loading) {
     return <div className="text-white">Carregando...</div>
   }
@@ -110,14 +109,14 @@ export default function Interests() {
 
   return (
     <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
-      {ventures.map((venture) => (
-        <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+        {ventures.map((venture) => (
           <div key={venture.id} className="text-white">
             <h2>{venture.name}</h2>
             <p>{venture.description}</p>
           </div>
-        </section>
-      ))}
+        ))}
+      </section>
     </main>
   )
 }

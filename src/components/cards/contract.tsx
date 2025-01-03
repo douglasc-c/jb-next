@@ -32,7 +32,7 @@ interface Enterprise {
 }
 
 interface ContractProps {
-  data: Enterprise; 
+  data: Enterprise
 }
 
 export function Contract({ data }: ContractProps) {
@@ -48,27 +48,34 @@ export function Contract({ data }: ContractProps) {
   const closeModal = () => {
     setIsModalOpen(false)
   }
-  
+
   const handleSubmit = async (id: number) => {
     console.log(id)
     try {
-          const response = await api.post('/users/interest-enterprise', {
-            enterpriseId: id,
-          } )
-          if (response.status === 200) {
-            const data = response.data
-    
-          } else {
-            setError('Falha no login')
-    
-            console.error('Falha no login:', response.statusText)
-          }
-        } catch (error) {
-          setError('Erro ao conectar ao servidor')
-          console.error('Erro na requisição:', error)
-        } finally {
-          setLoading(false)
-        }
+      const response = await api.post('/users/interest-enterprise', {
+        enterpriseId: id,
+      })
+      if (response.status === 200) {
+        // const data = response.data
+      } else {
+        setError('Falha no login')
+
+        console.error('Falha no login:', response.statusText)
+      }
+    } catch (error) {
+      setError('Erro ao conectar ao servidor')
+      console.error('Erro na requisição:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="text-white">Carregando...</div>
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>
   }
 
   return (
@@ -88,11 +95,13 @@ export function Contract({ data }: ContractProps) {
             <p className="font-medium uppercase">
               {textNewOpportunities.startDate}
             </p>
-            <span className="font-light">{new Date(data.completionDate).toLocaleDateString('pt-BR', {
+            <span className="font-light">
+              {new Date(data.completionDate).toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
-              })}</span>
+              })}
+            </span>
           </div>
         </div>
         <div className="flex items-center">
@@ -116,7 +125,11 @@ export function Contract({ data }: ContractProps) {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} handleClick={handleSubmit} data={data} />
+            <DetailContract
+              onClick={closeModal}
+              handleClick={handleSubmit}
+              data={data}
+            />
           </div>
         </div>
       )}

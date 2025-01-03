@@ -1,4 +1,4 @@
-import { useLayoutContext } from "@/context/layout-context";
+import { useLayoutContext } from '@/context/layout-context'
 
 interface Venture {
   id: number
@@ -27,9 +27,9 @@ interface Venture {
 }
 
 interface ContractProps {
-  data: Venture;
-  onClick: () => void;
-  handleClick: (id: number) => void;
+  data: Venture
+  onClick: () => void
+  handleClick?: (id: number) => Promise<void>
 }
 
 export function DetailContract({ data, onClick, handleClick }: ContractProps) {
@@ -42,9 +42,9 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
     4: textDetailContract.thermalInsulationOfTheWalls,
     5: textDetailContract.roofInsulation,
     6: textDetailContract.doors,
-  };
+  }
 
-  const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida';
+  const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
@@ -130,7 +130,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
             {textDetailContract.seeContract}
           </button>
           <button
-            onClick={() => handleClick(data.id)}
+            onClick={() => handleClick}
             className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
           >
             {textDetailContract.seeContract}
@@ -157,5 +157,5 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         </div>
       </section>
     </div>
-  );
+  )
 }

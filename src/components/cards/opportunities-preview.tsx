@@ -30,7 +30,7 @@ interface Enterprise {
 }
 
 interface OpportunitiesPreviewProps {
-  data: Enterprise 
+  data: Enterprise
   onClick: (row: Enterprise) => void
 }
 

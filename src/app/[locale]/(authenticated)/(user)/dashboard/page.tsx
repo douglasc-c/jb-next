@@ -1,7 +1,7 @@
 'use client'
 
 import { DataInvestments } from '@/components/cards/data-investments'
-import { MyContracts } from '@/components/tables/my-contracts'
+// import { MyContracts } from '@/components/tables/my-contracts'
 import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
@@ -39,7 +39,6 @@ export default function Dashboard() {
     type: textDataInvestments.invested,
   }
 
-
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
@@ -49,7 +48,6 @@ export default function Dashboard() {
         const fetchedTotalValution = response.data.data.totalValution
         const fetchedEnterpriseCount = response.data.data.enterpriseCount
         const fetchedRecentEnterprises = response.data.data.recentEnterprises
-
 
         setPieChart(fetchedPieChart)
         setTotalInvested(fetchedTotalInvested)
@@ -70,7 +68,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
-        <span>Carregando...</span> 
+        <span>Carregando...</span>
       </div>
     )
   }
