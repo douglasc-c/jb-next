@@ -8,101 +8,45 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface RowData {
-  status: string
-  company: string
+interface Enterprise {
+  id: number
   name: string
-  document: string
-  initialDate: string
-  address: string
-  typeOfConstruction: string
-  contributionAmount: string
-  amountPassed: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
   postalCode: string
+  address: string
   city: string
-  valueM2: string
-  footage: string
-  floors: string
-  data: string
-  provisionalCompletion: string
-  progressStatus: string
-  constructionStatus: number
-  stage: number
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
 }
 
-const data: RowData[] = [
-  {
-    status: 'CONFIRMADO',
-    company: 'Empresa XYZ',
-    name: 'Residencial 1',
-    document: '1234567654',
-    initialDate: 'Mar/2024',
-    address: 'Linha Adolfo Konder, S/N Caçador-SC',
-    typeOfConstruction: 'Casa',
-    contributionAmount: '10,000.00',
-    amountPassed: '10,000.00',
-    postalCode: '1234567',
-    city: 'MIAMI',
-    valueM2: '600.00',
-    footage: '120',
-    floors: '1 Andar',
-    data: '2025/02/01',
-    provisionalCompletion: '2025/02/01',
-    progressStatus: 'Previsto',
-    constructionStatus: 50,
-    stage: 3,
-  },
-  {
-    status: 'CONFIRMADO',
-    company: 'Empresa XYZ',
-    name: 'Residencial 2',
-    document: '7894561230',
-    initialDate: 'Apr/2024',
-    address: 'Rua Nova Esperança, 25',
-    typeOfConstruction: 'Apartamento',
-    contributionAmount: '15,000.00',
-    amountPassed: '8,000.00',
-    postalCode: '8904567',
-    city: 'NEW YORK',
-    valueM2: '700.00',
-    footage: '200',
-    floors: '5 Andares',
-    data: '2026/01/01',
-    provisionalCompletion: '2026/01/01',
-    progressStatus: 'Em Andamento',
-    constructionStatus: 30,
-    stage: 2,
-  },
-  {
-    status: 'CONFIRMADO',
-    company: 'Empresa ABC',
-    name: 'Residencial 3',
-    document: '9876543210',
-    initialDate: 'May/2024',
-    address: 'Av. Principal, 123',
-    typeOfConstruction: 'Condomínio',
-    contributionAmount: '25,000.00',
-    amountPassed: '12,000.00',
-    postalCode: '4567890',
-    city: 'LONDON',
-    valueM2: '800.00',
-    footage: '500',
-    floors: '10 Andares',
-    data: '2027/05/01',
-    provisionalCompletion: '2027/05/01',
-    progressStatus: 'Previsto',
-    constructionStatus: 10,
-    stage: 1,
-  },
-]
+interface NewOpportunitiesProps {
+  recentEnterprises: Enterprise[]
+}
 
-export function NewOpportunities() {
+export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   const { textNewOpportunities } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<RowData | null>(null)
+  const [selectedContract, setSelectedContract] = useState<Enterprise | null>(
+    null,
+  )
   const router = useRouter()
-
-  const openModal = (row: RowData) => {
+  const openModal = (row: Enterprise) => {
+    console.log(row)
     setSelectedContract(row)
     setIsModalOpen(true)
   }
@@ -135,13 +79,22 @@ export function NewOpportunities() {
             />
           </button>
 
-          <OpportunitiesPreview data={data[0]} onClick={openModal} />
+          <OpportunitiesPreview
+            data={recentEnterprises[0]}
+            onClick={openModal}
+          />
         </div>
       </div>
 
       <div className="w-1/3 flex flex-col justify-between">
-        <SmallOpportunitiesPreview data={data[1]} onClick={openModal} />
-        <SmallOpportunitiesPreview data={data[2]} onClick={openModal} />
+        <SmallOpportunitiesPreview
+          data={recentEnterprises[1]}
+          onClick={openModal}
+        />
+        <SmallOpportunitiesPreview
+          data={recentEnterprises[2]}
+          onClick={openModal}
+        />
       </div>
 
       {isModalOpen && selectedContract && (

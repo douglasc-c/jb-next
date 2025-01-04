@@ -3,34 +3,43 @@
 import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
 import { DetailContract } from '../modals/detail-contract'
+import api from '@/lib/api'
+
+interface Enterprise {
+  id: number
+  name: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
+  postalCode: string
+  address: string
+  city: string
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string | null
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
+}
 
 interface ContractProps {
-  data: {
-    status?: string
-    company?: string
-    name?: string
-    document: string
-    initialDate: string
-    address: string
-    typeOfConstruction: string
-    contributionAmount: string
-    amountPassed: string
-    postalCode: string
-    city: string
-    valueM2: string
-    footage: string
-    floors: string
-    data: string
-    provisionalCompletion: string
-    progressStatus: string
-    constructionStatus: number
-    stage: number
-  }
+  data: Enterprise
 }
 
 export function Contract({ data }: ContractProps) {
   const { textNewOpportunities } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -38,6 +47,35 @@ export function Contract({ data }: ContractProps) {
 
   const closeModal = () => {
     setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (id: number) => {
+    console.log(id)
+    try {
+      const response = await api.post('/users/interest-enterprise', {
+        enterpriseId: id,
+      })
+      if (response.status === 200) {
+        // const data = response.data
+      } else {
+        setError('Falha no login')
+
+        console.error('Falha no login:', response.statusText)
+      }
+    } catch (error) {
+      setError('Erro ao conectar ao servidor')
+      console.error('Erro na requisição:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="text-white">Carregando...</div>
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>
   }
 
   return (
@@ -51,13 +89,19 @@ export function Contract({ data }: ContractProps) {
             <p className="font-medium uppercase">
               {textNewOpportunities.document}
             </p>
-            <span className="font-light"> {data.document}</span>
+            <span className="font-light"> {data.id}</span>
           </div>
           <div className="w-full flex justify-end space-x-3">
             <p className="font-medium uppercase">
               {textNewOpportunities.startDate}
             </p>
-            <span className="font-light">{data.initialDate}</span>
+            <span className="font-light">
+              {new Date(data.completionDate).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}
+            </span>
           </div>
         </div>
         <div className="flex items-center">
@@ -81,7 +125,11 @@ export function Contract({ data }: ContractProps) {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} data={data} />
+            <DetailContract
+              onClick={closeModal}
+              handleClick={handleSubmit}
+              data={data}
+            />
           </div>
         </div>
       )}

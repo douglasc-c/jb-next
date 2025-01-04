@@ -19,6 +19,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, colors }) => {
     const svg = d3.select(chartRef.current)
     svg.selectAll('*').remove()
 
+    const adjustedData = data.map((value) => (value === 0 ? 0.01 : value))
+
     const arc = d3
       .arc<d3.PieArcDatum<number>>()
       .innerRadius(radius - 40)
@@ -29,7 +31,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, colors }) => {
       .sort(null)
       .value((d) => d)
 
-    const arcs = pie(data)
+    const arcs = pie(adjustedData)
 
     svg
       .attr('width', width)

@@ -1,26 +1,42 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface User {
+  id: number
+  email: string
+  username: string
+  role: string
+  complianceStatus: string
+}
+
 interface AuthState {
   token: string | null
+  mustChangePassword: boolean
+  user: User | null
 }
 
 const initialState: AuthState = {
   token: null,
+  mustChangePassword: false,
+  user: null,
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string | null>) {
-      console.log('Token recebido:', action.payload)
-      state.token = action.payload
+    setAuthData(state, action: PayloadAction<AuthState>) {
+      const { token, mustChangePassword, user } = action.payload
+      state.token = token
+      state.mustChangePassword = mustChangePassword
+      state.user = user
     },
-    clearToken(state) {
+    clearAuthData(state) {
       state.token = null
+      state.mustChangePassword = false
+      state.user = null
     },
   },
 })
 
-export const { setToken, clearToken } = authSlice.actions
+export const { setAuthData, clearAuthData } = authSlice.actions
 export default authSlice.reducer

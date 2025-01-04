@@ -1,7 +1,10 @@
 import '@/app/globals.css'
-import { getTranslations } from 'next-intl/server'
-import Header from '@/components/header/header'
-// import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
+import { getLocale, getTranslations } from 'next-intl/server'
+import Header from '@/components/header/header-admin'
+import {
+  LayoutAdminContextProps,
+  LayoutProvider,
+} from '@/context/layout-admin-context'
 import Sidebar from '@/components/header/sidebar-admin'
 
 const languages = ['pt-BR']
@@ -20,6 +23,7 @@ export default async function RootLayout({
     lng: string
   }
 }) {
+  const locale = await getLocale()
   const t = await getTranslations(lng)
 
   const textHeader = {
@@ -35,19 +39,90 @@ export default async function RootLayout({
     signOut: t('TextLang.signOut'),
   }
 
-  // const layoutValue: LayoutContextProps = {
+  const texts = {
+    name: t('TextLang.name'),
+    compliance: t('TextLang.compliance'),
+    type: t('TextLang.type'),
+    seeMore: t('TextLang.seeMore'),
+    pendingAddress: t('TextLang.pendingAddress'),
+    pendingDocuments: t('TextLang.pendingDocuments'),
+    validated: t('TextLang.validated'),
+    unknownStatus: t('TextLang.unknownStatus'),
+    underReview: t('TextLang.underReview'),
+    total: t('TextLang.total'),
+    admins: t('TextLang.admins'),
+    addUser: t('TextLang.addUser'),
+    userType: t('TextLang.userType'),
+    role: t('TextLang.role'),
+    users: t('TextLang.users'),
+    email: t('TextLang.email'),
+    password: t('TextLang.password'),
+    username: t('TextLang.username'),
+    lastName: t('TextLang.lastName'),
+    cancel: t('TextLang.cancel'),
+    add: t('TextLang.add'),
+    admin: t('TextLang.admin'),
+    user: t('TextLang.user'),
+    individual: t('TextLang.individual'),
+    addVenture: t('TextLang.addVenture'),
+    available: t('TextLang.available'),
+    inProgress: t('TextLang.inProgress'),
+    ventureName: t('TextLang.ventureName'),
+    description: t('TextLang.description'),
+    corporateName: t('TextLang.corporateName'),
+    investmentType: t('TextLang.investmentType'),
+    isAvailable: t('TextLang.isAvailable'),
+    constructionType: t('TextLang.constructionType'),
+    fundingAmount: t('TextLang.fundingAmount'),
+    transferAmount: t('TextLang.transferAmount'),
+    squareMeterValue: t('TextLang.squareMeterValue'),
+    area: t('TextLang.area'),
+    floorNumber: t('TextLang.floorNumber'),
+    completionDate: t('TextLang.completionDate'),
+    address: t('TextLang.address'),
+    city: t('TextLang.city'),
+    postalCode: t('TextLang.postalCode'),
+    property: t('TextLang.property'),
+    other: t('TextLang.other'),
+    status: t('TextLang.status'),
+    company: t('TextLang.company'),
+    date: t('TextLang.date'),
+    amountInvested: t('TextLang.amountInvested'),
+    amountTransferred: t('TextLang.amountTransferred'),
+    shares: t('TextLang.shares'),
+    interests: t('TextLang.interests'),
+    typeOfConstruction: t('TextLang.typeOfConstruction'),
+    contributionAmount: t('TextLang.contributionAmount'),
+    amountPassed: t('TextLang.amountPassed'),
+    valueM2: t('TextLang.valueM2'),
+    footage: t('TextLang.footage'),
+    floors: t('TextLang.floors'),
+    seeContract: t('TextLang.seeContract'),
+    provisionalCompletion: t('TextLang.provisionalCompletion'),
+    constructionStatus: t('TextLang.constructionStatus'),
+    stage: t('TextLang.stage'),
+    topography: t('TextLang.topography'),
+    masonry: t('TextLang.masonry'),
+    inspections: t('TextLang.inspections'),
+    thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
+    roofInsulation: t('TextLang.roofInsulation'),
+    doors: t('TextLang.doors'),
+    details: t('TextLang.details'),
+    interested: t('TextLang.interested'),
+  }
 
-  // }
+  const layoutValue: LayoutAdminContextProps = {
+    texts,
+    locale,
+  }
 
   return (
     <html lang={lng}>
       <body className="bg-neutral-950 text-white flex">
-        <Sidebar text={textHeader} />
+        <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
           <Header text={textHeader} />
-          {/* <LayoutProvider value={layoutValue}> */}
-          {children}
-          {/* </LayoutProvider> */}
+          <LayoutProvider value={layoutValue}>{children}</LayoutProvider>
         </div>
       </body>
     </html>

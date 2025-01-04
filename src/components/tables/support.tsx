@@ -34,7 +34,7 @@ interface MyContractsProps {
   data: Venture[]
 }
 
-export function MyContracts({ data }: MyContractsProps) {
+export function SupportTable({ data }: MyContractsProps) {
   const { textMyContracts } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)

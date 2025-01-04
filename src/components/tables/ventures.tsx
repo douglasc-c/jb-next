@@ -1,8 +1,35 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
+
 import { useState } from 'react'
-import { DetailContract } from '../modals/detail-contract'
+import { DetailVenture } from '../modals/detail-venture'
+
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
 
 interface Venture {
   id: number
@@ -28,14 +55,18 @@ interface Venture {
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase: CurrentPhase
+  currentTask: CurrentTask
+  contractInterests: ContractInterest[]
 }
 
 interface MyContractsProps {
   data: Venture[]
 }
 
-export function MyContracts({ data }: MyContractsProps) {
-  const { textMyContracts } = useLayoutContext()
+export function VenturesTable({ data }: MyContractsProps) {
+  const { texts } = useLayoutAdminContext()
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
 
@@ -52,12 +83,12 @@ export function MyContracts({ data }: MyContractsProps) {
   return (
     <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
       <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="text-center">{textMyContracts.status}</h3>
-        <h3 className="col-span-2">{textMyContracts.company}</h3>
-        <h3 className="">{textMyContracts.date}</h3>
-        <h3 className="">{textMyContracts.amountInvested}</h3>
-        <h3 className="">{textMyContracts.amountTransferred}</h3>
-        <h3 className="text-center">{textMyContracts.shares}</h3>
+        <h3 className="text-center">{texts.status}</h3>
+        <h3 className="col-span-2">{texts.company}</h3>
+        <h3 className="text-center">{texts.date}</h3>
+        <h3 className="text-center">{texts.amountInvested}</h3>
+        <h3 className="text-center">{texts.amountTransferred}</h3>
+        <h3 className="text-center">{texts.shares}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
       {data.map((row, index) => (
@@ -75,27 +106,27 @@ export function MyContracts({ data }: MyContractsProps) {
             <p>{row.status}</p>
           </div>
           <p className="col-span-2">{row.name}</p>
-          <p className="">
+          <p className="text-center">
             {new Date(row.completionDate).toLocaleDateString('pt-BR', {
               day: '2-digit',
               month: '2-digit',
               year: 'numeric',
             })}
           </p>
-          <p className="">U$ {row.fundingAmount}</p>
-          <p className="">U$ {row.transferAmount}</p>
+          <p className="text-center">U$ {row.fundingAmount}</p>
+          <p className="text-center">U$ {row.transferAmount}</p>
           <button
             className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
             onClick={() => openModal(row)}
           >
-            {textMyContracts.seeMore}
+            {texts.seeMore}
           </button>
         </div>
       ))}
       {isModalOpen && selectedContract && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} data={selectedContract} />
+            <DetailVenture onClick={closeModal} data={selectedContract} />
           </div>
         </div>
       )}

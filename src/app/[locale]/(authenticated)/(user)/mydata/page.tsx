@@ -1,12 +1,60 @@
 'use client'
 
 import { useLayoutContext } from '@/context/layout-context'
+import api from '@/lib/api'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+interface UserData {
+  firstName: string
+  lastName: string
+  email: string
+  numberDocument: string
+  birthDate: string
+  country: string
+  address: string
+  city: string
+}
 
 export default function MyData() {
   const { textMyData } = useLayoutContext()
   const [showPassword, setShowPassword] = useState(false)
+  const [userData, setUserData] = useState<UserData | null>(null) // Corrigido para usar UserData
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchMyData = async () => {
+      try {
+        const response = await api.get('/users/me/data')
+        const fetchedUserData: UserData = response.data
+        setUserData(fetchedUserData)
+      } catch (err) {
+        console.error('Erro ao buscar dados do usuario:', err)
+        setError('Erro ao carregar os dados. Tente novamente mais tarde.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMyData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
+        <span>Carregando...</span>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <span>{error}</span>
+      </div>
+    )
+  }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -54,7 +102,7 @@ export default function MyData() {
                   {textMyData.name}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.name}
+                  {userData?.firstName}
                 </p>
               </div>
               <div className="space-y-2">
@@ -62,7 +110,7 @@ export default function MyData() {
                   {textMyData.lastName}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.lastName}
+                  {userData?.lastName}
                 </p>
               </div>
               <div className="space-y-2">
@@ -70,7 +118,7 @@ export default function MyData() {
                   {textMyData.email}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.email}
+                  {userData?.email}
                 </p>
               </div>
               <div className="space-y-2">
@@ -78,7 +126,7 @@ export default function MyData() {
                   {textMyData.documentNumber}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.documentNumber}
+                  {userData?.numberDocument}
                 </p>
               </div>
               <div className="space-y-2">
@@ -86,7 +134,7 @@ export default function MyData() {
                   {textMyData.dateOfBith}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.dateOfBith}
+                  {userData?.birthDate}
                 </p>
               </div>
               <div className="space-y-2">
@@ -94,7 +142,7 @@ export default function MyData() {
                   {textMyData.country}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.country}
+                  {userData?.country}
                 </p>
               </div>
               <div className="space-y-2">
@@ -102,7 +150,7 @@ export default function MyData() {
                   {textMyData.address}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.address}
+                  {userData?.address}
                 </p>
               </div>
               <div className="space-y-2">
@@ -110,7 +158,7 @@ export default function MyData() {
                   {textMyData.city}
                 </span>
                 <p className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-xs text-zinc-400">
-                  {data.city}
+                  {userData?.city}
                 </p>
               </div>
               <div className="space-y-2">
