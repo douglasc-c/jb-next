@@ -33,18 +33,18 @@ const AddUserModal: FC<AddUserModalProps> = ({
   handleSubmit,
   closeModal,
 }) => {
-  const { textUsers } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
 
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
-        <h2 className="text-white text-2xl mb-4">{textUsers.addUser}</h2>
+        <h2 className="text-white text-2xl mb-4">{texts.addUser}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="text-white block">{textUsers.email}</label>
+              <label className="text-white block">{texts.email}</label>
               <input
                 type="email"
                 name="email"
@@ -55,7 +55,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">{textUsers.password}</label>
+              <label className="text-white block">{texts.password}</label>
               <input
                 type="password"
                 name="password"
@@ -66,7 +66,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">{textUsers.username}</label>
+              <label className="text-white block">{texts.username}</label>
               <input
                 type="text"
                 name="username"
@@ -77,7 +77,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">{textUsers.name}</label>
+              <label className="text-white block">{texts.name}</label>
               <input
                 type="text"
                 name="firstName"
@@ -88,7 +88,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">{textUsers.lastName}</label>
+              <label className="text-white block">{texts.lastName}</label>
               <input
                 type="text"
                 name="lastName"
@@ -99,7 +99,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">{textUsers.userType}</label>
+              <label className="text-white block">{texts.userType}</label>
               <select
                 name="userType"
                 value={formData.userType}
@@ -112,7 +112,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               </select>
             </div>
             <div>
-              <label className="text-white block">{textUsers.role}</label>
+              <label className="text-white block">{texts.role}</label>
               <select
                 name="role"
                 value={formData.role}
@@ -120,8 +120,8 @@ const AddUserModal: FC<AddUserModalProps> = ({
                 className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
                 required
               >
-                <option value="ADMIN">{textUsers.admin}</option>
-                <option value="USER">{textUsers.user}</option>
+                <option value="ADMIN">{texts.admin}</option>
+                <option value="USER">{texts.user}</option>
               </select>
             </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
@@ -131,13 +131,13 @@ const AddUserModal: FC<AddUserModalProps> = ({
                 onClick={closeModal}
                 className="bg-zinc-600 text-white py-2 px-4 rounded-lg"
               >
-                {textUsers.cancel}
+                {texts.cancel}
               </button>
               <ButtonGlobal
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: loading ? textUsers.add : textUsers.add,
+                  title: loading ? texts.add : texts.add,
                   color: 'bg-primary',
                 }}
               />

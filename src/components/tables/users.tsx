@@ -14,20 +14,20 @@ interface MyContractsProps {
 }
 
 export function UsersTable({ data }: MyContractsProps) {
-  const { textUsers } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
 
   const getComplianceText = (status: string) => {
     switch (status) {
       case 'PENDING_ADDRESS':
-        return textUsers.pendingAddress
+        return texts.pendingAddress
       case 'PENDING_DOCUMENTS':
-        return textUsers.pendingDocuments
+        return texts.pendingDocuments
       case 'UNDER_REVIEW':
-        return textUsers.underReview
+        return texts.underReview
       case 'APPROVED':
-        return textUsers.validated
+        return texts.validated
       default:
-        return textUsers.unknownStatus
+        return texts.unknownStatus
     }
   }
 
@@ -36,10 +36,10 @@ export function UsersTable({ data }: MyContractsProps) {
       className={`flex flex-col p-4 h-auto justify-around w-full text-center`}
     >
       <div className="grid grid-cols-4 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="">{textUsers.type}</h3>
-        <h3 className="">{textUsers.name}</h3>
-        <h3 className="">{textUsers.compliance}</h3>
-        <h3 className="">{textUsers.seeMore}</h3>
+        <h3 className="">{texts.type}</h3>
+        <h3 className="">{texts.name}</h3>
+        <h3 className="">{texts.compliance}</h3>
+        <h3 className="">{texts.seeMore}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
       {data.map((row, index) => (
@@ -63,7 +63,7 @@ export function UsersTable({ data }: MyContractsProps) {
           <button
             className={`border rounded-full border-primary text-primary py-1 bg-transparent`}
           >
-            {textUsers.seeMore}
+            {texts.seeMore}
           </button>
         </div>
       ))}

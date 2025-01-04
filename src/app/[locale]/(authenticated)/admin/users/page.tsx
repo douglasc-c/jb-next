@@ -33,7 +33,7 @@ interface Totals {
 }
 
 export default function Users() {
-  const { textUsers } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -130,7 +130,7 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {textUsers.total}: {totals.total}
+            {texts.total}: {totals.total}
           </p>
         </div>
         <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
@@ -141,7 +141,7 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {textUsers.users}: {totals.totalUsers}
+            {texts.users}: {totals.totalUsers}
           </p>
         </div>
         <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
@@ -152,14 +152,14 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {textUsers.admins}: {totals.totalAdmins}
+            {texts.admins}: {totals.totalAdmins}
           </p>
         </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
             params={{
-              title: textUsers.addUser,
+              title: texts.addUser,
               color: 'bg-primary',
             }}
             onClick={openModal}

@@ -88,7 +88,7 @@ interface Totals {
 }
 
 export default function Ventures() {
-  const { textVenture } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
   const [ventures, setVentures] = useState<Venture[]>([])
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -213,7 +213,7 @@ export default function Ventures() {
             alt="Projects"
           />
           <p>
-            {textVenture.total}: {totals.total}
+            {texts.total}: {totals.total}
           </p>
         </div>
         <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
@@ -224,7 +224,7 @@ export default function Ventures() {
             alt="Available"
           />
           <p>
-            {textVenture.available}: {totals.available}
+            {texts.available}: {totals.available}
           </p>
         </div>
         <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
@@ -235,14 +235,14 @@ export default function Ventures() {
             alt="In Progress"
           />
           <p>
-            {textVenture.inProgress}: {totals.inProgress}
+            {texts.inProgress}: {totals.inProgress}
           </p>
         </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
             params={{
-              title: textVenture.addVenture,
+              title: texts.addVenture,
               color: 'bg-primary',
             }}
             onClick={openModal}

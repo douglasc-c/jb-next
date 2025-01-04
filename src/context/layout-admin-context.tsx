@@ -3,7 +3,7 @@
 import React, { createContext, useContext } from 'react'
 
 export interface LayoutAdminContextProps {
-  textUsers: {
+  texts: {
     name: string
     compliance: string
     type: string
@@ -28,10 +28,6 @@ export interface LayoutAdminContextProps {
     admin: string
     user: string
     individual: string
-  }
-
-  textVenture: {
-    total: string
     addVenture: string
     available: string
     inProgress: string
@@ -50,27 +46,18 @@ export interface LayoutAdminContextProps {
     address: string
     city: string
     postalCode: string
-    cancel: string
-    add: string
     property: string
     other: string
-  }
-
-  textMyContracts: {
     status: string
     company: string
     date: string
     amountInvested: string
     amountTransferred: string
     shares: string
-    seeMore: string
-  }
-
-  textDetailContract: {
+    interests: string
     typeOfConstruction: string
     contributionAmount: string
     amountPassed: string
-    postalCode: string
     valueM2: string
     footage: string
     floors: string
@@ -78,14 +65,14 @@ export interface LayoutAdminContextProps {
     provisionalCompletion: string
     constructionStatus: string
     stage: string
-    city: string
-    status: string
     topography: string
     masonry: string
     inspections: string
     thermalInsulationOfTheWalls: string
     roofInsulation: string
     doors: string
+    details: string
+    interested: string
   }
 
   locale: string

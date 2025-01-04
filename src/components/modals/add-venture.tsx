@@ -41,20 +41,18 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
   handleSubmit,
   closeModal,
 }) => {
-  const { textVenture } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
 
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-2/3">
-        <h2 className="text-white text-2xl mb-4">{textVenture.addVenture}</h2>
+        <h2 className="text-white text-2xl mb-4">{texts.addVenture}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="text-white block">
-                {textVenture.ventureName}
-              </label>
+              <label className="text-white block">{texts.ventureName}</label>
               <input
                 type="text"
                 name="name"
@@ -65,9 +63,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">
-                {textVenture.description}
-              </label>
+              <label className="text-white block">{texts.description}</label>
               <input
                 type="text"
                 name="description"
@@ -78,9 +74,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-white block">
-                {textVenture.corporateName}
-              </label>
+              <label className="text-white block">{texts.corporateName}</label>
               <input
                 type="text"
                 name="corporateName"
@@ -93,9 +87,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
 
             <div className="flex space-x-4">
               <div className="w-2/3">
-                <label className="text-white block">
-                  {textVenture.address}
-                </label>
+                <label className="text-white block">{texts.address}</label>
                 <input
                   type="text"
                   name="address"
@@ -106,7 +98,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
               <div className="w-1/3">
-                <label className="text-white block">{textVenture.city}</label>
+                <label className="text-white block">{texts.city}</label>
                 <input
                   type="text"
                   name="city"
@@ -117,9 +109,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
               <div>
-                <label className="text-white block">
-                  {textVenture.isAvailable}
-                </label>
+                <label className="text-white block">{texts.isAvailable}</label>
                 <select
                   name="isAvailable"
                   value={formData.isAvailable ? 'true' : 'false'}
@@ -134,9 +124,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
             </div>
             <div className="flex space-x-4">
               <div className="w-1/2">
-                <label className="text-white block">
-                  {textVenture.postalCode}
-                </label>
+                <label className="text-white block">{texts.postalCode}</label>
                 <input
                   type="text"
                   name="postalCode"
@@ -149,7 +137,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
 
               <div className="w-1/2">
                 <label className="text-white block">
-                  {textVenture.completionDate}
+                  {texts.completionDate}
                 </label>
                 <input
                   type="date"
@@ -165,7 +153,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
             <div className="flex space-x-4">
               <div className="w-1/3">
                 <label className="text-white block">
-                  {textVenture.fundingAmount}
+                  {texts.fundingAmount}
                 </label>
                 <input
                   type="number"
@@ -178,7 +166,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
               </div>
               <div className="w-1/3">
                 <label className="text-white block">
-                  {textVenture.transferAmount}
+                  {texts.transferAmount}
                 </label>
                 <input
                   type="number"
@@ -191,7 +179,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
               </div>
               <div className="w-1/3">
                 <label className="text-white block">
-                  {textVenture.investmentType}
+                  {texts.investmentType}
                 </label>
                 <select
                   name="investmentType"
@@ -200,15 +188,15 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                   className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
                   required
                 >
-                  <option value="PROPERTY">{textVenture.property}</option>
-                  <option value="OTHER">{textVenture.other}</option>
+                  <option value="PROPERTY">{texts.property}</option>
+                  <option value="OTHER">{texts.other}</option>
                 </select>
               </div>
             </div>
             <div className="flex space-x-4">
               <div className="w-1/3">
                 <label className="text-white block">
-                  {textVenture.squareMeterValue}
+                  {texts.squareMeterValue}
                 </label>
                 <input
                   type="number"
@@ -220,7 +208,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
               <div className="w-1/3">
-                <label className="text-white block">{textVenture.area}</label>
+                <label className="text-white block">{texts.area}</label>
                 <input
                   type="number"
                   name="area"
@@ -231,9 +219,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
               <div className="w-1/3">
-                <label className="text-white block">
-                  {textVenture.floorNumber}
-                </label>
+                <label className="text-white block">{texts.floorNumber}</label>
                 <input
                   type="number"
                   name="floors"
@@ -251,13 +237,13 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 onClick={closeModal}
                 className="bg-zinc-600 text-white py-2 px-4 rounded-lg"
               >
-                {textVenture.cancel}
+                {texts.cancel}
               </button>
               <ButtonGlobal
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: loading ? textVenture.add : textVenture.add,
+                  title: loading ? texts.add : texts.add,
                   color: 'bg-primary',
                 }}
               />

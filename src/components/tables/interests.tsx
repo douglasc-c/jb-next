@@ -1,8 +1,51 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
-import { DetailContract } from '../modals/detail-contract'
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { DetailVenture } from '../modals/detail-venture'
+import { InterestedDetails } from '../modals/interested'
+
+interface User {
+  id: number
+  email: string
+  username: string
+  password: string
+  firstName: string
+  lastName: string
+  birthDate: string
+  userType: string
+  numberDocument: string
+  phone: string
+  documentType: string | null
+  documentFront: string | null
+  documentBack: string | null
+  proofOfAddress: string | null
+  incomeTaxProof: string | null
+  mustChangePassword: boolean
+  tokenVersion: number
+  role: string
+  isApproved: boolean
+  complianceStatus: string
+  twoFA: string | null
+  isActive: boolean
+  walletBalance: number
+  totalInvested: number
+  totalValuation: number
+  emailVerified: boolean
+  emailConfirmationCode: string | null
+  emailConfirmationExpires: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+  user: User
+}
 
 interface Venture {
   id: number
@@ -28,6 +71,7 @@ interface Venture {
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  contractInterests: ContractInterest[]
 }
 
 interface MyContractsProps {
@@ -35,13 +79,19 @@ interface MyContractsProps {
 }
 
 export function InterestsTable({ data }: MyContractsProps) {
-  const { textMyContracts } = useLayoutContext()
+  const { texts } = useLayoutAdminContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
+  const [isInterestedModalOpen, setIsInterestedModalOpen] = useState(false)
 
-  const openModal = (row: Venture) => {
+  const openDetailsModal = (row: Venture) => {
     setSelectedContract(row)
     setIsModalOpen(true)
+  }
+
+  const openInterestedModal = (row: Venture) => {
+    setSelectedContract(row)
+    setIsInterestedModalOpen(true)
   }
 
   const closeModal = () => {
@@ -49,53 +99,66 @@ export function InterestsTable({ data }: MyContractsProps) {
     setSelectedContract(null)
   }
 
+  const closeInterestedModal = () => {
+    setIsInterestedModalOpen(false)
+    setSelectedContract(null)
+  }
+
   return (
-    <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
-      <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="text-center">{textMyContracts.status}</h3>
-        <h3 className="col-span-2">{textMyContracts.company}</h3>
-        <h3 className="">{textMyContracts.date}</h3>
-        <h3 className="">{textMyContracts.amountInvested}</h3>
-        <h3 className="">{textMyContracts.amountTransferred}</h3>
-        <h3 className="text-center">{textMyContracts.shares}</h3>
+    <section className="flex flex-col p-4 h-auto justify-around w-full">
+      <div className="grid grid-cols-4 gap-2 w-full uppercase text-sm font-medium items-center">
+        <h3 className="">{texts.company}</h3>
+        <h3 className="text-center">{texts.interests}</h3>
+        <h3 className="text-center col-span-2">{texts.shares}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
-      {data.map((row, index) => (
+      {data.map((row) => (
         <div
-          key={index}
-          className="grid grid-cols-7 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
+          key={row.id}
+          className="grid grid-cols-4 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
         >
-          <div
-            className={`border rounded-full text-center border-primary py-0.5 ${
-              row.status === 'CONFIRMADO'
-                ? 'bg-primary text-zinc-700'
-                : 'bg-transparent'
-            }`}
-          >
-            <p>{row.status}</p>
-          </div>
-          <p className="col-span-2">{row.name}</p>
-          <p className="">
-            {new Date(row.completionDate).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
-          </p>
-          <p className="">U$ {row.fundingAmount}</p>
-          <p className="">U$ {row.transferAmount}</p>
+          <p className="">{row.name}</p>
+          <p className="text-center">{row.contractInterests.length}</p>
           <button
-            className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
-            onClick={() => openModal(row)}
+            className="border rounded-full text-center border-primary text-primary py-1 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
+            onClick={() => openInterestedModal(row)}
+            aria-label={`Ver interessados em ${row.name}`}
           >
-            {textMyContracts.seeMore}
+            {texts.interested}
+          </button>
+          <button
+            className="border rounded-full text-center border-primary text-primary py-1 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
+            onClick={() => openDetailsModal(row)}
+            aria-label={`Ver mais detalhes de ${row.name}`}
+          >
+            {texts.details}
           </button>
         </div>
       ))}
-      {isModalOpen && selectedContract && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      {isInterestedModalOpen && selectedContract && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} data={selectedContract} />
+            <InterestedDetails
+              interests={selectedContract.contractInterests}
+              onClose={closeInterestedModal}
+            />
+          </div>
+        </div>
+      )}
+      {isModalOpen && selectedContract && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+            <DetailVenture onClick={closeModal} data={selectedContract} />
           </div>
         </div>
       )}

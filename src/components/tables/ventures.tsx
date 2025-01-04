@@ -65,7 +65,7 @@ interface MyContractsProps {
 }
 
 export function VenturesTable({ data }: MyContractsProps) {
-  const { textMyContracts } = useLayoutAdminContext()
+  const { texts } = useLayoutAdminContext()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
@@ -83,12 +83,12 @@ export function VenturesTable({ data }: MyContractsProps) {
   return (
     <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
       <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="text-center">{textMyContracts.status}</h3>
-        <h3 className="col-span-2">{textMyContracts.company}</h3>
-        <h3 className="text-center">{textMyContracts.date}</h3>
-        <h3 className="text-center">{textMyContracts.amountInvested}</h3>
-        <h3 className="text-center">{textMyContracts.amountTransferred}</h3>
-        <h3 className="text-center">{textMyContracts.shares}</h3>
+        <h3 className="text-center">{texts.status}</h3>
+        <h3 className="col-span-2">{texts.company}</h3>
+        <h3 className="text-center">{texts.date}</h3>
+        <h3 className="text-center">{texts.amountInvested}</h3>
+        <h3 className="text-center">{texts.amountTransferred}</h3>
+        <h3 className="text-center">{texts.shares}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
       {data.map((row, index) => (
@@ -119,7 +119,7 @@ export function VenturesTable({ data }: MyContractsProps) {
             className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
             onClick={() => openModal(row)}
           >
-            {textMyContracts.seeMore}
+            {texts.seeMore}
           </button>
         </div>
       ))}

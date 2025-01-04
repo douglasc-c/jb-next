@@ -39,7 +39,7 @@ export default async function RootLayout({
     signOut: t('TextLang.signOut'),
   }
 
-  const textUsers = {
+  const texts = {
     name: t('TextLang.name'),
     compliance: t('TextLang.compliance'),
     type: t('TextLang.type'),
@@ -64,10 +64,6 @@ export default async function RootLayout({
     admin: t('TextLang.admin'),
     user: t('TextLang.user'),
     individual: t('TextLang.individual'),
-  }
-
-  const textVenture = {
-    total: t('TextLang.total'),
     addVenture: t('TextLang.addVenture'),
     available: t('TextLang.available'),
     inProgress: t('TextLang.inProgress'),
@@ -86,26 +82,18 @@ export default async function RootLayout({
     address: t('TextLang.address'),
     city: t('TextLang.city'),
     postalCode: t('TextLang.postalCode'),
-    cancel: t('TextLang.cancel'),
-    add: t('TextLang.add'),
     property: t('TextLang.property'),
     other: t('TextLang.other'),
-  }
-
-  const textMyContracts = {
     status: t('TextLang.status'),
     company: t('TextLang.company'),
     date: t('TextLang.date'),
     amountInvested: t('TextLang.amountInvested'),
     amountTransferred: t('TextLang.amountTransferred'),
     shares: t('TextLang.shares'),
-    seeMore: t('TextLang.seeMore'),
-  }
-  const textDetailContract = {
+    interests: t('TextLang.interests'),
     typeOfConstruction: t('TextLang.typeOfConstruction'),
     contributionAmount: t('TextLang.contributionAmount'),
     amountPassed: t('TextLang.amountPassed'),
-    postalCode: t('TextLang.postalCode'),
     valueM2: t('TextLang.valueM2'),
     footage: t('TextLang.footage'),
     floors: t('TextLang.floors'),
@@ -113,21 +101,18 @@ export default async function RootLayout({
     provisionalCompletion: t('TextLang.provisionalCompletion'),
     constructionStatus: t('TextLang.constructionStatus'),
     stage: t('TextLang.stage'),
-    city: t('TextLang.city'),
-    status: t('TextLang.status'),
     topography: t('TextLang.topography'),
     masonry: t('TextLang.masonry'),
     inspections: t('TextLang.inspections'),
     thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
     roofInsulation: t('TextLang.roofInsulation'),
     doors: t('TextLang.doors'),
+    details: t('TextLang.details'),
+    interested: t('TextLang.interested'),
   }
 
   const layoutValue: LayoutAdminContextProps = {
-    textUsers,
-    textVenture,
-    textMyContracts,
-    textDetailContract,
+    texts,
     locale,
   }
 
