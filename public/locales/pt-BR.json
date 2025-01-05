@@ -122,7 +122,8 @@
       "property": "Propriedade",
       "other": "Outro",
       "details": "Detalhes",
-      "interested": "Interessados"
+      "interested": "Interessados",
+      "interestDate": "Data de interesse"
   }
 }
 

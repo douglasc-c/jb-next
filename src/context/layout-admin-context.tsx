@@ -73,6 +73,7 @@ export interface LayoutAdminContextProps {
     doors: string
     details: string
     interested: string
+    interestDate: string
   }
 
   locale: string

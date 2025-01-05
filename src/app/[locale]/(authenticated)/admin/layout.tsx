@@ -109,6 +109,7 @@ export default async function RootLayout({
     doors: t('TextLang.doors'),
     details: t('TextLang.details'),
     interested: t('TextLang.interested'),
+    interestDate: t('TextLang.interestDate'),
   }
 
   const layoutValue: LayoutAdminContextProps = {
