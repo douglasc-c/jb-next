@@ -3,7 +3,7 @@
 import { useLayoutContext } from '@/context/layout-context'
 import { OpportunitiesPreview } from './opportunities-preview'
 import { SmallOpportunitiesPreview } from './small-opportunities-preview'
-import { DetailContract } from '../modals/detail-contract'
+import { DetailContract } from '../modals/contract-datails'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import { DetailVenture } from '../modals/detail-venture'
+import { DetailVenture } from '../modals/venture-datails'
 import { InterestedDetails } from '../modals/interested'
 import api from '@/lib/api'
 

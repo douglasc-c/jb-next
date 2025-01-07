@@ -3,7 +3,7 @@
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
 import { useState } from 'react'
-import { DetailVenture } from '../modals/detail-venture'
+import { DetailVenture } from '../modals/venture-datails'
 
 interface CurrentPhase {
   id: number

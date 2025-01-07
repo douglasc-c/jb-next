@@ -9,11 +9,21 @@ import AddUserModal from '@/components/modals/add-user'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
 interface User {
-  id: string
   firstName: string
   lastName: string
-  role: string
   complianceStatus: string
+  email: string
+  phone: string
+  role: string
+  birthDate: string
+  createdAt: string
+  totalInvested: number
+  totalValuation: number
+  username: string
+  walletBalance: number
+  numberDocument: string
+  id: string
+  userType: string
 }
 
 interface FormData {

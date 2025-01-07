@@ -57,9 +57,9 @@ export default function SignIn() {
           )
 
           if (data.user.role === 'ADMIN') {
-            router.push(`${locale}/admin/dashboard`)
+            router.push(`/admin/dashboard`)
           } else {
-            router.push(`${locale}/dashboard`)
+            router.push(`/dashboard`)
           }
         } else {
           setError('Token não encontrado na resposta')
