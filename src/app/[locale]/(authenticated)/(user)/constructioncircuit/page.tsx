@@ -31,7 +31,7 @@ export default function ConstructionCircuit() {
 
   if (loading) {
     return (
-      <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
+      <div className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 pr-36">
         <span>Carregando...</span>
       </div>
     )
@@ -46,7 +46,7 @@ export default function ConstructionCircuit() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col p-6 pr-36">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 pr-36">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
         <h1 className="uppercase font-medium">
           {textConstructionCircuit.constructionCircuit}

@@ -1,5 +1,6 @@
 'use client'
 
+import { Loading } from '@/components/loading/loading'
 import { InterestsTable } from '@/components/tables/interests'
 import api from '@/lib/api'
 import { useEffect, useState } from 'react'
@@ -97,7 +98,11 @@ export default function Interests() {
   }, [])
 
   if (loading) {
-    return <div className="text-white">Carregando...</div>
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
+      </div>
+    )
   }
 
   if (error) {
@@ -105,7 +110,7 @@ export default function Interests() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
         <InterestsTable data={ventures} />
       </section>

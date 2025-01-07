@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import AddVentureModal from '@/components/modals/add-venture'
 import { VenturesTable } from '@/components/tables/ventures'
+import { Loading } from '@/components/loading/loading'
 
 interface CurrentPhase {
   id: number
@@ -199,11 +200,15 @@ export default function Ventures() {
   }, [])
 
   if (loading) {
-    return <div className="text-white">Carregando...</div>
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
+      </div>
+    )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
         <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
           <Image
