@@ -5,7 +5,33 @@ import { useState } from 'react'
 import { DetailContract } from '../modals/contract-datails'
 import api from '@/lib/api'
 
-interface Enterprise {
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface Venture {
   id: number
   name: string
   corporateName: string
@@ -29,10 +55,13 @@ interface Enterprise {
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
 }
 
 interface ContractProps {
-  data: Enterprise
+  data: Venture
 }
 
 export function Contract({ data }: ContractProps) {
