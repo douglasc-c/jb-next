@@ -57,7 +57,7 @@ export default function SignIn() {
           )
 
           if (data.user.role === 'ADMIN') {
-            router.push(`/admin/dashboard`)
+            router.push(`/admin/users`)
           } else {
             router.push(`/dashboard`)
           }

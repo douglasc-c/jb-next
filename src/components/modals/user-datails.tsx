@@ -1,5 +1,10 @@
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import api from '@/lib/api'
 import React, { useState } from 'react'
+import { UserTab } from '../tabs/user'
+import { AddressTab } from '../tabs/address'
+import { FinancialTab } from '../tabs/financial'
+import { usePathname } from 'next/navigation'
 
 interface UserData {
   firstName: string
@@ -40,6 +45,11 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { texts } = useLayoutAdminContext()
+  const pathname = usePathname()
+  const parts = pathname.split('/')
+  const route = parts.slice(3).join('/')
+
   const [activeTab, setActiveTab] = useState<'user' | 'address' | 'financial'>(
     'user',
   )
@@ -99,13 +109,15 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
           editableData.address,
         )
       } else if (activeTab === 'financial') {
-        response = await api.put(`/admin/updatebalance/${editableData.id}`, {
-          amount: editableData.walletBalance,
+        const walletBalance = Number(editableData.walletBalance)
+
+        response = await api.put(`/admin/update/balance/${editableData.id}`, {
+          amount: walletBalance,
           description: 'Saldo adicionado à carteira',
         })
       }
 
-      if (response?.status === 200 || response?.status === 204) {
+      if (response?.status === 200 || response?.status === 201) {
         console.log('Update successful', response.data)
       } else {
         console.error('Failed to update data', response)
@@ -115,11 +127,28 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     }
   }
 
-  console.log(user)
+  const handleCancel = () => {
+    setEditableData({
+      ...user,
+      address: {
+        street: '',
+        number: '',
+        complement: '',
+        neighborhood: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: '',
+        ...user.address,
+      },
+    })
+    setIsEditing(false)
+  }
+
   return (
     <div className="flex flex-col p-8 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h3 className="text-xl font-medium">User Details</h3>
+        <h3 className="text-2xl">{texts.userDetails}</h3>
         <button onClick={onClose} className="text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -143,176 +172,63 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
           className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
           onClick={() => setActiveTab('user')}
         >
-          User Details
+          {texts.userData}
         </button>
         <button
           className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
           onClick={() => setActiveTab('address')}
         >
-          Address Details
+          {texts.userAddress}
         </button>
         <button
           className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
           onClick={() => setActiveTab('financial')}
         >
-          Financial Details
+          {texts.userFinancial}
         </button>
       </div>
 
-      <div className="mt-4">
+      <div className="">
         {activeTab === 'user' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-            {[
-              {
-                label: 'First Name',
-                field: 'firstName',
-                value: editableData.firstName,
-              },
-              {
-                label: 'Last Name',
-                field: 'lastName',
-                value: editableData.lastName,
-              },
-              { label: 'Email', field: 'email', value: editableData.email },
-              { label: 'Phone', field: 'phone', value: editableData.phone },
-              {
-                label: 'Birthdate',
-                field: 'birthDate',
-                value: editableData.birthDate,
-              },
-              {
-                label: 'Document Number',
-                field: 'numberDocument',
-                value: editableData.numberDocument,
-              },
-              {
-                label: 'User type',
-                field: 'userType',
-                value: editableData.userType,
-              },
-              {
-                label: 'Role',
-                field: 'Role',
-                value: editableData.role,
-              },
-            ].map(({ label, field, value }) => (
-              <div key={field}>
-                <strong>{label}:</strong>
-                {isEditing ? (
-                  <input
-                    className="border border-gray-500 rounded-md px-4 py-2 w-full bg-zinc-700 text-xs text-zinc-400"
-                    value={value}
-                    onChange={(e) => handleInputChange(field, e.target.value)}
-                  />
-                ) : (
-                  <p className="border border-gray-500 rounded-md px-4 py-2 bg-zinc-700 font-light text-xs text-zinc-400">
-                    {value}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+          <UserTab
+            isEditing={isEditing}
+            editableData={editableData}
+            handleInputChange={handleInputChange}
+          />
         )}
-
         {activeTab === 'address' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-            {[
-              {
-                label: 'Street',
-                field: 'street',
-                value: editableData.address?.street,
-              },
-              {
-                label: 'Number',
-                field: 'number',
-                value: editableData.address?.number,
-              },
-              {
-                label: 'Complement',
-                field: 'complement',
-                value: editableData.address?.complement,
-              },
-              {
-                label: 'Neighborhood',
-                field: 'neighborhood',
-                value: editableData.address?.neighborhood,
-              },
-              {
-                label: 'City',
-                field: 'city',
-                value: editableData.address?.city,
-              },
-              {
-                label: 'State',
-                field: 'state',
-                value: editableData.address?.state,
-              },
-              {
-                label: 'Postal Code',
-                field: 'postalCode',
-                value: editableData.address?.postalCode,
-              },
-              {
-                label: 'Country',
-                field: 'country',
-                value: editableData.address?.country,
-              },
-            ].map(({ label, field, value }) => (
-              <div key={field}>
-                <strong>{label}:</strong>
-                {isEditing ? (
-                  <input
-                    className="border border-gray-500 rounded-md px-4 py-2 w-full bg-zinc-700 text-xs text-zinc-400"
-                    value={value}
-                    onChange={(e) =>
-                      handleInputChange(field, e.target.value, true)
-                    }
-                  />
-                ) : (
-                  <p className="border border-gray-500 rounded-md px-4 py-2 bg-zinc-700 font-light text-xs text-zinc-400">
-                    {value}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+          <AddressTab
+            isEditing={isEditing}
+            editableData={editableData}
+            handleInputChange={handleInputChange}
+          />
         )}
-
         {activeTab === 'financial' && (
-          <div className="grid grid-cols-1 gap-4 text-left">
-            {[
-              {
-                label: 'Wallet Balance',
-                field: 'walletBalance',
-                value: editableData.walletBalance,
-              },
-            ].map(({ label, field, value }) => (
-              <div key={field}>
-                <strong>{label}:</strong>
-                {isEditing ? (
-                  <input
-                    className="border border-gray-500 rounded-md px-4 py-2 w-full bg-zinc-700 text-xs text-zinc-400"
-                    value={value}
-                    onChange={(e) => handleInputChange(field, e.target.value)}
-                  />
-                ) : (
-                  <p className="border border-gray-500 rounded-md px-4 py-2 bg-zinc-700 font-light text-xs text-zinc-400">
-                    {value}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+          <FinancialTab
+            isEditing={isEditing}
+            editableData={editableData}
+            handleInputChange={handleInputChange}
+          />
         )}
       </div>
 
-      <div className="flex justify-end mt-4">
-        <button
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md"
-        >
-          {isEditing ? 'Save' : 'Edit'}
-        </button>
+      <div className="flex justify-end mt-4 space-x-4">
+        {isEditing && (
+          <button
+            onClick={handleCancel}
+            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+          >
+            {texts.cancel}
+          </button>
+        )}
+        {route !== 'interests' && (
+          <button
+            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+            className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
+          >
+            {isEditing ? texts.save : texts.edit}
+          </button>
+        )}
       </div>
     </div>
   )

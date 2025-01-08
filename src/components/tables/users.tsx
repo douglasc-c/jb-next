@@ -33,6 +33,8 @@ export function UsersTable({ data }: MyContractsProps) {
 
   const getComplianceText = (status: string) => {
     switch (status) {
+      case 'PENDING_EMAIL':
+        return texts.pendingEmail
       case 'PENDING_ADDRESS':
         return texts.pendingAddress
       case 'PENDING_DOCUMENTS':

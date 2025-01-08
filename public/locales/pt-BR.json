@@ -123,7 +123,22 @@
       "other": "Outro",
       "details": "Detalhes",
       "interested": "Interessados",
-      "interestDate": "Data de interesse"
+      "interestDate": "Data de interesse",
+      "userDetails": "Detalhes do usuário",
+      "userData": "Dados do usuário",
+      "userAddress": "Endereço do usuário",
+      "userFinancial": "Detalhes financeiro",
+      "firstName": "Primeiro nome",
+      "phone": "Telefone",
+      "street": "Rua",
+      "number": "Número",
+      "complement": "Complemento",
+      "neighborhood": "Bairro",
+      "state": "Estado",
+      "balance": "Saldo",
+      "edit": "Editar",
+      "save": "Salvar",
+      "pendingEmail": "Email pendente"
   }
 }
 

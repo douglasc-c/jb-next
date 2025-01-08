@@ -8,6 +8,7 @@ export interface LayoutAdminContextProps {
     compliance: string
     type: string
     seeMore: string
+    pendingEmail: string
     pendingAddress: string
     pendingDocuments: string
     validated: string
@@ -74,6 +75,23 @@ export interface LayoutAdminContextProps {
     details: string
     interested: string
     interestDate: string
+    userDetails: string
+    userData: string
+    userAddress: string
+    userFinancial: string
+    firstName: string
+    phone: string
+    dateOfBith: string
+    documentNumber: string
+    street: string
+    number: string
+    complement: string
+    neighborhood: string
+    state: string
+    country: string
+    balance: string
+    edit: string
+    save: string
   }
 
   locale: string

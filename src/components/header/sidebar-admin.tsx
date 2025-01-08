@@ -28,13 +28,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
       </div>
       <nav className="space-y-2 flex-grow">
-        <ButtonMenu
+        {/* <ButtonMenu
           params={{
             title: text.dashboard,
             path: `/${locale}/admin/dashboard`,
             icon: 'home',
           }}
-        />
+        /> */}
         <ButtonMenu
           params={{
             title: text.users,

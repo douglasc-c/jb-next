@@ -6,36 +6,31 @@ import api from '@/lib/api'
 import { useEffect, useState } from 'react'
 
 interface User {
-  id: number
-  email: string
-  username: string
-  password: string
   firstName: string
   lastName: string
-  birthDate: string
-  userType: string
-  numberDocument: string
-  phone: string
-  documentType: string | null
-  documentFront: string | null
-  documentBack: string | null
-  proofOfAddress: string | null
-  incomeTaxProof: string | null
-  mustChangePassword: boolean
-  tokenVersion: number
-  role: string
-  isApproved: boolean
   complianceStatus: string
-  twoFA: string | null
-  isActive: boolean
-  walletBalance: number
+  email: string
+  phone: string
+  role: string
+  birthDate: string
+  createdAt: string
   totalInvested: number
   totalValuation: number
-  emailVerified: boolean
-  emailConfirmationCode: string | null
-  emailConfirmationExpires: string | null
-  createdAt: string
-  updatedAt: string
+  username: string
+  walletBalance: number
+  numberDocument: string
+  id: string
+  userType: string
+  address?: {
+    street?: string
+    number?: string
+    complement?: string
+    neighborhood?: string
+    city?: string
+    state?: string
+    postalCode?: string
+    country?: string
+  }
 }
 
 interface ContractInterest {
