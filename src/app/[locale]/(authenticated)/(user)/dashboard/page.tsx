@@ -67,7 +67,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36">
+      <div className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 pr-36">
         <span>Carregando...</span>
       </div>
     )
@@ -82,7 +82,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 pr-36 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 pr-36 space-y-4">
       <section className="flex w-full space-x-6">
         <div className="flex flex-col w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />

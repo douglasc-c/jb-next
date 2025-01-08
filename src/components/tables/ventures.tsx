@@ -3,7 +3,7 @@
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
 import { useState } from 'react'
-import { DetailVenture } from '../modals/detail-venture'
+import { DetailVenture } from '../modals/venture-datails'
 
 interface CurrentPhase {
   id: number
@@ -82,8 +82,8 @@ export function VenturesTable({ data }: MyContractsProps) {
 
   return (
     <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
-      <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="text-center">{texts.status}</h3>
+      <div className="grid grid-cols-6 gap-2 w-full uppercase text-sm font-medium items-center">
+        {/* <h3 className="text-center">{texts.status}</h3> */}
         <h3 className="col-span-2">{texts.company}</h3>
         <h3 className="text-center">{texts.date}</h3>
         <h3 className="text-center">{texts.amountInvested}</h3>
@@ -94,9 +94,9 @@ export function VenturesTable({ data }: MyContractsProps) {
       {data.map((row, index) => (
         <div
           key={index}
-          className="grid grid-cols-7 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
+          className="grid grid-cols-6 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
         >
-          <div
+          {/* <div
             className={`border rounded-full text-center border-primary py-0.5 ${
               row.status === 'CONFIRMADO'
                 ? 'bg-primary text-zinc-700'
@@ -104,7 +104,7 @@ export function VenturesTable({ data }: MyContractsProps) {
             }`}
           >
             <p>{row.status}</p>
-          </div>
+          </div> */}
           <p className="col-span-2">{row.name}</p>
           <p className="text-center">
             {new Date(row.completionDate).toLocaleDateString('pt-BR', {

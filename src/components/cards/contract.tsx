@@ -2,7 +2,7 @@
 
 import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
-import { DetailContract } from '../modals/detail-contract'
+import { DetailContract } from '../modals/contract-datails'
 import api from '@/lib/api'
 
 interface Enterprise {

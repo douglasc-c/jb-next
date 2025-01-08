@@ -1,40 +1,36 @@
 'use client'
 
+import { Loading } from '@/components/loading/loading'
 import { InterestsTable } from '@/components/tables/interests'
 import api from '@/lib/api'
 import { useEffect, useState } from 'react'
 
 interface User {
-  id: number
-  email: string
-  username: string
-  password: string
   firstName: string
   lastName: string
-  birthDate: string
-  userType: string
-  numberDocument: string
-  phone: string
-  documentType: string | null
-  documentFront: string | null
-  documentBack: string | null
-  proofOfAddress: string | null
-  incomeTaxProof: string | null
-  mustChangePassword: boolean
-  tokenVersion: number
-  role: string
-  isApproved: boolean
   complianceStatus: string
-  twoFA: string | null
-  isActive: boolean
-  walletBalance: number
+  email: string
+  phone: string
+  role: string
+  birthDate: string
+  createdAt: string
   totalInvested: number
   totalValuation: number
-  emailVerified: boolean
-  emailConfirmationCode: string | null
-  emailConfirmationExpires: string | null
-  createdAt: string
-  updatedAt: string
+  username: string
+  walletBalance: number
+  numberDocument: string
+  id: string
+  userType: string
+  address?: {
+    street?: string
+    number?: string
+    complement?: string
+    neighborhood?: string
+    city?: string
+    state?: string
+    postalCode?: string
+    country?: string
+  }
 }
 
 interface ContractInterest {
@@ -97,7 +93,11 @@ export default function Interests() {
   }, [])
 
   if (loading) {
-    return <div className="text-white">Carregando...</div>
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
+      </div>
+    )
   }
 
   if (error) {
@@ -105,7 +105,7 @@ export default function Interests() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
         <InterestsTable data={ventures} />
       </section>

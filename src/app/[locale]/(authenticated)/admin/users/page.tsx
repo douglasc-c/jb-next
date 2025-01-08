@@ -7,13 +7,24 @@ import ButtonGlobal from '@/components/buttons/global'
 import Image from 'next/image'
 import AddUserModal from '@/components/modals/add-user'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { Loading } from '@/components/loading/loading'
 
 interface User {
-  id: string
   firstName: string
   lastName: string
-  role: string
   complianceStatus: string
+  email: string
+  phone: string
+  role: string
+  birthDate: string
+  createdAt: string
+  totalInvested: number
+  totalValuation: number
+  username: string
+  walletBalance: number
+  numberDocument: string
+  id: string
+  userType: string
 }
 
 interface FormData {
@@ -116,11 +127,15 @@ export default function Users() {
   }, [])
 
   if (loading) {
-    return <div className="text-white">Carregando...</div>
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
+      </div>
+    )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(90vh)] flex flex-col items-start p-6 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
         <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image

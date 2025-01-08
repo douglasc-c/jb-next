@@ -40,71 +40,71 @@ const AddUserModal: FC<AddUserModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
-        <h2 className="text-white text-2xl mb-4">{texts.addUser}</h2>
+        <h2 className="text-zinc-200 text-2xl mb-4">{texts.addUser}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="text-white block">{texts.email}</label>
+              <label className="text-zinc-300 block">{texts.email}</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               />
             </div>
             <div>
-              <label className="text-white block">{texts.password}</label>
+              <label className="text-zinc-300 block">{texts.password}</label>
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               />
             </div>
             <div>
-              <label className="text-white block">{texts.username}</label>
+              <label className="text-zinc-300 block">{texts.username}</label>
               <input
                 type="text"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               />
             </div>
             <div>
-              <label className="text-white block">{texts.name}</label>
+              <label className="text-zinc-300 block">{texts.name}</label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               />
             </div>
             <div>
-              <label className="text-white block">{texts.lastName}</label>
+              <label className="text-zinc-300 block">{texts.lastName}</label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               />
             </div>
             <div>
-              <label className="text-white block">{texts.userType}</label>
+              <label className="text-zinc-300 block">{texts.userType}</label>
               <select
                 name="userType"
                 value={formData.userType}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               >
                 <option value="INDIVIDUAL">Individual</option>
@@ -112,12 +112,12 @@ const AddUserModal: FC<AddUserModalProps> = ({
               </select>
             </div>
             <div>
-              <label className="text-white block">{texts.role}</label>
+              <label className="text-zinc-300 block">{texts.role}</label>
               <select
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
                 required
               >
                 <option value="ADMIN">{texts.admin}</option>
@@ -129,7 +129,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
               <button
                 type="button"
                 onClick={closeModal}
-                className="bg-zinc-600 text-white py-2 px-4 rounded-lg"
+                className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
               >
                 {texts.cancel}
               </button>
