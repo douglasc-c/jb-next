@@ -82,10 +82,10 @@ export function VenturesTable({ data }: MyContractsProps) {
 
   return (
     <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
-      <div className="grid grid-cols-6 gap-2 w-full uppercase text-sm font-medium items-center">
+      <div className="grid grid-cols-5 gap-2 w-full uppercase text-sm font-medium items-center">
         {/* <h3 className="text-center">{texts.status}</h3> */}
-        <h3 className="col-span-2">{texts.company}</h3>
-        <h3 className="text-center">{texts.date}</h3>
+        <h3 className="">{texts.venture}</h3>
+        <h3 className="text-center">{texts.completionDate}</h3>
         <h3 className="text-center">{texts.amountInvested}</h3>
         <h3 className="text-center">{texts.amountTransferred}</h3>
         <h3 className="text-center">{texts.shares}</h3>
@@ -94,7 +94,7 @@ export function VenturesTable({ data }: MyContractsProps) {
       {data.map((row, index) => (
         <div
           key={index}
-          className="grid grid-cols-6 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
+          className="grid grid-cols-5 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
         >
           {/* <div
             className={`border rounded-full text-center border-primary py-0.5 ${
@@ -105,7 +105,7 @@ export function VenturesTable({ data }: MyContractsProps) {
           >
             <p>{row.status}</p>
           </div> */}
-          <p className="col-span-2">{row.name}</p>
+          <p className="">{row.name}</p>
           <p className="text-center">
             {new Date(row.completionDate).toLocaleDateString('pt-BR', {
               day: '2-digit',

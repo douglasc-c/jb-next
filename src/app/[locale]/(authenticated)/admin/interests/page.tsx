@@ -2,7 +2,9 @@
 
 import { Loading } from '@/components/loading/loading'
 import { InterestsTable } from '@/components/tables/interests'
+import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import api from '@/lib/api'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 interface User {
@@ -70,9 +72,9 @@ interface Venture {
 }
 
 export default function Interests() {
+  const { texts } = useLayoutAdminContext()
   const [loading, setLoading] = useState(true)
   const [ventures, setVentures] = useState<Venture[]>([])
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchVentures = async () => {
@@ -83,7 +85,6 @@ export default function Interests() {
         setVentures(fetchedVentures)
       } catch (err) {
         console.error('Erro ao buscar empreendimentos:', err)
-        setError('Erro ao buscar empreendimentos')
       } finally {
         setLoading(false)
       }
@@ -100,14 +101,27 @@ export default function Interests() {
     )
   }
 
-  if (error) {
-    return <div className="text-red-500">{error}</div>
-  }
-
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
-        <InterestsTable data={ventures} />
+        {ventures.length > 0 ? (
+          <InterestsTable data={ventures} />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-center py-8 space-y-4">
+            <Image
+              src="/images/svg/warning-grey.svg"
+              width={100}
+              height={100}
+              alt="warning"
+            />
+            <p className="text-zinc-100 text-lg font-medium">
+              {texts.noInterestedPartiesFound}
+            </p>
+            <p className="text-zinc-400 text-sm">
+              {texts.thereAreStillNoInterestedPartiesForTheRegisteredProjects}
+            </p>
+          </div>
+        )}
       </section>
     </main>
   )

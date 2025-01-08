@@ -1,5 +1,31 @@
 import { useLayoutContext } from '@/context/layout-context'
 
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -24,6 +50,9 @@ interface Venture {
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
 }
 
 interface ContractProps {
@@ -45,6 +74,10 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
   }
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
+
+  const hasApprovedContract = data.contractInterests.some(
+    (interest) => interest.status === 'APPROVED',
+  )
 
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
@@ -137,25 +170,29 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
           </button>
         </div>
       </section>
-      <section className="flex flex-col gap-4 w-full">
-        <div className="flex justify-between">
-          <h2 className="font-medium text-sm uppercase">
-            {textDetailContract.constructionStatus}
-          </h2>
-          <p className="font-light text-sm uppercase">{data.progress}%</p>
-        </div>
-        <div className="w-full h-2 bg-zinc-900 relative rounded">
-          <div
-            className="h-2 bg-gray-400 rounded"
-            style={{ width: `${data.progress}%` }}
-          />
-        </div>
-        <div className="flex justify-end">
-          <p className="font-light text-sm uppercase">
-            {textDetailContract.stage} {data.currentTaskId} - {stageDescription}
-          </p>
-        </div>
-      </section>
+
+      {hasApprovedContract && (
+        <section className="flex flex-col gap-4 w-full">
+          <div className="flex justify-between">
+            <h2 className="font-medium text-sm uppercase">
+              {textDetailContract.constructionStatus}
+            </h2>
+            <p className="font-light text-sm uppercase">{data.progress}%</p>
+          </div>
+          <div className="w-full h-2 bg-zinc-900 relative rounded">
+            <div
+              className="h-2 bg-gray-400 rounded"
+              style={{ width: `${data.progress}%` }}
+            />
+          </div>
+          <div className="flex justify-end">
+            <p className="font-light text-sm uppercase">
+              {textDetailContract.stage} {data.currentTaskId} -{' '}
+              {stageDescription}
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

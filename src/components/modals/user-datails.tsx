@@ -93,7 +93,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       let response
 
       if (activeTab === 'user') {
-        response = await api.put(`/admin/users/${editableData.id}`, {
+        response = await api.put(`/admin/update/user`, {
           firstName: editableData.firstName,
           lastName: editableData.lastName,
           email: editableData.email,
@@ -174,12 +174,14 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         >
           {texts.userData}
         </button>
-        <button
-          className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('address')}
-        >
-          {texts.userAddress}
-        </button>
+        {route !== 'interests' && (
+          <button
+            className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('address')}
+          >
+            {texts.userAddress}
+          </button>
+        )}
         <button
           className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
           onClick={() => setActiveTab('financial')}
@@ -196,13 +198,14 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             handleInputChange={handleInputChange}
           />
         )}
-        {activeTab === 'address' && (
+        {route !== 'interests' && activeTab === 'address' && (
           <AddressTab
             isEditing={isEditing}
             editableData={editableData}
             handleInputChange={handleInputChange}
           />
         )}
+
         {activeTab === 'financial' && (
           <FinancialTab
             isEditing={isEditing}

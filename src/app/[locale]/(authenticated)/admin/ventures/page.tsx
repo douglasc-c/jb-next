@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import AddVentureModal from '@/components/modals/add-venture'
 import { VenturesTable } from '@/components/tables/ventures'
@@ -82,11 +82,11 @@ interface FormData {
   completionDate: string
 }
 
-interface Totals {
-  total: number
-  available: number
-  inProgress: number
-}
+// interface Totals {
+//   total: number
+//   available: number
+//   inProgress: number
+// }
 
 export default function Ventures() {
   const { texts } = useLayoutAdminContext()
@@ -95,11 +95,11 @@ export default function Ventures() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    available: 0,
-    inProgress: 0,
-  })
+  // const [totals, setTotals] = useState<Totals>({
+  //   total: 0,
+  //   available: 0,
+  //   inProgress: 0,
+  // })
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -177,18 +177,32 @@ export default function Ventures() {
       try {
         const response = await api.get('/admin/get-enterprise')
         const fetchedVentures: Venture[] = response.data.enterprises
-        const computedTotals = fetchedVentures.reduce<Totals>(
-          (acc, venture) => {
-            acc.total += 1
-            if (venture.isAvailable) acc.available += 1
-            if (venture.progress > 0) acc.inProgress += 1
-            return acc
-          },
-          { total: 0, available: 0, inProgress: 0 },
+
+        // const computedTotals = fetchedVentures.reduce<Totals>(
+        //   (acc, venture) => {
+        //     acc.total += 1
+        //     if (venture.isAvailable) acc.available += 1
+
+        //     const approvedContracts = venture.contractInterests.filter(
+        //       (interest) => interest.status === 'APPROVED',
+        //     ).length
+
+        //     acc.inProgress += approvedContracts > 0 ? 1 : 0
+        //     return acc
+        //   },
+        //   { total: 0, available: 0, inProgress: 0 },
+        // )
+
+        setVentures(
+          fetchedVentures.map((venture) => ({
+            ...venture,
+            progress: venture.contractInterests.filter(
+              (interest) => interest.status === 'APPROVED',
+            ).length,
+          })),
         )
 
-        setVentures(fetchedVentures)
-        setTotals(computedTotals)
+        // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar empreendimentos:', err)
       } finally {
@@ -210,7 +224,7 @@ export default function Ventures() {
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
+        {/* <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
           <Image
             src="/images/svg/totalVentures.svg"
             width={25}
@@ -242,7 +256,7 @@ export default function Ventures() {
           <p>
             {texts.inProgress}: {totals.inProgress}
           </p>
-        </div>
+        </div> */}
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"

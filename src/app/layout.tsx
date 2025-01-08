@@ -43,7 +43,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="text-white">
+      <body className="bg-zinc-800 text-white">
         <AuthProvider value={layoutValue}>{children}</AuthProvider>
       </body>
     </html>

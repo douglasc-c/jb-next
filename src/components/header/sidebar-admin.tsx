@@ -43,13 +43,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
           }}
         />
 
-        <ButtonMenu
+        {/* <ButtonMenu
           params={{
             title: text.compliance,
             path: `/${locale}/admin/compliance`,
             icon: 'cash',
           }}
-        />
+        /> */}
         <ButtonMenu
           params={{
             title: text.interests,
@@ -64,13 +64,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             icon: 'shock',
           }}
         />
-        <ButtonMenu
+        {/* <ButtonMenu
           params={{
             title: text.stages,
             path: `/${locale}/admin/stages`,
             icon: 'clock',
           }}
-        />
+        /> */}
         <ButtonMenu
           params={{
             title: text.support,

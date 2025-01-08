@@ -76,6 +76,10 @@ export function DetailVenture({ data, onClick }: ContractProps) {
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
+  const hasApprovedContract = data.contractInterests.some(
+    (interest) => interest.status === 'APPROVED',
+  )
+
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -162,25 +166,28 @@ export function DetailVenture({ data, onClick }: ContractProps) {
           </button>
         </div>
       </section>
-      <section className="flex flex-col gap-4 w-full">
-        <div className="flex justify-between">
-          <h2 className="font-medium text-sm uppercase">
-            {texts.constructionStatus}
-          </h2>
-          <p className="font-light text-sm uppercase">{data.progress}%</p>
-        </div>
-        <div className="w-full h-2 bg-zinc-900 relative rounded">
-          <div
-            className="h-2 bg-gray-400 rounded"
-            style={{ width: `${data.progress}%` }}
-          />
-        </div>
-        <div className="flex justify-end">
-          <p className="font-light text-sm uppercase">
-            {texts.stage} {data.currentTaskId} - {stageDescription}
-          </p>
-        </div>
-      </section>
+
+      {hasApprovedContract && (
+        <section className="flex flex-col gap-4 w-full">
+          <div className="flex justify-between">
+            <h2 className="font-medium text-sm uppercase">
+              {texts.constructionStatus}
+            </h2>
+            <p className="font-light text-sm uppercase">{data.progress}%</p>
+          </div>
+          <div className="w-full h-2 bg-zinc-900 relative rounded">
+            <div
+              className="h-2 bg-gray-400 rounded"
+              style={{ width: `${data.progress}%` }}
+            />
+          </div>
+          <div className="flex justify-end">
+            <p className="font-light text-sm uppercase">
+              {texts.stage} {data.currentTaskId} - {stageDescription}
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

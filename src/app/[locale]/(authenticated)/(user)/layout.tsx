@@ -168,7 +168,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-neutral-950 text-white flex">
+      <body className="bg-zinc-800 text-white flex">
         <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
           <Header text={textHeader} />

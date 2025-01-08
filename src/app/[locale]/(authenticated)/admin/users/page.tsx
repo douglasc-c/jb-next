@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { UsersTable } from '@/components/tables/users'
 import ButtonGlobal from '@/components/buttons/global'
-import Image from 'next/image'
+// import Image from 'next/image'
 import AddUserModal from '@/components/modals/add-user'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { Loading } from '@/components/loading/loading'
@@ -37,11 +37,11 @@ interface FormData {
   role: 'ADMIN' | 'USER'
 }
 
-interface Totals {
-  total: number
-  totalUsers: number
-  totalAdmins: number
-}
+// interface Totals {
+//   total: number
+//   totalUsers: number
+//   totalAdmins: number
+// }
 
 export default function Users() {
   const { texts } = useLayoutAdminContext()
@@ -50,11 +50,11 @@ export default function Users() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    totalUsers: 0,
-    totalAdmins: 0,
-  })
+  // const [totals, setTotals] = useState<Totals>({
+  //   total: 0,
+  //   totalUsers: 0,
+  //   totalAdmins: 0,
+  // })
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -104,18 +104,18 @@ export default function Users() {
         const response = await api.get('/admin/get-all-users')
         const fetchedUsers: User[] = response.data.users
 
-        const computedTotals = fetchedUsers.reduce<Totals>(
-          (acc, user) => {
-            acc.total += 1
-            if (user.role === 'USER') acc.totalUsers += 1
-            if (user.role === 'ADMIN') acc.totalAdmins += 1
-            return acc
-          },
-          { total: 0, totalUsers: 0, totalAdmins: 0 },
-        )
+        // const computedTotals = fetchedUsers.reduce<Totals>(
+        //   (acc, user) => {
+        //     acc.total += 1
+        //     if (user.role === 'USER') acc.totalUsers += 1
+        //     if (user.role === 'ADMIN') acc.totalAdmins += 1
+        //     return acc
+        //   },
+        //   { total: 0, totalUsers: 0, totalAdmins: 0 },
+        // )
 
         setUsers(fetchedUsers)
-        setTotals(computedTotals)
+        // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar usuários:', err)
       } finally {
@@ -137,7 +137,7 @@ export default function Users() {
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        {/* <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -169,7 +169,7 @@ export default function Users() {
           <p>
             {texts.admins}: {totals.totalAdmins}
           </p>
-        </div>
+        </div> */}
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
