@@ -8,6 +8,7 @@ import ButtonGlobal from '@/components/buttons/global'
 import AddUserModal from '@/components/modals/add-user'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { Loading } from '@/components/loading/loading'
+import Search from '@/components/searchs/search'
 
 interface User {
   firstName: string
@@ -49,6 +50,8 @@ export default function Users() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
 
   // const [totals, setTotals] = useState<Totals>({
   //   total: 0,
@@ -65,6 +68,20 @@ export default function Users() {
     userType: 'INDIVIDUAL',
     role: 'USER',
   })
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    const results = users.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.toLowerCase().includes(query.toLowerCase()) ||
+        user.complianceStatus.toLowerCase().includes(query.toLowerCase()) ||
+        user.userType.toLowerCase().includes(query.toLowerCase()) ||
+        user.role.toLowerCase().includes(query.toLowerCase()),
+    )
+    setFilteredUsers(results)
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -115,6 +132,7 @@ export default function Users() {
         // )
 
         setUsers(fetchedUsers)
+        setFilteredUsers(fetchedUsers)
         // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar usuários:', err)
@@ -170,6 +188,13 @@ export default function Users() {
             {texts.admins}: {totals.totalAdmins}
           </p>
         </div> */}
+        <div className="col-span-3">
+          <Search
+            placeholder="Search users..."
+            searchQuery={searchQuery}
+            onSearch={handleSearch}
+          />
+        </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
@@ -182,7 +207,7 @@ export default function Users() {
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
-        <UsersTable data={users} />
+        <UsersTable data={filteredUsers} />
       </section>
 
       {isModalOpen && (

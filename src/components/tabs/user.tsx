@@ -87,7 +87,7 @@ export const UserTab: React.FC<UserTabProps> = ({
             onChange={(e) => handleInputChange('userType', e.target.value)}
           >
             <option value="INDIVIDUAL">INDIVIDUAL</option>
-            <option value="EMPRESARIAL">EMPRESARIAL</option>
+            <option value="COMPANY">COMPANY</option>
           </select>
         </div>
       ) : (

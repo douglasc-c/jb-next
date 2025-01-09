@@ -8,6 +8,7 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import AddVentureModal from '@/components/modals/add-venture'
 import { VenturesTable } from '@/components/tables/ventures'
 import { Loading } from '@/components/loading/loading'
+import Search from '@/components/searchs/search'
 
 interface CurrentPhase {
   id: number
@@ -94,6 +95,8 @@ export default function Ventures() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredVentures, setFilteredVentures] = useState<Venture[]>(ventures)
 
   // const [totals, setTotals] = useState<Totals>({
   //   total: 0,
@@ -146,6 +149,21 @@ export default function Ventures() {
         [name]: value,
       }))
     }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    const results = ventures.filter(
+      (venture) =>
+        venture.name.toLowerCase().includes(query.toLowerCase()) ||
+        venture.description.toLowerCase().includes(query.toLowerCase()) ||
+        venture.corporateName.toLowerCase().includes(query.toLowerCase()) ||
+        venture.investmentType.toLowerCase().includes(query.toLowerCase()) ||
+        venture.address.toLowerCase().includes(query.toLowerCase()) ||
+        venture.constructionType.toLowerCase().includes(query.toLowerCase()) ||
+        venture.city.toLowerCase().includes(query.toLowerCase()),
+    )
+    setFilteredVentures(results)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -201,7 +219,7 @@ export default function Ventures() {
             ).length,
           })),
         )
-
+        setFilteredVentures(fetchedVentures)
         // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar empreendimentos:', err)
@@ -257,6 +275,13 @@ export default function Ventures() {
             {texts.inProgress}: {totals.inProgress}
           </p>
         </div> */}
+        <div className="col-span-3">
+          <Search
+            placeholder="Search users..."
+            searchQuery={searchQuery}
+            onSearch={handleSearch}
+          />
+        </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
@@ -269,7 +294,7 @@ export default function Ventures() {
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
-        <VenturesTable data={ventures} />
+        <VenturesTable data={filteredVentures} />
       </section>
 
       {isModalOpen && (
