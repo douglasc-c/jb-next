@@ -133,6 +133,14 @@ export default async function RootLayout({
     thereAreStillNoInterestedPartiesForTheRegisteredProjects: t(
       'TextLang.thereAreStillNoInterestedPartiesForTheRegisteredProjects',
     ),
+    addFaq: t('TextLang.addFaq'),
+    category: t('TextLang.category'),
+    selectACategory: t('TextLang.selectACategory'),
+    createNewCategory: t('TextLang.createNewCategory'),
+    question: t('TextLang.question'),
+    answer: t('TextLang.answer'),
+    newCategory: t('TextLang.newCategory'),
+    create: t('TextLang.create'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

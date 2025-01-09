@@ -141,7 +141,15 @@
       "save": "Salvar",
       "pendingEmail": "Email pendente",
       "noInterestedPartiesFound": "Nenhum interessado encontrado.",
-      "thereAreStillNoInterestedPartiesForTheRegisteredProjects": "Ainda não há interessados para os empreendimentos cadastrados."
+      "thereAreStillNoInterestedPartiesForTheRegisteredProjects": "Ainda não há interessados para os empreendimentos cadastrados.",
+      "addFaq": "Adicionar FAQ",
+      "category": "Categoria",
+      "selectACategory": "Selecione uma categoria",
+      "createNewCategory": "Criar uma nova categoria",
+      "question": "Pergunta",
+      "answer": "Resposta",
+      "newCategory": "Nova categoria",
+      "create": "Criar"
   }
 }
 

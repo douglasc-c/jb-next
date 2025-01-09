@@ -95,6 +95,14 @@ export interface LayoutAdminContextProps {
     noInterestedPartiesFound: string
     venture: string
     thereAreStillNoInterestedPartiesForTheRegisteredProjects: string
+    addFaq: string
+    category: string
+    selectACategory: string
+    createNewCategory: string
+    question: string
+    answer: string
+    newCategory: string
+    create: string
   }
 
   locale: string

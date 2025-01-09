@@ -23,12 +23,9 @@ export function middleware(request: NextRequest) {
   ]
 
   const adminRoutes = [
-    'admin/dashboard',
     'admin/users',
-    'admin/compliance',
     'admin/interests',
     'admin/ventures',
-    'admin/stages',
     'admin/support',
   ]
 
