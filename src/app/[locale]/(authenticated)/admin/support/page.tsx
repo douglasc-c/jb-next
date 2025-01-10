@@ -30,6 +30,7 @@ interface FormData {
 export default function Support() {
   const { texts } = useLayoutAdminContext()
   const [loading, setLoading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
@@ -81,6 +82,7 @@ export default function Support() {
   }
 
   const handleFormSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true)
     e.preventDefault()
     setError(null)
     try {
@@ -88,11 +90,14 @@ export default function Support() {
       if (response.status === 201) {
         closeModal()
         await fetchFaqCategories()
+        setLoadingButton(false)
       } else {
         setError(response.data.message || 'Erro ao adicionar FAQ')
+        setLoadingButton(false)
       }
     } catch (err) {
       setError('Erro na comunicação com a API')
+      setLoadingButton(false)
     }
   }
 
@@ -172,7 +177,7 @@ export default function Support() {
           isOpen={isModalOpen}
           formData={formData}
           categories={categories}
-          loading={loading}
+          loading={loadingButton}
           error={error}
           handleChange={handleInputChange}
           handleSubmit={handleFormSubmit}

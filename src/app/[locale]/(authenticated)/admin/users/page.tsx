@@ -34,6 +34,8 @@ interface FormData {
   username: string
   firstName: string
   lastName: string
+  numberDocument: string
+  phone: string
   userType: 'INDIVIDUAL' | 'COMPANY'
   role: 'ADMIN' | 'USER'
 }
@@ -48,6 +50,7 @@ export default function Users() {
   const { texts } = useLayoutAdminContext()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -65,6 +68,8 @@ export default function Users() {
     username: '',
     firstName: '',
     lastName: '',
+    numberDocument: '',
+    phone: '',
     userType: 'INDIVIDUAL',
     role: 'USER',
   })
@@ -91,17 +96,24 @@ export default function Users() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true)
     e.preventDefault()
     try {
       const response = await api.post('/admin/register', formData)
-      console.log(response)
+
       if (response.status === 201) {
-        setUsers([...users, response.data.user])
+        console.log(response)
+        const newUser = response.data.user
+        setUsers((prevUsers) => [...prevUsers, newUser])
+        setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
+        setLoadingButton(false)
         closeModal()
       } else {
+        setLoadingButton(false)
         setError(response.data.message || 'Erro ao adicionar usuário')
       }
     } catch (err) {
+      setLoadingButton(false)
       setError('Erro na comunicação com a API')
     }
   }
@@ -215,7 +227,7 @@ export default function Users() {
           isOpen={isModalOpen}
           formData={formData}
           error={error}
-          loading={loading}
+          loading={loadingButton}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}

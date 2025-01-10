@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
-// import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import AddVentureModal from '@/components/modals/add-venture'
 import { VenturesTable } from '@/components/tables/ventures'
@@ -81,28 +80,18 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
+  images: File[]
 }
-
-// interface Totals {
-//   total: number
-//   available: number
-//   inProgress: number
-// }
 
 export default function Ventures() {
   const { texts } = useLayoutAdminContext()
   const [ventures, setVentures] = useState<Venture[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredVentures, setFilteredVentures] = useState<Venture[]>(ventures)
-
-  // const [totals, setTotals] = useState<Totals>({
-  //   total: 0,
-  //   available: 0,
-  //   inProgress: 0,
-  // })
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -120,19 +109,28 @@ export default function Ventures() {
     area: 0,
     floors: 0,
     completionDate: '',
+    images: [],
   })
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
-    const { name, value } = e.target
-
-    if (
-      name === 'fundingAmount' ||
-      name === 'transferAmount' ||
-      name === 'squareMeterValue' ||
-      name === 'area' ||
-      name === 'floors'
+    const { name, value, files } = e.target as HTMLInputElement
+    if (files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: Array.from(files).slice(0, 5),
+      }))
+    } else if (
+      [
+        'fundingAmount',
+        'transferAmount',
+        'squareMeterValue',
+        'area',
+        'floors',
+      ].includes(name)
     ) {
       setFormData((prevState) => ({
         ...prevState,
@@ -141,13 +139,62 @@ export default function Ventures() {
     } else if (name === 'isAvailable') {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value === 'true',
+        isAvailable: value === 'true',
       }))
     } else {
       setFormData((prevState) => ({
         ...prevState,
         [name]: value,
       }))
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true)
+    e.preventDefault()
+
+    try {
+      const response = await api.post('/admin/create-enterprise', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      if (response.status === 201) {
+        const venture = response.data.enterprise.enterprise
+
+        setVentures((prevVentures) => [...prevVentures, venture])
+        setFilteredVentures((prevFilteredVentures) => [
+          ...prevFilteredVentures,
+          venture,
+        ])
+        closeModal()
+        setLoadingButton(false)
+        setFormData({
+          name: '',
+          description: '',
+          corporateName: '',
+          investmentType: 'PROPERTY',
+          address: '',
+          isAvailable: true,
+          constructionType: 'HOUSE',
+          fundingAmount: 0,
+          transferAmount: 0,
+          postalCode: '',
+          city: '',
+          squareMeterValue: 0,
+          area: 0,
+          floors: 0,
+          completionDate: '',
+          images: [],
+        })
+      } else {
+        setError(response.data.message || 'Erro ao adicionar empreendimento')
+        setLoadingButton(false)
+      }
+    } catch (error) {
+      console.error('Erro ao enviar:', error)
+      setLoadingButton(false)
     }
   }
 
@@ -164,21 +211,6 @@ export default function Ventures() {
         venture.city.toLowerCase().includes(query.toLowerCase()),
     )
     setFilteredVentures(results)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const response = await api.post('/admin/create-enterprise', formData)
-      if (response.status === 201) {
-        setVentures([...ventures, response.data.enterprise])
-        closeModal()
-      } else {
-        setError(response.data.message || 'Erro ao adicionar empreendimento')
-      }
-    } catch (err) {
-      setError('Erro na comunicação com a API')
-    }
   }
 
   const closeModal = () => {
@@ -302,7 +334,7 @@ export default function Ventures() {
           isOpen={isModalOpen}
           formData={formData}
           error={error}
-          loading={loading}
+          loading={loadingButton}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}

@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { PulseLoader } from 'react-spinners'
 
 interface FormData {
   name: string
@@ -18,6 +19,7 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
+  images: File[]
 }
 
 interface AddVentureModalProps {
@@ -51,16 +53,31 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
         <h2 className="text-white text-2xl mb-4">{texts.addVenture}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div>
-              <label className="text-white block">{texts.ventureName}</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
+            <div className="flex space-x-4">
+              <div className="w-1/2">
+                <label className="text-white block">{texts.ventureName}</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
+              <div className="w-1/2">
+                <label className="text-white block">
+                  {texts.corporateName}
+                </label>
+                <input
+                  type="text"
+                  name="corporateName"
+                  value={formData.corporateName}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
             </div>
             <div>
               <label className="text-white block">{texts.description}</label>
@@ -73,18 +90,6 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 required
               />
             </div>
-            <div>
-              <label className="text-white block">{texts.corporateName}</label>
-              <input
-                type="text"
-                name="corporateName"
-                value={formData.corporateName}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
-            </div>
-
             <div className="flex space-x-4">
               <div className="w-2/3">
                 <label className="text-white block">{texts.address}</label>
@@ -230,6 +235,16 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
             </div>
+            <div>
+              <label className="text-white block">{texts.photos}</label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleChange}
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+              />
+            </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             <div className="flex justify-end mt-4 space-x-2">
               <button
@@ -243,7 +258,17 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: loading ? texts.add : texts.add,
+                  title: loading ? (
+                    <PulseLoader
+                      color="#fff"
+                      loading={loading}
+                      size={6}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    texts.add
+                  ),
                   color: 'bg-primary',
                 }}
               />
@@ -256,3 +281,21 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
 }
 
 export default AddVentureModal
+
+/* <div className="mt-4 grid grid-cols-5 space-x-2">
+                {formData.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-zinc-800 p-2 rounded-lg space-x-2"
+                  >
+                    <span className="text-white truncate">{image.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(index)}
+                      className="text-red-500 text-sm"
+                    >
+                      {texts.remove}
+                    </button>
+                  </div>
+                ))}
+              </div> */

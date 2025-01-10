@@ -103,6 +103,8 @@ export interface LayoutAdminContextProps {
     answer: string
     newCategory: string
     create: string
+    photos: string
+    remove: string
   }
 
   locale: string

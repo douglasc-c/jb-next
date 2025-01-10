@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { PulseLoader } from 'react-spinners'
 
 interface FormData {
   question: string
@@ -47,7 +48,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
   if (!isOpen) return null
 
   const hasCategories = categories.length > 0
-
+  console.log(loading)
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
@@ -171,7 +172,17 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: texts.add,
+                  title: loading ? (
+                    <PulseLoader
+                      color="#fff"
+                      loading={loading}
+                      size={6}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    texts.add
+                  ),
                   color: 'bg-primary',
                 }}
               />

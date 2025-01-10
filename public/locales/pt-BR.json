@@ -149,7 +149,9 @@
       "question": "Pergunta",
       "answer": "Resposta",
       "newCategory": "Nova categoria",
-      "create": "Criar"
+      "create": "Criar",
+      "photos": "Fotos",
+      "remove": "Remover"
   }
 }
 

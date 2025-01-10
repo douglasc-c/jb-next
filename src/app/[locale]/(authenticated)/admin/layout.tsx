@@ -141,6 +141,8 @@ export default async function RootLayout({
     answer: t('TextLang.answer'),
     newCategory: t('TextLang.newCategory'),
     create: t('TextLang.create'),
+    photos: t('TextLang.photos'),
+    remove: t('TextLang.remove'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

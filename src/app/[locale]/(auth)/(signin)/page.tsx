@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { AppDispatch } from '@/redux/store'
 import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
+import { PulseLoader } from 'react-spinners'
 
 export default function SignIn() {
   const { textSignIn, locale } = useAuthContext()
@@ -147,7 +148,17 @@ export default function SignIn() {
                   type="submit"
                   disabled={loading}
                   params={{
-                    title: loading ? textSignIn.signIn : textSignIn.signIn,
+                    title: loading ? (
+                      <PulseLoader
+                        color="#fff"
+                        loading={loading}
+                        size={6}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    ) : (
+                      textSignIn.signIn
+                    ),
                     color: 'bg-primary',
                   }}
                 />
