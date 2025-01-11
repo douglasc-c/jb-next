@@ -105,6 +105,15 @@ export interface LayoutAdminContextProps {
     create: string
     photos: string
     remove: string
+    ventureDetails: string
+    avaliable: string
+    notAvaliable: string
+    images: string
+    summary: string
+    house: string
+    apartment: string
+    startDate: string
+    valuation: string
   }
 
   locale: string

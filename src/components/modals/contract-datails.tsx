@@ -1,4 +1,5 @@
 import { useLayoutContext } from '@/context/layout-context'
+import Image from 'next/image'
 
 interface CurrentPhase {
   id: number
@@ -24,6 +25,10 @@ interface ContractInterest {
   enterpriseId: number
   status: string
   createdAt: string
+}
+
+interface Image {
+  imageUrl: string
 }
 
 interface Venture {
@@ -53,6 +58,8 @@ interface Venture {
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface ContractProps {
@@ -90,7 +97,16 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         </button>
       </div>
       <section className="hidden md:block w-full h-64 relative">
-        <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
+        {data.coverImageUrl ? (
+          <div
+            className="absolute inset-0 bg-cover bg-center rounded-lg"
+            style={{
+              backgroundImage: `url(http://localhost:3335${data.coverImageUrl})`,
+            }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
+        )}
       </section>
       <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
         <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">

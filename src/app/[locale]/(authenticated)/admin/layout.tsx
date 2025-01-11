@@ -143,6 +143,15 @@ export default async function RootLayout({
     create: t('TextLang.create'),
     photos: t('TextLang.photos'),
     remove: t('TextLang.remove'),
+    ventureDetails: t('TextLang.ventureDetails'),
+    avaliable: t('TextLang.avaliable'),
+    notAvaliable: t('TextLang.notAvaliable'),
+    images: t('TextLang.images'),
+    summary: t('TextLang.summary'),
+    house: t('TextLang.house'),
+    apartment: t('TextLang.apartment'),
+    startDate: t('TextLang.startDate'),
+    valuation: t('TextLang.valuation'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

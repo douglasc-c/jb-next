@@ -35,6 +35,10 @@ interface ContractInterest {
   createdAt: string
 }
 
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -54,14 +58,16 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
-  currentPhase: CurrentPhase
-  currentTask: CurrentTask
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface FormData {

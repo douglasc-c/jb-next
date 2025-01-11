@@ -79,16 +79,34 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
             </div>
-            <div>
-              <label className="text-white block">{texts.description}</label>
-              <input
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
+            <div className="flex space-x-4">
+              <div className="w-2/3">
+                <label className="text-white block">{texts.description}</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
+              <div className="w-1/3">
+                <label className="text-white block">
+                  {texts.constructionType}
+                </label>
+                <select
+                  name="constructionType"
+                  value={formData.constructionType}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                >
+                  <option value="HOUSE">{texts.house}</option>
+                  <option value="APARTMENT">{texts.apartment}</option>
+                  <option value="OTHER">{texts.other}</option>
+                </select>
+              </div>
             </div>
             <div className="flex space-x-4">
               <div className="w-2/3">
@@ -122,8 +140,8 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                   className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
                   required
                 >
-                  <option value="true">Disponível</option>
-                  <option value="false">Indisponível</option>
+                  <option value="true">{texts.available}</option>
+                  <option value="false">{texts.notAvaliable}</option>
                 </select>
               </div>
             </div>
@@ -281,21 +299,3 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
 }
 
 export default AddVentureModal
-
-/* <div className="mt-4 grid grid-cols-5 space-x-2">
-                {formData.images.map((image, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between bg-zinc-800 p-2 rounded-lg space-x-2"
-                  >
-                    <span className="text-white truncate">{image.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(index)}
-                      className="text-red-500 text-sm"
-                    >
-                      {texts.remove}
-                    </button>
-                  </div>
-                ))}
-              </div> */

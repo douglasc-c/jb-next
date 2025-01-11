@@ -146,7 +146,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   }
 
   return (
-    <div className="flex flex-col p-8 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
         <h3 className="text-2xl">{texts.userDetails}</h3>
         <button onClick={onClose} className="text-gray-500">

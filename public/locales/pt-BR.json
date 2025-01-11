@@ -151,7 +151,15 @@
       "newCategory": "Nova categoria",
       "create": "Criar",
       "photos": "Fotos",
-      "remove": "Remover"
+      "remove": "Remover",
+      "ventureDetails": "Detalhes do empreendimento",
+      "avaliable": "Disponível",
+      "notAvaliable": "Indisponível",
+      "images": "Imagens",
+      "summary": "Resumo",
+      "house": "Casa",
+      "apartment": "Apartamento",
+      "valuation": "Valuation"
   }
 }
 
