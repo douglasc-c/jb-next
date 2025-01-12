@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { VentureTab } from '../tabs/venture'
-import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import ImageGallery from '../tabs/imagens'
 
 interface CurrentPhase {
   id: number
@@ -84,6 +84,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
   const [isEditing, setIsEditing] = useState(false)
   const [ventureImages, setVentureImages] = useState<Image[]>([])
+  const [selectedImages, setSelectedImages] = useState<Image[]>([])
 
   const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
     name: 'string',
@@ -168,16 +169,27 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     })
   }
 
+  const handleSelectImage = (image: Image) => {
+    const isSelected = selectedImages.some((img) => img === image)
+
+    if (isSelected) {
+      setSelectedImages(selectedImages.filter((img) => img !== image))
+    } else {
+      setSelectedImages((prevSelectedImages) => [...prevSelectedImages, image])
+    }
+  }
+
   const handleSave = async () => {
     setIsEditing(false)
     let response
 
-    if (Object.keys(changedData).length === 0) {
-      return
-    }
-
     try {
+      console.log('AQUI')
       if (activeTab === 'overview') {
+        if (Object.keys(changedData).length === 0) {
+          return
+        }
+
         response = await api.put(
           `/admin/update/enterprise/${editableData.id}`,
           {
@@ -186,31 +198,36 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           },
         )
       } else if (activeTab === 'images') {
+        console.log(selectedImages)
         response = await api.post(
-          `/admin/enterprise/${editableData.id}`,
-          editableData.id,
+          `/admin/delete/image-enterprise/${editableData.id}`,
+          { imageUrls: selectedImages },
         )
       } else if (activeTab === 'tasks') {
-        response = await api.put(`admin/update/${editableData.id}/valuation`, {
-          newValuation: 150000,
-          mode: 'confirmed',
-        })
+        // response = await api.put(`admin/update/${editableData.id}/valuation`, {
+        //   newValuation: 150000,
+        //   mode: 'confirmed',
+        // })
       } else if (activeTab === 'valuation') {
         response = await api.put(`admin/update/${editableData.id}/valuation`, {
           newValuation: 150000,
           mode: 'confirmed',
         })
       }
+      console.log(response)
 
       if (response?.status === 200 || response?.status === 201) {
         console.log('Update successful', response.data)
         setChangedData({})
+        setSelectedImages([])
       } else {
         setChangedData({})
+        setSelectedImages([])
         console.error('Failed to update data', response)
       }
     } catch (error) {
       setChangedData({})
+      setSelectedImages([])
       console.error('Error while updating:', error)
     }
   }
@@ -298,32 +315,12 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
         {activeTab === 'images' && (
           <div>
-            <div className="flex flex-row max-w-40 max-h-40 space-x-4">
-              {ventureImages?.map((img, index) => (
-                <div key={index} className="relative w-full h-full">
-                  {isEditing && (
-                    <div className="flex justify-end -mb-4 -mr-1 z-50">
-                      <button className="bg-primary hover:bg-secondary flex rounded-full h-6 w-6 items-center justify-center z-50">
-                        <Image
-                          src="/images/svg/trash.svg"
-                          alt="WiseBot Logo"
-                          height={15}
-                          width={15}
-                        />
-                      </button>
-                    </div>
-                  )}
-                  <Image
-                    src={`http://localhost:3335${img}`}
-                    alt={`Image ${index + 1}`}
-                    layout="responsive"
-                    width={500}
-                    height={300}
-                    className="rounded-lg"
-                  />
-                </div>
-              ))}
-            </div>
+            <ImageGallery
+              images={ventureImages}
+              isEditing={isEditing}
+              onSelect={handleSelectImage}
+              isSelected={selectedImages}
+            />
           </div>
         )}
         {activeTab === 'tasks' && (
