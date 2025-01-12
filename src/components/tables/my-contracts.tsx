@@ -53,7 +53,7 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string

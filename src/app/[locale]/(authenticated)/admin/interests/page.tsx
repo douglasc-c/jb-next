@@ -44,6 +44,10 @@ interface ContractInterest {
   user: User
 }
 
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -63,12 +67,14 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 export default function Interests() {
