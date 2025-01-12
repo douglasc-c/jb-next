@@ -152,6 +152,8 @@ export default async function RootLayout({
     apartment: t('TextLang.apartment'),
     startDate: t('TextLang.startDate'),
     valuation: t('TextLang.valuation'),
+    delete: t('TextLang.delete'),
+    areYouSureYouWantToDeleteIt: t('TextLang.areYouSureYouWantToDeleteIt'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

@@ -159,7 +159,9 @@
       "summary": "Resumo",
       "house": "Casa",
       "apartment": "Apartamento",
-      "valuation": "Valuation"
+      "valuation": "Valuation",
+      "delete": "Deletar",
+      "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?"
   }
 }
 

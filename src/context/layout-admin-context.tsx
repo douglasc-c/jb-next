@@ -114,6 +114,8 @@ export interface LayoutAdminContextProps {
     apartment: string
     startDate: string
     valuation: string
+    delete: string
+    areYouSureYouWantToDeleteIt: string
   }
 
   locale: string

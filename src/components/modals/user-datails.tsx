@@ -5,6 +5,7 @@ import { UserTab } from '../tabs/user'
 import { AddressTab } from '../tabs/address'
 import { FinancialTab } from '../tabs/financial'
 import { usePathname } from 'next/navigation'
+import DeleteModal from './delete'
 
 interface UserData {
   firstName: string
@@ -49,6 +50,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   const pathname = usePathname()
   const parts = pathname.split('/')
   const route = parts.slice(3).join('/')
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
 
   const [activeTab, setActiveTab] = useState<'user' | 'address' | 'financial'>(
     'user',
@@ -145,6 +147,22 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     setIsEditing(false)
   }
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/admin/user/${editableData.id}/delete`)
+    } catch (error) {
+      console.error('Erro ao deletar:', error)
+    } finally {
+      closeModalDelete()
+      setIsModalDeleteOpen(false)
+      onClose()
+    }
+  }
+
+  const closeModalDelete = () => {
+    setIsModalDeleteOpen(false)
+  }
+
   return (
     <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -167,27 +185,37 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         </button>
       </div>
 
-      <div className="flex space-x-4 border-b border-gray-600">
-        <button
-          className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('user')}
-        >
-          {texts.userData}
-        </button>
-        {route !== 'interests' && (
+      <div className="flex border-b border-gray-600 justify-between">
+        <div className="space-x-4">
           <button
-            className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
-            onClick={() => setActiveTab('address')}
+            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('user')}
           >
-            {texts.userAddress}
+            {texts.userData}
           </button>
-        )}
-        <button
-          className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('financial')}
-        >
-          {texts.userFinancial}
-        </button>
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('address')}
+            >
+              {texts.userAddress}
+            </button>
+          )}
+          <button
+            className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('financial')}
+          >
+            {texts.userFinancial}
+          </button>
+        </div>
+        <div>
+          <button
+            className="bg-red-600 px-4 rounded-md text-sm"
+            onClick={() => setIsModalDeleteOpen(true)}
+          >
+            {texts.delete}
+          </button>
+        </div>
       </div>
 
       <div className="">
@@ -233,6 +261,18 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
           </button>
         )}
       </div>
+
+      {isModalDeleteOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="p-6 rounded-lg w-3/4">
+            <DeleteModal
+              onClose={closeModalDelete}
+              isOpen={isModalDeleteOpen}
+              handleSubmit={handleDelete}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

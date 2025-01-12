@@ -3,6 +3,7 @@ import api from '@/lib/api'
 import { VentureTab } from '../tabs/venture'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import ImageGallery from '../tabs/imagens'
+import DeleteModal from './delete'
 
 interface CurrentPhase {
   id: number
@@ -83,8 +84,9 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [editableData, setEditableData] = useState<Venture>({ ...venture })
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
   const [isEditing, setIsEditing] = useState(false)
-  const [ventureImages, setVentureImages] = useState<Image[]>([])
+  const [ventureImages, setVentureImages] = useState<string[]>([])
   const [selectedImages, setSelectedImages] = useState<Image[]>([])
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
 
   const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
     name: 'string',
@@ -184,7 +186,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     let response
 
     try {
-      console.log('AQUI')
       if (activeTab === 'overview') {
         if (Object.keys(changedData).length === 0) {
           return
@@ -198,16 +199,15 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           },
         )
       } else if (activeTab === 'images') {
-        console.log(selectedImages)
-        response = await api.post(
-          `/admin/delete/image-enterprise/${editableData.id}`,
-          { imageUrls: selectedImages },
+        response = await api.delete(
+          `/admin/delete/images-enterprise/${editableData.id}`,
+          { data: { imageUrls: selectedImages } },
         )
       } else if (activeTab === 'tasks') {
-        // response = await api.put(`admin/update/${editableData.id}/valuation`, {
-        //   newValuation: 150000,
-        //   mode: 'confirmed',
-        // })
+        response = await api.put(`admin/update/${editableData.id}/valuation`, {
+          newValuation: 150000,
+          mode: 'confirmed',
+        })
       } else if (activeTab === 'valuation') {
         response = await api.put(`admin/update/${editableData.id}/valuation`, {
           newValuation: 150000,
@@ -237,6 +237,22 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     setIsEditing(false)
   }
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/admin/enterprise/${editableData.id}`)
+    } catch (error) {
+      console.error('Erro ao deletar:', error)
+    } finally {
+      closeModalDelete()
+      setIsModalDeleteOpen(false)
+      onClose()
+    }
+  }
+
+  const closeModalDelete = () => {
+    setIsModalDeleteOpen(false)
+  }
+
   useEffect(() => {
     if (activeTab === 'images' && venture.id) {
       const fetchVentureImages = async () => {
@@ -244,6 +260,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           const response = await api.get(
             `/admin/enterprise/images/${venture.id}`,
           )
+          console.log(response)
           setVentureImages(response.data.images)
         } catch (err) {
           console.log(err)
@@ -278,31 +295,41 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         </button>
       </div>
 
-      <div className="flex space-x-4 border-b border-gray-600">
-        <button
-          className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          {texts.summary}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('images')}
-        >
-          {texts.images}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('tasks')}
-        >
-          {texts.stage}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('valuation')}
-        >
-          {texts.valuation}
-        </button>
+      <div className="flex border-b border-gray-600 justify-between">
+        <div className="space-x-4">
+          <button
+            className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            {texts.summary}
+          </button>
+          <button
+            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('images')}
+          >
+            {texts.images}
+          </button>
+          <button
+            className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('tasks')}
+          >
+            {texts.stage}
+          </button>
+          <button
+            className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('valuation')}
+          >
+            {texts.valuation}
+          </button>
+        </div>
+        <div>
+          <button
+            className="bg-red-600 px-4 rounded-md text-sm"
+            onClick={() => setIsModalDeleteOpen(true)}
+          >
+            {texts.delete}
+          </button>
+        </div>
       </div>
 
       <div>
@@ -361,6 +388,18 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           {isEditing ? texts.save : texts.edit}
         </button>
       </div>
+
+      {isModalDeleteOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="p-6 rounded-lg w-3/4">
+            <DeleteModal
+              onClose={closeModalDelete}
+              isOpen={isModalDeleteOpen}
+              handleSubmit={handleDelete}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
