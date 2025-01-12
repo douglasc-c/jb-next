@@ -4,6 +4,36 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
 import { DetailContract } from '../modals/contract-datails'
 
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -23,11 +53,16 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface MyContractsProps {

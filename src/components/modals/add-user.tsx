@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { PulseLoader } from 'react-spinners'
 
 interface FormData {
   email: string
@@ -8,6 +9,8 @@ interface FormData {
   username: string
   firstName: string
   lastName: string
+  numberDocument: string
+  phone: string
   userType: 'INDIVIDUAL' | 'COMPANY'
   role: 'ADMIN' | 'USER'
 }
@@ -43,6 +46,77 @@ const AddUserModal: FC<AddUserModalProps> = ({
         <h2 className="text-zinc-200 text-2xl mb-4">{texts.addUser}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-zinc-300 block">{texts.name}</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-zinc-300 block">{texts.lastName}</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <label className="text-zinc-300 block">
+                  {texts.documentNumber}
+                </label>
+                <input
+                  type="text"
+                  name="numberDocument"
+                  value={formData.numberDocument}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-zinc-300 block">{texts.phone}</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                />
+              </div>
+              <div>
+                <label className="text-zinc-300 block">{texts.username}</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                />
+              </div>
+              {/* <div>
+                <label className="text-white block">{texts.dateOfBith}</label>
+                <input
+                  type="date"
+                  name="birthDate"
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div> */}
+            </div>
             <div>
               <label className="text-zinc-300 block">{texts.email}</label>
               <input
@@ -65,64 +139,33 @@ const AddUserModal: FC<AddUserModalProps> = ({
                 required
               />
             </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.username}</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.name}</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.lastName}</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.userType}</label>
-              <select
-                name="userType"
-                value={formData.userType}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
-              >
-                <option value="INDIVIDUAL">Individual</option>
-                <option value="COMPANY">Empresa</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.role}</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
-              >
-                <option value="ADMIN">{texts.admin}</option>
-                <option value="USER">{texts.user}</option>
-              </select>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-zinc-300 block">{texts.userType}</label>
+                <select
+                  name="userType"
+                  value={formData.userType}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                >
+                  <option value="INDIVIDUAL">Individual</option>
+                  <option value="COMPANY">Empresa</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-zinc-300 block">{texts.role}</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  required
+                >
+                  <option value="ADMIN">{texts.admin}</option>
+                  <option value="USER">{texts.user}</option>
+                </select>
+              </div>
             </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             <div className="flex justify-end mt-4 space-x-2">
@@ -137,7 +180,17 @@ const AddUserModal: FC<AddUserModalProps> = ({
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: loading ? texts.add : texts.add,
+                  title: loading ? (
+                    <PulseLoader
+                      color="#fff"
+                      loading={loading}
+                      size={6}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    texts.add
+                  ),
                   color: 'bg-primary',
                 }}
               />

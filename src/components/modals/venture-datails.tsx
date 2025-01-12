@@ -1,5 +1,7 @@
-'use client'
-
+import React, { useEffect, useState } from 'react'
+import api from '@/lib/api'
+import { VentureTab } from '../tabs/venture'
+import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
 interface CurrentPhase {
@@ -28,6 +30,10 @@ interface ContractInterest {
   createdAt: string
 }
 
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -47,7 +53,7 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
@@ -55,34 +61,189 @@ interface Venture {
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
-interface ContractProps {
-  data: Venture
-  onClick: () => void
+interface VentureDetailsProps {
+  venture: Venture
+  isOpen: boolean
+  onClose: () => void
 }
 
-export function DetailVenture({ data, onClick }: ContractProps) {
+export const VentureDetails: React.FC<VentureDetailsProps> = ({
+  venture,
+  isOpen,
+  onClose,
+}) => {
   const { texts } = useLayoutAdminContext()
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'images' | 'tasks' | 'valuation'
+  >('overview')
+  const [editableData, setEditableData] = useState<Venture>({ ...venture })
+  const [changedData, setChangedData] = useState<Partial<Venture>>({})
+  const [isEditing, setIsEditing] = useState(false)
+  const [ventureImages, setVentureImages] = useState<Image[]>([])
 
-  const stages: Record<number, string> = {
-    1: texts.topography,
-    2: texts.masonry,
-    3: texts.inspections,
-    4: texts.thermalInsulationOfTheWalls,
-    5: texts.roofInsulation,
-    6: texts.doors,
+  const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
+    name: 'string',
+    corporateName: 'string',
+    description: 'string',
+    status: 'string',
+    isAvailable: 'boolean',
+    investmentType: 'string',
+    constructionType: 'string',
+    fundingAmount: 'number',
+    transferAmount: 'number',
+    postalCode: 'string',
+    address: 'string',
+    city: 'string',
+    squareMeterValue: 'number',
+    area: 'number',
+    progress: 'number',
+    floors: 'number',
+    currentPhaseId: 'number',
+    currentTaskId: 'number',
+    startDate: 'date',
+    completionDate: 'date',
   }
 
-  const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean,
+  ) => {
+    const expectedType = fieldTypes[field]
+
+    let convertedValue: string | number | boolean | Date = value
+
+    if (expectedType) {
+      switch (expectedType) {
+        case 'number':
+          convertedValue = Number(value)
+          if (isNaN(convertedValue)) {
+            console.warn(
+              `Field "${field}" expects a number, but received "${value}".`,
+            )
+            return
+          }
+          break
+        case 'boolean':
+          convertedValue = value === 'true' || value === true
+          break
+        case 'date':
+          convertedValue = new Date(value as string)
+          if (isNaN((convertedValue as Date).getTime())) {
+            console.warn(
+              `Field "${field}" expects a valid date, but received "${value}".`,
+            )
+            return
+          }
+          break
+        case 'string':
+        default:
+          convertedValue = String(value)
+      }
+    } else {
+      console.warn(`Field "${field}" is not defined in fieldTypes.`)
+    }
+
+    setEditableData((prev) => {
+      if (field in prev) {
+        const key = field as keyof Venture
+
+        if (prev[key] === convertedValue) {
+          return prev
+        }
+
+        setChangedData((prevChanged) => ({
+          ...prevChanged,
+          [key]: convertedValue,
+        }))
+
+        return { ...prev, [key]: convertedValue }
+      } else {
+        console.warn(`Field "${field}" is not a valid property of Venture.`)
+        return prev
+      }
+    })
+  }
+
+  const handleSave = async () => {
+    setIsEditing(false)
+    let response
+
+    if (Object.keys(changedData).length === 0) {
+      return
+    }
+
+    try {
+      if (activeTab === 'overview') {
+        response = await api.put(
+          `/admin/update/enterprise/${editableData.id}`,
+          {
+            ...changedData,
+            forceUpdate: false,
+          },
+        )
+      } else if (activeTab === 'images') {
+        response = await api.post(
+          `/admin/enterprise/${editableData.id}`,
+          editableData.id,
+        )
+      } else if (activeTab === 'tasks') {
+        response = await api.put(`admin/update/${editableData.id}/valuation`, {
+          newValuation: 150000,
+          mode: 'confirmed',
+        })
+      } else if (activeTab === 'valuation') {
+        response = await api.put(`admin/update/${editableData.id}/valuation`, {
+          newValuation: 150000,
+          mode: 'confirmed',
+        })
+      }
+
+      if (response?.status === 200 || response?.status === 201) {
+        console.log('Update successful', response.data)
+        setChangedData({})
+      } else {
+        setChangedData({})
+        console.error('Failed to update data', response)
+      }
+    } catch (error) {
+      setChangedData({})
+      console.error('Error while updating:', error)
+    }
+  }
+
+  const handleCancel = () => {
+    setEditableData({ ...venture })
+    setIsEditing(false)
+  }
+
+  useEffect(() => {
+    if (activeTab === 'images' && venture.id) {
+      const fetchVentureImages = async () => {
+        try {
+          const response = await api.get(
+            `/admin/enterprise/images/${venture.id}`,
+          )
+          setVentureImages(response.data.images)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      fetchVentureImages()
+    }
+  }, [activeTab, venture.id])
+
+  if (!isOpen) return null
 
   return (
-    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h2 className="uppercase font-medium">
-          {data.name} - {data.city} {data.area}M²
-        </h2>
-        <button onClick={onClick} className="text-gray-500">
+        <h3 className="text-2xl">{texts.ventureDetails}</h3>
+        <button onClick={onClose} className="text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -99,88 +260,110 @@ export function DetailVenture({ data, onClick }: ContractProps) {
           </svg>
         </button>
       </div>
-      <section className="hidden md:block w-full h-64 relative">
-        <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
-      </section>
-      <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
-        <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.typeOfConstruction}</p>
-            <span className="font-light">{data.constructionType}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.city}</p>
-            <span className="font-light">{data.city}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.contributionAmount}</p>
-            <span className="font-light">U$ {data.fundingAmount}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.valueM2}</p>
-            <span className="font-light">U$ {data.squareMeterValue}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.amountPassed}</p>
-            <span className="font-light">U$ {data.transferAmount}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.footage}</p>
-            <span className="font-light">{data.area}m²</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.postalCode}</p>
-            <span className="font-light">{data.postalCode}</span>
-          </div>
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.floors}</p>
-            <span className="font-light">{data.floors}</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 w-1/3">
-          <div className="w-full flex flex-col items-center space-x-3">
-            <p className="font-medium text-base uppercase">
-              {texts.provisionalCompletion}
-            </p>
-            <span className="font-light text-base">
-              {new Date(data.completionDate).toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-              })}
-            </span>
-          </div>
-          <div className="w-full flex flex-row space-x-1 justify-center uppercase">
-            <p className="font-light">{texts.status}:</p>
-            <span className="font-light">{data.status}</span>
-          </div>
-          <button
-            onClick={onClick}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {texts.seeContract}
-          </button>
-        </div>
-      </section>
-      <section className="flex flex-col gap-4 w-full">
-        <div className="flex justify-between">
-          <h2 className="font-medium text-sm uppercase">
-            {texts.constructionStatus}
-          </h2>
-          <p className="font-light text-sm uppercase">{data.progress}%</p>
-        </div>
-        <div className="w-full h-2 bg-zinc-900 relative rounded">
-          <div
-            className="h-2 bg-gray-400 rounded"
-            style={{ width: `${data.progress}%` }}
+
+      <div className="flex space-x-4 border-b border-gray-600">
+        <button
+          className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          {texts.summary}
+        </button>
+        <button
+          className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
+          onClick={() => setActiveTab('images')}
+        >
+          {texts.images}
+        </button>
+        <button
+          className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
+          onClick={() => setActiveTab('tasks')}
+        >
+          {texts.stage}
+        </button>
+        <button
+          className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
+          onClick={() => setActiveTab('valuation')}
+        >
+          {texts.valuation}
+        </button>
+      </div>
+
+      <div>
+        {activeTab === 'overview' && (
+          <VentureTab
+            isEditing={isEditing}
+            editableData={editableData}
+            handleInputChange={handleInputChange}
           />
-        </div>
-        <div className="flex justify-end">
-          <p className="font-light text-sm uppercase">
-            {texts.stage} {data.currentTaskId} - {stageDescription}
-          </p>
-        </div>
-      </section>
+        )}
+        {activeTab === 'images' && (
+          <div>
+            <div className="flex flex-row max-w-40 max-h-40 space-x-4">
+              {ventureImages?.map((img, index) => (
+                <div key={index} className="relative w-full h-full">
+                  {isEditing && (
+                    <div className="flex justify-end -mb-4 -mr-1 z-50">
+                      <button className="bg-primary hover:bg-secondary flex rounded-full h-6 w-6 items-center justify-center z-50">
+                        <Image
+                          src="/images/svg/trash.svg"
+                          alt="WiseBot Logo"
+                          height={15}
+                          width={15}
+                        />
+                      </button>
+                    </div>
+                  )}
+                  <Image
+                    src={`http://localhost:3335${img}`}
+                    alt={`Image ${index + 1}`}
+                    layout="responsive"
+                    width={500}
+                    height={300}
+                    className="rounded-lg"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {activeTab === 'tasks' && (
+          <div>
+            <div>
+              <h4>{editableData.currentPhase?.phaseName}</h4>
+              <p>{editableData.currentPhase?.description}</p>
+              <h4>{editableData.currentTask?.taskName}</h4>
+              <p>{editableData.currentTask?.description}</p>
+            </div>
+          </div>
+        )}
+        {activeTab === 'valuation' && (
+          <div>
+            <div>
+              <h4>{editableData.currentPhase?.phaseName}</h4>
+              <p>{editableData.currentPhase?.description}</p>
+              <h4>{editableData.currentTask?.taskName}</h4>
+              <p>{editableData.currentTask?.description}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end mt-4 space-x-4">
+        {isEditing && (
+          <button
+            onClick={handleCancel}
+            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+          >
+            {texts.cancel}
+          </button>
+        )}
+        <button
+          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+          className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
+        >
+          {isEditing ? texts.save : texts.edit}
+        </button>
+      </div>
     </div>
   )
 }

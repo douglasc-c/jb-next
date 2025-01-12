@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import { DetailVenture } from '../modals/venture-datails'
 import { InterestedDetails } from '../modals/interested'
 import api from '@/lib/api'
+import { VentureDetails } from '../modals/venture-datails'
 
 interface User {
   firstName: string
@@ -43,6 +43,10 @@ interface ContractInterest {
   user: User
 }
 
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -62,12 +66,14 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface MyContractsProps {
@@ -183,7 +189,11 @@ export function InterestsTable({ data }: MyContractsProps) {
           role="dialog"
         >
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailVenture onClick={closeModal} data={selectedContract} />
+            <VentureDetails
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              venture={selectedContract}
+            />
           </div>
         </div>
       )}

@@ -17,16 +17,6 @@ interface UserData {
   numberDocument: string
   id: string
   userType: string
-  address?: {
-    street?: string
-    number?: string
-    complement?: string
-    neighborhood?: string
-    city?: string
-    state?: string
-    postalCode?: string
-    country?: string
-  }
 }
 
 interface UserTabProps {
@@ -82,18 +72,18 @@ export const UserTab: React.FC<UserTabProps> = ({
         <div className="flex flex-col space-y-1">
           <label className="text-gray-300">{texts.userType}</label>
           <select
-            className="px-4 py-2 rounded-md bg-zinc-700 text-white border border-zinc-500"
+            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
             value={editableData.userType}
             onChange={(e) => handleInputChange('userType', e.target.value)}
           >
             <option value="INDIVIDUAL">INDIVIDUAL</option>
-            <option value="EMPRESARIAL">EMPRESARIAL</option>
+            <option value="COMPANY">COMPANY</option>
           </select>
         </div>
       ) : (
         <div className="flex flex-col space-y-1">
           <label className="text-gray-300">{texts.userType}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-900 text-gray-300">
+          <p className="px-4 py-2 rounded-md bg-zinc-800 text-gray-300">
             {editableData.userType}
           </p>
         </div>
@@ -102,7 +92,7 @@ export const UserTab: React.FC<UserTabProps> = ({
         <div className="flex flex-col space-y-1">
           <label className="text-gray-300">{texts.role}</label>
           <select
-            className="px-4 py-2 rounded-md bg-zinc-700 text-white border border-zinc-500"
+            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
             value={editableData.role}
             onChange={(e) => handleInputChange('role', e.target.value)}
           >
@@ -113,7 +103,7 @@ export const UserTab: React.FC<UserTabProps> = ({
       ) : (
         <div className="flex flex-col space-y-1">
           <label className="text-gray-300">{texts.role}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-900 text-gray-300">
+          <p className="px-4 py-2 rounded-md bg-zinc-800 text-gray-300">
             {editableData.role}
           </p>
         </div>

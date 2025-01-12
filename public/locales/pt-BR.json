@@ -108,6 +108,7 @@
       "available": "Disponivel",
       "inProgress": "Em progresso",
       "ventureName": "Nome do empreendimento",
+      "venture": "Empreendimento",
       "description": "Descrição do empreendimento",
       "corporateName": "Razão Social",
       "investmentType": "Tipo de investimento",
@@ -138,7 +139,27 @@
       "balance": "Saldo",
       "edit": "Editar",
       "save": "Salvar",
-      "pendingEmail": "Email pendente"
+      "pendingEmail": "Email pendente",
+      "noInterestedPartiesFound": "Nenhum interessado encontrado.",
+      "thereAreStillNoInterestedPartiesForTheRegisteredProjects": "Ainda não há interessados para os empreendimentos cadastrados.",
+      "addFaq": "Adicionar FAQ",
+      "category": "Categoria",
+      "selectACategory": "Selecione uma categoria",
+      "createNewCategory": "Criar uma nova categoria",
+      "question": "Pergunta",
+      "answer": "Resposta",
+      "newCategory": "Nova categoria",
+      "create": "Criar",
+      "photos": "Fotos",
+      "remove": "Remover",
+      "ventureDetails": "Detalhes do empreendimento",
+      "avaliable": "Disponível",
+      "notAvaliable": "Indisponível",
+      "images": "Imagens",
+      "summary": "Resumo",
+      "house": "Casa",
+      "apartment": "Apartamento",
+      "valuation": "Valuation"
   }
 }
 

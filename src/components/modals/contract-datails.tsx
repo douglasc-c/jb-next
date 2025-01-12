@@ -1,4 +1,35 @@
 import { useLayoutContext } from '@/context/layout-context'
+import Image from 'next/image'
+
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface Image {
+  imageUrl: string
+}
 
 interface Venture {
   id: number
@@ -19,11 +50,16 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface ContractProps {
@@ -46,6 +82,10 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
+  const hasApprovedContract = data.contractInterests.some(
+    (interest) => interest.status === 'APPROVED',
+  )
+
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -57,7 +97,16 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         </button>
       </div>
       <section className="hidden md:block w-full h-64 relative">
-        <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
+        {data.coverImageUrl ? (
+          <div
+            className="absolute inset-0 bg-cover bg-center rounded-lg"
+            style={{
+              backgroundImage: `url(http://localhost:3335${data.coverImageUrl})`,
+            }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
+        )}
       </section>
       <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
         <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
@@ -137,25 +186,29 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
           </button>
         </div>
       </section>
-      <section className="flex flex-col gap-4 w-full">
-        <div className="flex justify-between">
-          <h2 className="font-medium text-sm uppercase">
-            {textDetailContract.constructionStatus}
-          </h2>
-          <p className="font-light text-sm uppercase">{data.progress}%</p>
-        </div>
-        <div className="w-full h-2 bg-zinc-900 relative rounded">
-          <div
-            className="h-2 bg-gray-400 rounded"
-            style={{ width: `${data.progress}%` }}
-          />
-        </div>
-        <div className="flex justify-end">
-          <p className="font-light text-sm uppercase">
-            {textDetailContract.stage} {data.currentTaskId} - {stageDescription}
-          </p>
-        </div>
-      </section>
+
+      {hasApprovedContract && (
+        <section className="flex flex-col gap-4 w-full">
+          <div className="flex justify-between">
+            <h2 className="font-medium text-sm uppercase">
+              {textDetailContract.constructionStatus}
+            </h2>
+            <p className="font-light text-sm uppercase">{data.progress}%</p>
+          </div>
+          <div className="w-full h-2 bg-zinc-900 relative rounded">
+            <div
+              className="h-2 bg-gray-400 rounded"
+              style={{ width: `${data.progress}%` }}
+            />
+          </div>
+          <div className="flex justify-end">
+            <p className="font-light text-sm uppercase">
+              {textDetailContract.stage} {data.currentTaskId} -{' '}
+              {stageDescription}
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

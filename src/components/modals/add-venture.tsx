@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { PulseLoader } from 'react-spinners'
 
 interface FormData {
   name: string
@@ -18,6 +19,7 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
+  images: File[]
 }
 
 interface AddVentureModalProps {
@@ -51,40 +53,61 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
         <h2 className="text-white text-2xl mb-4">{texts.addVenture}</h2>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div>
-              <label className="text-white block">{texts.ventureName}</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
+            <div className="flex space-x-4">
+              <div className="w-1/2">
+                <label className="text-white block">{texts.ventureName}</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
+              <div className="w-1/2">
+                <label className="text-white block">
+                  {texts.corporateName}
+                </label>
+                <input
+                  type="text"
+                  name="corporateName"
+                  value={formData.corporateName}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
             </div>
-            <div>
-              <label className="text-white block">{texts.description}</label>
-              <input
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
+            <div className="flex space-x-4">
+              <div className="w-2/3">
+                <label className="text-white block">{texts.description}</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                />
+              </div>
+              <div className="w-1/3">
+                <label className="text-white block">
+                  {texts.constructionType}
+                </label>
+                <select
+                  name="constructionType"
+                  value={formData.constructionType}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+                  required
+                >
+                  <option value="HOUSE">{texts.house}</option>
+                  <option value="APARTMENT">{texts.apartment}</option>
+                  <option value="OTHER">{texts.other}</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label className="text-white block">{texts.corporateName}</label>
-              <input
-                type="text"
-                name="corporateName"
-                value={formData.corporateName}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                required
-              />
-            </div>
-
             <div className="flex space-x-4">
               <div className="w-2/3">
                 <label className="text-white block">{texts.address}</label>
@@ -117,8 +140,8 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                   className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
                   required
                 >
-                  <option value="true">Disponível</option>
-                  <option value="false">Indisponível</option>
+                  <option value="true">{texts.available}</option>
+                  <option value="false">{texts.notAvaliable}</option>
                 </select>
               </div>
             </div>
@@ -230,6 +253,16 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 />
               </div>
             </div>
+            <div>
+              <label className="text-white block">{texts.photos}</label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleChange}
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
+              />
+            </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             <div className="flex justify-end mt-4 space-x-2">
               <button
@@ -243,7 +276,17 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 type="submit"
                 disabled={loading}
                 params={{
-                  title: loading ? texts.add : texts.add,
+                  title: loading ? (
+                    <PulseLoader
+                      color="#fff"
+                      loading={loading}
+                      size={6}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    texts.add
+                  ),
                   color: 'bg-primary',
                 }}
               />

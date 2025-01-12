@@ -128,6 +128,30 @@ export default async function RootLayout({
     edit: t('TextLang.edit'),
     save: t('TextLang.save'),
     pendingEmail: t('TextLang.pendingEmail'),
+    venture: t('TextLang.venture'),
+    noInterestedPartiesFound: t('TextLang.noInterestedPartiesFound'),
+    thereAreStillNoInterestedPartiesForTheRegisteredProjects: t(
+      'TextLang.thereAreStillNoInterestedPartiesForTheRegisteredProjects',
+    ),
+    addFaq: t('TextLang.addFaq'),
+    category: t('TextLang.category'),
+    selectACategory: t('TextLang.selectACategory'),
+    createNewCategory: t('TextLang.createNewCategory'),
+    question: t('TextLang.question'),
+    answer: t('TextLang.answer'),
+    newCategory: t('TextLang.newCategory'),
+    create: t('TextLang.create'),
+    photos: t('TextLang.photos'),
+    remove: t('TextLang.remove'),
+    ventureDetails: t('TextLang.ventureDetails'),
+    avaliable: t('TextLang.avaliable'),
+    notAvaliable: t('TextLang.notAvaliable'),
+    images: t('TextLang.images'),
+    summary: t('TextLang.summary'),
+    house: t('TextLang.house'),
+    apartment: t('TextLang.apartment'),
+    startDate: t('TextLang.startDate'),
+    valuation: t('TextLang.valuation'),
   }
 
   const layoutValue: LayoutAdminContextProps = {
@@ -137,7 +161,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-neutral-950 text-white flex">
+      <body className="bg-zinc-800 text-white flex">
         <Sidebar text={textHeader} locale={locale} />
         <div className="ml-64 flex-grow">
           <Header text={textHeader} />

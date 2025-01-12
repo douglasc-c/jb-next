@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
-import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import AddVentureModal from '@/components/modals/add-venture'
 import { VenturesTable } from '@/components/tables/ventures'
 import { Loading } from '@/components/loading/loading'
+import Search from '@/components/searchs/search'
 
 interface CurrentPhase {
   id: number
@@ -35,6 +35,10 @@ interface ContractInterest {
   createdAt: string
 }
 
+interface Image {
+  imageUrl: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -54,14 +58,16 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
-  currentPhase: CurrentPhase
-  currentTask: CurrentTask
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
   contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface FormData {
@@ -80,26 +86,18 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
-}
-
-interface Totals {
-  total: number
-  available: number
-  inProgress: number
+  images: File[]
 }
 
 export default function Ventures() {
   const { texts } = useLayoutAdminContext()
   const [ventures, setVentures] = useState<Venture[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    available: 0,
-    inProgress: 0,
-  })
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredVentures, setFilteredVentures] = useState<Venture[]>(ventures)
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -117,19 +115,28 @@ export default function Ventures() {
     area: 0,
     floors: 0,
     completionDate: '',
+    images: [],
   })
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
-    const { name, value } = e.target
-
-    if (
-      name === 'fundingAmount' ||
-      name === 'transferAmount' ||
-      name === 'squareMeterValue' ||
-      name === 'area' ||
-      name === 'floors'
+    const { name, value, files } = e.target as HTMLInputElement
+    if (files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: Array.from(files).slice(0, 5),
+      }))
+    } else if (
+      [
+        'fundingAmount',
+        'transferAmount',
+        'squareMeterValue',
+        'area',
+        'floors',
+      ].includes(name)
     ) {
       setFormData((prevState) => ({
         ...prevState,
@@ -138,7 +145,7 @@ export default function Ventures() {
     } else if (name === 'isAvailable') {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value === 'true',
+        isAvailable: value === 'true',
       }))
     } else {
       setFormData((prevState) => ({
@@ -149,18 +156,67 @@ export default function Ventures() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true)
     e.preventDefault()
+
     try {
-      const response = await api.post('/admin/create-enterprise', formData)
+      const response = await api.post('/admin/create-enterprise', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
       if (response.status === 201) {
-        setVentures([...ventures, response.data.enterprise])
+        const venture = response.data.enterprise.enterprise
+
+        setVentures((prevVentures) => [...prevVentures, venture])
+        setFilteredVentures((prevFilteredVentures) => [
+          ...prevFilteredVentures,
+          venture,
+        ])
         closeModal()
+        setLoadingButton(false)
+        setFormData({
+          name: '',
+          description: '',
+          corporateName: '',
+          investmentType: 'PROPERTY',
+          address: '',
+          isAvailable: true,
+          constructionType: 'HOUSE',
+          fundingAmount: 0,
+          transferAmount: 0,
+          postalCode: '',
+          city: '',
+          squareMeterValue: 0,
+          area: 0,
+          floors: 0,
+          completionDate: '',
+          images: [],
+        })
       } else {
         setError(response.data.message || 'Erro ao adicionar empreendimento')
+        setLoadingButton(false)
       }
-    } catch (err) {
-      setError('Erro na comunicação com a API')
+    } catch (error) {
+      console.error('Erro ao enviar:', error)
+      setLoadingButton(false)
     }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    const results = ventures.filter(
+      (venture) =>
+        venture.name.toLowerCase().includes(query.toLowerCase()) ||
+        venture.description.toLowerCase().includes(query.toLowerCase()) ||
+        venture.corporateName.toLowerCase().includes(query.toLowerCase()) ||
+        venture.investmentType.toLowerCase().includes(query.toLowerCase()) ||
+        venture.address.toLowerCase().includes(query.toLowerCase()) ||
+        venture.constructionType.toLowerCase().includes(query.toLowerCase()) ||
+        venture.city.toLowerCase().includes(query.toLowerCase()),
+    )
+    setFilteredVentures(results)
   }
 
   const closeModal = () => {
@@ -177,18 +233,32 @@ export default function Ventures() {
       try {
         const response = await api.get('/admin/get-enterprise')
         const fetchedVentures: Venture[] = response.data.enterprises
-        const computedTotals = fetchedVentures.reduce<Totals>(
-          (acc, venture) => {
-            acc.total += 1
-            if (venture.isAvailable) acc.available += 1
-            if (venture.progress > 0) acc.inProgress += 1
-            return acc
-          },
-          { total: 0, available: 0, inProgress: 0 },
-        )
 
-        setVentures(fetchedVentures)
-        setTotals(computedTotals)
+        // const computedTotals = fetchedVentures.reduce<Totals>(
+        //   (acc, venture) => {
+        //     acc.total += 1
+        //     if (venture.isAvailable) acc.available += 1
+
+        //     const approvedContracts = venture.contractInterests.filter(
+        //       (interest) => interest.status === 'APPROVED',
+        //     ).length
+
+        //     acc.inProgress += approvedContracts > 0 ? 1 : 0
+        //     return acc
+        //   },
+        //   { total: 0, available: 0, inProgress: 0 },
+        // )
+
+        setVentures(
+          fetchedVentures.map((venture) => ({
+            ...venture,
+            progress: venture.contractInterests.filter(
+              (interest) => interest.status === 'APPROVED',
+            ).length,
+          })),
+        )
+        setFilteredVentures(fetchedVentures)
+        // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar empreendimentos:', err)
       } finally {
@@ -210,7 +280,7 @@ export default function Ventures() {
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
+        {/* <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
           <Image
             src="/images/svg/totalVentures.svg"
             width={25}
@@ -242,6 +312,13 @@ export default function Ventures() {
           <p>
             {texts.inProgress}: {totals.inProgress}
           </p>
+        </div> */}
+        <div className="col-span-3">
+          <Search
+            placeholder="Search users..."
+            searchQuery={searchQuery}
+            onSearch={handleSearch}
+          />
         </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
@@ -255,7 +332,7 @@ export default function Ventures() {
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
-        <VenturesTable data={ventures} />
+        <VenturesTable data={filteredVentures} />
       </section>
 
       {isModalOpen && (
@@ -263,7 +340,7 @@ export default function Ventures() {
           isOpen={isModalOpen}
           formData={formData}
           error={error}
-          loading={loading}
+          loading={loadingButton}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}

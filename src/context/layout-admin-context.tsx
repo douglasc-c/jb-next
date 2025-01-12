@@ -92,6 +92,28 @@ export interface LayoutAdminContextProps {
     balance: string
     edit: string
     save: string
+    noInterestedPartiesFound: string
+    venture: string
+    thereAreStillNoInterestedPartiesForTheRegisteredProjects: string
+    addFaq: string
+    category: string
+    selectACategory: string
+    createNewCategory: string
+    question: string
+    answer: string
+    newCategory: string
+    create: string
+    photos: string
+    remove: string
+    ventureDetails: string
+    avaliable: string
+    notAvaliable: string
+    images: string
+    summary: string
+    house: string
+    apartment: string
+    startDate: string
+    valuation: string
   }
 
   locale: string

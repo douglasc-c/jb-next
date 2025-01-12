@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { UsersTable } from '@/components/tables/users'
 import ButtonGlobal from '@/components/buttons/global'
-import Image from 'next/image'
+// import Image from 'next/image'
 import AddUserModal from '@/components/modals/add-user'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { Loading } from '@/components/loading/loading'
+import Search from '@/components/searchs/search'
 
 interface User {
   firstName: string
@@ -33,28 +34,33 @@ interface FormData {
   username: string
   firstName: string
   lastName: string
+  numberDocument: string
+  phone: string
   userType: 'INDIVIDUAL' | 'COMPANY'
   role: 'ADMIN' | 'USER'
 }
 
-interface Totals {
-  total: number
-  totalUsers: number
-  totalAdmins: number
-}
+// interface Totals {
+//   total: number
+//   totalUsers: number
+//   totalAdmins: number
+// }
 
 export default function Users() {
   const { texts } = useLayoutAdminContext()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
 
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    totalUsers: 0,
-    totalAdmins: 0,
-  })
+  // const [totals, setTotals] = useState<Totals>({
+  //   total: 0,
+  //   totalUsers: 0,
+  //   totalAdmins: 0,
+  // })
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -62,9 +68,25 @@ export default function Users() {
     username: '',
     firstName: '',
     lastName: '',
+    numberDocument: '',
+    phone: '',
     userType: 'INDIVIDUAL',
     role: 'USER',
   })
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    const results = users.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.toLowerCase().includes(query.toLowerCase()) ||
+        user.complianceStatus.toLowerCase().includes(query.toLowerCase()) ||
+        user.userType.toLowerCase().includes(query.toLowerCase()) ||
+        user.role.toLowerCase().includes(query.toLowerCase()),
+    )
+    setFilteredUsers(results)
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -74,17 +96,24 @@ export default function Users() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true)
     e.preventDefault()
     try {
       const response = await api.post('/admin/register', formData)
-      console.log(response)
+
       if (response.status === 201) {
-        setUsers([...users, response.data.user])
+        console.log(response)
+        const newUser = response.data.user
+        setUsers((prevUsers) => [...prevUsers, newUser])
+        setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
+        setLoadingButton(false)
         closeModal()
       } else {
+        setLoadingButton(false)
         setError(response.data.message || 'Erro ao adicionar usuário')
       }
     } catch (err) {
+      setLoadingButton(false)
       setError('Erro na comunicação com a API')
     }
   }
@@ -104,18 +133,19 @@ export default function Users() {
         const response = await api.get('/admin/get-all-users')
         const fetchedUsers: User[] = response.data.users
 
-        const computedTotals = fetchedUsers.reduce<Totals>(
-          (acc, user) => {
-            acc.total += 1
-            if (user.role === 'USER') acc.totalUsers += 1
-            if (user.role === 'ADMIN') acc.totalAdmins += 1
-            return acc
-          },
-          { total: 0, totalUsers: 0, totalAdmins: 0 },
-        )
+        // const computedTotals = fetchedUsers.reduce<Totals>(
+        //   (acc, user) => {
+        //     acc.total += 1
+        //     if (user.role === 'USER') acc.totalUsers += 1
+        //     if (user.role === 'ADMIN') acc.totalAdmins += 1
+        //     return acc
+        //   },
+        //   { total: 0, totalUsers: 0, totalAdmins: 0 },
+        // )
 
         setUsers(fetchedUsers)
-        setTotals(computedTotals)
+        setFilteredUsers(fetchedUsers)
+        // setTotals(computedTotals)
       } catch (err) {
         console.error('Erro ao buscar usuários:', err)
       } finally {
@@ -137,7 +167,7 @@ export default function Users() {
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
       <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        {/* <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -169,6 +199,13 @@ export default function Users() {
           <p>
             {texts.admins}: {totals.totalAdmins}
           </p>
+        </div> */}
+        <div className="col-span-3">
+          <Search
+            placeholder="Search users..."
+            searchQuery={searchQuery}
+            onSearch={handleSearch}
+          />
         </div>
         <div className="col-span-1 flex justify-center items-center">
           <ButtonGlobal
@@ -182,7 +219,7 @@ export default function Users() {
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
-        <UsersTable data={users} />
+        <UsersTable data={filteredUsers} />
       </section>
 
       {isModalOpen && (
@@ -190,7 +227,7 @@ export default function Users() {
           isOpen={isModalOpen}
           formData={formData}
           error={error}
-          loading={loading}
+          loading={loadingButton}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}

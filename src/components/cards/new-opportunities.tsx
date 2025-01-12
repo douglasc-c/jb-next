@@ -8,7 +8,37 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface Enterprise {
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface Image {
+  imageUrl: string
+}
+
+interface Venture {
   id: number
   name: string
   corporateName: string
@@ -27,25 +57,28 @@ interface Enterprise {
   progress: number
   floors: number
   completionDate: string
-  startDate: string | null
+  startDate: string
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
   updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: Image[]
 }
 
 interface NewOpportunitiesProps {
-  recentEnterprises: Enterprise[]
+  recentEnterprises: Venture[]
 }
 
 export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   const { textNewOpportunities } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<Enterprise | null>(
-    null,
-  )
+  const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
   const router = useRouter()
-  const openModal = (row: Enterprise) => {
+  const openModal = (row: Venture) => {
     console.log(row)
     setSelectedContract(row)
     setIsModalOpen(true)

@@ -2,31 +2,7 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { InputField } from '../inputs/input-field'
 
 interface UserData {
-  firstName: string
-  lastName: string
-  complianceStatus: string
-  email: string
-  phone: string
-  role: string
-  birthDate: string
-  createdAt: string
-  totalInvested: number
-  totalValuation: number
-  username: string
   walletBalance: number
-  numberDocument: string
-  id: string
-  userType: string
-  address?: {
-    street?: string
-    number?: string
-    complement?: string
-    neighborhood?: string
-    city?: string
-    state?: string
-    postalCode?: string
-    country?: string
-  }
 }
 
 interface FinancialTabProps {
