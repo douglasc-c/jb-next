@@ -260,7 +260,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           const response = await api.get(
             `/admin/enterprise/images/${venture.id}`,
           )
-          console.log(response)
+
           setVentureImages(response.data.images)
         } catch (err) {
           console.log(err)
@@ -323,12 +323,14 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           </button>
         </div>
         <div>
+          {/* {activeTab === 'overview' && ( */}
           <button
             className="bg-red-600 px-4 rounded-md text-sm"
             onClick={() => setIsModalDeleteOpen(true)}
           >
             {texts.delete}
           </button>
+          {/* )} */}
         </div>
       </div>
 
