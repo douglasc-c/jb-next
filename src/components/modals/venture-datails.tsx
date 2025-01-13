@@ -81,11 +81,12 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [activeTab, setActiveTab] = useState<
     'overview' | 'images' | 'tasks' | 'valuation'
   >('overview')
+  const [isEditing, setIsEditing] = useState(false)
   const [editableData, setEditableData] = useState<Venture>({ ...venture })
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
-  const [isEditing, setIsEditing] = useState(false)
   const [ventureImages, setVentureImages] = useState<string[]>([])
-  const [selectedImages, setSelectedImages] = useState<Image[]>([])
+  const [selectedImages, setSelectedImages] = useState<string[]>([])
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
 
   const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
@@ -171,65 +172,91 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     })
   }
 
-  const handleSelectImage = (image: Image) => {
-    const isSelected = selectedImages.some((img) => img === image)
-
-    if (isSelected) {
-      setSelectedImages(selectedImages.filter((img) => img !== image))
-    } else {
-      setSelectedImages((prevSelectedImages) => [...prevSelectedImages, image])
-    }
+  const handleSelectImage = (selected: string[]) => {
+    setSelectedImages(selected)
   }
 
   const handleSave = async () => {
     setIsEditing(false)
-    let response
 
     try {
-      if (activeTab === 'overview') {
-        if (Object.keys(changedData).length === 0) {
-          return
-        }
+      let response
 
-        response = await api.put(
-          `/admin/update/enterprise/${editableData.id}`,
-          {
-            ...changedData,
-            forceUpdate: false,
-          },
-        )
+      if (activeTab === 'overview') {
+        response = await handleOverviewUpdate()
       } else if (activeTab === 'images') {
-        response = await api.delete(
-          `/admin/delete/images-enterprise/${editableData.id}`,
-          { data: { imageUrls: selectedImages } },
-        )
+        response = await handleImageOperations()
       } else if (activeTab === 'tasks') {
-        response = await api.put(`admin/update/${editableData.id}/valuation`, {
-          newValuation: 150000,
-          mode: 'confirmed',
-        })
+        response = await handleProgessUpdate()
       } else if (activeTab === 'valuation') {
-        response = await api.put(`admin/update/${editableData.id}/valuation`, {
-          newValuation: 150000,
-          mode: 'confirmed',
-        })
+        response = await handleValuationUpdate()
       }
-      console.log(response)
 
       if (response?.status === 200 || response?.status === 201) {
-        console.log('Update successful', response.data)
-        setChangedData({})
-        setSelectedImages([])
+        console.log('Update successful:', response.data)
       } else {
-        setChangedData({})
-        setSelectedImages([])
-        console.error('Failed to update data', response)
+        console.error('Failed to update data:', response)
       }
     } catch (error) {
-      setChangedData({})
-      setSelectedImages([])
       console.error('Error while updating:', error)
+    } finally {
+      resetState()
     }
+  }
+
+  const handleOverviewUpdate = async () => {
+    if (Object.keys(changedData).length === 0) {
+      console.log('Nenhuma alteração detectada.')
+      return null
+    }
+
+    return api.put(`/admin/update/enterprise/${editableData.id}`, {
+      ...changedData,
+      forceUpdate: false,
+    })
+  }
+
+  const handleImageOperations = async () => {
+    if (uploadedFiles.length > 0) {
+      const formData = new FormData()
+      uploadedFiles.forEach((file) => formData.append('images', file))
+
+      await api.put(`/admin/images-enterprise/${editableData.id}`, formData)
+      console.log('Imagens enviadas com sucesso.')
+    } else {
+      console.log('Nenhuma imagem para upload.')
+    }
+
+    if (selectedImages.length > 0) {
+      return api.delete(`/admin/delete/images-enterprise/${editableData.id}`, {
+        data: { imageUrls: selectedImages },
+      })
+    } else {
+      console.log('Nenhuma imagem para deletar.')
+      return null
+    }
+  }
+
+  const handleProgessUpdate = async () => {
+    return api.put('admin/update-progress-task', {
+      // enterpriseId,
+      // phaseId,
+      // taskId,
+      // isCompleted,
+    })
+  }
+
+  const handleValuationUpdate = async () => {
+    return api.put(`admin/update/${editableData.id}/valuation`, {
+      newValuation: 150000,
+      mode: 'confirmed',
+    })
+  }
+
+  const resetState = () => {
+    setChangedData({})
+    setSelectedImages([])
+    setUploadedFiles([])
   }
 
   const handleCancel = () => {
@@ -251,6 +278,10 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
 
   const closeModalDelete = () => {
     setIsModalDeleteOpen(false)
+  }
+
+  const handleAddImages = (newFiles: File[]) => {
+    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles])
   }
 
   useEffect(() => {
@@ -349,6 +380,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
               isEditing={isEditing}
               onSelect={handleSelectImage}
               isSelected={selectedImages}
+              addImages={handleAddImages}
             />
           </div>
         )}

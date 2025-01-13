@@ -8,7 +8,7 @@ interface UserData {
 interface FinancialTabProps {
   isEditing: boolean
   editableData: UserData
-  handleInputChange: (field: string, value: string, isAddress?: boolean) => void
+  handleInputChange: (field: string, value: string) => void
 }
 
 export const FinancialTab: React.FC<FinancialTabProps> = ({
