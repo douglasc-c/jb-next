@@ -118,6 +118,9 @@ export interface LayoutAdminContextProps {
     areYouSureYouWantToDeleteIt: string
     approve: string
     reject: string
+    selectAStage: string
+    selectATaks: string
+    completPhase: string
   }
 
   locale: string

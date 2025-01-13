@@ -156,6 +156,9 @@ export default async function RootLayout({
     areYouSureYouWantToDeleteIt: t('TextLang.areYouSureYouWantToDeleteIt'),
     approve: t('TextLang.approve'),
     reject: t('TextLang.reject'),
+    selectAStage: t('TextLang.selectAStage'),
+    selectATaks: t('TextLang.selectATaks'),
+    completPhase: t('TextLang.completPhase'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

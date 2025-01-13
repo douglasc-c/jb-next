@@ -4,6 +4,7 @@ import { VentureTab } from '../tabs/venture'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import ImageGallery from '../tabs/imagens'
 import DeleteModal from './delete'
+import SelectWithToggle from '../tabs/stages'
 
 interface CurrentPhase {
   id: number
@@ -32,7 +33,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  imageUrl: string
+  url: string
 }
 
 interface Venture {
@@ -84,7 +85,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [isEditing, setIsEditing] = useState(false)
   const [editableData, setEditableData] = useState<Venture>({ ...venture })
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
-  const [ventureImages, setVentureImages] = useState<string[]>([])
+  const [ventureImages, setVentureImages] = useState<Image[]>([])
   const [selectedImages, setSelectedImages] = useState<string[]>([])
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
@@ -170,10 +171,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         return prev
       }
     })
-  }
-
-  const handleSelectImage = (selected: string[]) => {
-    setSelectedImages(selected)
   }
 
   const handleSave = async () => {
@@ -284,6 +281,10 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles])
   }
 
+  const handleSelectImage = (selected: string[]) => {
+    setSelectedImages(selected)
+  }
+
   useEffect(() => {
     if (activeTab === 'images' && venture.id) {
       const fetchVentureImages = async () => {
@@ -354,14 +355,12 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           </button>
         </div>
         <div>
-          {/* {activeTab === 'overview' && ( */}
           <button
             className="bg-red-600 px-4 rounded-md text-sm"
             onClick={() => setIsModalDeleteOpen(true)}
           >
             {texts.delete}
           </button>
-          {/* )} */}
         </div>
       </div>
 
@@ -385,14 +384,10 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           </div>
         )}
         {activeTab === 'tasks' && (
-          <div>
-            <div>
-              <h4>{editableData.currentPhase?.phaseName}</h4>
-              <p>{editableData.currentPhase?.description}</p>
-              <h4>{editableData.currentTask?.taskName}</h4>
-              <p>{editableData.currentTask?.description}</p>
-            </div>
-          </div>
+          <SelectWithToggle
+            phaseId={venture.currentPhaseId}
+            taskId={venture.currentTaskId}
+          />
         )}
         {activeTab === 'valuation' && (
           <div>
@@ -406,22 +401,24 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
       </div>
 
-      <div className="flex justify-end mt-4 space-x-4">
-        {isEditing && (
+      {activeTab !== 'tasks' && activeTab !== 'valuation' && (
+        <div className="flex justify-end mt-4 space-x-4">
+          {isEditing && (
+            <button
+              onClick={handleCancel}
+              className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+            >
+              {texts.cancel}
+            </button>
+          )}
           <button
-            onClick={handleCancel}
-            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+            className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
           >
-            {texts.cancel}
+            {isEditing ? texts.save : texts.edit}
           </button>
-        )}
-        <button
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
-        >
-          {isEditing ? texts.save : texts.edit}
-        </button>
-      </div>
+        </div>
+      )}
 
       {isModalDeleteOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

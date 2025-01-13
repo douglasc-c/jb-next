@@ -163,7 +163,10 @@
       "delete": "Deletar",
       "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?",
       "approve": "Aprovar",
-      "reject": "Rejeitar"
+      "reject": "Rejeitar",
+      "selectAStage": "Selecione a etapa",
+      "selectATaks": "Selecione a taréfa",
+      "completPhase": "Fase completa"
   }
 }
 

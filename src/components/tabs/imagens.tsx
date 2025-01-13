@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 
+interface ImageItem {
+  url: string
+}
+
 interface ImageGalleryProps {
-  images: string[]
+  images: ImageItem[]
   isEditing?: boolean
   onSelect?: (image: string[]) => void
   isSelected: string[]
@@ -18,8 +22,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-  const openImage = (image: string) => {
-    setSelectedImage(image)
+  const openImage = (image: ImageItem) => {
+    setSelectedImage(image.url)
   }
 
   const closeImage = () => {
@@ -49,39 +53,44 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   return (
     <div>
       <div className="flex flex-row max-w-40 max-h-40 space-x-4">
-        {images?.map((img, index) => {
-          const isImageSelected = isSelected.includes(img)
+        {images?.length === 0 ? (
+          <p className="text-red-500">Não há imagens disponíveis.</p>
+        ) : (
+          images?.map((img, index) => {
+            const isImageSelected = isSelected.includes(img.url)
 
-          return (
-            <div key={index} className="relative w-full h-full">
-              {isEditing && (
-                <div className="flex justify-end -mb-4 -mr-1 z-50">
-                  <button
-                    className={`${
-                      isImageSelected ? 'bg-primary' : 'bg-secondary'
-                    } flex rounded-full h-6 w-6 items-center justify-center z-50 hover:bg-primary`}
-                    onClick={() => handleSelectImage(img)}
-                  >
-                    <Image
-                      src="/images/svg/trash.svg"
-                      alt="Remove"
-                      height={15}
-                      width={15}
-                    />
-                  </button>
-                </div>
-              )}
-              <Image
-                src={`http://localhost:3335${img}`}
-                alt={`Image ${index + 1}`}
-                width={110}
-                height={110}
-                className="rounded-lg cursor-pointer"
-                onClick={() => openImage(img)}
-              />
-            </div>
-          )
-        })}
+            return (
+              <div key={index} className="relative w-full h-full">
+                {isEditing && (
+                  <div className="flex justify-end -mb-4 -mr-1 z-50">
+                    <button
+                      className={`${
+                        isImageSelected ? 'bg-primary' : 'bg-secondary'
+                      } flex rounded-full h-6 w-6 items-center justify-center z-50 hover:bg-primary`}
+                      onClick={() => handleSelectImage(img.url)}
+                    >
+                      <Image
+                        src="/images/svg/trash.svg"
+                        alt="Remove"
+                        height={15}
+                        width={15}
+                      />
+                    </button>
+                  </div>
+                )}
+                <Image
+                  src={`http://localhost:3335${img.url}`}
+                  alt={`Image ${index + 1}`}
+                  width={110}
+                  height={110}
+                  className="rounded-lg cursor-pointer"
+                  onClick={() => openImage(img)}
+                />
+              </div>
+            )
+          })
+        )}
+
         {isEditing && (
           <div className="flex bg-zinc-600 rounded-lg p-7 items-center justify-center">
             <label htmlFor="file-upload" className="cursor-pointer">
