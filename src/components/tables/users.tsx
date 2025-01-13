@@ -16,6 +16,10 @@ interface User {
   totalInvested: number
   totalValuation: number
   username: string
+  documentFront: string
+  documentBack: string
+  proofOfAddress: string
+  incomeTaxProof: string
   walletBalance: number
   numberDocument: string
   id: string

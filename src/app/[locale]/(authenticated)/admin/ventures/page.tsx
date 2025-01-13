@@ -36,7 +36,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  imageUrl: string
+  url: string
 }
 
 interface Venture {

@@ -183,8 +183,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         response = await handleOverviewUpdate()
       } else if (activeTab === 'images') {
         response = await handleImageOperations()
-      } else if (activeTab === 'tasks') {
-        response = await handleProgessUpdate()
       } else if (activeTab === 'valuation') {
         response = await handleValuationUpdate()
       }
@@ -232,15 +230,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
       console.log('Nenhuma imagem para deletar.')
       return null
     }
-  }
-
-  const handleProgessUpdate = async () => {
-    return api.put('admin/update-progress-task', {
-      // enterpriseId,
-      // phaseId,
-      // taskId,
-      // isCompleted,
-    })
   }
 
   const handleValuationUpdate = async () => {

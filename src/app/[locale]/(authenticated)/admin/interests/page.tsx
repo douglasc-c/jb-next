@@ -18,6 +18,10 @@ interface User {
   createdAt: string
   totalInvested: number
   totalValuation: number
+  documentFront: string
+  documentBack: string
+  proofOfAddress: string
+  incomeTaxProof: string
   username: string
   walletBalance: number
   numberDocument: string
@@ -45,7 +49,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  imageUrl: string
+  url: string
 }
 
 interface Venture {
