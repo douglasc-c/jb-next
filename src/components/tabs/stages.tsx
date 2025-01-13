@@ -18,11 +18,13 @@ interface Phase {
 interface SelectWithToggleProps {
   phaseId: number
   taskId: number
+  ventureId: number
 }
 
 const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
   phaseId,
   taskId,
+  ventureId,
 }) => {
   const { texts } = useLayoutAdminContext()
   const [phases, setPhases] = useState<Phase[]>([])
@@ -57,8 +59,26 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
     setIsToggled(false)
   }
 
-  const toggleSwitch = () => {
-    setIsToggled((prev) => !prev)
+  const toggleSwitch = async () => {
+    const newToggleState = !isToggled
+    setIsToggled(newToggleState)
+
+    if (selectedPhase && selectedTask) {
+      try {
+        const response = await api.post('/admin/update-progress-task', {
+          enterpriseId: ventureId,
+          phaseId: selectedPhase,
+          taskId: selectedTask,
+          isCompleted: newToggleState,
+        })
+
+        console.log('Task progress updated successfully.', response)
+      } catch (error) {
+        console.error('Error updating task progress:', error)
+      }
+    } else {
+      console.error('Phase and task must be selected to update progress.')
+    }
   }
 
   const selectedPhaseTasks =

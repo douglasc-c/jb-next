@@ -385,6 +385,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
         {activeTab === 'tasks' && (
           <SelectWithToggle
+            ventureId={venture.id}
             phaseId={venture.currentPhaseId}
             taskId={venture.currentTaskId}
           />
