@@ -114,7 +114,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {selectedImage && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center">
-          <div className="relative max-w-[30rem]">
+          <div className="relative max-w-[30rem] max-h-[90vh] overflow-y-auto">
             <button
               onClick={closeImage}
               className="absolute top-2 right-2 bg-black hover:bg-black bg-opacity-45 rounded-md text-primary text-2xl font-bold"

@@ -113,7 +113,7 @@ export default async function RootLayout({
     userDetails: t('TextLang.userDetails'),
     userData: t('TextLang.userData'),
     userAddress: t('TextLang.userAddress'),
-    userFinancial: t('TextLang.userFinancial'),
+    financial: t('TextLang.financial'),
     firstName: t('TextLang.firstName'),
     phone: t('TextLang.phone'),
     dateOfBith: t('TextLang.dateOfBith'),
@@ -154,6 +154,8 @@ export default async function RootLayout({
     valuation: t('TextLang.valuation'),
     delete: t('TextLang.delete'),
     areYouSureYouWantToDeleteIt: t('TextLang.areYouSureYouWantToDeleteIt'),
+    approve: t('TextLang.approve'),
+    reject: t('TextLang.reject'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

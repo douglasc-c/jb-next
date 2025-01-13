@@ -126,9 +126,9 @@
       "interested": "Interessados",
       "interestDate": "Data de interesse",
       "userDetails": "Detalhes do usuário",
-      "userData": "Dados do usuário",
+      "userData": "Dados",
       "userAddress": "Endereço do usuário",
-      "userFinancial": "Detalhes financeiro",
+      "financial": "Financeiro",
       "firstName": "Primeiro nome",
       "phone": "Telefone",
       "street": "Rua",
@@ -161,7 +161,9 @@
       "apartment": "Apartamento",
       "valuation": "Valuation",
       "delete": "Deletar",
-      "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?"
+      "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?",
+      "approve": "Aprovar",
+      "reject": "Rejeitar"
   }
 }
 
