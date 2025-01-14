@@ -3,6 +3,8 @@ import { InputField } from '../inputs/input-field'
 
 interface UserData {
   walletBalance: number
+  totalInvested: number
+  totalValuation: number
 }
 
 interface FinancialTabProps {
@@ -17,8 +19,25 @@ export const FinancialTab: React.FC<FinancialTabProps> = ({
   handleInputChange,
 }) => {
   const { texts } = useLayoutAdminContext()
+
   return (
     <div className="grid grid-cols-2 gap-4 text-left">
+      <InputField
+        label={texts.totalInvested}
+        value={editableData.totalInvested.toString()}
+        isEditing={false}
+        onChange={(value) =>
+          handleInputChange('walletBalance', parseFloat(value).toString())
+        }
+      />
+      <InputField
+        label={texts.totalValuation}
+        value={editableData.totalValuation.toString()}
+        isEditing={false}
+        onChange={(value) =>
+          handleInputChange('walletBalance', parseFloat(value).toString())
+        }
+      />
       <InputField
         label={texts.balance}
         value={editableData.walletBalance.toString()}

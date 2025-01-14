@@ -159,6 +159,16 @@ export default async function RootLayout({
     selectAStage: t('TextLang.selectAStage'),
     selectATaks: t('TextLang.selectATaks'),
     completPhase: t('TextLang.completPhase'),
+    newValuation: t('TextLang.newValuation'),
+    consulting: t('TextLang.consulting'),
+    mode: t('TextLang.mode'),
+    confirmed: t('TextLang.confirmed'),
+    totalInvested: t('TextLang.totalInvested'),
+    totalValuation: t('TextLang.totalValuation'),
+    valuationBefore: t('TextLang.valuationBefore'),
+    valuationAfter: t('TextLang.valuationAfter'),
+    difference: t('TextLang.difference'),
+    percentage: t('TextLang.percentage'),
   }
 
   const layoutValue: LayoutAdminContextProps = {
