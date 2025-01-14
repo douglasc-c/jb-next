@@ -126,9 +126,9 @@
       "interested": "Interessados",
       "interestDate": "Data de interesse",
       "userDetails": "Detalhes do usuário",
-      "userData": "Dados do usuário",
+      "userData": "Dados",
       "userAddress": "Endereço do usuário",
-      "userFinancial": "Detalhes financeiro",
+      "financial": "Financeiro",
       "firstName": "Primeiro nome",
       "phone": "Telefone",
       "street": "Rua",
@@ -159,7 +159,14 @@
       "summary": "Resumo",
       "house": "Casa",
       "apartment": "Apartamento",
-      "valuation": "Valuation"
+      "valuation": "Valuation",
+      "delete": "Deletar",
+      "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?",
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "selectAStage": "Selecione a etapa",
+      "selectATaks": "Selecione a taréfa",
+      "completPhase": "Fase completa"
   }
 }
 

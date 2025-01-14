@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { VentureTab } from '../tabs/venture'
-import Image from 'next/image'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import ImageGallery from '../tabs/imagens'
+import DeleteModal from './delete'
+import SelectWithToggle from '../tabs/stages'
+import { usePathname } from 'next/navigation'
 
 interface CurrentPhase {
   id: number
@@ -31,7 +34,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  imageUrl: string
+  url: string
 }
 
 interface Venture {
@@ -77,13 +80,19 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   onClose,
 }) => {
   const { texts } = useLayoutAdminContext()
+  const pathname = usePathname()
+  const parts = pathname.split('/')
+  const route = parts.slice(3).join('/')
   const [activeTab, setActiveTab] = useState<
     'overview' | 'images' | 'tasks' | 'valuation'
   >('overview')
+  const [isEditing, setIsEditing] = useState(false)
   const [editableData, setEditableData] = useState<Venture>({ ...venture })
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
-  const [isEditing, setIsEditing] = useState(false)
   const [ventureImages, setVentureImages] = useState<Image[]>([])
+  const [selectedImages, setSelectedImages] = useState<string[]>([])
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
 
   const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
     name: 'string',
@@ -170,54 +179,109 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
 
   const handleSave = async () => {
     setIsEditing(false)
-    let response
-
-    if (Object.keys(changedData).length === 0) {
-      return
-    }
 
     try {
+      let response
+
       if (activeTab === 'overview') {
-        response = await api.put(
-          `/admin/update/enterprise/${editableData.id}`,
-          {
-            ...changedData,
-            forceUpdate: false,
-          },
-        )
+        response = await handleOverviewUpdate()
       } else if (activeTab === 'images') {
-        response = await api.post(
-          `/admin/enterprise/${editableData.id}`,
-          editableData.id,
-        )
-      } else if (activeTab === 'tasks') {
-        response = await api.put(`admin/update/${editableData.id}/valuation`, {
-          newValuation: 150000,
-          mode: 'confirmed',
-        })
+        response = await handleImageOperations()
+
+        if (response?.status === 200 || response?.status === 201) {
+          setVentureImages((prevImages) =>
+            prevImages.filter((image) => !selectedImages.includes(image.url)),
+          )
+        }
       } else if (activeTab === 'valuation') {
-        response = await api.put(`admin/update/${editableData.id}/valuation`, {
-          newValuation: 150000,
-          mode: 'confirmed',
-        })
+        response = await handleValuationUpdate()
       }
 
       if (response?.status === 200 || response?.status === 201) {
-        console.log('Update successful', response.data)
-        setChangedData({})
+        console.log('Update successful:', response.data)
       } else {
-        setChangedData({})
-        console.error('Failed to update data', response)
+        console.error('Failed to update data:', response)
       }
     } catch (error) {
-      setChangedData({})
       console.error('Error while updating:', error)
+    } finally {
+      resetState()
     }
+  }
+
+  const handleOverviewUpdate = async () => {
+    if (Object.keys(changedData).length === 0) {
+      console.log('Nenhuma alteração detectada.')
+      return null
+    }
+
+    return api.put(`/admin/update/enterprise/${editableData.id}`, {
+      ...changedData,
+      forceUpdate: false,
+    })
+  }
+
+  const handleImageOperations = async () => {
+    if (uploadedFiles.length > 0) {
+      const formData = new FormData()
+      uploadedFiles.forEach((file) => formData.append('images', file))
+
+      await api.put(`/admin/images-enterprise/${editableData.id}`, formData)
+      console.log('Imagens enviadas com sucesso.')
+    } else {
+      console.log('Nenhuma imagem para upload.')
+    }
+
+    if (selectedImages.length > 0) {
+      return api.delete(`/admin/delete/images-enterprise/${editableData.id}`, {
+        data: { imageUrls: selectedImages },
+      })
+    } else {
+      console.log('Nenhuma imagem para deletar.')
+      return null
+    }
+  }
+
+  const handleValuationUpdate = async () => {
+    return api.put(`admin/update/${editableData.id}/valuation`, {
+      newValuation: 150000,
+      mode: 'confirmed',
+    })
+  }
+
+  const resetState = () => {
+    setChangedData({})
+    setSelectedImages([])
+    setUploadedFiles([])
   }
 
   const handleCancel = () => {
     setEditableData({ ...venture })
     setIsEditing(false)
+  }
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/admin/enterprise/${editableData.id}`)
+    } catch (error) {
+      console.error('Erro ao deletar:', error)
+    } finally {
+      closeModalDelete()
+      setIsModalDeleteOpen(false)
+      onClose()
+    }
+  }
+
+  const closeModalDelete = () => {
+    setIsModalDeleteOpen(false)
+  }
+
+  const handleAddImages = (newFiles: File[]) => {
+    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles])
+  }
+
+  const handleSelectImage = (selected: string[]) => {
+    setSelectedImages(selected)
   }
 
   useEffect(() => {
@@ -227,6 +291,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           const response = await api.get(
             `/admin/enterprise/images/${venture.id}`,
           )
+
           setVentureImages(response.data.images)
         } catch (err) {
           console.log(err)
@@ -261,31 +326,47 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         </button>
       </div>
 
-      <div className="flex space-x-4 border-b border-gray-600">
-        <button
-          className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          {texts.summary}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('images')}
-        >
-          {texts.images}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('tasks')}
-        >
-          {texts.stage}
-        </button>
-        <button
-          className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('valuation')}
-        >
-          {texts.valuation}
-        </button>
+      <div className="flex border-b border-gray-600 justify-between">
+        <div className="space-x-4">
+          <button
+            className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            {texts.summary}
+          </button>
+          <button
+            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('images')}
+          >
+            {texts.images}
+          </button>
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('tasks')}
+            >
+              {texts.stage}
+            </button>
+          )}
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('valuation')}
+            >
+              {texts.valuation}
+            </button>
+          )}
+        </div>
+        {route !== 'interests' && (
+          <div>
+            <button
+              className="bg-red-600 px-4 rounded-md text-sm"
+              onClick={() => setIsModalDeleteOpen(true)}
+            >
+              {texts.delete}
+            </button>
+          </div>
+        )}
       </div>
 
       <div>
@@ -298,43 +379,21 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
         {activeTab === 'images' && (
           <div>
-            <div className="flex flex-row max-w-40 max-h-40 space-x-4">
-              {ventureImages?.map((img, index) => (
-                <div key={index} className="relative w-full h-full">
-                  {isEditing && (
-                    <div className="flex justify-end -mb-4 -mr-1 z-50">
-                      <button className="bg-primary hover:bg-secondary flex rounded-full h-6 w-6 items-center justify-center z-50">
-                        <Image
-                          src="/images/svg/trash.svg"
-                          alt="WiseBot Logo"
-                          height={15}
-                          width={15}
-                        />
-                      </button>
-                    </div>
-                  )}
-                  <Image
-                    src={`http://localhost:3335${img}`}
-                    alt={`Image ${index + 1}`}
-                    layout="responsive"
-                    width={500}
-                    height={300}
-                    className="rounded-lg"
-                  />
-                </div>
-              ))}
-            </div>
+            <ImageGallery
+              images={ventureImages}
+              isEditing={isEditing}
+              onSelect={handleSelectImage}
+              isSelected={selectedImages}
+              addImages={handleAddImages}
+            />
           </div>
         )}
         {activeTab === 'tasks' && (
-          <div>
-            <div>
-              <h4>{editableData.currentPhase?.phaseName}</h4>
-              <p>{editableData.currentPhase?.description}</p>
-              <h4>{editableData.currentTask?.taskName}</h4>
-              <p>{editableData.currentTask?.description}</p>
-            </div>
-          </div>
+          <SelectWithToggle
+            ventureId={venture.id}
+            phaseId={venture.currentPhaseId}
+            taskId={venture.currentTaskId}
+          />
         )}
         {activeTab === 'valuation' && (
           <div>
@@ -348,22 +407,38 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
       </div>
 
-      <div className="flex justify-end mt-4 space-x-4">
-        {isEditing && (
-          <button
-            onClick={handleCancel}
-            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
-          >
-            {texts.cancel}
-          </button>
+      {route !== 'interests' &&
+        activeTab !== 'tasks' &&
+        activeTab !== 'valuation' && (
+          <div className="flex justify-end mt-4 space-x-4">
+            {isEditing && (
+              <button
+                onClick={handleCancel}
+                className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+              >
+                {texts.cancel}
+              </button>
+            )}
+            <button
+              onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+              className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
+            >
+              {isEditing ? texts.save : texts.edit}
+            </button>
+          </div>
         )}
-        <button
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
-        >
-          {isEditing ? texts.save : texts.edit}
-        </button>
-      </div>
+
+      {isModalDeleteOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="p-6 rounded-lg w-3/4">
+            <DeleteModal
+              onClose={closeModalDelete}
+              isOpen={isModalDeleteOpen}
+              handleSubmit={handleDelete}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

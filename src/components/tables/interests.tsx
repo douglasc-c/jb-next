@@ -15,6 +15,10 @@ interface User {
   role: string
   birthDate: string
   createdAt: string
+  documentFront: string
+  documentBack: string
+  proofOfAddress: string
+  incomeTaxProof: string
   totalInvested: number
   totalValuation: number
   username: string
@@ -44,7 +48,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  imageUrl: string
+  url: string
 }
 
 interface Venture {

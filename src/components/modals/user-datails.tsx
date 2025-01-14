@@ -5,6 +5,8 @@ import { UserTab } from '../tabs/user'
 import { AddressTab } from '../tabs/address'
 import { FinancialTab } from '../tabs/financial'
 import { usePathname } from 'next/navigation'
+import DeleteModal from './delete'
+import CompleanceImage from '../tabs/compliance-imagens'
 
 interface UserData {
   firstName: string
@@ -17,6 +19,10 @@ interface UserData {
   createdAt: string
   totalInvested: number
   totalValuation: number
+  documentFront: string
+  documentBack: string
+  proofOfAddress: string
+  incomeTaxProof: string
   username: string
   walletBalance: number
   numberDocument: string
@@ -49,10 +55,11 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   const pathname = usePathname()
   const parts = pathname.split('/')
   const route = parts.slice(3).join('/')
-
-  const [activeTab, setActiveTab] = useState<'user' | 'address' | 'financial'>(
-    'user',
-  )
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [activeTab, setActiveTab] = useState<
+    'user' | 'address' | 'financial' | 'compliance'
+  >('user')
   const [editableData, setEditableData] = useState<UserData>({
     ...user,
     address: {
@@ -67,9 +74,13 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       ...user.address,
     },
   })
-  const [isEditing, setIsEditing] = useState(false)
-
-  if (!isOpen) return null
+  const images = [
+    user.documentFront,
+    user.documentBack,
+    user.proofOfAddress,
+    user.incomeTaxProof,
+  ]
+  const isAllNull = images.every((image) => image === null)
 
   const handleInputChange = (
     field: string,
@@ -127,6 +138,19 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     }
   }
 
+  const handleCompliance = async (status: string) => {
+    try {
+      const response = await api.put(
+        `admin/updatecompliance/${editableData.id}`,
+        { status },
+      )
+      console.log('Compliance atualizado com sucesso:', response.data)
+      onClose()
+    } catch (error) {
+      console.error('Erro ao atualizar compliance:', error)
+    }
+  }
+
   const handleCancel = () => {
     setEditableData({
       ...user,
@@ -144,6 +168,24 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     })
     setIsEditing(false)
   }
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/admin/user/${editableData.id}/delete`)
+    } catch (error) {
+      console.error('Erro ao deletar:', error)
+    } finally {
+      closeModalDelete()
+      setIsModalDeleteOpen(false)
+      onClose()
+    }
+  }
+
+  const closeModalDelete = () => {
+    setIsModalDeleteOpen(false)
+  }
+
+  if (!isOpen) return null
 
   return (
     <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
@@ -167,27 +209,46 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         </button>
       </div>
 
-      <div className="flex space-x-4 border-b border-gray-600">
-        <button
-          className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('user')}
-        >
-          {texts.userData}
-        </button>
-        {route !== 'interests' && (
+      <div className="flex border-b border-gray-600 justify-between">
+        <div className="space-x-4">
           <button
-            className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
-            onClick={() => setActiveTab('address')}
+            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('user')}
           >
-            {texts.userAddress}
+            {texts.userData}
           </button>
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('address')}
+            >
+              {texts.address}
+            </button>
+          )}
+          <button
+            className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('financial')}
+          >
+            {texts.financial}
+          </button>
+
+          <button
+            className={`pb-2 ${activeTab === 'compliance' ? 'border-b-2 border-white' : ''}`}
+            onClick={() => setActiveTab('compliance')}
+          >
+            {texts.compliance}
+          </button>
+        </div>
+        {route !== 'interests' && (
+          <div>
+            <button
+              className="bg-red-600 px-4 rounded-md text-sm"
+              onClick={() => setIsModalDeleteOpen(true)}
+            >
+              {texts.delete}
+            </button>
+          </div>
         )}
-        <button
-          className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
-          onClick={() => setActiveTab('financial')}
-        >
-          {texts.userFinancial}
-        </button>
       </div>
 
       <div className="">
@@ -213,10 +274,12 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             handleInputChange={handleInputChange}
           />
         )}
+
+        {activeTab === 'compliance' && <CompleanceImage images={images} />}
       </div>
 
       <div className="flex justify-end mt-4 space-x-4">
-        {isEditing && (
+        {isEditing && activeTab !== 'compliance' && (
           <button
             onClick={handleCancel}
             className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
@@ -224,7 +287,8 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             {texts.cancel}
           </button>
         )}
-        {route !== 'interests' && (
+
+        {route !== 'interests' && activeTab !== 'compliance' && (
           <button
             onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
             className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
@@ -232,7 +296,39 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             {isEditing ? texts.save : texts.edit}
           </button>
         )}
+
+        {editableData.complianceStatus !== 'APPROVED' &&
+          !isAllNull &&
+          route !== 'interests' &&
+          activeTab === 'compliance' && (
+            <div className="flex w-full space-x-4">
+              <button
+                onClick={() => handleCompliance('REJECTED')}
+                className="bg-red-600 text-zinc-200 py-2 px-4 rounded-lg w-full"
+              >
+                {texts.reject}
+              </button>
+              <button
+                onClick={() => handleCompliance('APPROVED')}
+                className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
+              >
+                {texts.approve}
+              </button>
+            </div>
+          )}
       </div>
+
+      {isModalDeleteOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="p-6 rounded-lg w-3/4">
+            <DeleteModal
+              onClose={closeModalDelete}
+              isOpen={isModalDeleteOpen}
+              handleSubmit={handleDelete}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

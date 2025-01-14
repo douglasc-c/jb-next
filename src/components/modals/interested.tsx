@@ -13,6 +13,10 @@ interface User {
   role: string
   birthDate: string
   createdAt: string
+  documentFront: string
+  documentBack: string
+  proofOfAddress: string
+  incomeTaxProof: string
   totalInvested: number
   totalValuation: number
   username: string

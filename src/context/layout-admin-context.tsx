@@ -78,7 +78,7 @@ export interface LayoutAdminContextProps {
     userDetails: string
     userData: string
     userAddress: string
-    userFinancial: string
+    financial: string
     firstName: string
     phone: string
     dateOfBith: string
@@ -114,6 +114,13 @@ export interface LayoutAdminContextProps {
     apartment: string
     startDate: string
     valuation: string
+    delete: string
+    areYouSureYouWantToDeleteIt: string
+    approve: string
+    reject: string
+    selectAStage: string
+    selectATaks: string
+    completPhase: string
   }
 
   locale: string

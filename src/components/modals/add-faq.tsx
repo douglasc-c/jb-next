@@ -48,7 +48,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
   if (!isOpen) return null
 
   const hasCategories = categories.length > 0
-  console.log(loading)
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
