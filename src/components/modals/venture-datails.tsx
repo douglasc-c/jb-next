@@ -5,6 +5,7 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import ImageGallery from '../tabs/imagens'
 import DeleteModal from './delete'
 import SelectWithToggle from '../tabs/stages'
+import { usePathname } from 'next/navigation'
 
 interface CurrentPhase {
   id: number
@@ -79,6 +80,9 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   onClose,
 }) => {
   const { texts } = useLayoutAdminContext()
+  const pathname = usePathname()
+  const parts = pathname.split('/')
+  const route = parts.slice(3).join('/')
   const [activeTab, setActiveTab] = useState<
     'overview' | 'images' | 'tasks' | 'valuation'
   >('overview')
@@ -183,6 +187,12 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         response = await handleOverviewUpdate()
       } else if (activeTab === 'images') {
         response = await handleImageOperations()
+
+        if (response?.status === 200 || response?.status === 201) {
+          setVentureImages((prevImages) =>
+            prevImages.filter((image) => !selectedImages.includes(image.url)),
+          )
+        }
       } else if (activeTab === 'valuation') {
         response = await handleValuationUpdate()
       }
@@ -330,27 +340,33 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           >
             {texts.images}
           </button>
-          <button
-            className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
-            onClick={() => setActiveTab('tasks')}
-          >
-            {texts.stage}
-          </button>
-          <button
-            className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
-            onClick={() => setActiveTab('valuation')}
-          >
-            {texts.valuation}
-          </button>
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('tasks')}
+            >
+              {texts.stage}
+            </button>
+          )}
+          {route !== 'interests' && (
+            <button
+              className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
+              onClick={() => setActiveTab('valuation')}
+            >
+              {texts.valuation}
+            </button>
+          )}
         </div>
-        <div>
-          <button
-            className="bg-red-600 px-4 rounded-md text-sm"
-            onClick={() => setIsModalDeleteOpen(true)}
-          >
-            {texts.delete}
-          </button>
-        </div>
+        {route !== 'interests' && (
+          <div>
+            <button
+              className="bg-red-600 px-4 rounded-md text-sm"
+              onClick={() => setIsModalDeleteOpen(true)}
+            >
+              {texts.delete}
+            </button>
+          </div>
+        )}
       </div>
 
       <div>
@@ -391,24 +407,26 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         )}
       </div>
 
-      {activeTab !== 'tasks' && activeTab !== 'valuation' && (
-        <div className="flex justify-end mt-4 space-x-4">
-          {isEditing && (
+      {route !== 'interests' &&
+        activeTab !== 'tasks' &&
+        activeTab !== 'valuation' && (
+          <div className="flex justify-end mt-4 space-x-4">
+            {isEditing && (
+              <button
+                onClick={handleCancel}
+                className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+              >
+                {texts.cancel}
+              </button>
+            )}
             <button
-              onClick={handleCancel}
-              className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+              onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+              className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
             >
-              {texts.cancel}
+              {isEditing ? texts.save : texts.edit}
             </button>
-          )}
-          <button
-            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-            className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
-          >
-            {isEditing ? texts.save : texts.edit}
-          </button>
-        </div>
-      )}
+          </div>
+        )}
 
       {isModalDeleteOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

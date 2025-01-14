@@ -186,7 +186,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   }
 
   if (!isOpen) return null
-  console.log(user)
+
   return (
     <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -239,14 +239,16 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             {texts.compliance}
           </button>
         </div>
-        <div>
-          <button
-            className="bg-red-600 px-4 rounded-md text-sm"
-            onClick={() => setIsModalDeleteOpen(true)}
-          >
-            {texts.delete}
-          </button>
-        </div>
+        {route !== 'interests' && (
+          <div>
+            <button
+              className="bg-red-600 px-4 rounded-md text-sm"
+              onClick={() => setIsModalDeleteOpen(true)}
+            >
+              {texts.delete}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="">
