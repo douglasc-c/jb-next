@@ -127,9 +127,17 @@ export function InterestsTable({ data }: MyContractsProps) {
 
           return {
             ...prev,
-            contractInterests: prev.contractInterests.filter((interest) =>
-              interest.interestId === interestId ? status !== 'APPROVED' : true,
-            ),
+            contractInterests: prev.contractInterests
+              .map((interest) =>
+                interest.interestId === interestId
+                  ? { ...interest, status: 'APPROVED' }
+                  : interest,
+              )
+              .filter((interest) =>
+                interest.interestId === interestId
+                  ? status !== 'APPROVED'
+                  : true,
+              ),
           }
         })
       }
@@ -138,6 +146,7 @@ export function InterestsTable({ data }: MyContractsProps) {
       alert('Erro ao atualizar o status. Tente novamente.')
     } finally {
       setUpdating(null)
+      setIsInterestedModalOpen(false)
     }
   }
 

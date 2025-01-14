@@ -121,6 +121,16 @@ export interface LayoutAdminContextProps {
     selectAStage: string
     selectATaks: string
     completPhase: string
+    newValuation: string
+    consulting: string
+    confirmed: string
+    mode: string
+    totalInvested: string
+    totalValuation: string
+    valuationBefore: string
+    valuationAfter: string
+    difference: string
+    percentage: string
   }
 
   locale: string

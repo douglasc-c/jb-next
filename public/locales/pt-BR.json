@@ -94,6 +94,8 @@
       "validated": "Validado",
       "underReview": "Em Revisão",
       "total":"Total",
+      "totalInvested":"Total investido",
+      "totalValuation":"Total Rendido",
       "admins":"Administradores",
       "addUser":"Adicionar usuário",
       "userType": "Tipo de usuário",
@@ -159,14 +161,22 @@
       "summary": "Resumo",
       "house": "Casa",
       "apartment": "Apartamento",
-      "valuation": "Valuation",
+      "valuation": "Rendimento",
       "delete": "Deletar",
       "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?",
       "approve": "Aprovar",
       "reject": "Rejeitar",
       "selectAStage": "Selecione a etapa",
       "selectATaks": "Selecione a taréfa",
-      "completPhase": "Fase completa"
+      "completPhase": "Fase completa",
+      "newValuation": "Novo valor do rendimento",
+      "mode": "Modo",
+      "consulting": "Consulta",
+      "confirmed": "Confirmação",
+      "valuationBefore": "Valor anterior",
+      "valuationAfter": "Valor futuro",
+      "difference": "Diferença",
+      "percentage": "Porcentagem"
   }
 }
 

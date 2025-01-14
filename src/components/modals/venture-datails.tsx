@@ -6,6 +6,7 @@ import ImageGallery from '../tabs/imagens'
 import DeleteModal from './delete'
 import SelectWithToggle from '../tabs/stages'
 import { usePathname } from 'next/navigation'
+import ValuationForm from '../tabs/valuation'
 
 interface CurrentPhase {
   id: number
@@ -93,6 +94,9 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [selectedImages, setSelectedImages] = useState<string[]>([])
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
+  const [newValuation, setNewValuation] = useState<number | string>('')
+  const [mode, setMode] = useState<string>('consulting')
+  const [valuationData, setValuationData] = useState(null)
 
   const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
     name: 'string',
@@ -243,10 +247,19 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   }
 
   const handleValuationUpdate = async () => {
-    return api.put(`admin/update/${editableData.id}/valuation`, {
-      newValuation: 150000,
-      mode: 'confirmed',
-    })
+    try {
+      const response = await api.put(
+        `admin/update/${editableData.id}/valuation`,
+        {
+          newValuation,
+          mode,
+        },
+      )
+      setValuationData(response.data.data)
+      console.log('Resposta da API:', response.data)
+    } catch (error) {
+      console.error('Erro:', error)
+    }
   }
 
   const resetState = () => {
@@ -396,14 +409,14 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           />
         )}
         {activeTab === 'valuation' && (
-          <div>
-            <div>
-              <h4>{editableData.currentPhase?.phaseName}</h4>
-              <p>{editableData.currentPhase?.description}</p>
-              <h4>{editableData.currentTask?.taskName}</h4>
-              <p>{editableData.currentTask?.description}</p>
-            </div>
-          </div>
+          <ValuationForm
+            newValuation={newValuation}
+            setNewValuation={setNewValuation}
+            mode={mode}
+            setMode={setMode}
+            handleValuationUpdate={handleValuationUpdate}
+            valuationData={valuationData}
+          />
         )}
       </div>
 
