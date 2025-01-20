@@ -1,57 +1,53 @@
 'use client'
 
 import FAQAccordion from '@/components/cards/faq-accordion'
+import { Loading } from '@/components/loading/loading'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-// interface Questys {}
+interface Faq {
+  id: number
+  question: string
+  answer: string
+}
 
-// interface Category {}
+interface Category {
+  id: number
+  name: string
+  faqs: Faq[]
+}
 
 export default function Support() {
   const { texts } = useLayoutContext()
+  const [loading, setLoading] = useState(true)
 
-  const data = [
-    {
-      topic: 'Introdução à Programação',
-      questions: [
-        {
-          question: 'O que é programação?',
-          answer:
-            'Programação é o processo de escrever, testar, depurar e manter o código-fonte de programas de computador.',
-        },
-        {
-          question: 'Quais são as principais linguagens de programação?',
-          answer:
-            'Algumas das principais linguagens são Python, JavaScript, Java, C++ e C#.',
-        },
-        {
-          question: 'O que é um algoritmo?',
-          answer:
-            'Um algoritmo é uma sequência de passos para resolver um problema ou realizar uma tarefa.',
-        },
-      ],
-    },
-  ]
+  const [categories, setCategories] = useState<Category[]>([])
+
+  const fetchFaqCategories = async () => {
+    setLoading(true)
+    try {
+      const response = await api.get('/admin/faq/categories')
+      setCategories(response.data.categories || [])
+    } catch (err) {
+      console.error('Erro ao buscar categorias de FAQ:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchVentures = async () => {
-      try {
-        const response = await api.get('/admin/faq/categories')
-        // const fetchedFaq: Category[] = response.data.enterprises
-        console.log(response)
-        // setFilteredVentures(fetchedFaq)
-      } catch (err) {
-        console.error('Erro ao buscar faqs:', err)
-      } finally {
-        // setLoading(false)
-      }
-    }
-
-    fetchVentures()
+    fetchFaqCategories()
   }, [])
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
+      </div>
+    )
+  }
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
@@ -61,12 +57,10 @@ export default function Support() {
         </h1>
         <section className="flex flex-col w-full rounded-xl  p-4 bg-zinc-800 space-y-5 max-h-[calc(76vh)]">
           <section className="flex flex-col w-full space-y-5 overflow-auto">
-            {data.map((section, idx) => (
-              <FAQAccordion
-                key={idx}
-                topic={section.topic}
-                faqs={section.questions}
-              />
+            {categories.map((category) => (
+              <div key={category.id}>
+                <FAQAccordion topic={category.name} faqs={category.faqs} />
+              </div>
             ))}
           </section>
           <div className="flex flex-col text-zinc-400 items-center space-y-3">
