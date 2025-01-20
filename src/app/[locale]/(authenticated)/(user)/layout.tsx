@@ -135,6 +135,7 @@ export default async function RootLayout({
     documentBack: t('TextLang.documentBack'),
     proofOfAddress: t('TextLang.proofOfAddress'),
     incomeTaxProof: t('TextLang.incomeTaxProof'),
+    takeAnInterest: t('TextLang.takeAnInterest'),
   }
 
   const layoutValue: LayoutContextProps = {

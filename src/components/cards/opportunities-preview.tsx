@@ -78,7 +78,12 @@ export function OpportunitiesPreview({
   return (
     <div className="flex flex-row p-4 bg-zinc-800 rounded-xl h-auto justify-around w-full space-x-4">
       <section className="hidden md:block w-full h-40 relative">
-        <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
+        <Image
+          src={`http://localhost:3335${data.coverImageUrl}`}
+          alt={`Image`}
+          fill
+          className="absolute inset-0  bg-cover bg-center rounded-lg"
+        />
       </section>
       <section className="flex flex-col text-xs w-2/3 space-y-3 pt-4">
         <div className="flex uppercase">

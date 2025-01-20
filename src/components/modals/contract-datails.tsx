@@ -1,4 +1,6 @@
+import { useAuthContext } from '@/context/auth-context'
 import { useLayoutContext } from '@/context/layout-context'
+import api from '@/lib/api'
 import Image from 'next/image'
 
 interface CurrentPhase {
@@ -65,11 +67,11 @@ interface Venture {
 interface ContractProps {
   data: Venture
   onClick: () => void
-  handleClick?: (id: number) => Promise<void>
 }
 
-export function DetailContract({ data, onClick, handleClick }: ContractProps) {
+export function DetailContract({ data, onClick }: ContractProps) {
   const { texts } = useLayoutContext()
+  const { authData } = useAuthContext()
 
   const stages: Record<number, string> = {
     1: texts.topography,
@@ -82,10 +84,36 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
-  const hasApprovedContract = data.contractInterests.some(
-    (interest) => interest.status === 'APPROVED',
-  )
+  // Verifique se existe algum contrato com status 'pending' e o userId igual ao do usuário
+  const hasPendingContractInterest =
+    Array.isArray(data.contractInterests) &&
+    data.contractInterests.some(
+      (interest) =>
+        interest.status === 'PENDING' && interest.userId === authData?.user.id,
+    )
 
+  const hasApprovedContract =
+    Array.isArray(data.contractInterests) &&
+    data.contractInterests.some((interest) => interest.status === 'APPROVED')
+
+  const handleClickInterest = async (id: number) => {
+    console.log(`Interest action for contract ID: ${id}`)
+
+    try {
+      const response = await api.post(`/users/interest-enterprise`, {
+        enterpriseId: id,
+      })
+      console.log(response)
+      if (response?.status === 200 || response?.status === 201) {
+        console.log('Update successful', response.data)
+      } else {
+        console.error('Failed to update data', response)
+      }
+    } catch (error) {
+      console.error('Error while updating:', error)
+    }
+  }
+  console.log(data)
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -98,11 +126,11 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
       </div>
       <section className="hidden md:block w-full h-64 relative">
         {data.coverImageUrl ? (
-          <div
-            className="absolute inset-0 bg-cover bg-center rounded-lg"
-            style={{
-              backgroundImage: `url(http://localhost:3335${data.coverImageUrl})`,
-            }}
+          <Image
+            src={`http://localhost:3335${data.coverImageUrl}`}
+            alt={`Image`}
+            fill
+            className="absolute inset-0  bg-cover bg-center rounded-lg"
           />
         ) : (
           <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
@@ -143,7 +171,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
             <span className="font-light">{data.floors}</span>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-1/3">
+        <div className="flex flex-col justify-between gap-4 w-1/3">
           <div className="w-full flex flex-col items-center space-x-3">
             <p className="font-medium text-base uppercase">
               {texts.provisionalCompletion}
@@ -156,22 +184,26 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
               })}
             </span>
           </div>
-          <div className="w-full flex flex-row space-x-1 justify-center uppercase">
+          {/* <div className="w-full flex flex-row space-x-1 justify-center uppercase">
             <p className="font-light">{texts.status}:</p>
             <span className="font-light">{data.status}</span>
+          </div> */}
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={onClick}
+              className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
+            >
+              {texts.seeContract}
+            </button>
+            {!hasPendingContractInterest && (
+              <button
+                onClick={() => handleClickInterest(data.id)}
+                className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
+              >
+                {texts.takeAnInterest}
+              </button>
+            )}
           </div>
-          <button
-            onClick={onClick}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {texts.seeContract}
-          </button>
-          <button
-            onClick={() => handleClick}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {texts.seeContract}
-          </button>
         </div>
       </section>
 

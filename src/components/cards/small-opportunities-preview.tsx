@@ -78,12 +78,17 @@ export function SmallOpportunitiesPreview({
   return (
     <div className="flex flex-col p-3 bg-zinc-800 rounded-xl h-auto justify-around w-full">
       <section className="hidden md:block w-full h-16 relative">
-        <div className="absolute inset-0 bg-base-home bg-cover bg-center opacity-50 rounded-md" />
+        <Image
+          src={`http://localhost:3335${data.coverImageUrl}`}
+          alt={`Image`}
+          fill
+          className="absolute inset-0  bg-cover bg-center rounded-lg"
+        />
       </section>
       <section className="flex flex-row text-[10px] w-full justify-between pt-2">
         <div className="flex uppercase space-x-3">
           <p className="font-medium">{texts.document}</p>
-          {/* <span className="font-light">{data.id}</span> */}
+          <span className="font-light">{data.id}</span>
         </div>
         <div className="flex">
           <button

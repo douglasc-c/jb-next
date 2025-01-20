@@ -28,7 +28,6 @@ export default function Dashboard() {
   const [totalValution, setTotalValution] = useState(0)
   const [enterpriseCount, setEnterpriseCount] = useState(0)
   const [recentEnterprises, setRecentEnterprises] = useState([])
-  const [error, setError] = useState<string | null>(null)
 
   const textPortfoli0 = {
     balance: texts.totalBalance,
@@ -57,7 +56,6 @@ export default function Dashboard() {
         setRecentEnterprises(fetchedRecentEnterprises)
       } catch (err) {
         console.error('Erro ao buscar dados do dashboard:', err)
-        setError('Erro ao carregar os dados. Tente novamente mais tarde.')
       } finally {
         setLoading(false)
       }
@@ -73,15 +71,7 @@ export default function Dashboard() {
       </div>
     )
   }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center w-full h-full">
-        <span>{error}</span>
-      </div>
-    )
-  }
-
+  console.log(recentEnterprises)
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6  space-y-4">
       <section className="flex w-full space-x-6">

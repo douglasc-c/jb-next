@@ -10,7 +10,6 @@ export default function ConstructionCircuit() {
   const { texts } = useLayoutContext()
   const [enterprises, setEnterprises] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchConstructionCircuit = async () => {
@@ -21,7 +20,6 @@ export default function ConstructionCircuit() {
         setEnterprises(fetchedEnterprises)
       } catch (err) {
         console.error('Erro ao buscar dados do circuito contrutivo:', err)
-        setError('Erro ao carregar os dados. Tente novamente mais tarde.')
       } finally {
         setLoading(false)
       }
@@ -37,15 +35,7 @@ export default function ConstructionCircuit() {
       </div>
     )
   }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center w-full h-full">
-        <span>{error}</span>
-      </div>
-    )
-  }
-
+  console.log(enterprises)
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">

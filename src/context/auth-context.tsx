@@ -9,7 +9,7 @@ interface User {
   email: string
   emailVerified: boolean
   firstName: string
-  id: boolean
+  id: number
   isActive: boolean
   isApproved: boolean
   lastName: string

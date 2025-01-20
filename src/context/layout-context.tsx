@@ -94,6 +94,7 @@ export interface LayoutContextProps {
     documentBack: string
     proofOfAddress: string
     incomeTaxProof: string
+    takeAnInterest: string
   }
 
   locale: string
