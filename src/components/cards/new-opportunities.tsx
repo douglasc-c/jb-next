@@ -34,7 +34,7 @@ interface ContractInterest {
   createdAt: string
 }
 
-interface Image {
+interface ImageItem {
   imageUrl: string
 }
 
@@ -66,7 +66,7 @@ interface Venture {
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
   coverImageUrl: string
-  images: Image[]
+  images: ImageItem[]
 }
 
 interface NewOpportunitiesProps {
@@ -74,7 +74,7 @@ interface NewOpportunitiesProps {
 }
 
 export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
-  const { textNewOpportunities } = useLayoutContext()
+  const { texts } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
   const router = useRouter()
@@ -97,7 +97,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
     <section className="flex p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full space-x-12">
       <div className="flex flex-col w-2/3 space-y-3">
         <h3 className="uppercase font-medium">
-          {textNewOpportunities.newOpportunitiesPortifolio}
+          {texts.newOpportunitiesPortifolio}
         </h3>
         <div className="relative flex flex-row-reverse">
           <button

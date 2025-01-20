@@ -7,7 +7,7 @@ import ComplianceStep from '@/components/cards/compliance-step'
 import Image from 'next/image'
 
 export default function Compliance() {
-  const { textCompliance } = useLayoutContext()
+  const { texts } = useLayoutContext()
   const { files, addFiles } = useUploadContext()
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitted, setIsSubmitted] = useState(false) // Estado para controle de submissão
@@ -16,22 +16,22 @@ export default function Compliance() {
     {
       documentType: 'RG',
       issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
       documentType: 'CPF',
       issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
       documentType: 'Comprovante de residência',
       issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
       documentType: 'Declaração de imposto de renda',
       issuingBody: 'Brasil',
-      buttonLabel: textCompliance.finish,
+      buttonLabel: texts.finish,
     },
   ]
 
@@ -62,9 +62,9 @@ export default function Compliance() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 pr-36">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
-        <h1 className="uppercase font-medium">{textCompliance.compliance}</h1>
+        <h1 className="uppercase font-medium">{texts.compliance}</h1>
 
         {!isSubmitted ? (
           <ComplianceStep
@@ -91,15 +91,15 @@ export default function Compliance() {
                 />
               </div>
               <h1 className="text-xl font-medium text-zinc-400">
-                {textCompliance.verificationCompleted}
+                {texts.verificationCompleted}
               </h1>
               <p className="text-sm font-light text-zinc-500">
                 {
-                  textCompliance.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep
+                  texts.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep
                 }
               </p>
               <p className="text-sm font-light text-primary underline">
-                {textCompliance.howDoIChangeMyDataAndDocuments}
+                {texts.howDoIChangeMyDataAndDocuments}
               </p>
             </div>
           </div>

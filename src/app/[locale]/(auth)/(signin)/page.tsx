@@ -4,18 +4,14 @@ import { useState, FormEvent } from 'react'
 import Image from 'next/image'
 import Input from '@/components/inputs/input'
 import { useAuthContext } from '@/context/auth-context'
-import { useDispatch } from 'react-redux'
-import { setAuthData } from '@/redux/auth-slice'
 import { useRouter } from 'next/navigation'
-import { AppDispatch } from '@/redux/store'
 import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
 import { PulseLoader } from 'react-spinners'
 
 export default function SignIn() {
-  const { textSignIn, locale } = useAuthContext()
+  const { textSignIn, locale, setAuthData } = useAuthContext()
 
-  const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
@@ -45,17 +41,11 @@ export default function SignIn() {
       const response = await api.post('/users/signin', formData)
       if (response.status === 200) {
         const data = response.data
+        const { token, mustChangePassword, user } = data
 
-        if (data.token) {
-          const maxAge = 60 * 60
-          document.cookie = `auth-token=${data.token}; Max-Age=${maxAge}; path=/; SameSite=Strict`
-          dispatch(
-            setAuthData({
-              token: data.token,
-              mustChangePassword: data.mustChangePassword,
-              user: data.user,
-            }),
-          )
+        if (token) {
+          setAuthData({ token, user, mustChangePassword })
+          document.cookie = `auth-token=${token}; Max-Age=${60 * 60}; path=/; SameSite=Strict`
 
           if (data.user.role === 'ADMIN') {
             router.push(`/admin/users`)

@@ -2,10 +2,16 @@
 
 import FAQAccordion from '@/components/cards/faq-accordion'
 import { useLayoutContext } from '@/context/layout-context'
+import api from '@/lib/api'
 import Image from 'next/image'
+import { useEffect } from 'react'
+
+// interface Questys {}
+
+// interface Category {}
 
 export default function Support() {
-  const { textSupport } = useLayoutContext()
+  const { texts } = useLayoutContext()
 
   const data = [
     {
@@ -30,11 +36,28 @@ export default function Support() {
     },
   ]
 
+  useEffect(() => {
+    const fetchVentures = async () => {
+      try {
+        const response = await api.get('/admin/faq/categories')
+        // const fetchedFaq: Category[] = response.data.enterprises
+        console.log(response)
+        // setFilteredVentures(fetchedFaq)
+      } catch (err) {
+        console.error('Erro ao buscar faqs:', err)
+      } finally {
+        // setLoading(false)
+      }
+    }
+
+    fetchVentures()
+  }, [])
+
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 pr-36">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
         <h1 className="uppercase font-medium text-white">
-          {textSupport.frequentlyAskedQuestions}
+          {texts.frequentlyAskedQuestions}
         </h1>
         <section className="flex flex-col w-full rounded-xl  p-4 bg-zinc-800 space-y-5 max-h-[calc(76vh)]">
           <section className="flex flex-col w-full space-y-5 overflow-auto">
@@ -47,7 +70,7 @@ export default function Support() {
             ))}
           </section>
           <div className="flex flex-col text-zinc-400 items-center space-y-3">
-            <h1 className="text-sm">{textSupport.stillHaveQuestions}</h1>
+            <h1 className="text-sm">{texts.stillHaveQuestions}</h1>
             <button className="flex items-center justify-center border border-primary rounded-full text-primary py-2 px-4 bg-transparent transition-colors duration-300">
               <Image
                 className="mr-2"
@@ -56,7 +79,7 @@ export default function Support() {
                 height={16}
                 width={16}
               />
-              <span className="text-sm">{textSupport.talkToTheSupport}</span>
+              <span className="text-sm">{texts.talkToTheSupport}</span>
             </button>
           </div>
         </section>

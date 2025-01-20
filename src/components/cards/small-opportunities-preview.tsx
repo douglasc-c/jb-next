@@ -29,7 +29,7 @@ interface ContractInterest {
   createdAt: string
 }
 
-interface Image {
+interface ImageItem {
   imageUrl: string
 }
 
@@ -61,7 +61,7 @@ interface Venture {
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
   coverImageUrl: string
-  images: Image[]
+  images: ImageItem[]
 }
 
 interface OpportunitiesPreviewProps {
@@ -73,8 +73,8 @@ export function SmallOpportunitiesPreview({
   data,
   onClick,
 }: OpportunitiesPreviewProps) {
-  const { textNewOpportunities } = useLayoutContext()
-
+  const { texts } = useLayoutContext()
+  // console.log(data)
   return (
     <div className="flex flex-col p-3 bg-zinc-800 rounded-xl h-auto justify-around w-full">
       <section className="hidden md:block w-full h-16 relative">
@@ -82,15 +82,15 @@ export function SmallOpportunitiesPreview({
       </section>
       <section className="flex flex-row text-[10px] w-full justify-between pt-2">
         <div className="flex uppercase space-x-3">
-          <p className="font-medium">{textNewOpportunities.document}</p>
-          <span className="font-light">{data.id}</span>
+          <p className="font-medium">{texts.document}</p>
+          {/* <span className="font-light">{data.id}</span> */}
         </div>
         <div className="flex">
           <button
             className="flex space-x-2 items-center"
             onClick={() => onClick(data)}
           >
-            <p className="font-normal">{textNewOpportunities.seeMore}</p>
+            <p className="font-normal">{texts.seeMore}</p>
             <Image
               src={`/images/svg/arrowRight.svg`}
               alt="arrow icon"

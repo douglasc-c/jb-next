@@ -69,15 +69,15 @@ interface ContractProps {
 }
 
 export function DetailContract({ data, onClick, handleClick }: ContractProps) {
-  const { textDetailContract } = useLayoutContext()
+  const { texts } = useLayoutContext()
 
   const stages: Record<number, string> = {
-    1: textDetailContract.topography,
-    2: textDetailContract.masonry,
-    3: textDetailContract.inspections,
-    4: textDetailContract.thermalInsulationOfTheWalls,
-    5: textDetailContract.roofInsulation,
-    6: textDetailContract.doors,
+    1: texts.topography,
+    2: texts.masonry,
+    3: texts.inspections,
+    4: texts.thermalInsulationOfTheWalls,
+    5: texts.roofInsulation,
+    6: texts.doors,
   }
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
@@ -111,54 +111,42 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
       <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
         <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.typeOfConstruction}
-            </p>
+            <p className="font-medium uppercase">{texts.typeOfConstruction}</p>
             <span className="font-light">{data.constructionType}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{textDetailContract.city}</p>
+            <p className="font-medium uppercase">{texts.city}</p>
             <span className="font-light">{data.city}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.contributionAmount}
-            </p>
+            <p className="font-medium uppercase">{texts.contributionAmount}</p>
             <span className="font-light">U$ {data.fundingAmount}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.valueM2}
-            </p>
+            <p className="font-medium uppercase">{texts.valueM2}</p>
             <span className="font-light">U$ {data.squareMeterValue}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.amountPassed}
-            </p>
+            <p className="font-medium uppercase">{texts.amountPassed}</p>
             <span className="font-light">U$ {data.transferAmount}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.footage}
-            </p>
+            <p className="font-medium uppercase">{texts.footage}</p>
             <span className="font-light">{data.area}m²</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.postalCode}
-            </p>
+            <p className="font-medium uppercase">{texts.postalCode}</p>
             <span className="font-light">{data.postalCode}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{textDetailContract.floors}</p>
+            <p className="font-medium uppercase">{texts.floors}</p>
             <span className="font-light">{data.floors}</span>
           </div>
         </div>
         <div className="flex flex-col gap-4 w-1/3">
           <div className="w-full flex flex-col items-center space-x-3">
             <p className="font-medium text-base uppercase">
-              {textDetailContract.provisionalCompletion}
+              {texts.provisionalCompletion}
             </p>
             <span className="font-light text-base">
               {new Date(data.completionDate).toLocaleDateString('pt-BR', {
@@ -169,20 +157,20 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
             </span>
           </div>
           <div className="w-full flex flex-row space-x-1 justify-center uppercase">
-            <p className="font-light">{textDetailContract.status}:</p>
+            <p className="font-light">{texts.status}:</p>
             <span className="font-light">{data.status}</span>
           </div>
           <button
             onClick={onClick}
             className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
           >
-            {textDetailContract.seeContract}
+            {texts.seeContract}
           </button>
           <button
             onClick={() => handleClick}
             className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
           >
-            {textDetailContract.seeContract}
+            {texts.seeContract}
           </button>
         </div>
       </section>
@@ -191,7 +179,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         <section className="flex flex-col gap-4 w-full">
           <div className="flex justify-between">
             <h2 className="font-medium text-sm uppercase">
-              {textDetailContract.constructionStatus}
+              {texts.constructionStatus}
             </h2>
             <p className="font-light text-sm uppercase">{data.progress}%</p>
           </div>
@@ -203,8 +191,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
           </div>
           <div className="flex justify-end">
             <p className="font-light text-sm uppercase">
-              {textDetailContract.stage} {data.currentTaskId} -{' '}
-              {stageDescription}
+              {texts.stage} {data.currentTaskId} - {stageDescription}
             </p>
           </div>
         </section>

@@ -57,6 +57,7 @@ export const UserTab: React.FC<UserTabProps> = ({
         onChange={(value) => handleInputChange('phone', value)}
       />
       <InputField
+        type={'date'}
         label={texts.dateOfBith}
         value={editableData.birthDate}
         isEditing={isEditing}

@@ -7,6 +7,7 @@ import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
 import { useEffect, useState } from 'react'
 import api from '@/lib/api'
+import { Loading } from '@/components/loading/loading'
 
 interface PieChart {
   houses: number
@@ -15,7 +16,7 @@ interface PieChart {
 }
 
 export default function Dashboard() {
-  const { textDataInvestments } = useLayoutContext()
+  const { texts } = useLayoutContext()
 
   const [loading, setLoading] = useState(true)
   const [pieChart, setPieChart] = useState<PieChart>({
@@ -30,13 +31,13 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null)
 
   const textPortfoli0 = {
-    balance: textDataInvestments.totalBalance,
-    type: textDataInvestments.portfolio,
+    balance: texts.totalBalance,
+    type: texts.portfolio,
   }
 
   const textInvested = {
-    balance: textDataInvestments.balanceInvested,
-    type: textDataInvestments.invested,
+    balance: texts.balanceInvested,
+    type: texts.invested,
   }
 
   useEffect(() => {
@@ -67,8 +68,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 pr-36">
-        <span>Carregando...</span>
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={loading} width={300} />
       </div>
     )
   }
@@ -82,7 +83,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 pr-36 space-y-4">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6  space-y-4">
       <section className="flex w-full space-x-6">
         <div className="flex flex-col w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />

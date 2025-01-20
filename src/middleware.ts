@@ -29,22 +29,20 @@ export function middleware(request: NextRequest) {
     'admin/support',
   ]
 
-  // Simulação de validação de token e extração de informações do usuário
   const user = token ? decodeToken(token.value) : null
 
-  // Redirecionar usuários não autenticados para a página de login
-  if (
-    !token &&
-    protectedRoutes
-      .concat(adminRoutes)
-      .some((route) =>
-        request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
-      )
-  ) {
-    return NextResponse.redirect(new URL(`/${locale}`, request.url))
+  if (!token || isTokenExpired(token.value)) {
+    if (
+      protectedRoutes
+        .concat(adminRoutes)
+        .some((route) =>
+          request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
+        )
+    ) {
+      return NextResponse.redirect(new URL(`/${locale}`, request.url))
+    }
   }
 
-  // Redirecionar usuários não administradores para a página principal
   if (
     adminRoutes.some((route) =>
       request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
@@ -61,14 +59,20 @@ export const config = {
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 }
 
-// Função auxiliar para decodificar o token
 function decodeToken(token: string) {
   try {
-    // Substitua pela lógica real de decodificação do token (ex.: JWT)
     const payload = JSON.parse(atob(token.split('.')[1]))
     return payload
   } catch (err) {
     console.error('Erro ao decodificar o token:', err)
     return null
   }
+}
+
+function isTokenExpired(token: string): boolean {
+  const decodedToken = decodeToken(token)
+  if (!decodedToken) return true
+
+  const currentTime = Date.now() / 1000
+  return decodedToken.exp < currentTime
 }

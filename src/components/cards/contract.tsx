@@ -71,7 +71,7 @@ interface ContractProps {
 }
 
 export function Contract({ data }: ContractProps) {
-  const { textNewOpportunities } = useLayoutContext()
+  const { texts } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -121,15 +121,11 @@ export function Contract({ data }: ContractProps) {
       <section className="flex flex-col text-xs space-y-3 pt-4">
         <div className="flex ">
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textNewOpportunities.document}
-            </p>
+            <p className="font-medium uppercase">{texts.document}</p>
             <span className="font-light"> {data.id}</span>
           </div>
           <div className="w-full flex justify-end space-x-3">
-            <p className="font-medium uppercase">
-              {textNewOpportunities.startDate}
-            </p>
+            <p className="font-medium uppercase">{texts.startDate}</p>
             <span className="font-light">
               {new Date(data.completionDate).toLocaleDateString('pt-BR', {
                 day: '2-digit',
@@ -141,9 +137,7 @@ export function Contract({ data }: ContractProps) {
         </div>
         <div className="flex items-center">
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textNewOpportunities.address}
-            </p>
+            <p className="font-medium uppercase">{texts.address}</p>
             <span className="font-light">{data.address}</span>
           </div>
           <div className="flex justify-end w-2/6 space-x-3">
@@ -151,7 +145,7 @@ export function Contract({ data }: ContractProps) {
               onClick={openModal}
               className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent w-full`}
             >
-              {textNewOpportunities.seeMore}
+              {texts.seeMore}
             </button>
           </div>
         </div>
