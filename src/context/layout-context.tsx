@@ -90,6 +90,10 @@ export interface LayoutContextProps {
     cancel: string
     currentPassword: string
     newPassword: string
+    documentFront: string
+    documentBack: string
+    proofOfAddress: string
+    incomeTaxProof: string
   }
 
   locale: string

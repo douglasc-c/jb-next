@@ -131,6 +131,10 @@ export default async function RootLayout({
     cancel: t('TextLang.cancel'),
     currentPassword: t('TextLang.currentPassword'),
     newPassword: t('TextLang.newPassword'),
+    documentFront: t('TextLang.documentFront'),
+    documentBack: t('TextLang.documentBack'),
+    proofOfAddress: t('TextLang.proofOfAddress'),
+    incomeTaxProof: t('TextLang.incomeTaxProof'),
   }
 
   const layoutValue: LayoutContextProps = {

@@ -25,6 +25,7 @@ interface AuthData {
   user: User
   mustChangePassword: boolean
 }
+
 interface AuthContextProps {
   textSignIn: {
     enter: string
@@ -40,6 +41,7 @@ interface AuthContextProps {
   locale: string
   authData: AuthData | null
   setAuthData: (data: AuthData) => void
+  isLoadingAuthData: boolean
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -57,15 +59,20 @@ export const AuthProvider = ({
   value,
 }: {
   children: React.ReactNode
-  value: Omit<AuthContextProps, 'authData' | 'setAuthData'>
+  value: Omit<
+    AuthContextProps,
+    'authData' | 'setAuthData' | 'isLoadingAuthData'
+  >
 }) => {
   const [authData, setAuthData] = useState<AuthData | null>(null)
+  const [isLoadingAuthData, setIsLoadingAuthData] = useState(true)
 
   useEffect(() => {
     const savedAuthData = localStorage.getItem('authData')
     if (savedAuthData) {
       setAuthData(JSON.parse(savedAuthData))
     }
+    setIsLoadingAuthData(false)
   }, [])
 
   useEffect(() => {
@@ -75,7 +82,9 @@ export const AuthProvider = ({
   }, [authData])
 
   return (
-    <AuthContext.Provider value={{ ...value, authData, setAuthData }}>
+    <AuthContext.Provider
+      value={{ ...value, authData, setAuthData, isLoadingAuthData }}
+    >
       {children}
     </AuthContext.Provider>
   )
