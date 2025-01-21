@@ -145,7 +145,7 @@ export default function Dashboard() {
         <div className="flex flex-col w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />
         </div>
-        <div className="flex flex-col w-4/12 space-y-5">
+        <div className="flex flex-col  space-y-5">
           <DataInvestments
             params={{
               text: textPortfoli0,
