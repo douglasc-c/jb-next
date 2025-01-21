@@ -19,7 +19,12 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, colors }) => {
     const svg = d3.select(chartRef.current)
     svg.selectAll('*').remove()
 
-    const adjustedData = data.map((value) => (value === 0 ? 0.01 : value))
+    const [houses, land] = data
+    const sumOfHousesAndLand = houses + land
+
+    const remainingValue = 100 - sumOfHousesAndLand
+
+    const adjustedData = [houses, land, remainingValue]
 
     const arc = d3
       .arc<d3.PieArcDatum<number>>()

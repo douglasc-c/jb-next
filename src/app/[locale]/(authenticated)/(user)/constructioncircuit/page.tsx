@@ -4,6 +4,7 @@ import { Contract } from '@/components/cards/contract'
 import { Loading } from '@/components/loading/loading'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function ConstructionCircuit() {
@@ -35,7 +36,24 @@ export default function ConstructionCircuit() {
       </div>
     )
   }
-  console.log(enterprises)
+  if (enterprises.length === 0) {
+    return (
+      <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
+        <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
+          <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
+          <div className="text-center items-center flex flex-col space-y-4">
+            <Image
+              src="/images/svg/warning-grey.svg"
+              alt="arrow icon"
+              height={100}
+              width={100}
+            />
+            <span className="text-lg">{texts.noNewDevelopmentsAvailable}</span>
+          </div>
+        </div>
+      </main>
+    )
+  }
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">

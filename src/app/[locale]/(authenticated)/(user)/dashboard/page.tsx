@@ -1,7 +1,7 @@
 'use client'
 
 import { DataInvestments } from '@/components/cards/data-investments'
-// import { MyContracts } from '@/components/tables/my-contracts'
+import { MyContracts } from '@/components/tables/my-contracts'
 import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
@@ -13,6 +13,67 @@ interface PieChart {
   houses: number
   lands: number
   walletBalance: number
+}
+
+interface CurrentPhase {
+  id: number
+  phaseName: string
+  description: string
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface CurrentTask {
+  id: number
+  taskName: string
+  description: string
+  phaseId: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface ContractInterest {
+  interestId: string
+  userId: number
+  enterpriseId: number
+  status: string
+  createdAt: string
+}
+
+interface ImageItem {
+  imageUrl: string
+}
+
+interface Venture {
+  id: number
+  name: string
+  corporateName: string
+  description: string
+  status: string
+  isAvailable: boolean
+  investmentType: string
+  constructionType: string
+  fundingAmount: number
+  transferAmount: number
+  postalCode: string
+  address: string
+  city: string
+  squareMeterValue: number
+  area: number
+  progress: number
+  floors: number
+  completionDate: string
+  startDate: string
+  currentPhaseId: number
+  currentTaskId: number
+  createdAt: string
+  updatedAt: string
+  currentPhase?: CurrentPhase
+  currentTask?: CurrentTask
+  contractInterests: ContractInterest[]
+  coverImageUrl: string
+  images: ImageItem[]
 }
 
 export default function Dashboard() {
@@ -27,7 +88,10 @@ export default function Dashboard() {
   const [totalInvested, setTotalInvested] = useState(0)
   const [totalValution, setTotalValution] = useState(0)
   const [enterpriseCount, setEnterpriseCount] = useState(0)
-  const [recentEnterprises, setRecentEnterprises] = useState([])
+  const [recentEnterprises, setRecentEnterprises] = useState<Venture[]>([])
+  const [userRecentEnterprises, setUserRecentEnterprises] = useState<Venture[]>(
+    [],
+  )
 
   const textPortfoli0 = {
     balance: texts.totalBalance,
@@ -42,18 +106,21 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const response = await api.get('/users/dashboard')
+        const response = await api.get('/users/web/dashboard')
+
         const fetchedPieChart = response.data.data.pieChart
         const fetchedTotalInvested = response.data.data.totalInvested
         const fetchedTotalValution = response.data.data.totalValution
         const fetchedEnterpriseCount = response.data.data.enterpriseCount
         const fetchedRecentEnterprises = response.data.data.recentEnterprises
+        const fetchedUserRecentEnterprises = response.data.data.userEnterprises
 
         setPieChart(fetchedPieChart)
         setTotalInvested(fetchedTotalInvested)
         setTotalValution(fetchedTotalValution)
         setEnterpriseCount(fetchedEnterpriseCount)
         setRecentEnterprises(fetchedRecentEnterprises)
+        setUserRecentEnterprises(fetchedUserRecentEnterprises)
       } catch (err) {
         console.error('Erro ao buscar dados do dashboard:', err)
       } finally {
@@ -71,7 +138,6 @@ export default function Dashboard() {
       </div>
     )
   }
-  console.log(recentEnterprises)
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6  space-y-4">
       <section className="flex w-full space-x-6">
@@ -105,7 +171,11 @@ export default function Dashboard() {
         <NewOpportunities recentEnterprises={recentEnterprises} />
       </section>
       <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
-        {/* <MyContracts data={data} /> */}
+        {userRecentEnterprises ? (
+          <MyContracts data={userRecentEnterprises} />
+        ) : (
+          <div>Sem contratos recentes</div>
+        )}
       </section>
     </main>
   )

@@ -95,6 +95,9 @@ export interface LayoutContextProps {
     proofOfAddress: string
     incomeTaxProof: string
     takeAnInterest: string
+    venture: string
+    completionDate: string
+    noNewDevelopmentsAvailable: string
   }
 
   locale: string

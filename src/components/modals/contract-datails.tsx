@@ -59,6 +59,7 @@ interface Venture {
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
+  interestStatus?: string
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: Image[]
@@ -84,7 +85,6 @@ export function DetailContract({ data, onClick }: ContractProps) {
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
-  // Verifique se existe algum contrato com status 'pending' e o userId igual ao do usuário
   const hasPendingContractInterest =
     Array.isArray(data.contractInterests) &&
     data.contractInterests.some(
@@ -195,7 +195,7 @@ export function DetailContract({ data, onClick }: ContractProps) {
             >
               {texts.seeContract}
             </button>
-            {!hasPendingContractInterest && (
+            {!hasPendingContractInterest && !hasApprovedContract && (
               <button
                 onClick={() => handleClickInterest(data.id)}
                 className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}

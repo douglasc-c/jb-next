@@ -46,7 +46,7 @@ export default function SignIn() {
         if (token) {
           setAuthData({ token, user, mustChangePassword })
           document.cookie = `auth-token=${token}; Max-Age=${60 * 60}; path=/; SameSite=Strict`
-          console.log(response.data)
+
           if (data.user.role === 'ADMIN') {
             router.push(`/admin/users`)
           } else {

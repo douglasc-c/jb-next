@@ -8,24 +8,6 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface CurrentPhase {
-  id: number
-  phaseName: string
-  description: string
-  order: number
-  createdAt: string
-  updatedAt: string
-}
-
-interface CurrentTask {
-  id: number
-  taskName: string
-  description: string
-  phaseId: number
-  createdAt: string
-  updatedAt: string
-}
-
 interface ContractInterest {
   interestId: string
   userId: number
@@ -62,8 +44,6 @@ interface Venture {
   currentTaskId: number
   createdAt: string
   updatedAt: string
-  currentPhase?: CurrentPhase
-  currentTask?: CurrentTask
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: ImageItem[]
@@ -96,11 +76,23 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   return (
     <section className="flex p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full space-x-12">
       <div
-        className={`flex flex-col ${recentEnterprises.length > 0 ? 'w-full' : 'w-2/3'} space-y-3`}
+        className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} space-y-3`}
       >
         <h3 className="uppercase font-medium">
           {texts.newOpportunitiesPortifolio}
         </h3>
+
+        {recentEnterprises.length <= 0 && (
+          <div className="text-center items-center flex flex-col space-y-4">
+            <Image
+              src="/images/svg/warning-grey.svg"
+              alt="arrow icon"
+              height={100}
+              width={100}
+            />
+            <span className="text-lg">{texts.noNewDevelopmentsAvailable}</span>
+          </div>
+        )}
 
         {recentEnterprises.length > 0 && (
           <div className="relative flex flex-row-reverse">
