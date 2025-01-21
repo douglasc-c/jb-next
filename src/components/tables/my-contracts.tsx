@@ -97,7 +97,7 @@ export function MyContracts({ data }: MyContractsProps) {
   }
 
   return (
-    <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
+    <section className={`flex flex-col p-4 h-auto justify-around w-full`}>
       <div className="grid grid-cols-6 gap-2 w-full uppercase text-xs font-medium items-center">
         <h3 className="text-center">{texts.status}</h3>
         <h3 className="">{texts.venture}</h3>

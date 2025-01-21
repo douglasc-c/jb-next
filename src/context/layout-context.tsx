@@ -98,6 +98,7 @@ export interface LayoutContextProps {
     venture: string
     completionDate: string
     noNewDevelopmentsAvailable: string
+    youHaveNoBusiness: string
   }
 
   locale: string

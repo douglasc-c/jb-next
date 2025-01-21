@@ -8,6 +8,7 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { Loading } from '@/components/loading/loading'
+import Image from 'next/image'
 
 interface PieChart {
   houses: number
@@ -171,10 +172,20 @@ export default function Dashboard() {
         <NewOpportunities recentEnterprises={recentEnterprises} />
       </section>
       <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
-        {userRecentEnterprises ? (
+        {userRecentEnterprises.length > 0 ? (
           <MyContracts data={userRecentEnterprises} />
         ) : (
-          <div>Sem contratos recentes</div>
+          <div className="p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
+            <div className="text-center items-center flex flex-col space-y-4">
+              <Image
+                src="/images/svg/warning-grey.svg"
+                alt="arrow icon"
+                height={90}
+                width={90}
+              />
+              <span className="text-lg">{texts.youHaveNoBusiness}</span>
+            </div>
+          </div>
         )}
       </section>
     </main>

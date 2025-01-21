@@ -184,7 +184,8 @@
       "proofOfAddress": "o comporvante de recidência",
       "incomeTaxProof": "o comprovante de imposto de renda",
       "takeAnInterest": "Se interessar",
-      "noNewDevelopmentsAvailable": "Nenhum novo empreendimento disponível"
+      "noNewDevelopmentsAvailable": "Nenhum novo empreendimento disponível",
+      "youHaveNoBusiness": "Você não tem nenhum empreendimento disponível"
   }
 }
 
