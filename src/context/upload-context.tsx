@@ -2,10 +2,13 @@
 
 import React, { createContext, useContext, useState } from 'react'
 
+// Definindo a estrutura dos arquivos por tipo de documento
 interface UploadContextType {
-  files: Record<number, File[]> // Step -> Arquivos
-  addFiles: (step: number, newFiles: File[]) => void
-  removeFiles: (step: number) => void
+  files: {
+    [key: string]: File[] // Chaves para diferentes tipos de documentos
+  }
+  addFiles: (documentKey: string, newFiles: File[]) => void
+  removeFile: (documentKey: string, index: number) => void // Remove um arquivo por chave e índice
 }
 
 const UploadContext = createContext<UploadContextType | undefined>(undefined)
@@ -13,25 +16,32 @@ const UploadContext = createContext<UploadContextType | undefined>(undefined)
 export const UploadProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [files, setFiles] = useState<Record<number, File[]>>({})
+  // Inicializando o estado com um objeto vazio para cada tipo de documento
+  const [files, setFiles] = useState<UploadContextType['files']>({
+    documentFront: [],
+    documentBack: [],
+    proofOfAddress: [],
+    incomeTaxProof: [],
+  })
 
-  const addFiles = (step: number, newFiles: File[]) => {
+  // Função para adicionar arquivos a uma chave específica
+  const addFiles = (documentKey: string, newFiles: File[]) => {
     setFiles((prev) => ({
       ...prev,
-      [step]: newFiles,
+      [documentKey]: [...(prev[documentKey] || []), ...newFiles], // Garante que prev[documentKey] seja um array
     }))
   }
 
-  const removeFiles = (step: number) => {
-    setFiles((prev) => {
-      const updatedFiles = { ...prev }
-      delete updatedFiles[step]
-      return updatedFiles
-    })
+  // Função para remover um arquivo de uma chave específica
+  const removeFile = (documentKey: string, index: number) => {
+    setFiles((prev) => ({
+      ...prev,
+      [documentKey]: prev[documentKey].filter((_, i) => i !== index), // Remove arquivo pela chave e índice
+    }))
   }
 
   return (
-    <UploadContext.Provider value={{ files, addFiles, removeFiles }}>
+    <UploadContext.Provider value={{ files, addFiles, removeFile }}>
       {children}
     </UploadContext.Provider>
   )

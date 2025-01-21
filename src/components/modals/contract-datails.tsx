@@ -1,4 +1,6 @@
+import { useAuthContext } from '@/context/auth-context'
 import { useLayoutContext } from '@/context/layout-context'
+import api from '@/lib/api'
 import Image from 'next/image'
 
 interface CurrentPhase {
@@ -57,6 +59,7 @@ interface Venture {
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
+  interestStatus?: string
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: Image[]
@@ -65,27 +68,52 @@ interface Venture {
 interface ContractProps {
   data: Venture
   onClick: () => void
-  handleClick?: (id: number) => Promise<void>
 }
 
-export function DetailContract({ data, onClick, handleClick }: ContractProps) {
-  const { textDetailContract } = useLayoutContext()
+export function DetailContract({ data, onClick }: ContractProps) {
+  const { texts } = useLayoutContext()
+  const { authData } = useAuthContext()
 
   const stages: Record<number, string> = {
-    1: textDetailContract.topography,
-    2: textDetailContract.masonry,
-    3: textDetailContract.inspections,
-    4: textDetailContract.thermalInsulationOfTheWalls,
-    5: textDetailContract.roofInsulation,
-    6: textDetailContract.doors,
+    1: texts.topography,
+    2: texts.masonry,
+    3: texts.inspections,
+    4: texts.thermalInsulationOfTheWalls,
+    5: texts.roofInsulation,
+    6: texts.doors,
   }
 
   const stageDescription = stages[data.currentPhaseId] || 'Etapa desconhecida'
 
-  const hasApprovedContract = data.contractInterests.some(
-    (interest) => interest.status === 'APPROVED',
-  )
+  const hasPendingContractInterest =
+    Array.isArray(data.contractInterests) &&
+    data.contractInterests.some(
+      (interest) =>
+        interest.status === 'PENDING' && interest.userId === authData?.user.id,
+    )
 
+  const hasApprovedContract =
+    Array.isArray(data.contractInterests) &&
+    data.contractInterests.some((interest) => interest.status === 'APPROVED')
+
+  const handleClickInterest = async (id: number) => {
+    console.log(`Interest action for contract ID: ${id}`)
+
+    try {
+      const response = await api.post(`/users/interest-enterprise`, {
+        enterpriseId: id,
+      })
+      console.log(response)
+      if (response?.status === 200 || response?.status === 201) {
+        console.log('Update successful', response.data)
+      } else {
+        console.error('Failed to update data', response)
+      }
+    } catch (error) {
+      console.error('Error while updating:', error)
+    }
+  }
+  console.log(data)
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
@@ -98,11 +126,11 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
       </div>
       <section className="hidden md:block w-full h-64 relative">
         {data.coverImageUrl ? (
-          <div
-            className="absolute inset-0 bg-cover bg-center rounded-lg"
-            style={{
-              backgroundImage: `url(http://localhost:3335${data.coverImageUrl})`,
-            }}
+          <Image
+            src={`http://localhost:3335${data.coverImageUrl}`}
+            alt={`Image`}
+            fill
+            className="absolute inset-0  bg-cover bg-center rounded-lg"
           />
         ) : (
           <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
@@ -111,54 +139,42 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
       <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
         <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.typeOfConstruction}
-            </p>
+            <p className="font-medium uppercase">{texts.typeOfConstruction}</p>
             <span className="font-light">{data.constructionType}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{textDetailContract.city}</p>
+            <p className="font-medium uppercase">{texts.city}</p>
             <span className="font-light">{data.city}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.contributionAmount}
-            </p>
+            <p className="font-medium uppercase">{texts.contributionAmount}</p>
             <span className="font-light">U$ {data.fundingAmount}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.valueM2}
-            </p>
+            <p className="font-medium uppercase">{texts.valueM2}</p>
             <span className="font-light">U$ {data.squareMeterValue}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.amountPassed}
-            </p>
+            <p className="font-medium uppercase">{texts.amountPassed}</p>
             <span className="font-light">U$ {data.transferAmount}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.footage}
-            </p>
+            <p className="font-medium uppercase">{texts.footage}</p>
             <span className="font-light">{data.area}m²</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">
-              {textDetailContract.postalCode}
-            </p>
+            <p className="font-medium uppercase">{texts.postalCode}</p>
             <span className="font-light">{data.postalCode}</span>
           </div>
           <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{textDetailContract.floors}</p>
+            <p className="font-medium uppercase">{texts.floors}</p>
             <span className="font-light">{data.floors}</span>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-1/3">
+        <div className="flex flex-col justify-between gap-4 w-1/3">
           <div className="w-full flex flex-col items-center space-x-3">
             <p className="font-medium text-base uppercase">
-              {textDetailContract.provisionalCompletion}
+              {texts.provisionalCompletion}
             </p>
             <span className="font-light text-base">
               {new Date(data.completionDate).toLocaleDateString('pt-BR', {
@@ -168,22 +184,26 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
               })}
             </span>
           </div>
-          <div className="w-full flex flex-row space-x-1 justify-center uppercase">
-            <p className="font-light">{textDetailContract.status}:</p>
+          {/* <div className="w-full flex flex-row space-x-1 justify-center uppercase">
+            <p className="font-light">{texts.status}:</p>
             <span className="font-light">{data.status}</span>
+          </div> */}
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={onClick}
+              className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
+            >
+              {texts.seeContract}
+            </button>
+            {!hasPendingContractInterest && !hasApprovedContract && (
+              <button
+                onClick={() => handleClickInterest(data.id)}
+                className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
+              >
+                {texts.takeAnInterest}
+              </button>
+            )}
           </div>
-          <button
-            onClick={onClick}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {textDetailContract.seeContract}
-          </button>
-          <button
-            onClick={() => handleClick}
-            className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
-          >
-            {textDetailContract.seeContract}
-          </button>
         </div>
       </section>
 
@@ -191,7 +211,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
         <section className="flex flex-col gap-4 w-full">
           <div className="flex justify-between">
             <h2 className="font-medium text-sm uppercase">
-              {textDetailContract.constructionStatus}
+              {texts.constructionStatus}
             </h2>
             <p className="font-light text-sm uppercase">{data.progress}%</p>
           </div>
@@ -203,8 +223,7 @@ export function DetailContract({ data, onClick, handleClick }: ContractProps) {
           </div>
           <div className="flex justify-end">
             <p className="font-light text-sm uppercase">
-              {textDetailContract.stage} {data.currentTaskId} -{' '}
-              {stageDescription}
+              {texts.stage} {data.currentTaskId} - {stageDescription}
             </p>
           </div>
         </section>

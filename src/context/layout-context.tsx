@@ -3,40 +3,28 @@
 import React, { createContext, useContext } from 'react'
 
 export interface LayoutContextProps {
-  textYourResources: {
+  texts: {
     youResources: string
     estimatedAssets: string
     numberOfHouse: string
     land: string
     avaliableValue: string
-  }
-  textDataInvestments: {
     totalBalance: string
     balanceInvested: string
     developments: string
     portfolio: string
     invested: string
-  }
-
-  textNewOpportunities: {
     newOpportunitiesPortifolio: string
     document: string
     startDate: string
     address: string
     seeMore: string
-  }
-
-  textMyContracts: {
     status: string
     company: string
     date: string
     amountInvested: string
     amountTransferred: string
     shares: string
-    seeMore: string
-  }
-
-  textMyData: {
     myData: string
     name: string
     lastName: string
@@ -44,16 +32,12 @@ export interface LayoutContextProps {
     documentNumber: string
     dateOfBith: string
     country: string
-    address: string
     city: string
     password: string
     confirmPassword: string
     at4HandsRealEstateInvestments: string
     tochangeInformationPleaseContactOur: string
     technicalSupport: string
-  }
-
-  textCompliance: {
     compliance: string
     verifyYourIdentity: string
     documentType: string
@@ -71,17 +55,8 @@ export interface LayoutContextProps {
     verificationCompleted: string
     congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep: string
     howDoIChangeMyDataAndDocuments: string
-  }
-
-  textConstructionCircuit: {
     constructionCircuit: string
-  }
-
-  textMyVentures: {
     myVentures: string
-  }
-
-  textDetailContract: {
     typeOfConstruction: string
     contributionAmount: string
     amountPassed: string
@@ -93,20 +68,37 @@ export interface LayoutContextProps {
     provisionalCompletion: string
     constructionStatus: string
     stage: string
-    city: string
-    status: string
     topography: string
     masonry: string
     inspections: string
     thermalInsulationOfTheWalls: string
     roofInsulation: string
     doors: string
-  }
-
-  textSupport: {
     frequentlyAskedQuestions: string
     talkToTheSupport: string
     stillHaveQuestions: string
+    summary: string
+    firstName: string
+    phone: string
+    street: string
+    number: string
+    complement: string
+    neighborhood: string
+    state: string
+    edit: string
+    save: string
+    cancel: string
+    currentPassword: string
+    newPassword: string
+    documentFront: string
+    documentBack: string
+    proofOfAddress: string
+    incomeTaxProof: string
+    takeAnInterest: string
+    venture: string
+    completionDate: string
+    noNewDevelopmentsAvailable: string
+    youHaveNoBusiness: string
   }
 
   locale: string

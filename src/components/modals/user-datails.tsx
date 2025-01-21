@@ -57,6 +57,8 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   const route = parts.slice(3).join('/')
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [reason, setReason] = useState('')
+
   const [activeTab, setActiveTab] = useState<
     'user' | 'address' | 'financial' | 'compliance'
   >('user')
@@ -142,7 +144,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     try {
       const response = await api.put(
         `admin/updatecompliance/${editableData.id}`,
-        { status },
+        { status, reason },
       )
       console.log('Compliance atualizado com sucesso:', response.data)
       onClose()
@@ -302,18 +304,26 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
           route !== 'interests' &&
           activeTab === 'compliance' && (
             <div className="flex w-full space-x-4">
-              <button
-                onClick={() => handleCompliance('REJECTED')}
-                className="bg-red-600 text-zinc-200 py-2 px-4 rounded-lg w-full"
-              >
-                {texts.reject}
-              </button>
-              <button
-                onClick={() => handleCompliance('APPROVED')}
-                className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
-              >
-                {texts.approve}
-              </button>
+              <textarea
+                placeholder="Escreva uma mensagem"
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg placeholder-gray-300 bg-transparent text-gray-300 focus:outline-none focus:z-10 sm:text-sm"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+              <div className="space-y-4">
+                <button
+                  onClick={() => handleCompliance('REJECTED')}
+                  className="bg-red-600 text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
+                >
+                  {texts.reject}
+                </button>
+                <button
+                  onClick={() => handleCompliance('APPROVED')}
+                  className="bg-primary text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
+                >
+                  {texts.approve}
+                </button>
+              </div>
             </div>
           )}
       </div>

@@ -39,8 +39,8 @@
       "amountTransferred":"Valor repassado",
       "shares":"Ações",
       "name":"Nome",
-      "lastName":"Sobrenome",
-      "documentNumber":"CPF",
+      "lastName":"Último nome",
+      "documentNumber":"Número de documento",
       "dateOfBith":"Data de nascimento",
       "country":"País",
       "city":"Cidade",
@@ -176,7 +176,16 @@
       "valuationBefore": "Valor anterior",
       "valuationAfter": "Valor futuro",
       "difference": "Diferença",
-      "percentage": "Porcentagem"
+      "percentage": "Porcentagem",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha",
+      "documentFront": "a frente de seu documento",
+      "documentBack": "o verso de seu documento",
+      "proofOfAddress": "o comporvante de recidência",
+      "incomeTaxProof": "o comprovante de imposto de renda",
+      "takeAnInterest": "Se interessar",
+      "noNewDevelopmentsAvailable": "Nenhum novo empreendimento disponível",
+      "youHaveNoBusiness": "Você não tem nenhum empreendimento disponível"
   }
 }
 

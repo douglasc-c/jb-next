@@ -2,6 +2,25 @@
 import Image from 'next/image'
 import React from 'react'
 import ButtonMenu from '../buttons/menu'
+import { useAuthContext } from '@/context/auth-context'
+
+interface User {
+  avatar: string
+  birthDate: string
+  complianceStatus: string
+  email: string
+  emailVerified: boolean
+  firstName: string
+  id: number
+  isActive: boolean
+  isApproved: boolean
+  lastName: string
+  mustChangePassword: boolean
+  numberDocument: string
+  phone: string
+  role: string
+  username: string
+}
 
 interface SidebarProps {
   text: {
@@ -15,7 +34,16 @@ interface SidebarProps {
   }
   locale: string
 }
+
 const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
+  const { setAuthData } = useAuthContext()
+
+  const handleSignOut = () => {
+    setAuthData({ token: '', user: {} as User, mustChangePassword: false })
+    document.cookie = 'auth-token=; Max-Age=0; path=/;'
+    window.location.href = '/'
+  }
+
   return (
     <div className="fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 flex flex-col space-y-12">
       <div className="p-4 justify-center flex">
@@ -71,8 +99,8 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         />
       </nav>
       <div className="mt-auto">
-        <a
-          href={`/${locale}/`}
+        <button
+          onClick={handleSignOut}
           className={`w-full pl-10 py-5 justify-start items-center space-x-3 flex font-regular text-sm uppercase  text-zinc-300 `}
         >
           <div className="p-2 rounded-lg">
@@ -84,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             />
           </div>
           <span>{text.signOut}</span>
-        </a>
+        </button>
       </div>
     </div>
   )

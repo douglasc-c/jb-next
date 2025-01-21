@@ -3,6 +3,7 @@
 import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
 import { DetailContract } from '../modals/contract-datails'
+import { useAuthContext } from '@/context/auth-context'
 
 interface CurrentPhase {
   id: number
@@ -60,6 +61,7 @@ interface Venture {
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
+  interestStatus?: string
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: Image[]
@@ -70,7 +72,8 @@ interface MyContractsProps {
 }
 
 export function MyContracts({ data }: MyContractsProps) {
-  const { textMyContracts } = useLayoutContext()
+  const { texts } = useLayoutContext()
+  const { authData } = useAuthContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
 
@@ -84,49 +87,63 @@ export function MyContracts({ data }: MyContractsProps) {
     setSelectedContract(null)
   }
 
+  const getInterestStatus = (contract: Venture) => {
+    const interest = contract.contractInterests.find(
+      (interest) => interest.userId === authData?.user.id,
+    )
+
+    if (!interest) return 'PENDING'
+    return interest.status
+  }
+
   return (
-    <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
-      <div className="grid grid-cols-7 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="text-center">{textMyContracts.status}</h3>
-        <h3 className="col-span-2">{textMyContracts.company}</h3>
-        <h3 className="">{textMyContracts.date}</h3>
-        <h3 className="">{textMyContracts.amountInvested}</h3>
-        <h3 className="">{textMyContracts.amountTransferred}</h3>
-        <h3 className="text-center">{textMyContracts.shares}</h3>
+    <section className={`flex flex-col p-4 h-auto justify-around w-full`}>
+      <div className="grid grid-cols-6 gap-2 w-full uppercase text-xs font-medium items-center">
+        <h3 className="text-center">{texts.status}</h3>
+        <h3 className="">{texts.venture}</h3>
+        <h3 className="text-center">{texts.completionDate}</h3>
+        <h3 className="text-center">{texts.amountInvested}</h3>
+        <h3 className="text-center">{texts.amountTransferred}</h3>
+        <h3 className="text-center">{texts.shares}</h3>
       </div>
       <span className="border border-zinc-500 my-2" />
-      {data.map((row, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-7 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
-        >
+      {data.map((row, index) => {
+        const interestStatus = getInterestStatus(row)
+        return (
           <div
-            className={`border rounded-full text-center border-primary py-0.5 ${
-              row.status === 'CONFIRMADO'
-                ? 'bg-primary text-zinc-700'
-                : 'bg-transparent'
-            }`}
+            key={index}
+            className="grid grid-cols-6 gap-2 w-full text-xs font-normal py-3 items-center border-b border-zinc-500"
           >
-            <p>{row.status}</p>
+            <div
+              className={`border border-primary text-primary rounded-full text-center py-0.5 ${
+                interestStatus === 'APPROVED'
+                  ? 'bg-primary text-zinc-700'
+                  : interestStatus === 'REJECTED'
+                    ? 'bg-transparent'
+                    : 'bg-transparent'
+              }`}
+            >
+              <p>{interestStatus.toUpperCase()}</p>
+            </div>
+            <p className="">{row.name}</p>
+            <p className="text-center">
+              {new Date(row.completionDate).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}
+            </p>
+            <p className="text-center">U$ {row.fundingAmount}</p>
+            <p className="text-center">U$ {row.transferAmount}</p>
+            <button
+              className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
+              onClick={() => openModal(row)}
+            >
+              {texts.seeMore}
+            </button>
           </div>
-          <p className="col-span-2">{row.name}</p>
-          <p className="">
-            {new Date(row.completionDate).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
-          </p>
-          <p className="">U$ {row.fundingAmount}</p>
-          <p className="">U$ {row.transferAmount}</p>
-          <button
-            className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
-            onClick={() => openModal(row)}
-          >
-            {textMyContracts.seeMore}
-          </button>
-        </div>
-      ))}
+        )
+      })}
       {isModalOpen && selectedContract && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">

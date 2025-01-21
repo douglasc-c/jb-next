@@ -5,33 +5,35 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useUploadContext } from '@/context/upload-context'
 import ComplianceStep from '@/components/cards/compliance-step'
 import Image from 'next/image'
+import api from '@/lib/api'
+import { useAuthContext } from '@/context/auth-context'
+import { Loading } from '@/components/loading/loading'
+
+interface FormData {
+  documentType: string
+}
 
 export default function Compliance() {
-  const { textCompliance } = useLayoutContext()
+  const { authData, isLoadingAuthData } = useAuthContext()
+  const { texts } = useLayoutContext()
+  // const [loading, setLoading] = useState(false)
   const { files, addFiles } = useUploadContext()
+
+  const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
   const [currentStep, setCurrentStep] = useState(0)
-  const [isSubmitted, setIsSubmitted] = useState(false) // Estado para controle de submissão
 
   const steps = [
     {
-      documentType: 'RG',
-      issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
-      documentType: 'CPF',
-      issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
-      documentType: 'Comprovante de residência',
-      issuingBody: 'Brasil',
-      buttonLabel: textCompliance.next,
+      buttonLabel: texts.next,
     },
     {
-      documentType: 'Declaração de imposto de renda',
-      issuingBody: 'Brasil',
-      buttonLabel: textCompliance.finish,
+      buttonLabel: texts.finish,
     },
   ]
 
@@ -49,27 +51,79 @@ export default function Compliance() {
     }
   }
 
-  const handleFileUpload = (newFiles: File[]) => {
-    addFiles(currentStep, newFiles)
+  const getDocumentKey = (step: number): string => {
+    switch (step) {
+      case 0:
+        return 'documentFront'
+      case 1:
+        return 'documentBack'
+      case 2:
+        return 'proofOfAddress'
+      case 3:
+        return 'incomeTaxProof'
+      default:
+        return ''
+    }
   }
 
-  const handleSubmit = () => {
-    console.log('Enviando arquivos:', files)
-    // Simulação de envio (substitua pelo código real de chamada API)
-    setTimeout(() => {
-      setIsSubmitted(true) // Alterar para true após "envio" simulado
-    }, 1000)
+  const handleFileUpload = (newFiles: File[]) => {
+    const documentKey = getDocumentKey(currentStep)
+    addFiles(documentKey, newFiles)
+  }
+
+  const handleFormDataUpdate = (updatedFormData: FormData) => {
+    setFormData(updatedFormData)
+    console.log('FormData atualizado:', updatedFormData)
+  }
+
+  const handleSubmit = async () => {
+    const documentType = formData.documentType
+
+    const formDataToSend = new FormData()
+
+    formDataToSend.append('documentType', documentType)
+
+    if (files.documentFront && files.documentFront[0]) {
+      formDataToSend.append('documentFront', files.documentFront[0])
+    }
+    if (files.documentBack && files.documentBack[0]) {
+      formDataToSend.append('documentBack', files.documentBack[0])
+    }
+    if (files.proofOfAddress && files.proofOfAddress[0]) {
+      formDataToSend.append('proofOfAddress', files.proofOfAddress[0])
+    }
+    if (files.incomeTaxProof && files.incomeTaxProof[0]) {
+      formDataToSend.append('incomeTaxProof', files.incomeTaxProof[0])
+    }
+
+    try {
+      const response = await api.post(`/users/send-document`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      console.log('Resposta do servidor:', response.data)
+    } catch (error) {
+      console.error('Erro ao enviar os documentos:', error)
+    }
+  }
+
+  if (isLoadingAuthData) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-800">
+        <Loading loading={true} width={300} />
+      </div>
+    )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 pr-36">
+    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
-        <h1 className="uppercase font-medium">{textCompliance.compliance}</h1>
+        <h1 className="uppercase font-medium">{texts.compliance}</h1>
 
-        {!isSubmitted ? (
+        {authData?.user.complianceStatus !== 'UNDER_REVIEW' ? (
           <ComplianceStep
-            documentType={steps[currentStep].documentType}
-            issuingBody={steps[currentStep].issuingBody}
             buttonLabel={steps[currentStep].buttonLabel}
             onNext={handleNext}
             onPrev={handlePrev}
@@ -78,6 +132,7 @@ export default function Compliance() {
             onFileUpload={handleFileUpload}
             step={currentStep + 1}
             totalSteps={steps.length}
+            onFormDataUpdate={handleFormDataUpdate}
           />
         ) : (
           <div className="p-10 py-[10rem] bg-zinc-800 rounded-xl items-center justify-center">
@@ -91,15 +146,15 @@ export default function Compliance() {
                 />
               </div>
               <h1 className="text-xl font-medium text-zinc-400">
-                {textCompliance.verificationCompleted}
+                {texts.verificationCompleted}
               </h1>
               <p className="text-sm font-light text-zinc-500">
                 {
-                  textCompliance.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep
+                  texts.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep
                 }
               </p>
               <p className="text-sm font-light text-primary underline">
-                {textCompliance.howDoIChangeMyDataAndDocuments}
+                {texts.howDoIChangeMyDataAndDocuments}
               </p>
             </div>
           </div>

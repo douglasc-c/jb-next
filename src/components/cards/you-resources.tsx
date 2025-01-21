@@ -15,7 +15,7 @@ interface YorResourcesProps {
 }
 
 export function YorResources({ chart, totalInvested }: YorResourcesProps) {
-  const { textYourResources } = useLayoutContext()
+  const { texts } = useLayoutContext()
 
   const colors = ['#bac914', '#a4a96b', '#525820']
 
@@ -34,29 +34,25 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
               maximumFractionDigits: 2,
             })}
           </p>
-          <p className="text-xs font-light">
-            {textYourResources.estimatedAssets}
-          </p>
+          <p className="text-xs font-light">{texts.estimatedAssets}</p>
         </div>
       </section>
       <span className="border border-zinc-500" />
       <section className="flex flex-col justify-between">
-        <h1 className="uppercase font-medium">
-          {textYourResources.youResources}
-        </h1>
+        <h1 className="uppercase font-medium">{texts.youResources}</h1>
         <div className="flex items-center space-x-2 font-light p-5">
           <span className="p-2 bg-[#bac914] rounded-full" />
-          <p>{textYourResources.numberOfHouse}</p>
+          <p>{texts.numberOfHouse}</p>
         </div>
         <span className="border border-zinc-500" />
         <div className="flex items-center space-x-2 font-light p-5">
           <span className="p-2 bg-[#a4a96b] rounded-full" />
-          <p>{textYourResources.land}</p>
+          <p>{texts.land}</p>
         </div>
         <span className="border border-zinc-500" />
         <div className="flex items-center space-x-2 font-light p-5">
           <span className="p-2 bg-[#525820] rounded-full" />
-          <p>{textYourResources.avaliableValue}</p>
+          <p>{texts.avaliableValue}</p>
         </div>
       </section>
     </div>

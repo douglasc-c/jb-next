@@ -20,7 +20,7 @@ interface DataInvestmentsPros {
 export function DataInvestments({ params }: DataInvestmentsPros) {
   const { text, bgColor, image, imageColor, totalValue, enterpriseCount } =
     params
-  const { textDataInvestments } = useLayoutContext()
+  const { texts } = useLayoutContext()
 
   return (
     <div
@@ -46,9 +46,7 @@ export function DataInvestments({ params }: DataInvestmentsPros) {
           <span className="text-lg font-semibold">U$ {totalValue}</span>
           <span className="text-sm text-zinc-300">{text.balance}</span>
           <span className="text-xl font-bold">{enterpriseCount}</span>
-          <span className="text-sm text-zinc-300">
-            {textDataInvestments.developments}
-          </span>
+          <span className="text-sm text-zinc-300">{texts.developments}</span>
         </div>
       </div>
     </div>

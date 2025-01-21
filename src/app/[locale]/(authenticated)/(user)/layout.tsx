@@ -35,41 +35,28 @@ export default async function RootLayout({
     signOut: t('TextLang.signOut'),
   }
 
-  const textYourResources = {
+  const texts = {
     youResources: t('TextLang.youResources'),
     estimatedAssets: t('TextLang.estimatedAssets'),
     numberOfHouse: t('TextLang.numberOfHouse'),
     land: t('TextLang.land'),
     avaliableValue: t('TextLang.avaliableValue'),
-  }
-
-  const textDataInvestments = {
     totalBalance: t('TextLang.totalBalance'),
     balanceInvested: t('TextLang.balanceInvested'),
     developments: t('TextLang.developments'),
     portfolio: t('TextLang.portfolio'),
     invested: t('TextLang.invested'),
-  }
-
-  const textNewOpportunities = {
     newOpportunitiesPortifolio: t('TextLang.newOpportunitiesPortifolio'),
     document: t('TextLang.document'),
     startDate: t('TextLang.startDate'),
     address: t('TextLang.address'),
     seeMore: t('TextLang.seeMore'),
-  }
-
-  const textMyContracts = {
     status: t('TextLang.status'),
     company: t('TextLang.company'),
     date: t('TextLang.date'),
     amountInvested: t('TextLang.amountInvested'),
     amountTransferred: t('TextLang.amountTransferred'),
     shares: t('TextLang.shares'),
-    seeMore: t('TextLang.seeMore'),
-  }
-
-  const textMyData = {
     myData: t('TextLang.myData'),
     name: t('TextLang.name'),
     lastName: t('TextLang.lastName'),
@@ -77,19 +64,14 @@ export default async function RootLayout({
     documentNumber: t('TextLang.documentNumber'),
     dateOfBith: t('TextLang.dateOfBith'),
     country: t('TextLang.country'),
-    address: t('TextLang.address'),
     city: t('TextLang.city'),
     password: t('TextLang.password'),
     confirmPassword: t('TextLang.confirmPassword'),
-    shares: t('TextLang.shares'),
     at4HandsRealEstateInvestments: t('TextLang.at4HandsRealEstateInvestments'),
     tochangeInformationPleaseContactOur: t(
       'TextLang.tochangeInformationPleaseContactOur',
     ),
     technicalSupport: t('TextLang.technicalSupport'),
-  }
-
-  const textCompliance = {
     compliance: t('TextLang.compliance'),
     verifyYourIdentity: t('TextLang.verifyYourIdentity'),
     documentType: t('TextLang.documentType'),
@@ -114,17 +96,8 @@ export default async function RootLayout({
     howDoIChangeMyDataAndDocuments: t(
       'TextLang.howDoIChangeMyDataAndDocuments',
     ),
-  }
-
-  const textConstructionCircuit = {
     constructionCircuit: t('TextLang.constructionCircuit'),
-  }
-
-  const textMyVentures = {
     myVentures: t('TextLang.myVentures'),
-  }
-
-  const textDetailContract = {
     typeOfConstruction: t('TextLang.typeOfConstruction'),
     contributionAmount: t('TextLang.contributionAmount'),
     amountPassed: t('TextLang.amountPassed'),
@@ -136,33 +109,41 @@ export default async function RootLayout({
     provisionalCompletion: t('TextLang.provisionalCompletion'),
     constructionStatus: t('TextLang.constructionStatus'),
     stage: t('TextLang.stage'),
-    city: t('TextLang.city'),
-    status: t('TextLang.status'),
     topography: t('TextLang.topography'),
     masonry: t('TextLang.masonry'),
     inspections: t('TextLang.inspections'),
     thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
     roofInsulation: t('TextLang.roofInsulation'),
     doors: t('TextLang.doors'),
-  }
-
-  const textSupport = {
     frequentlyAskedQuestions: t('TextLang.frequentlyAskedQuestions'),
     talkToTheSupport: t('TextLang.talkToTheSupport'),
     stillHaveQuestions: t('TextLang.stillHaveQuestions'),
+    summary: t('TextLang.summary'),
+    firstName: t('TextLang.firstName'),
+    phone: t('TextLang.phone'),
+    street: t('TextLang.street'),
+    number: t('TextLang.number'),
+    complement: t('TextLang.complement'),
+    neighborhood: t('TextLang.neighborhood'),
+    state: t('TextLang.state'),
+    edit: t('TextLang.edit'),
+    save: t('TextLang.save'),
+    cancel: t('TextLang.cancel'),
+    currentPassword: t('TextLang.currentPassword'),
+    newPassword: t('TextLang.newPassword'),
+    documentFront: t('TextLang.documentFront'),
+    documentBack: t('TextLang.documentBack'),
+    proofOfAddress: t('TextLang.proofOfAddress'),
+    incomeTaxProof: t('TextLang.incomeTaxProof'),
+    takeAnInterest: t('TextLang.takeAnInterest'),
+    venture: t('TextLang.venture'),
+    completionDate: t('TextLang.completionDate'),
+    noNewDevelopmentsAvailable: t('TextLang.noNewDevelopmentsAvailable'),
+    youHaveNoBusiness: t('TextLang.youHaveNoBusiness'),
   }
 
   const layoutValue: LayoutContextProps = {
-    textYourResources,
-    textDataInvestments,
-    textNewOpportunities,
-    textMyContracts,
-    textMyData,
-    textCompliance,
-    textConstructionCircuit,
-    textMyVentures,
-    textDetailContract,
-    textSupport,
+    texts,
     locale,
   }
 
