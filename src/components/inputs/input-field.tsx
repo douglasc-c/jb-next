@@ -33,8 +33,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   }
 
   return (
-    <div className="flex flex-col text-sm">
-      <label className="text-zinc-500 mb-1">{label}</label>
+    <div className="flex flex-col ">
+      <label className="text-zinc-500 mb-1 text-sm">{label}</label>
       {isEditing ? (
         <div className="px-4 py-2 flex justify-between rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400">
           <input

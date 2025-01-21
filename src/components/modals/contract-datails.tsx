@@ -111,6 +111,8 @@ export function DetailContract({ data, onClick }: ContractProps) {
       }
     } catch (error) {
       console.error('Error while updating:', error)
+    } finally {
+      onClick()
     }
   }
   console.log(data)
@@ -120,8 +122,21 @@ export function DetailContract({ data, onClick }: ContractProps) {
         <h2 className="uppercase font-medium">
           {data.name} - {data.city} {data.area}M²
         </h2>
-        <button onClick={onClick}>
-          <h2 className="uppercase">x</h2>
+        <button onClick={onClick} className="text-gray-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
       </div>
       <section className="hidden md:block w-full h-64 relative">

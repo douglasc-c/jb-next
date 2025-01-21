@@ -212,30 +212,30 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       </div>
 
       <div className="flex border-b border-gray-600 justify-between">
-        <div className="space-x-4">
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
           <button
-            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-white' : ''}`}
+            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('user')}
           >
             {texts.userData}
           </button>
           {route !== 'interests' && (
             <button
-              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-white' : ''}`}
+              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-primary' : ''}`}
               onClick={() => setActiveTab('address')}
             >
               {texts.address}
             </button>
           )}
           <button
-            className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-white' : ''}`}
+            className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('financial')}
           >
             {texts.financial}
           </button>
 
           <button
-            className={`pb-2 ${activeTab === 'compliance' ? 'border-b-2 border-white' : ''}`}
+            className={`pb-2 ${activeTab === 'compliance' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('compliance')}
           >
             {texts.compliance}
@@ -329,15 +329,11 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       </div>
 
       {isModalDeleteOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="p-6 rounded-lg w-3/4">
-            <DeleteModal
-              onClose={closeModalDelete}
-              isOpen={isModalDeleteOpen}
-              handleSubmit={handleDelete}
-            />
-          </div>
-        </div>
+        <DeleteModal
+          onClose={closeModalDelete}
+          isOpen={isModalDeleteOpen}
+          handleSubmit={handleDelete}
+        />
       )}
     </div>
   )

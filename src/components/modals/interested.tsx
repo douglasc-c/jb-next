@@ -71,7 +71,7 @@ export function InterestedDetails({
 
   return (
     <>
-      <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
+      <div className="flex flex-col p-5 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
         <div className="flex justify-between">
           <h2 className="uppercase font-medium text-zinc-300">
             {texts.interested}
@@ -94,9 +94,12 @@ export function InterestedDetails({
           </button>
         </div>
         <ul className="space-y-4">
-          {interests.map((interest) => (
-            <li key={interest.interestId} className="flex border-b pb-4">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-1 items-center w-2/3 text-sm text-zinc-300">
+          {interests.map((interest, index) => (
+            <li
+              key={interest.interestId}
+              className={`${index !== interests.length - 1 ? 'border-b border-zinc-400 pb-4' : ''}`}
+            >
+              <div className="grid grid-cols-2  gap-y-1 items-center text-sm text-zinc-300">
                 <p>
                   <span className="font-medium text-zinc-200">
                     {texts.user}:
@@ -117,19 +120,19 @@ export function InterestedDetails({
                   {interest.status}
                 </p>
               </div>
-              <div className="flex flex-col space-y-2 w-1/3 items-center justify-end text-sm">
-                <div className="flex items-center">
+              <div className="flex flex-col space-y-2 items-center w-full justify-end text-sm">
+                <div className="flex w-full items-center">
                   <button
                     onClick={() => handleDetails(interest.user)}
-                    className="py-1 px-14 border border-primary text-primary rounded-full hover:bg-primary hover:text-zinc-600 transition-colors"
+                    className="py-1 px-14 border w-full border-primary text-primary rounded-full hover:bg-primary hover:text-zinc-600 transition-colors"
                   >
                     {texts.details}
                   </button>
                 </div>
-                <div className="flex space-x-2 items-center">
+                <div className="flex space-x-2 w-full items-center">
                   <button
                     onClick={() => onClick(interest.interestId, 'APPROVED')}
-                    className="px-4 py-1 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
+                    className="px-4 py-1 bg-green-500 w-1/2 text-white rounded-full hover:bg-green-600 transition-colors"
                     disabled={updating === interest.interestId}
                   >
                     {updating === interest.interestId
@@ -138,7 +141,7 @@ export function InterestedDetails({
                   </button>
                   <button
                     onClick={() => onClick(interest.interestId, 'REJECTED')}
-                    className="px-4 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                    className="px-4 py-1 bg-red-500 w-1/2 text-white rounded-full hover:bg-red-600 transition-colors"
                     disabled={updating === interest.interestId}
                   >
                     {updating === interest.interestId
@@ -153,12 +156,15 @@ export function InterestedDetails({
       </div>
 
       {selectedUser && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className=" p-6 rounded-lg w-3/4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+        >
+          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
             <UserDetails
               user={selectedUser}
-              onClose={closeModal}
               isOpen={isModalOpen}
+              onClose={closeModal}
             />
           </div>
         </div>

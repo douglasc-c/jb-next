@@ -18,7 +18,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto p-4">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg ">
         <h2 className="text-white text-center text-2xl mb-4">
           {texts.areYouSureYouWantToDeleteIt}

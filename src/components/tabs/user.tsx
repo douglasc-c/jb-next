@@ -44,12 +44,14 @@ export const UserTab: React.FC<UserTabProps> = ({
         isEditing={isEditing}
         onChange={(value) => handleInputChange('lastName', value)}
       />
-      <InputField
-        label={texts.email}
-        value={editableData.email}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('email', value)}
-      />
+      <div className="col-span-2 md:col-span-1">
+        <InputField
+          label={texts.email}
+          value={editableData.email}
+          isEditing={isEditing}
+          onChange={(value) => handleInputChange('email', value)}
+        />
+      </div>
       <InputField
         label={texts.phone}
         value={editableData.phone}
@@ -71,9 +73,9 @@ export const UserTab: React.FC<UserTabProps> = ({
       />
       {isEditing ? (
         <div className="flex flex-col space-y-1">
-          <label className="text-gray-300">{texts.userType}</label>
+          <label className="text-zinc-500">{texts.userType}</label>
           <select
-            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
+            className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 font-light text-sm border border-zinc-500"
             value={editableData.userType}
             onChange={(e) => handleInputChange('userType', e.target.value)}
           >
@@ -83,17 +85,17 @@ export const UserTab: React.FC<UserTabProps> = ({
         </div>
       ) : (
         <div className="flex flex-col space-y-1">
-          <label className="text-gray-300">{texts.userType}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-800 text-gray-300">
+          <label className="text-zinc-500 text-sm">{texts.userType}</label>
+          <p className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 text-xs">
             {editableData.userType}
           </p>
         </div>
       )}
       {isEditing ? (
         <div className="flex flex-col space-y-1">
-          <label className="text-gray-300">{texts.role}</label>
+          <label className="text-zinc-500">{texts.role}</label>
           <select
-            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
+            className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 font-light text-sm border border-zinc-500"
             value={editableData.role}
             onChange={(e) => handleInputChange('role', e.target.value)}
           >
@@ -103,8 +105,8 @@ export const UserTab: React.FC<UserTabProps> = ({
         </div>
       ) : (
         <div className="flex flex-col space-y-1">
-          <label className="text-gray-300">{texts.role}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-800 text-gray-300">
+          <label className="text-zinc-500 text-sm">{texts.role}</label>
+          <p className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 text-xs">
             {editableData.role}
           </p>
         </div>

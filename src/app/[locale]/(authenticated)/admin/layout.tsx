@@ -1,6 +1,6 @@
 import '@/app/globals.css'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Header from '@/components/header/header-admin'
+// import Header from '@/components/header/header-admin'
 import {
   LayoutAdminContextProps,
   LayoutProvider,
@@ -178,10 +178,9 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-800 text-white flex">
+      <body className="bg-zinc-800 text-white flex flex-col">
         <Sidebar text={textHeader} locale={locale} />
-        <div className="ml-64 flex-grow">
-          <Header text={textHeader} />
+        <div className="md:ml-64 flex-grow">
           <LayoutProvider value={layoutValue}>{children}</LayoutProvider>
         </div>
       </body>

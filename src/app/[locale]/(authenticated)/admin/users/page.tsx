@@ -170,8 +170,8 @@ export default function Users() {
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="text-white grid grid-cols-3 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+      <div className="text-white grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -182,7 +182,7 @@ export default function Users() {
             {texts.total}: {totals.total}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/user.svg"
             width={30}
@@ -193,7 +193,7 @@ export default function Users() {
             {texts.users}: {totals.totalUsers}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/admin.svg"
             width={30}
@@ -206,12 +206,12 @@ export default function Users() {
         </div>
         <div className="col-span-2">
           <Search
-            placeholder="Search users..."
+            placeholder="Buscar usuários..."
             searchQuery={searchQuery}
             onSearch={handleSearch}
           />
         </div>
-        <div className="col-span-1 flex justify-center items-center">
+        <div className="col-span-2 md:col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
             params={{
@@ -222,7 +222,7 @@ export default function Users() {
           />
         </div>
       </div>
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
         <UsersTable data={filteredUsers} />
       </section>
 
