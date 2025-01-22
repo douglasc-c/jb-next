@@ -21,7 +21,10 @@ interface AddUserModalProps {
   formData: FormData
   loading: boolean
   error: string | null
-  handleChange: (key: string, value: string) => void
+  handleChange: (
+    key: string,
+    value: string | number | boolean | File[] | null,
+  ) => void
   handleSubmit: (e: React.FormEvent) => Promise<void>
   closeModal: () => void
 }

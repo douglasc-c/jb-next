@@ -86,7 +86,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
 
   const handleInputChange = (
     field: string,
-    value: string | number | File[] | null,
+    value: string | number | boolean | File[] | null,
     isAddress = false,
   ) => {
     if (isAddress) {

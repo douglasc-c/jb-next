@@ -92,7 +92,10 @@ export default function Users() {
     setFilteredUsers(results)
   }
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean | File[] | null,
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
