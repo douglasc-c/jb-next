@@ -78,14 +78,15 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                     </button>
                   </div>
                 )}
-                <Image
-                  src={`http://localhost:3335${img.url}`}
-                  alt={`Image ${index + 1}`}
-                  width={110}
-                  height={110}
-                  className="rounded-lg cursor-pointer"
-                  onClick={() => openImage(img)}
-                />
+                <div className="relative w-24 h-24">
+                  <Image
+                    src={`http://localhost:3335${img.url}`}
+                    alt={`Image ${index + 1}`}
+                    fill
+                    className="rounded-lg cursor-pointer"
+                    onClick={() => openImage(img)}
+                  />
+                </div>
               </div>
             )
           })

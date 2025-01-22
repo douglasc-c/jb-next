@@ -10,7 +10,10 @@ interface UserData {
 interface FinancialTabProps {
   isEditing: boolean
   editableData: UserData
-  handleInputChange: (field: string, value: string) => void
+  handleInputChange: (
+    field: string,
+    value: string | number | boolean | File[] | null,
+  ) => void
 }
 
 export const FinancialTab: React.FC<FinancialTabProps> = ({
@@ -26,25 +29,19 @@ export const FinancialTab: React.FC<FinancialTabProps> = ({
         label={texts.totalInvested}
         value={editableData.totalInvested.toString()}
         isEditing={false}
-        onChange={(value) =>
-          handleInputChange('walletBalance', parseFloat(value).toString())
-        }
+        onChange={(value) => handleInputChange('walletBalance', value)}
       />
       <InputField
         label={texts.totalValuation}
         value={editableData.totalValuation.toString()}
         isEditing={false}
-        onChange={(value) =>
-          handleInputChange('walletBalance', parseFloat(value).toString())
-        }
+        onChange={(value) => handleInputChange('walletBalance', value)}
       />
       <InputField
         label={texts.balance}
         value={editableData.walletBalance.toString()}
         isEditing={isEditing}
-        onChange={(value) =>
-          handleInputChange('walletBalance', parseFloat(value).toString())
-        }
+        onChange={(value) => handleInputChange('walletBalance', value)}
       />
     </div>
   )

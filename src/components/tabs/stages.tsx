@@ -65,14 +65,12 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
 
     if (selectedPhase && selectedTask) {
       try {
-        const response = await api.post('/admin/update-progress-task', {
+        await api.post('/admin/update-progress-task', {
           enterpriseId: ventureId,
           phaseId: selectedPhase,
           taskId: selectedTask,
           isCompleted: newToggleState,
         })
-
-        console.log('Task progress updated successfully.', response)
       } catch (error) {
         console.error('Error updating task progress:', error)
       }
@@ -91,7 +89,7 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
           id="phase-select"
           value={selectedPhase}
           onChange={handlePhaseChange}
-          className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
+          className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none text-sm max-w-[17rem] md:max-w-none"
         >
           <option value="">{texts.selectAStage}</option>
           {phases.map((phase) => (
@@ -108,7 +106,7 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
             id="task-select"
             value={selectedTask}
             onChange={handleTaskChange}
-            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
+            className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none text-sm max-w-[17rem] md:max-w-none"
           >
             <option value="">{texts.selectATaks}</option>
             {selectedPhaseTasks.map((task) => (
@@ -122,7 +120,7 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
 
       {selectedTask && (
         <div className="flex items-center space-x-4">
-          <span className="font-semibold">{texts.completPhase}</span>
+          <span className="text-sm">{texts.completPhase}</span>
           <button
             onClick={toggleSwitch}
             className={`w-12 h-6 rounded-full focus:outline-none ${

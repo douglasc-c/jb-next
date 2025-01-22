@@ -67,7 +67,7 @@
       "contributionAmount": "Valor de aporte",
       "amountPassed": "Valor repassado",
       "postalCode": "Código postal",
-      "valueM2": "Valor M2",
+      "valueM2": "Valor m²",
       "footage": "Metragem",
       "floors": "Andates",
       "seeContract": "Ver contrato",
@@ -118,7 +118,7 @@
       "constructionType": "Tipo de construção",
       "fundingAmount": "Valor de investimento",
       "transferAmount": "Valor de transferência",
-      "squareMeterValue": "Valor por metro quadrado",
+      "squareMeterValue": "Valor por (m²)",
       "area": "Área (m²)",
       "floorNumber": "Número de andares",
       "completionDate": "Data de conclusão",
@@ -185,7 +185,8 @@
       "incomeTaxProof": "o comprovante de imposto de renda",
       "takeAnInterest": "Se interessar",
       "noNewDevelopmentsAvailable": "Nenhum novo empreendimento disponível",
-      "youHaveNoBusiness": "Você não tem nenhum empreendimento disponível"
+      "youHaveNoBusiness": "Você não tem nenhum empreendimento disponível",
+      "contract": "Contrato"
   }
 }
 

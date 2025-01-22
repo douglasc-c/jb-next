@@ -113,7 +113,7 @@ export default function Interests() {
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
         {ventures.length > 0 ? (
           <InterestsTable data={ventures} />
         ) : (

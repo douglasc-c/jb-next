@@ -1,6 +1,5 @@
 import '@/app/globals.css'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Header from '@/components/header/header'
 import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar'
 import { UploadProvider } from '@/context/upload-context'
@@ -27,12 +26,16 @@ export default async function RootLayout({
   const textHeader = {
     welcome: t('TextLang.welcome'),
     dashboard: t('TextLang.dashboard'),
-    constructionCircuit: t('TextLang.constructionCircuit'),
+    users: t('TextLang.users'),
     compliance: t('TextLang.compliance'),
-    myData: t('TextLang.myData'),
-    myVentures: t('TextLang.myVentures'),
+    ventures: t('TextLang.ventures'),
+    interests: t('TextLang.interests'),
+    stages: t('TextLang.stages'),
     support: t('TextLang.support'),
     signOut: t('TextLang.signOut'),
+    constructionCircuit: t('TextLang.constructionCircuit'),
+    myData: t('TextLang.myData'),
+    myVentures: t('TextLang.myVentures'),
   }
 
   const texts = {
@@ -149,10 +152,9 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-800 text-white flex">
+      <body className="bg-zinc-800 text-white flex flex-col">
         <Sidebar text={textHeader} locale={locale} />
-        <div className="ml-64 flex-grow">
-          <Header text={textHeader} />
+        <div className="md:ml-64 flex-grow">
           <LayoutProvider value={layoutValue}>
             <UploadProvider>{children}</UploadProvider>
           </LayoutProvider>

@@ -17,7 +17,11 @@ interface UserData {
 interface AddressTabProps {
   isEditing: boolean
   editableData: UserData
-  handleInputChange: (field: string, value: string, isAddress?: boolean) => void
+  handleInputChange: (
+    field: string,
+    value: string | number | File[] | null,
+    isAddress?: boolean,
+  ) => void
 }
 export const AddressTab: React.FC<AddressTabProps> = ({
   isEditing,
@@ -27,25 +31,29 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   const { texts } = useLayoutAdminContext()
 
   return (
-    <div className="grid grid-cols-2 gap-4 text-left">
-      <InputField
-        label={texts.street}
-        value={editableData.address?.street || ''}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('street', value, true)}
-      />
+    <div className="grid grid-cols-3 gap-4 text-left items-end">
+      <div className="col-span-2">
+        <InputField
+          label={texts.street}
+          value={editableData.address?.street || ''}
+          isEditing={isEditing}
+          onChange={(value) => handleInputChange('street', value, true)}
+        />
+      </div>
       <InputField
         label={texts.number}
         value={editableData.address?.number || ''}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('number', value, true)}
       />
-      <InputField
-        label={texts.complement}
-        value={editableData.address?.complement || ''}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('complement', value, true)}
-      />
+      <div className="col-span-2">
+        <InputField
+          label={texts.complement}
+          value={editableData.address?.complement || ''}
+          isEditing={isEditing}
+          onChange={(value) => handleInputChange('complement', value, true)}
+        />
+      </div>
       <InputField
         label={texts.neighborhood}
         value={editableData.address?.neighborhood || ''}

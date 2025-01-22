@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { PulseLoader } from 'react-spinners'
+import { InputField } from '../inputs/input-field'
 
 interface FormData {
   email: string
@@ -21,7 +22,8 @@ interface AddUserModalProps {
   loading: boolean
   error: string | null
   handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    key: string,
+    value: string | number | boolean | File[] | null,
   ) => void
   handleSubmit: (e: React.FormEvent) => Promise<void>
   closeModal: () => void
@@ -41,131 +43,83 @@ const AddUserModal: FC<AddUserModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
         <h2 className="text-zinc-200 text-2xl mb-4">{texts.addUser}</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="overflow-auto">
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-zinc-300 block">{texts.name}</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-zinc-300 block">{texts.lastName}</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
-                />
-              </div>
+            <div className="grid md:grid-cols-2 grid-cols-2 gap-2">
+              <InputField
+                label={texts.firstName}
+                value={formData.firstName}
+                isEditing={true}
+                onChange={(value) => handleChange('firstName', value)}
+              />
+              <InputField
+                label={texts.lastName}
+                value={formData.lastName}
+                isEditing={true}
+                onChange={(value) => handleChange('lastName', value)}
+              />
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <label className="text-zinc-300 block">
-                  {texts.documentNumber}
-                </label>
-                <input
-                  type="text"
-                  name="numberDocument"
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+              <InputField
+                label={texts.username}
+                value={formData.username}
+                isEditing={true}
+                onChange={(value) => handleChange('username', value)}
+              />
+              <InputField
+                label={texts.phone}
+                value={formData.phone}
+                isEditing={true}
+                onChange={(value) => handleChange('phone', value)}
+              />
+              <div className="col-span-2 md:col-span-1">
+                <InputField
+                  label={texts.documentNumber}
                   value={formData.numberDocument}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
+                  isEditing={true}
+                  onChange={(value) => handleChange('numberDocument', value)}
                 />
               </div>
-              <div>
-                <label className="text-zinc-300 block">{texts.phone}</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                />
-              </div>
-              <div>
-                <label className="text-zinc-300 block">{texts.username}</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
-                />
-              </div>
-              {/* <div>
-                <label className="text-white block">{texts.dateOfBith}</label>
-                <input
-                  type="date"
-                  name="birthDate"
-                  value={formData.birthDate}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-white"
-                  required
-                />
-              </div> */}
             </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.email}</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
+            <InputField
+              label={texts.email}
+              value={formData.email}
+              isEditing={true}
+              onChange={(value) => handleChange('email', value)}
+            />
+            <InputField
+              label={texts.password}
+              type="password"
+              value={formData.password}
+              isEditing={true}
+              onChange={(value) => handleChange('password', value)}
+            />
+            <div className="grid md:grid-cols-2 grid-cols-2 gap-2">
+              <InputField
+                label={texts.userType}
+                value={formData.userType}
+                isEditing={true}
+                type="select"
+                options={[
+                  { value: 'INDIVIDUAL', label: texts.individual },
+                  { value: 'COMPANY', label: texts.company },
+                ]}
+                onChange={(value) => handleChange('userType', value)}
               />
-            </div>
-            <div>
-              <label className="text-zinc-300 block">{texts.password}</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                required
+              <InputField
+                label={texts.role}
+                value={formData.role}
+                isEditing={true}
+                type="select"
+                options={[
+                  { value: 'ADMIN', label: texts.admin },
+                  { value: 'USER', label: texts.user },
+                ]}
+                onChange={(value) => handleChange('role', value)}
               />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-zinc-300 block">{texts.userType}</label>
-                <select
-                  name="userType"
-                  value={formData.userType}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
-                >
-                  <option value="INDIVIDUAL">Individual</option>
-                  <option value="COMPANY">Empresa</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-zinc-300 block">{texts.role}</label>
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
-                  required
-                >
-                  <option value="ADMIN">{texts.admin}</option>
-                  <option value="USER">{texts.user}</option>
-                </select>
-              </div>
             </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             <div className="flex justify-end mt-4 space-x-2">

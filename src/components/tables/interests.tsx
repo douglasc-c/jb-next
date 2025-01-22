@@ -151,36 +151,51 @@ export function InterestsTable({ data }: MyContractsProps) {
   }
 
   return (
-    <section className="flex flex-col p-4 h-auto justify-around w-full">
-      <div className="grid grid-cols-4 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3>{texts.company}</h3>
-        <h3 className="text-center">{texts.interests}</h3>
-        <h3 className="text-center col-span-2">{texts.shares}</h3>
+    <section className="h-auto w-full p-4">
+      <div className="overflow-auto">
+        <table className="table-auto w-full border-collapse text-sm">
+          <thead className="uppercase border-b border-zinc-500">
+            <tr>
+              <th className="px-4 py-2 text-left">{texts.company}</th>
+              <th className="px-4 py-2">{texts.interests}</th>
+              <th className="px-4 py-2" colSpan={2}>
+                {texts.shares}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr
+                key={row.id}
+                className={`${index !== data.length - 1 ? 'border-b border-zinc-400' : ''}`}
+              >
+                <td className="px-4 py-2 text-left">{row.name}</td>
+                <td className="px-4 py-2 text-center">
+                  {row.contractInterests.length}
+                </td>
+                <td className="px-4 py-2 text-end">
+                  <button
+                    className="border rounded-full text-primary border-primary py-1 px-4 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
+                    onClick={() => openInterestedModal(row)}
+                    aria-label={`Ver interessados em ${row.name}`}
+                  >
+                    {texts.interested}
+                  </button>
+                </td>
+                <td className="px-4 py-2 text-start">
+                  <button
+                    className="border rounded-full text-primary border-primary py-1 px-4 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
+                    onClick={() => openDetailsModal(row)}
+                    aria-label={`Ver mais detalhes de ${row.name}`}
+                  >
+                    {texts.details}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <span className="border border-zinc-500 my-2" />
-      {data.map((row) => (
-        <div
-          key={row.id}
-          className="grid grid-cols-4 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
-        >
-          <p>{row.name}</p>
-          <p className="text-center">{row.contractInterests.length}</p>
-          <button
-            className="border rounded-full text-center border-primary text-primary py-1 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
-            onClick={() => openInterestedModal(row)}
-            aria-label={`Ver interessados em ${row.name}`}
-          >
-            {texts.interested}
-          </button>
-          <button
-            className="border rounded-full text-center border-primary text-primary py-1 bg-transparent hover:bg-primary hover:text-zinc-700 transition-colors"
-            onClick={() => openDetailsModal(row)}
-            aria-label={`Ver mais detalhes de ${row.name}`}
-          >
-            {texts.details}
-          </button>
-        </div>
-      ))}
       {isInterestedModalOpen && selectedContract && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"

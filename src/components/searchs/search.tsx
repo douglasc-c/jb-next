@@ -26,7 +26,7 @@ const Search: React.FC<SearchProps> = ({
         value={query}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="bg-zinc-700 p-2 rounded-lg w-full"
+        className="bg-zinc-700 p-2 rounded-lg w-full focus:outline-none"
       />
     </div>
   )

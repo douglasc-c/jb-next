@@ -1,7 +1,6 @@
 'use client'
 
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
-
 import { useState } from 'react'
 import { VentureDetails } from '../modals/venture-datails'
 
@@ -87,48 +86,63 @@ export function VenturesTable({ data }: MyContractsProps) {
   }
 
   return (
-    <section className={`flex flex-col p-4  h-auto justify-around w-full`}>
-      <div className="grid grid-cols-5 gap-2 w-full uppercase text-sm font-medium items-center">
-        {/* <h3 className="text-center">{texts.status}</h3> */}
-        <h3 className="">{texts.venture}</h3>
-        <h3 className="text-center">{texts.completionDate}</h3>
-        <h3 className="text-center">{texts.amountInvested}</h3>
-        <h3 className="text-center">{texts.amountTransferred}</h3>
-        <h3 className="text-center">{texts.shares}</h3>
+    <section className="h-auto w-full p-4">
+      <div className="overflow-auto">
+        <table className="table-auto w-full border-collapse text-sm">
+          <thead className="uppercase border-b border-zinc-500">
+            <tr>
+              <th className="px-4 py-2 text-left font-regular text-xs">
+                {texts.venture}
+              </th>
+              <th className="px-4 py-2 text-center font-regular text-xs">
+                {texts.completionDate}
+              </th>
+              <th className="px-4 py-2 text-center font-regular text-xs">
+                {texts.amountInvested}
+              </th>
+              <th className="px-4 py-2 text-center font-regular text-xs">
+                {texts.amountTransferred}
+              </th>
+              <th className="px-4 py-2 text-center font-regular text-xs">
+                {texts.shares}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr
+                key={index}
+                className={`${index !== data.length - 1 ? 'border-b border-zinc-400' : ''}`}
+              >
+                <td className="px-4 py-2 text-xs">{row.name}</td>
+                <td className="px-4 py-2 text-center text-xs">
+                  {new Date(row.completionDate).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </td>
+                <td className="px-4 py-2 text-center text-xs">
+                  U$ {row.fundingAmount}
+                </td>
+                <td className="px-4 py-2 text-center text-xs">
+                  U$ {row.transferAmount}
+                </td>
+                <td className="px-4 py-2 text-center text-xs">
+                  <button
+                    className="border rounded-full text-primary border-primary py-1 px-4 bg-transparent"
+                    onClick={() => openModal(row)}
+                  >
+                    {texts.seeMore}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <span className="border border-zinc-500 my-2" />
-      {data.map((row, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-5 gap-2 w-full text-sm font-normal py-3 items-center border-b border-zinc-500"
-        >
-          {/* <div
-            className={`border rounded-full text-center border-primary py-0.5 ${
-              row.status === 'CONFIRMADO'
-                ? 'bg-primary text-zinc-700'
-                : 'bg-transparent'
-            }`}
-          >
-            <p>{row.status}</p>
-          </div> */}
-          <p className="">{row.name}</p>
-          <p className="text-center">
-            {new Date(row.completionDate).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
-          </p>
-          <p className="text-center">U$ {row.fundingAmount}</p>
-          <p className="text-center">U$ {row.transferAmount}</p>
-          <button
-            className={`border rounded-full text-center border-primary text-primary py-1 bg-transparent`}
-            onClick={() => openModal(row)}
-          >
-            {texts.seeMore}
-          </button>
-        </div>
-      ))}
+
+      {/* Modal */}
       {isModalOpen && selectedContract && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">

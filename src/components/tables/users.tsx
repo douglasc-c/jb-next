@@ -63,55 +63,74 @@ export function UsersTable({ data }: MyContractsProps) {
   }
 
   return (
-    <section className="flex flex-col p-4 h-auto justify-around w-full text-center">
-      <div className="grid grid-cols-4 gap-2 w-full uppercase text-sm font-medium items-center">
-        <h3 className="">{texts.type}</h3>
-        <h3 className="">{texts.name}</h3>
-        <h3 className="">{texts.compliance}</h3>
-        <h3 className="">{texts.seeMore}</h3>
-      </div>
-      <span className="border border-zinc-500 my-2" />
-      {data.map((row, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-4 gap-2 w-full font-normal py-3 items-center border-b border-zinc-500"
-        >
-          <p>{row.role}</p>
-          <p>
-            {row.firstName} {row.lastName}
-          </p>
-          <div
-            className={`border rounded-full border-primary py-0.5 ${
-              row.complianceStatus === 'Validado'
-                ? 'bg-primary text-zinc-700'
-                : 'bg-transparent'
-            }`}
-          >
-            <p>{getComplianceText(row.complianceStatus)}</p>
-          </div>
-          <button
-            className="border rounded-full border-primary text-primary py-1 bg-transparent"
-            onClick={() => openModal(row)}
-          >
-            {texts.seeMore}
-          </button>
-        </div>
-      ))}
+    <section className="h-auto w-full p-4">
+      <div className="overflow-auto">
+        <table className="table-auto w-full border-collapse text-sm">
+          <thead className="uppercase border-b border-zinc-500">
+            <tr>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                {texts.name}
+              </th>
+              <th className="px-4 py-2 text-center text-sm font-medium">
+                {texts.type}
+              </th>
+              <th className="px-4 py-2 text-center text-sm font-medium">
+                {texts.compliance}
+              </th>
+              <th className="px-4 py-2 text-center text-sm font-medium">
+                {texts.seeMore}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr
+                key={index}
+                className={`${index !== data.length - 1 ? 'border-b border-zinc-400' : ''}`}
+              >
+                <td className="px-4 py-2 text-xs text-left">
+                  {row.firstName} {row.lastName}
+                </td>
+                <td className="px-4 py-2 text-xs text-center">{row.role}</td>
+                <td className="px-4 py-2 text-xs text-center">
+                  <div
+                    className={`border rounded-full py-0.5 px-2 inline-block ${
+                      row.complianceStatus === 'Validado'
+                        ? 'bg-primary text-zinc-700 border-primary'
+                        : 'bg-transparent border-primary'
+                    }`}
+                  >
+                    {getComplianceText(row.complianceStatus)}
+                  </div>
+                </td>
+                <td className="px-4 py-2 text-xs text-center">
+                  <button
+                    className="rounded-full border border-primary text-primary py-1 px-4 bg-transparent"
+                    onClick={() => openModal(row)}
+                  >
+                    {texts.seeMore}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {selectedUser && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          role="dialog"
-        >
-          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <UserDetails
-              user={selectedUser}
-              isOpen={isModalOpen}
-              onClose={closeModal}
-            />
+        {selectedUser && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            role="dialog"
+          >
+            <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+              <UserDetails
+                user={selectedUser}
+                isOpen={isModalOpen}
+                onClose={closeModal}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }

@@ -36,7 +36,7 @@ interface ContractInterest {
   createdAt: string
 }
 
-interface Image {
+interface ImageItem {
   url: string
 }
 
@@ -68,7 +68,7 @@ interface Venture {
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
   coverImageUrl: string
-  images: Image[]
+  images: ImageItem[]
 }
 
 interface FormData {
@@ -87,6 +87,7 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
+  startDate: string
   images: File[]
 }
 
@@ -128,19 +129,18 @@ export default function Ventures() {
     area: 0,
     floors: 0,
     completionDate: '',
+    startDate: '',
     images: [],
   })
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    field: string,
+    value: string | number | File[] | null,
   ) => {
-    const { name, value, files } = e.target as HTMLInputElement
-    if (files) {
+    if (field === 'images' && Array.isArray(value)) {
       setFormData((prevState) => ({
         ...prevState,
-        images: Array.from(files).slice(0, 5),
+        images: value,
       }))
     } else if (
       [
@@ -149,13 +149,13 @@ export default function Ventures() {
         'squareMeterValue',
         'area',
         'floors',
-      ].includes(name)
+      ].includes(field)
     ) {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value ? parseFloat(value) : 0,
+        [field]: value ? parseFloat(value as string) : 0,
       }))
-    } else if (name === 'isAvailable') {
+    } else if (field === 'isAvailable') {
       setFormData((prevState) => ({
         ...prevState,
         isAvailable: value === 'true',
@@ -163,7 +163,7 @@ export default function Ventures() {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value,
+        [field]: value,
       }))
     }
   }
@@ -205,6 +205,7 @@ export default function Ventures() {
           area: 0,
           floors: 0,
           completionDate: '',
+          startDate: '',
           images: [],
         })
       } else {
@@ -292,8 +293,8 @@ export default function Ventures() {
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="text-white grid grid-cols-3 items-center gap-4 w-full">
-        <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
+      <div className="text-white grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/totalVentures.svg"
             width={25}
@@ -304,7 +305,7 @@ export default function Ventures() {
             {texts.total}: {totals.total}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/sale.svg"
             width={25}
@@ -315,7 +316,7 @@ export default function Ventures() {
             {texts.available}: {totals.available}
           </p>
         </div>
-        <div className="col-span-1 bg-zinc-700 rounded-md p-2 px-4 flex space-x-2 items-center">
+        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/clock.svg"
             width={25}
@@ -328,12 +329,12 @@ export default function Ventures() {
         </div>
         <div className="col-span-2">
           <Search
-            placeholder="Search users..."
+            placeholder="Buscar empreendimento..."
             searchQuery={searchQuery}
             onSearch={handleSearch}
           />
         </div>
-        <div className="col-span-1 flex justify-center items-center">
+        <div className="col-span-2 md:col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
             params={{
@@ -344,7 +345,7 @@ export default function Ventures() {
           />
         </div>
       </div>
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
         <VenturesTable data={filteredVentures} />
       </section>
 

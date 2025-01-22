@@ -59,105 +59,59 @@ export default function MyData() {
     },
   })
 
-  type FieldType = 'string' | 'number' | 'boolean' | 'date'
-
-  type FieldTypes = {
-    [key: string]: FieldType | Record<string, FieldType>
-  }
-
-  const fieldTypes: FieldTypes = {
-    firstName: 'string',
-    lastName: 'string',
-    email: 'string',
-    numberDocument: 'string',
-    birthDate: 'date',
-    phone: 'string',
-    currentPassword: 'string',
-    newPassword: 'string',
-    address: {
-      street: 'string',
-      number: 'string',
-      complement: 'string',
-      neighborhood: 'string',
-      city: 'string',
-      state: 'string',
-      postalCode: 'string',
-      country: 'string',
-    },
-  }
-
   const handleInputChange = (
     field: string,
-    value: string | number | boolean,
-    parentField?: string,
+    value: string | number | boolean | File[] | null,
   ) => {
-    const fieldPath = parentField ? `${parentField}.${field}` : field
-    let convertedValue: string | number | boolean | Date = value
-
-    const expectedType: FieldType | undefined = parentField
-      ? (fieldTypes[parentField] as Record<string, FieldType>)?.[field]
-      : (fieldTypes[field] as FieldType)
-
-    if (expectedType) {
-      switch (expectedType) {
-        case 'number':
-          convertedValue = Number(value)
-          if (isNaN(convertedValue)) {
-            console.warn(
-              `Field "${fieldPath}" expects a number, but received "${value}".`,
-            )
-            return
-          }
-          break
-        case 'boolean':
-          convertedValue = value === 'true' || value === true
-          break
-        case 'date':
-          convertedValue = new Date(value as string)
-          if (isNaN((convertedValue as Date).getTime())) {
-            console.warn(
-              `Field "${fieldPath}" expects a valid date, but received "${value}".`,
-            )
-            return
-          }
-          break
-        case 'string':
-        default:
-          convertedValue = String(value)
-      }
-    } else {
-      console.warn(`Field "${fieldPath}" is not defined in fieldTypes.`)
-      return
-    }
-
     setEditableData((prev) => {
-      if (parentField) {
-        const updatedParentField = {
-          ...(prev[parentField as keyof UserData] as object),
-          [field]: convertedValue,
+      if (field in prev) {
+        const key = field as keyof UserData
+
+        if (field === 'images' && Array.isArray(value)) {
+          const images = value.map((file) => ({
+            url: URL.createObjectURL(file),
+          }))
+          setChangedData((prevState) => ({
+            ...prevState,
+            images,
+          }))
+        } else if (
+          [
+            'fundingAmount',
+            'transferAmount',
+            'squareMeterValue',
+            'area',
+            'floors',
+          ].includes(field)
+        ) {
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: value ? parseFloat(value as string) : 0,
+          }))
+        } else if (field === 'isAvailable') {
+          setChangedData((prevState) => ({
+            ...prevState,
+            isAvailable: value === 'true',
+          }))
+        } else if (field === 'startDate' || field === 'completionDate') {
+          const dateValue = value ? new Date(value as string) : null
+          console.log(dateValue)
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: dateValue,
+          }))
+        } else {
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: value,
+          }))
         }
 
-        setChangedData((prevChanged) => ({
-          ...prevChanged,
-          [parentField]: updatedParentField,
-        }))
-
-        return {
-          ...prev,
-          [parentField]: updatedParentField,
-        }
-      }
-
-      if (prev[field as keyof UserData] === convertedValue) {
+        return { ...prev, [key]: value }
+      } else {
+        console.warn(`Field "${field}" is not a valid property of Venture.`)
         return prev
       }
-
-      setChangedData((prevChanged) => ({
-        ...prevChanged,
-        [field]: convertedValue,
-      }))
-
-      return { ...prev, [field]: convertedValue }
     })
   }
 
@@ -379,7 +333,7 @@ export default function MyData() {
                       value={editableData.address?.street || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('street', value, 'address')
+                        handleInputChange('address.street', value)
                       }
                     />
                     <InputField
@@ -387,7 +341,7 @@ export default function MyData() {
                       value={editableData.address?.number || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('number', value, 'address')
+                        handleInputChange('address.number', value)
                       }
                     />
                     <InputField
@@ -395,7 +349,7 @@ export default function MyData() {
                       value={editableData.address?.complement || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('complement', value, 'address')
+                        handleInputChange('address.complement', value)
                       }
                     />
                     <InputField
@@ -403,7 +357,7 @@ export default function MyData() {
                       value={editableData.address?.neighborhood || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('neighborhood', value, 'address')
+                        handleInputChange('address.neighborhood', value)
                       }
                     />
                     <InputField
@@ -411,7 +365,7 @@ export default function MyData() {
                       value={editableData.address?.city || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('city', value, 'address')
+                        handleInputChange('address.city', value)
                       }
                     />
                     <InputField
@@ -419,7 +373,7 @@ export default function MyData() {
                       value={editableData.address?.state || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('state', value, 'address')
+                        handleInputChange('address.state', value)
                       }
                     />
                     <InputField
@@ -427,7 +381,7 @@ export default function MyData() {
                       value={editableData.address?.postalCode || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('postalCode', value, 'address')
+                        handleInputChange('address.postalCode', value)
                       }
                     />
                     <InputField
@@ -435,7 +389,7 @@ export default function MyData() {
                       value={editableData.address?.country || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('country', value, 'address')
+                        handleInputChange('address.country', value)
                       }
                     />
                   </div>

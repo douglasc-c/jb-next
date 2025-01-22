@@ -84,9 +84,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const pathname = usePathname()
   const parts = pathname.split('/')
   const route = parts.slice(3).join('/')
-  const [activeTab, setActiveTab] = useState<
-    'overview' | 'images' | 'tasks' | 'valuation'
-  >('overview')
   const [isEditing, setIsEditing] = useState(false)
   const [editableData, setEditableData] = useState<Venture>({ ...venture })
   const [changedData, setChangedData] = useState<Partial<Venture>>({})
@@ -98,82 +95,59 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [mode, setMode] = useState<string>('consulting')
   const [valuationData, setValuationData] = useState(null)
 
-  const fieldTypes: Record<string, 'string' | 'number' | 'boolean' | 'date'> = {
-    name: 'string',
-    corporateName: 'string',
-    description: 'string',
-    status: 'string',
-    isAvailable: 'boolean',
-    investmentType: 'string',
-    constructionType: 'string',
-    fundingAmount: 'number',
-    transferAmount: 'number',
-    postalCode: 'string',
-    address: 'string',
-    city: 'string',
-    squareMeterValue: 'number',
-    area: 'number',
-    progress: 'number',
-    floors: 'number',
-    currentPhaseId: 'number',
-    currentTaskId: 'number',
-    startDate: 'date',
-    completionDate: 'date',
-  }
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'images' | 'tasks' | 'valuation'
+  >('overview')
 
   const handleInputChange = (
     field: string,
-    value: string | number | boolean,
+    value: string | number | boolean | File[] | null,
   ) => {
-    const expectedType = fieldTypes[field]
-
-    let convertedValue: string | number | boolean | Date = value
-
-    if (expectedType) {
-      switch (expectedType) {
-        case 'number':
-          convertedValue = Number(value)
-          if (isNaN(convertedValue)) {
-            console.warn(
-              `Field "${field}" expects a number, but received "${value}".`,
-            )
-            return
-          }
-          break
-        case 'boolean':
-          convertedValue = value === 'true' || value === true
-          break
-        case 'date':
-          convertedValue = new Date(value as string)
-          if (isNaN((convertedValue as Date).getTime())) {
-            console.warn(
-              `Field "${field}" expects a valid date, but received "${value}".`,
-            )
-            return
-          }
-          break
-        case 'string':
-        default:
-          convertedValue = String(value)
-      }
-    } else {
-      console.warn(`Field "${field}" is not defined in fieldTypes.`)
-    }
-
     setEditableData((prev) => {
       if (field in prev) {
         const key = field as keyof Venture
 
-        if (prev[key] === convertedValue) {
-          return prev
+        if (field === 'images' && Array.isArray(value)) {
+          const images = value.map((file) => ({
+            url: URL.createObjectURL(file),
+          }))
+          setChangedData((prevState) => ({
+            ...prevState,
+            images,
+          }))
+        } else if (
+          [
+            'fundingAmount',
+            'transferAmount',
+            'squareMeterValue',
+            'area',
+            'floors',
+          ].includes(field)
+        ) {
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: value ? parseFloat(value as string) : 0,
+          }))
+        } else if (field === 'isAvailable') {
+          setChangedData((prevState) => ({
+            ...prevState,
+            isAvailable: value === 'true',
+          }))
+        } else if (field === 'startDate' || field === 'completionDate') {
+          const dateValue = value ? new Date(value as string) : null
+          console.log(dateValue)
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: dateValue,
+          }))
+        } else {
+          setChangedData((prevState) => ({
+            ...prevState,
+            [field]: value,
+          }))
         }
 
-        setChangedData((prevChanged) => ({
-          ...prevChanged,
-          [key]: convertedValue,
-        }))
-
-        return { ...prev, [key]: convertedValue }
+        return { ...prev, [key]: value }
       } else {
         console.warn(`Field "${field}" is not a valid property of Venture.`)
         return prev
@@ -248,10 +222,13 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
 
   const handleValuationUpdate = async () => {
     try {
+      const numericValuation =
+        typeof newValuation === 'string' ? Number(newValuation) : newValuation
+
       const response = await api.put(
         `admin/update/${editableData.id}/valuation`,
         {
-          newValuation,
+          newValuation: numericValuation,
           mode,
         },
       )
@@ -320,7 +297,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   return (
     <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h3 className="text-2xl">{texts.ventureDetails}</h3>
+        <h3 className="text-lg md:text-2xl">{texts.ventureDetails}</h3>
         <button onClick={onClose} className="text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -340,22 +317,28 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
       </div>
 
       <div className="flex border-b border-gray-600 justify-between">
-        <div className="space-x-4">
+        <div className="flex flex-row w-full gap-6 text-xs custom-scroll">
           <button
-            className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-white' : ''}`}
+            className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-primary text-sm' : ''}`}
             onClick={() => setActiveTab('overview')}
           >
             {texts.summary}
           </button>
           <button
-            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-white' : ''}`}
+            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('images')}
           >
             {texts.images}
           </button>
+          <button
+            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-primary' : ''}`}
+            onClick={() => setActiveTab('images')}
+          >
+            {texts.contract}
+          </button>
           {route !== 'interests' && (
             <button
-              className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-white' : ''}`}
+              className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-primary' : ''}`}
               onClick={() => setActiveTab('tasks')}
             >
               {texts.stage}
@@ -363,23 +346,21 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           )}
           {route !== 'interests' && (
             <button
-              className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-white' : ''}`}
+              className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-primary' : ''}`}
               onClick={() => setActiveTab('valuation')}
             >
               {texts.valuation}
             </button>
           )}
-        </div>
-        {route !== 'interests' && (
-          <div>
+          {route !== 'interests' && (
             <button
-              className="bg-red-600 px-4 rounded-md text-sm"
+              className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
               onClick={() => setIsModalDeleteOpen(true)}
             >
               {texts.delete}
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div>
