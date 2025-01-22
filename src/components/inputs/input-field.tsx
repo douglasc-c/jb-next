@@ -38,6 +38,20 @@ export const InputField: React.FC<InputFieldProps> = ({
     }
   }
 
+  function isValidDate(dateString: string): boolean {
+    // Regex para validar o formato específico de data esperada
+    const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+
+    // Verifica se a string segue o formato esperado
+    if (!isoDateRegex.test(dateString)) {
+      return false
+    }
+
+    // Tenta criar uma data válida a partir da string
+    const parsedDate = Date.parse(dateString)
+    return !isNaN(parsedDate)
+  }
+
   return (
     <div className="flex flex-col">
       <label className="text-zinc-500 mb-1 text-sm">{label}</label>
@@ -98,7 +112,13 @@ export const InputField: React.FC<InputFieldProps> = ({
         <p className="px-4 py-2 rounded-md bg-zinc-900 text-xs text-zinc-400">
           {value && Array.isArray(value)
             ? `${value.length} file(s)`
-            : value || '-'}
+            : typeof value === 'string' && isValidDate(value)
+              ? new Date(value).toLocaleDateString('pt-BR', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })
+              : value || '-'}
         </p>
       )}
     </div>
