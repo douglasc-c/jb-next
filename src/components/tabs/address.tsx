@@ -17,7 +17,11 @@ interface UserData {
 interface AddressTabProps {
   isEditing: boolean
   editableData: UserData
-  handleInputChange: (field: string, value: string, isAddress?: boolean) => void
+  handleInputChange: (
+    field: string,
+    value: string | number | File[] | null,
+    isAddress?: boolean,
+  ) => void
 }
 export const AddressTab: React.FC<AddressTabProps> = ({
   isEditing,
@@ -27,7 +31,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   const { texts } = useLayoutAdminContext()
 
   return (
-    <div className="grid grid-cols-3 gap-4 text-left">
+    <div className="grid grid-cols-3 gap-4 text-left items-end">
       <div className="col-span-2">
         <InputField
           label={texts.street}

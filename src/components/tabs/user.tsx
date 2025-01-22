@@ -22,7 +22,11 @@ interface UserData {
 interface UserTabProps {
   isEditing: boolean
   editableData: UserData
-  handleInputChange: (field: string, value: string, isAddress?: boolean) => void
+  handleInputChange: (
+    field: string,
+    value: string | number | File[] | null,
+    isAddress?: boolean,
+  ) => void
 }
 export const UserTab: React.FC<UserTabProps> = ({
   isEditing,
@@ -31,7 +35,7 @@ export const UserTab: React.FC<UserTabProps> = ({
 }) => {
   const { texts } = useLayoutAdminContext()
   return (
-    <div className="grid grid-cols-2 gap-4 text-left">
+    <div className="grid grid-cols-2 gap-4 text-left items-end">
       <InputField
         label={texts.firstName}
         value={editableData.firstName}
@@ -71,46 +75,28 @@ export const UserTab: React.FC<UserTabProps> = ({
         isEditing={isEditing}
         onChange={(value) => handleInputChange('numberDocument', value)}
       />
-      {isEditing ? (
-        <div className="flex flex-col space-y-1">
-          <label className="text-zinc-500">{texts.userType}</label>
-          <select
-            className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 font-light text-sm border border-zinc-500"
-            value={editableData.userType}
-            onChange={(e) => handleInputChange('userType', e.target.value)}
-          >
-            <option value="INDIVIDUAL">INDIVIDUAL</option>
-            <option value="COMPANY">COMPANY</option>
-          </select>
-        </div>
-      ) : (
-        <div className="flex flex-col space-y-1">
-          <label className="text-zinc-500 text-sm">{texts.userType}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 text-xs">
-            {editableData.userType}
-          </p>
-        </div>
-      )}
-      {isEditing ? (
-        <div className="flex flex-col space-y-1">
-          <label className="text-zinc-500">{texts.role}</label>
-          <select
-            className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 font-light text-sm border border-zinc-500"
-            value={editableData.role}
-            onChange={(e) => handleInputChange('role', e.target.value)}
-          >
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </div>
-      ) : (
-        <div className="flex flex-col space-y-1">
-          <label className="text-zinc-500 text-sm">{texts.role}</label>
-          <p className="px-4 py-2 rounded-md bg-zinc-900 text-zinc-400 text-xs">
-            {editableData.role}
-          </p>
-        </div>
-      )}
+      <InputField
+        label={texts.userType}
+        value={editableData.userType}
+        isEditing={isEditing}
+        type="select"
+        options={[
+          { value: 'INDIVIDUAL', label: texts.individual },
+          { value: 'COMPANY', label: texts.company },
+        ]}
+        onChange={(value) => handleInputChange('userType', value)}
+      />
+      <InputField
+        label={texts.role}
+        value={editableData.role}
+        isEditing={isEditing}
+        type="select"
+        options={[
+          { value: 'ADMIN', label: texts.admin },
+          { value: 'USER', label: texts.user },
+        ]}
+        onChange={(value) => handleInputChange('role', value)}
+      />
     </div>
   )
 }

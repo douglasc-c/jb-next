@@ -131,6 +131,7 @@ export interface LayoutAdminContextProps {
     valuationAfter: string
     difference: string
     percentage: string
+    contract: string
   }
 
   locale: string

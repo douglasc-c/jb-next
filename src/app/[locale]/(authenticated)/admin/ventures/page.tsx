@@ -36,7 +36,7 @@ interface ContractInterest {
   createdAt: string
 }
 
-interface Image {
+interface ImageItem {
   url: string
 }
 
@@ -68,7 +68,7 @@ interface Venture {
   currentTask?: CurrentTask
   contractInterests: ContractInterest[]
   coverImageUrl: string
-  images: Image[]
+  images: ImageItem[]
 }
 
 interface FormData {
@@ -87,6 +87,7 @@ interface FormData {
   area: number
   floors: number
   completionDate: string
+  startDate: string
   images: File[]
 }
 
@@ -128,19 +129,18 @@ export default function Ventures() {
     area: 0,
     floors: 0,
     completionDate: '',
+    startDate: '',
     images: [],
   })
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    field: string,
+    value: string | number | File[] | null,
   ) => {
-    const { name, value, files } = e.target as HTMLInputElement
-    if (files) {
+    if (field === 'images' && Array.isArray(value)) {
       setFormData((prevState) => ({
         ...prevState,
-        images: Array.from(files).slice(0, 5),
+        images: value,
       }))
     } else if (
       [
@@ -149,13 +149,13 @@ export default function Ventures() {
         'squareMeterValue',
         'area',
         'floors',
-      ].includes(name)
+      ].includes(field)
     ) {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value ? parseFloat(value) : 0,
+        [field]: value ? parseFloat(value as string) : 0,
       }))
-    } else if (name === 'isAvailable') {
+    } else if (field === 'isAvailable') {
       setFormData((prevState) => ({
         ...prevState,
         isAvailable: value === 'true',
@@ -163,7 +163,7 @@ export default function Ventures() {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value,
+        [field]: value,
       }))
     }
   }
@@ -205,6 +205,7 @@ export default function Ventures() {
           area: 0,
           floors: 0,
           completionDate: '',
+          startDate: '',
           images: [],
         })
       } else {

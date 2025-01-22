@@ -169,6 +169,7 @@ export default async function RootLayout({
     valuationAfter: t('TextLang.valuationAfter'),
     difference: t('TextLang.difference'),
     percentage: t('TextLang.percentage'),
+    contract: t('TextLang.contract'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

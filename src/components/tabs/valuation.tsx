@@ -1,5 +1,6 @@
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import React from 'react'
+import { InputField } from '../inputs/input-field'
 
 interface ValuationFormProps {
   newValuation: number | string
@@ -38,33 +39,42 @@ const ValuationForm: React.FC<ValuationFormProps> = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row space-x-4">
-        <div className="flex flex-col">
-          <label className="text-zinc-300">{texts.newValuation}</label>
-          <input
-            type="number"
+      <div className="flex flex-col md:flex-row justify-between gap-4 md:items-end">
+        <div className="flex flex-col md:flex-row gap-4 md:items-end">
+          <InputField
+            label={texts.newValuation}
             value={newValuation}
-            onChange={(e) =>
-              setNewValuation(e.target.value ? Number(e.target.value) : '')
-            }
-            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
+            type="number"
+            isEditing={true}
+            onChange={(value) => {
+              if (
+                value !== null &&
+                (typeof value === 'string' || typeof value === 'number')
+              ) {
+                setNewValuation(value)
+              }
+            }}
+          />
+          <InputField
+            label={texts.mode}
+            value={mode}
+            isEditing={true}
+            type="select"
+            options={[
+              { value: 'consulting', label: texts.consulting },
+              { value: 'confirmed', label: texts.confirmed },
+            ]}
+            onChange={(value) => {
+              if (typeof value === 'string') {
+                setMode(value)
+              }
+            }}
           />
         </div>
-        <div className="flex flex-col">
-          <label className="text-zinc-300">{texts.mode}</label>
-          <select
-            className="px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-500"
-            value={mode}
-            onChange={(e) => setMode(e.target.value)}
-          >
-            <option value="consulting">{texts.consulting}</option>
-            <option value="confirmed">{texts.confirmed}</option>
-          </select>
-        </div>
-        <div className="flex items-end">
+        <div className="item-end">
           <button
             onClick={handleValuationUpdate}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark"
+            className="px-4 py-2 bg-primary text-white text-sm rounded-md hover:bg-primary-dark"
           >
             {texts.confirmed}
           </button>

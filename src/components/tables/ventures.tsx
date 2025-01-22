@@ -91,19 +91,19 @@ export function VenturesTable({ data }: MyContractsProps) {
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium">
+              <th className="px-4 py-2 text-left font-regular text-xs">
                 {texts.venture}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center font-regular text-xs">
                 {texts.completionDate}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center font-regular text-xs">
                 {texts.amountInvested}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center font-regular text-xs">
                 {texts.amountTransferred}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center font-regular text-xs">
                 {texts.shares}
               </th>
             </tr>

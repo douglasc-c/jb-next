@@ -86,7 +86,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
 
   const handleInputChange = (
     field: string,
-    value: string,
+    value: string | number | File[] | null,
     isAddress = false,
   ) => {
     if (isAddress) {
@@ -192,7 +192,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   return (
     <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h3 className="text-2xl">{texts.userDetails}</h3>
+        <h3 className="text-lg md:text-2xl">{texts.userDetails}</h3>
         <button onClick={onClose} className="text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +212,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       </div>
 
       <div className="flex border-b border-gray-600 justify-between">
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+        <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
           <button
             className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('user')}
@@ -240,17 +240,15 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
           >
             {texts.compliance}
           </button>
-        </div>
-        {route !== 'interests' && (
-          <div>
+          {route !== 'interests' && (
             <button
-              className="bg-red-600 px-4 rounded-md text-sm"
+              className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
               onClick={() => setIsModalDeleteOpen(true)}
             >
               {texts.delete}
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="">
@@ -293,7 +291,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         {route !== 'interests' && activeTab !== 'compliance' && (
           <button
             onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-            className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
+            className="bg-primary text-zinc-200 py-2 rounded-lg text-sm w-full"
           >
             {isEditing ? texts.save : texts.edit}
           </button>

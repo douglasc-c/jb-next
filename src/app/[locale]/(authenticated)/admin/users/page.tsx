@@ -92,11 +92,8 @@ export default function Users() {
     setFilteredUsers(results)
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,7 +103,6 @@ export default function Users() {
       const response = await api.post('/admin/register', formData)
 
       if (response.status === 201) {
-        console.log(response)
         const newUser = response.data.user
         setUsers((prevUsers) => [...prevUsers, newUser])
         setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
@@ -232,7 +228,7 @@ export default function Users() {
           formData={formData}
           error={error}
           loading={loadingButton}
-          handleChange={handleChange}
+          handleChange={handleInputChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}
         />
