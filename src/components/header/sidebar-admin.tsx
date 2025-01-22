@@ -49,7 +49,6 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
 
   return (
     <>
-      {/* Botão do Menu Mobile */}
       <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-5 py-9 transition-all duration-300 bg-zinc-900">
         <div className="flex flex-row md:ml-64 space-x-1">
           <h1 className="text-zinc-600">{text.welcome}</h1>
@@ -80,71 +79,70 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         </div>
       </div>
 
-      {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 z-50 flex flex-col justify-between transform transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:block`}
       >
-        <div className="p-4 justify-center flex">
-          <Image
-            src={`/images/svg/logoGreen.svg`}
-            alt="notifications"
-            height={180}
-            width={180}
-          />
-        </div>
+        <div className="grid gap-16">
+          <div className="p-4 justify-center flex">
+            <Image
+              src={`/images/svg/logoGreen.svg`}
+              alt="notifications"
+              height={180}
+              width={180}
+            />
+          </div>
 
-        <nav className="space-y-2 flex-grow">
-          <ButtonMenu
-            params={{
-              title: text.users,
-              path: `/${locale}/admin/users`,
-              icon: 'users',
-            }}
-          />
-          <ButtonMenu
-            params={{
-              title: text.interests,
-              path: `/${locale}/admin/interests`,
-              icon: 'interests',
-            }}
-          />
-          <ButtonMenu
-            params={{
-              title: text.ventures,
-              path: `/${locale}/admin/ventures`,
-              icon: 'shock',
-            }}
-          />
-          <ButtonMenu
-            params={{
-              title: text.support,
-              path: `/${locale}/admin/support`,
-              icon: 'support',
-            }}
-          />
-        </nav>
-
-        <div className="">
-          <button
-            onClick={handleSignOut}
-            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase text-zinc-300"
-          >
-            <div className="p-2 rounded-lg">
-              <Image
-                src={`/images/svg/signout.svg`}
-                alt="notifications"
-                height={19}
-                width={19}
-              />
-            </div>
-            <span>{text.signOut}</span>
-          </button>
+          <nav className="grid grid-rows-1">
+            <ButtonMenu
+              params={{
+                title: text.users,
+                path: `/${locale}/admin/users`,
+                icon: 'users',
+              }}
+            />
+            <ButtonMenu
+              params={{
+                title: text.interests,
+                path: `/${locale}/admin/interests`,
+                icon: 'interests',
+              }}
+            />
+            <ButtonMenu
+              params={{
+                title: text.ventures,
+                path: `/${locale}/admin/ventures`,
+                icon: 'shock',
+              }}
+            />
+            <ButtonMenu
+              params={{
+                title: text.support,
+                path: `/${locale}/admin/support`,
+                icon: 'support',
+              }}
+            />
+          </nav>
         </div>
+        {/* <div className=""> */}
+        <button
+          onClick={handleSignOut}
+          className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase text-zinc-300"
+        >
+          <div className="p-2 rounded-lg">
+            <Image
+              src={`/images/svg/signout.svg`}
+              alt="notifications"
+              height={19}
+              width={19}
+            />
+          </div>
+          <span>{text.signOut}</span>
+        </button>
+        {/* </div> */}
       </div>
 
-      {/* Overlay para fechar o Sidebar no mobile */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
