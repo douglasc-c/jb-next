@@ -99,6 +99,9 @@ export interface LayoutContextProps {
     completionDate: string
     noNewDevelopmentsAvailable: string
     youHaveNoBusiness: string
+    fundingAmount: string
+    transferAmount: string
+    squareMeterValue: string
   }
 
   locale: string

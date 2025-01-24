@@ -29,6 +29,7 @@ interface SidebarProps {
     users: string
     compliance: string
     ventures: string
+    contracts: string
     interests: string
     stages: string
     support: string
@@ -118,6 +119,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             />
             <ButtonMenu
               params={{
+                title: text.contracts,
+                path: `/${locale}/admin/contracts`,
+                icon: 'file',
+              }}
+            />
+            <ButtonMenu
+              params={{
                 title: text.support,
                 path: `/${locale}/admin/support`,
                 icon: 'support',
@@ -125,22 +133,22 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             />
           </nav>
         </div>
-        {/* <div className=""> */}
-        <button
-          onClick={handleSignOut}
-          className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase text-zinc-300"
-        >
-          <div className="p-2 rounded-lg">
-            <Image
-              src={`/images/svg/signout.svg`}
-              alt="notifications"
-              height={19}
-              width={19}
-            />
-          </div>
-          <span>{text.signOut}</span>
-        </button>
-        {/* </div> */}
+        <div className="p-2">
+          <button
+            onClick={handleSignOut}
+            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase text-zinc-300"
+          >
+            <div className="p-2 rounded-lg">
+              <Image
+                src={`/images/svg/signout.svg`}
+                alt="notifications"
+                height={19}
+                width={19}
+              />
+            </div>
+            <span>{text.signOut}</span>
+          </button>
+        </div>
       </div>
 
       {isSidebarOpen && (

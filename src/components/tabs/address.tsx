@@ -31,7 +31,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   const { texts } = useLayoutAdminContext()
 
   return (
-    <div className="grid grid-cols-3 gap-4 text-left items-end">
+    <div className="grid grid-cols-2 gap-4 text-left items-end">
       <div className="col-span-2">
         <InputField
           label={texts.street}
@@ -46,14 +46,14 @@ export const AddressTab: React.FC<AddressTabProps> = ({
         isEditing={isEditing}
         onChange={(value) => handleInputChange('number', value, true)}
       />
-      <div className="col-span-2">
-        <InputField
-          label={texts.complement}
-          value={editableData.address?.complement || ''}
-          isEditing={isEditing}
-          onChange={(value) => handleInputChange('complement', value, true)}
-        />
-      </div>
+
+      <InputField
+        label={texts.complement}
+        value={editableData.address?.complement || ''}
+        isEditing={isEditing}
+        onChange={(value) => handleInputChange('complement', value, true)}
+      />
+
       <InputField
         label={texts.neighborhood}
         value={editableData.address?.neighborhood || ''}
@@ -67,17 +67,18 @@ export const AddressTab: React.FC<AddressTabProps> = ({
         onChange={(value) => handleInputChange('city', value, true)}
       />
       <InputField
-        label={texts.state}
-        value={editableData.address?.state || ''}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('state', value, true)}
-      />
-      <InputField
         label={texts.postalCode}
         value={editableData.address?.postalCode || ''}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('postalCode', value, true)}
       />
+      <InputField
+        label={texts.state}
+        value={editableData.address?.state || ''}
+        isEditing={isEditing}
+        onChange={(value) => handleInputChange('state', value, true)}
+      />
+
       <InputField
         label={texts.country}
         value={editableData.address?.country || ''}

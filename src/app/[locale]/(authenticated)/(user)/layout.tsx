@@ -143,6 +143,9 @@ export default async function RootLayout({
     completionDate: t('TextLang.completionDate'),
     noNewDevelopmentsAvailable: t('TextLang.noNewDevelopmentsAvailable'),
     youHaveNoBusiness: t('TextLang.youHaveNoBusiness'),
+    fundingAmount: t('TextLang.fundingAmount'),
+    transferAmount: t('TextLang.transferAmount'),
+    squareMeterValue: t('TextLang.squareMeterValue'),
   }
 
   const layoutValue: LayoutContextProps = {

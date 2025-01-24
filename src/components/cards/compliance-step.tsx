@@ -3,6 +3,7 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useUploadContext } from '@/context/upload-context'
 import DocumentUploader from './document-uploader'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface FormData {
   documentType: string
@@ -33,14 +34,19 @@ export default function ComplianceStep({
   const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
 
   const handleUpload = (documentKey: string, newFiles: File[]) => {
-    addFiles(documentKey, newFiles) // Adiciona arquivos ao tipo de documento correspondente
-    console.log(`Arquivos carregados para ${documentKey}:`, newFiles)
+    addFiles(documentKey, newFiles)
+  }
+
+  const router = useRouter()
+
+  const handleClick = () => {
+    router.push('/support')
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const updatedFormData: FormData = { documentType: e.target.value }
-    setFormData(updatedFormData) // Atualiza o estado do formData
-    onFormDataUpdate(updatedFormData) // Chama a função para passar o formData atualizado
+    setFormData(updatedFormData)
+    onFormDataUpdate(updatedFormData)
   }
 
   const documentStepsText = [
@@ -56,7 +62,6 @@ export default function ComplianceStep({
     'proofOfAddress',
     'incomeTaxProof',
   ]
-
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-6">
       <h1 className="text-xl font-semibold">{texts.verifyYourIdentity}</h1>
@@ -82,30 +87,52 @@ export default function ComplianceStep({
         </section>
       )}
 
-      {/* Passos 2 a 4: Upload de Documentos */}
       {step > 0 && step <= documentSteps.length && (
         <DocumentUploader
           onUpload={handleUpload}
           attachLabel={texts.attach}
           dragHint={documentStepsText[step - 1]}
-          documentKey={documentSteps[step - 1]} // Passando o documentKey aqui
+          documentKey={documentSteps[step - 1]}
         />
       )}
 
-      {/* Exibição dos Arquivos Carregados */}
-      {/* <div className="mt-4">
-        {files[step]?.map((file, index) => (
-          <p key={file.name} className="text-sm text-zinc-400">
-            {file.name}
-          </p>
-        ))}
+      {/* <div className="image-gallery">
+        {Object.keys(files).map((documentKey) => {
+          const documentFiles = files[documentKey]
+
+          return (
+            <div key={documentKey} className="mb-4">
+              <h3 className="text-lg font-semibold">{documentKey}</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {documentFiles.map((file, index) => {
+                  // const isImageSelected = isSelected.includes(file.url)
+                  console.log(file)
+                  return (
+                    <div key={index} className="relative">
+                      <Image
+                        src={`http://localhost:3335/${file.name}`}
+                        alt={`Image ${index + 1}`}
+                        width={100}
+                        height={100}
+                        // className={`rounded-lg cursor-pointer ${isImageSelected ? 'border-4 border-blue-500' : ''}`}
+                        // onClick={() => openImage(file)} // Exibe a imagem ao clicar
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
       </div> */}
 
-      {/* Botões de Navegação */}
       <section className="flex flex-row justify-between items-center rounded-xl">
-        <div className="border border-gray-500 rounded-md py-2 flex justify-center font-light text-sm w-1/3">
+        <button
+          className="border border-gray-500 rounded-md py-2 flex justify-center font-light text-sm w-1/3"
+          onClick={handleClick}
+        >
           <p>{texts.support}</p>
-        </div>
+        </button>
         <div className="flex flex-row space-x-1 items-center justify-center w-1/3 text-primary">
           <p>{`${texts.step} ${step} ${texts.from} ${totalSteps}`}</p>
         </div>
@@ -129,7 +156,6 @@ export default function ComplianceStep({
         </div>
       </section>
 
-      {/* Texto de Conformidade */}
       <div className="flex w-full font-light text-xs">
         <p>
           {texts.at4HandsRealEstateInvestmentsWeNeedTo}{' '}

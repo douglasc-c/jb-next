@@ -19,19 +19,18 @@ const CompleanceImage: React.FC<CompleanceImageProps> = ({ images }) => {
 
   return (
     <div>
-      <div className="flex flex-row max-w-40 max-h-40 space-x-4">
+      <div className="flex flex-row space-x-4">
         {isAllNull ? (
           <p className="text-red-500">
             Nenhuma das imagens de compliance foi enviada.
           </p>
         ) : (
           images?.map((img, index) => (
-            <div key={index} className="relative w-full h-full">
+            <div key={index} className="relative w-16 h-24">
               <Image
                 src={`http://localhost:3335${img}`}
                 alt={`Image ${index + 1}`}
-                width={110}
-                height={110}
+                fill
                 className="rounded-lg cursor-pointer"
                 onClick={() => openImage(img)}
               />

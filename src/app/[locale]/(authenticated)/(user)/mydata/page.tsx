@@ -33,6 +33,10 @@ export default function MyData() {
   const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState<UserData | null>(null)
   const [changedData, setChangedData] = useState<Partial<UserData>>({})
+  const [changedPass, setChangedPass] = useState({
+    currentPassword: '',
+    newPassword: '',
+  })
   const [isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState<
     'overview' | 'address' | 'password'
@@ -45,8 +49,6 @@ export default function MyData() {
     numberDocument: '',
     birthDate: '',
     phone: '',
-    currentPassword: '',
-    newPassword: '',
     address: {
       street: '',
       number: '',
@@ -62,8 +64,41 @@ export default function MyData() {
   const handleInputChange = (
     field: string,
     value: string | number | boolean | File[] | null,
+    parentField?: string,
   ) => {
+    if (field === 'currentPassword' || field === 'newPassword') {
+      setChangedPass((prevState) => ({
+        ...prevState,
+        [field]: value,
+      }))
+    }
+
     setEditableData((prev) => {
+      if (parentField) {
+        const parentKey = parentField as keyof UserData
+
+        let parentValue = prev[parentKey] || {}
+
+        if (typeof parentValue !== 'object' || parentValue === null) {
+          parentValue = {}
+        }
+        setChangedData((prev) => ({
+          ...prev,
+          [parentKey]: {
+            ...parentValue,
+            [field]: value,
+          },
+        }))
+
+        return {
+          ...prev,
+          [parentKey]: {
+            ...parentValue,
+            [field]: value,
+          },
+        }
+      }
+
       if (field in prev) {
         const key = field as keyof UserData
 
@@ -95,7 +130,6 @@ export default function MyData() {
           }))
         } else if (field === 'startDate' || field === 'completionDate') {
           const dateValue = value ? new Date(value as string) : null
-          console.log(dateValue)
           setChangedData((prevState) => ({
             ...prevState,
             [field]: dateValue,
@@ -106,10 +140,9 @@ export default function MyData() {
             [field]: value,
           }))
         }
-
         return { ...prev, [key]: value }
       } else {
-        console.warn(`Field "${field}" is not a valid property of Venture.`)
+        console.warn(`Field "${field}" is not a valid property of UserData.`)
         return prev
       }
     })
@@ -120,11 +153,16 @@ export default function MyData() {
 
     try {
       let response
-
-      if (Object.keys(changedData).length === 0) {
+      if (
+        Object.keys(changedData).length === 0 &&
+        Object.keys(changedPass).length === 0
+      ) {
         console.log('Nenhuma alteração detectada.')
         return null
       }
+
+      // Caso contrário, prossegue com a lógica
+      console.log('Alterações detectadas:', { changedData, changedPass })
 
       if (activeTab === 'overview') {
         response = await api.post(`/users/update/profile`, {
@@ -139,8 +177,8 @@ export default function MyData() {
         response = await api.post(`/users/address`, editableData.address)
       } else if (activeTab === 'password') {
         response = await api.post(`/users/change-password`, {
-          currentPassword: editableData.currentPassword,
-          newPassword: editableData.newPassword,
+          currentPassword: changedPass.currentPassword,
+          newPassword: changedPass.newPassword,
         })
       }
 
@@ -333,7 +371,7 @@ export default function MyData() {
                       value={editableData.address?.street || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.street', value)
+                        handleInputChange('street', value, 'address')
                       }
                     />
                     <InputField
@@ -341,7 +379,7 @@ export default function MyData() {
                       value={editableData.address?.number || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.number', value)
+                        handleInputChange('number', value, 'address')
                       }
                     />
                     <InputField
@@ -349,7 +387,7 @@ export default function MyData() {
                       value={editableData.address?.complement || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.complement', value)
+                        handleInputChange('complement', value, 'address')
                       }
                     />
                     <InputField
@@ -357,7 +395,7 @@ export default function MyData() {
                       value={editableData.address?.neighborhood || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.neighborhood', value)
+                        handleInputChange('neighborhood', value, 'address')
                       }
                     />
                     <InputField
@@ -365,7 +403,7 @@ export default function MyData() {
                       value={editableData.address?.city || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.city', value)
+                        handleInputChange('city', value, 'address')
                       }
                     />
                     <InputField
@@ -373,7 +411,7 @@ export default function MyData() {
                       value={editableData.address?.state || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.state', value)
+                        handleInputChange('state', value, 'address')
                       }
                     />
                     <InputField
@@ -381,7 +419,7 @@ export default function MyData() {
                       value={editableData.address?.postalCode || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.postalCode', value)
+                        handleInputChange('postalCode', value, 'address')
                       }
                     />
                     <InputField
@@ -389,7 +427,7 @@ export default function MyData() {
                       value={editableData.address?.country || ''}
                       isEditing={isEditing}
                       onChange={(value) =>
-                        handleInputChange('address.country', value)
+                        handleInputChange('country', value, 'address')
                       }
                     />
                   </div>
@@ -399,7 +437,7 @@ export default function MyData() {
                     <InputField
                       label={texts.currentPassword}
                       type={'password'}
-                      value={editableData.currentPassword || ''}
+                      value={changedPass.currentPassword || ''}
                       isEditing={isEditing}
                       showPass={true}
                       onChange={(value) =>
@@ -409,7 +447,7 @@ export default function MyData() {
                     <InputField
                       label={texts.newPassword}
                       type={'password'}
-                      value={editableData.newPassword || ''}
+                      value={changedPass.newPassword || ''}
                       isEditing={isEditing}
                       showPass={true}
                       onChange={(value) =>

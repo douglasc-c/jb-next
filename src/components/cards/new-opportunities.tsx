@@ -3,7 +3,7 @@
 import { useLayoutContext } from '@/context/layout-context'
 import { OpportunitiesPreview } from './opportunities-preview'
 import { SmallOpportunitiesPreview } from './small-opportunities-preview'
-import { DetailContract } from '../modals/contract-datails'
+import { DetailsVentures } from '../modals/datails-venture'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -76,7 +76,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   return (
     <section className="flex p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full space-x-12">
       <div
-        className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} space-y-3`}
+        className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} gap-y-2`}
       >
         <h3 className="uppercase font-medium">
           {texts.newOpportunitiesPortifolio}
@@ -116,7 +116,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
       </div>
 
       {recentEnterprises.length > 1 && (
-        <div className="w-1/3 flex flex-col justify-between">
+        <div className="w-1/3 md:flex flex-col justify-between hidden">
           {recentEnterprises.slice(1, 3).map((enterprise) => (
             <SmallOpportunitiesPreview
               key={enterprise.id}
@@ -135,7 +135,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
           aria-describedby="modal-description"
         >
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <DetailContract onClick={closeModal} data={selectedContract} />
+            <DetailsVentures onClick={closeModal} data={selectedContract} />
           </div>
         </div>
       )}

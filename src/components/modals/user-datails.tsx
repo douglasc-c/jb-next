@@ -106,7 +106,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       let response
 
       if (activeTab === 'user') {
-        response = await api.put(`/admin/update/user`, {
+        response = await api.put(`/admin/update/user/${editableData.id}`, {
           firstName: editableData.firstName,
           lastName: editableData.lastName,
           email: editableData.email,

@@ -26,11 +26,11 @@ interface User {
   userType: string
 }
 
-interface MyContractsProps {
+interface MyVenturesProps {
   data: User[]
 }
 
-export function UsersTable({ data }: MyContractsProps) {
+export function UsersTable({ data }: MyVenturesProps) {
   const { texts } = useLayoutAdminContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)

@@ -1,8 +1,8 @@
 'use client'
 
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutContext } from '@/context/layout-context'
 import { useState } from 'react'
-import { VentureDetails } from '../modals/venture-datails'
+import { DetailsVentures } from '../modals/datails-venture'
 
 interface CurrentPhase {
   id: number
@@ -31,7 +31,7 @@ interface ContractInterest {
 }
 
 interface Image {
-  url: string
+  imageUrl: string
 }
 
 interface Venture {
@@ -60,18 +60,18 @@ interface Venture {
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
+  interestStatus?: string
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: Image[]
 }
 
-interface MyVenturesProps {
+interface MyVenturesTableProps {
   data: Venture[]
 }
 
-export function VenturesTable({ data }: MyVenturesProps) {
-  const { texts } = useLayoutAdminContext()
-
+export function MyVenturesTable({ data }: MyVenturesTableProps) {
+  const { texts } = useLayoutContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
 
@@ -142,15 +142,10 @@ export function VenturesTable({ data }: MyVenturesProps) {
         </table>
       </div>
 
-      {/* Modal */}
       {isModalOpen && selectedContract && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
-            <VentureDetails
-              isOpen={isModalOpen}
-              onClose={closeModal}
-              venture={selectedContract}
-            />
+            <DetailsVentures onClick={closeModal} data={selectedContract} />
           </div>
         </div>
       )}

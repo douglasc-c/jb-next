@@ -70,7 +70,7 @@ interface ContractProps {
   onClick: () => void
 }
 
-export function DetailContract({ data, onClick }: ContractProps) {
+export function DetailsVentures({ data, onClick }: ContractProps) {
   const { texts } = useLayoutContext()
   const { authData } = useAuthContext()
 
@@ -103,7 +103,7 @@ export function DetailContract({ data, onClick }: ContractProps) {
       const response = await api.post(`/users/interest-enterprise`, {
         enterpriseId: id,
       })
-      console.log(response)
+
       if (response?.status === 200 || response?.status === 201) {
         console.log('Update successful', response.data)
       } else {
@@ -115,7 +115,7 @@ export function DetailContract({ data, onClick }: ContractProps) {
       onClick()
     }
   }
-  console.log(data)
+
   return (
     <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">

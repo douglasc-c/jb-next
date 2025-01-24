@@ -85,7 +85,7 @@ export function OpportunitiesPreview({
           className="absolute inset-0  bg-cover bg-center rounded-lg"
         />
       </section>
-      <section className="flex flex-col text-xs w-2/3 space-y-3 pt-4">
+      <section className="flex flex-col text-xs w-full md:w-2/3 gap-y-3 pt-4">
         <div className="flex uppercase">
           <div className="w-full flex flex-col space-y-3">
             <p className="font-medium">{texts.document}</p>

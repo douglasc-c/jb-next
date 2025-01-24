@@ -34,6 +34,7 @@ export const UserTab: React.FC<UserTabProps> = ({
   handleInputChange,
 }) => {
   const { texts } = useLayoutAdminContext()
+
   return (
     <div className="grid grid-cols-2 gap-4 text-left items-end">
       <InputField

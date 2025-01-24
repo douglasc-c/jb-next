@@ -1,6 +1,6 @@
 'use client'
 
-import { MyContracts } from '@/components/tables/my-contracts'
+import { MyVenturesTable } from '@/components/tables/my-ventures'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
 import Image from 'next/image'
@@ -14,8 +14,6 @@ export default function MyVentures() {
     const fetchMyVenture = async () => {
       try {
         const response = await api.get('/users/my-enterprise')
-
-        console.log(response)
 
         const fetchedUserRecentEnterprises = response.data
         setUserRecentEnterprises(fetchedUserRecentEnterprises)
@@ -33,7 +31,7 @@ export default function MyVentures() {
         <h1 className="uppercase font-medium">{texts.myVentures}</h1>
         <section className="flex w-full rounded-xl bg-zinc-800 space-x-6 overflow-auto">
           {userRecentEnterprises.length > 0 ? (
-            <MyContracts data={userRecentEnterprises} />
+            <MyVenturesTable data={userRecentEnterprises} />
           ) : (
             <div className="p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
               <div className="text-center items-center flex flex-col space-y-4">
