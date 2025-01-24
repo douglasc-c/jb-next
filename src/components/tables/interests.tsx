@@ -80,11 +80,11 @@ interface Venture {
   images: Image[]
 }
 
-interface MyContractsProps {
+interface MyVenturesProps {
   data: Venture[]
 }
 
-export function InterestsTable({ data }: MyContractsProps) {
+export function InterestsTable({ data }: MyVenturesProps) {
   const { texts } = useLayoutAdminContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
@@ -156,9 +156,13 @@ export function InterestsTable({ data }: MyContractsProps) {
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
-              <th className="px-4 py-2 text-left">{texts.company}</th>
-              <th className="px-4 py-2">{texts.interests}</th>
-              <th className="px-4 py-2" colSpan={2}>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                {texts.company}
+              </th>
+              <th className="px-4 py-2 text-sm font-medium">
+                {texts.interests}
+              </th>
+              <th className="px-4 py-2 text-sm font-medium" colSpan={2}>
                 {texts.shares}
               </th>
             </tr>
@@ -201,7 +205,7 @@ export function InterestsTable({ data }: MyContractsProps) {
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           role="dialog"
         >
-          <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+          <div className="rounded-lg p-6 shadow-lg w-full md:w-1/3">
             <InterestedDetails
               interests={selectedContract.contractInterests}
               onClose={closeInterestedModal}

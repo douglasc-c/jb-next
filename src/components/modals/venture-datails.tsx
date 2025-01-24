@@ -96,7 +96,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [valuationData, setValuationData] = useState(null)
 
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'images' | 'tasks' | 'valuation'
+    'overview' | 'images' | 'tasks' | 'valuation' | 'contract'
   >('overview')
 
   const handleInputChange = (
@@ -330,12 +330,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           >
             {texts.images}
           </button>
-          <button
-            className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-primary' : ''}`}
-            onClick={() => setActiveTab('images')}
-          >
-            {texts.contract}
-          </button>
           {route !== 'interests' && (
             <button
               className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-primary' : ''}`}
@@ -352,6 +346,12 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
               {texts.valuation}
             </button>
           )}
+          <button
+            className={`pb-2 ${activeTab === 'contract' ? 'border-b-2 border-primary' : ''}`}
+            onClick={() => setActiveTab('contract')}
+          >
+            {texts.contract}
+          </button>
           {route !== 'interests' && (
             <button
               className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
@@ -403,6 +403,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
 
       {route !== 'interests' &&
         activeTab !== 'tasks' &&
+        activeTab !== 'contract' &&
         activeTab !== 'valuation' && (
           <div className="flex justify-end mt-4 space-x-4">
             {isEditing && (

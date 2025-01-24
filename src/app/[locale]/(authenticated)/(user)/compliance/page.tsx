@@ -16,7 +16,6 @@ interface FormData {
 export default function Compliance() {
   const { authData, isLoadingAuthData } = useAuthContext()
   const { texts } = useLayoutContext()
-  // const [loading, setLoading] = useState(false)
   const { files, addFiles } = useUploadContext()
 
   const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
@@ -73,7 +72,6 @@ export default function Compliance() {
 
   const handleFormDataUpdate = (updatedFormData: FormData) => {
     setFormData(updatedFormData)
-    console.log('FormData atualizado:', updatedFormData)
   }
 
   const handleSubmit = async () => {

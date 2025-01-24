@@ -85,7 +85,7 @@ export function SmallOpportunitiesPreview({
           className="absolute inset-0  bg-cover bg-center rounded-lg"
         />
       </section>
-      <section className="flex flex-row text-[10px] w-full justify-between pt-2">
+      <section className="flex flex-row text-[9px] w-full justify-between pt-2">
         <div className="flex uppercase space-x-3">
           <p className="font-medium">{texts.document}</p>
           <span className="font-light">{data.id}</span>

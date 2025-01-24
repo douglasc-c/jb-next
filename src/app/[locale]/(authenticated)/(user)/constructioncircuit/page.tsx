@@ -1,6 +1,6 @@
 'use client'
 
-import { Contract } from '@/components/cards/contract'
+import { VentureCard } from '@/components/cards/venture'
 import { Loading } from '@/components/loading/loading'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
@@ -59,7 +59,7 @@ export default function ConstructionCircuit() {
       <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
         <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
         {enterprises.map((item, index) => (
-          <Contract key={index} data={item} />
+          <VentureCard key={index} data={item} />
         ))}
       </div>
     </main>

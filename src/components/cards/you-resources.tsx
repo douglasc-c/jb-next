@@ -20,7 +20,7 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
   const colors = ['#bac914', '#a4a96b', '#525820']
 
   return (
-    <div className="flex p-6 bg-zinc-700 rounded-xl h-auto justify-around">
+    <div className="flex flex-col md:flex-row p-6 gap-6 bg-zinc-700 rounded-xl h-auto justify-around">
       <section className="relative flex justify-center items-center">
         <DoughnutChart
           data={[chart.houses, chart.lands, chart.walletBalance]}
@@ -37,20 +37,20 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
           <p className="text-xs font-light">{texts.estimatedAssets}</p>
         </div>
       </section>
-      <span className="border border-zinc-500" />
-      <section className="flex flex-col justify-between">
+
+      <section className="flex-col justify-between">
         <h1 className="uppercase font-medium">{texts.youResources}</h1>
-        <div className="flex items-center space-x-2 font-light p-5">
+        <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#bac914] rounded-full" />
           <p>{texts.numberOfHouse}</p>
         </div>
-        <span className="border border-zinc-500" />
-        <div className="flex items-center space-x-2 font-light p-5">
+
+        <div className="flex items-center gap-x-2 font-light p-2 md:p-5 border-y border-zinc-500">
           <span className="p-2 bg-[#a4a96b] rounded-full" />
           <p>{texts.land}</p>
         </div>
-        <span className="border border-zinc-500" />
-        <div className="flex items-center space-x-2 font-light p-5">
+
+        <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#525820] rounded-full" />
           <p>{texts.avaliableValue}</p>
         </div>

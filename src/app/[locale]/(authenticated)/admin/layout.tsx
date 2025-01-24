@@ -37,6 +37,7 @@ export default async function RootLayout({
     ventures: t('TextLang.ventures'),
     support: t('TextLang.support'),
     signOut: t('TextLang.signOut'),
+    contracts: t('TextLang.contracts'),
   }
 
   const texts = {

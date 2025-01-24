@@ -26,6 +26,7 @@ export function middleware(request: NextRequest) {
     'admin/users',
     'admin/interests',
     'admin/ventures',
+    'admin/contracts',
     'admin/support',
   ]
 

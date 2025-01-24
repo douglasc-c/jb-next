@@ -71,7 +71,7 @@ export function InterestedDetails({
 
   return (
     <>
-      <div className="flex flex-col p-5 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
+      <div className="flex flex-col p-5 bg-zinc-800 rounded-xl justify-around w-full space-y-6">
         <div className="flex justify-between">
           <h2 className="uppercase font-medium text-zinc-300">
             {texts.interested}
@@ -97,9 +97,9 @@ export function InterestedDetails({
           {interests.map((interest, index) => (
             <li
               key={interest.interestId}
-              className={`${index !== interests.length - 1 ? 'border-b border-zinc-400 pb-4' : ''}`}
+              className={`space-y-4 ${index !== interests.length - 1 ? 'border-b border-zinc-400 pb-4' : ''}`}
             >
-              <div className="grid grid-cols-2  gap-y-1 items-center text-sm text-zinc-300">
+              <div className="grid grid-flow-row gap-y-1 items-center text-sm text-zinc-300">
                 <p>
                   <span className="font-medium text-zinc-200">
                     {texts.user}:

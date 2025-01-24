@@ -1,7 +1,6 @@
 'use client'
 
 import { DataInvestments } from '@/components/cards/data-investments'
-import { MyContracts } from '@/components/tables/my-contracts'
 import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
 import { useLayoutContext } from '@/context/layout-context'
@@ -9,6 +8,7 @@ import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { Loading } from '@/components/loading/loading'
 import Image from 'next/image'
+import { MyVenturesTable } from '@/components/tables/my-ventures'
 
 interface PieChart {
   houses: number
@@ -140,12 +140,12 @@ export default function Dashboard() {
     )
   }
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6  space-y-4">
-      <section className="flex w-full space-x-6">
-        <div className="flex flex-col w-9/12">
+    <main className="bg-zinc-800 md:h-[calc(91vh)] flex flex-col items-start p-6 gap-6">
+      <section className="flex w-full flex-col md:flex-row gap-6">
+        <div className="flex flex-col md:w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />
         </div>
-        <div className="flex flex-col  space-y-5">
+        <div className="flex flex-col gap-5">
           <DataInvestments
             params={{
               text: textPortfoli0,
@@ -168,12 +168,12 @@ export default function Dashboard() {
           />
         </div>
       </section>
-      <section className="flex w-full space-x-6">
+      <section className="flex w-full">
         <NewOpportunities recentEnterprises={recentEnterprises} />
       </section>
       <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
         {userRecentEnterprises.length > 0 ? (
-          <MyContracts data={userRecentEnterprises} />
+          <MyVenturesTable data={userRecentEnterprises} />
         ) : (
           <div className="p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
             <div className="text-center items-center flex flex-col space-y-4">
