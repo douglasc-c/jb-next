@@ -142,7 +142,7 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       <section className="hidden md:block w-full h-64 relative">
         {data.coverImageUrl ? (
           <Image
-            src={`https://pictures-compliance.fra1.digitaloceanspaces.com${data.coverImageUrl}`}
+            src={`${data.coverImageUrl}`}
             alt={`Image`}
             fill
             className="absolute inset-0  bg-cover bg-center rounded-lg"

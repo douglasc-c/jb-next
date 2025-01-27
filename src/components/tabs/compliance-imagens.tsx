@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import Image from 'next/image'
+import React, { useState } from 'react'
 
 interface CompleanceImageProps {
   images: string[]
@@ -28,7 +28,7 @@ const CompleanceImage: React.FC<CompleanceImageProps> = ({ images }) => {
           images?.map((img, index) => (
             <div key={index} className="relative w-16 h-24">
               <Image
-                src={`https://pictures-compliance.fra1.digitaloceanspaces.com${img}`}
+                src={`${img}`}
                 alt={`Image ${index + 1}`}
                 fill
                 className="rounded-lg cursor-pointer"
@@ -63,7 +63,7 @@ const CompleanceImage: React.FC<CompleanceImageProps> = ({ images }) => {
             </button>
             <div className="flex justify-center items-center">
               <Image
-                src={`https://pictures-compliance.fra1.digitaloceanspaces.com${selectedImage}`}
+                src={`${selectedImage}`}
                 alt="Selected Image"
                 width={600}
                 height={800}

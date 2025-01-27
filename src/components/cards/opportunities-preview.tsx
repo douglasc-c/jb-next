@@ -79,7 +79,7 @@ export function OpportunitiesPreview({
     <div className="flex flex-row p-4 bg-zinc-800 rounded-xl h-auto justify-around w-full space-x-4">
       <section className="hidden md:block w-full h-40 relative">
         <Image
-          src={`https://pictures-compliance.fra1.digitaloceanspaces.com${data.coverImageUrl}`}
+          src={`${data.coverImageUrl}`}
           alt={`Image`}
           fill
           className="absolute inset-0  bg-cover bg-center rounded-lg"
