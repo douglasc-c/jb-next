@@ -5,7 +5,18 @@ const withNextIntl = createNextIntlPlugin()
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost'], // Add localhost to allow images from it
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'pictures-compliance.fra1.digitaloceanspaces.com',
+        pathname: '/**', // Permite todas as imagens neste endpoint
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/**', // Permite todas as imagens neste endpoint
+      },
+    ],
   },
 }
 

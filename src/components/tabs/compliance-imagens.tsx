@@ -28,7 +28,7 @@ const CompleanceImage: React.FC<CompleanceImageProps> = ({ images }) => {
           images?.map((img, index) => (
             <div key={index} className="relative w-16 h-24">
               <Image
-                src={`http://localhost:3335${img}`}
+                src={`https://pictures-compliance.fra1.digitaloceanspaces.com${img}`}
                 alt={`Image ${index + 1}`}
                 fill
                 className="rounded-lg cursor-pointer"
@@ -63,7 +63,7 @@ const CompleanceImage: React.FC<CompleanceImageProps> = ({ images }) => {
             </button>
             <div className="flex justify-center items-center">
               <Image
-                src={`http://localhost:3335${selectedImage}`}
+                src={`https://pictures-compliance.fra1.digitaloceanspaces.com${selectedImage}`}
                 alt="Selected Image"
                 width={600}
                 height={800}

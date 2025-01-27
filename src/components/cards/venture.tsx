@@ -86,7 +86,7 @@ export function VentureCard({ data }: VentureCardProps) {
     <div className="flex flex-col p-4 bg-zinc-800 rounded-xl h-auto justify-around w-full gap-4">
       <section className=" md:block w-full h-28 md:h-64 relative">
         <Image
-          src={`http://localhost:3335${data.coverImageUrl}`}
+          src={`https://pictures-compliance.fra1.digitaloceanspaces.com${data.coverImageUrl}`}
           alt={`Image`}
           fill
           className="absolute inset-0  bg-cover bg-center rounded-lg"
