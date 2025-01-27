@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import Image from 'next/image'
+import React, { useState } from 'react'
 
 interface ImageItem {
   url: string
@@ -80,7 +80,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                 )}
                 <div className="relative w-24 h-24">
                   <Image
-                    src={`http://localhost:3335${img.url}`}
+                    src={`${img.url}`}
                     alt={`Image ${index + 1}`}
                     fill
                     className="rounded-lg cursor-pointer"
@@ -145,7 +145,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
               </svg>
             </button>
             <Image
-              src={`http://localhost:3335${selectedImage}`}
+              src={`${selectedImage}`}
               alt="Selected Image"
               width={600}
               height={800}
