@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin()
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost'], // Add localhost to allow images from it
+    domains: ['pictures-compliance.fra1.digitaloceanspaces.com'],
   },
 }
 
