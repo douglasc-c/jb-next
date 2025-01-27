@@ -110,7 +110,7 @@ export default function ComplianceStep({
                   return (
                     <div key={index} className="relative">
                       <Image
-                        src={`http://localhost:3335/${file.name}`}
+                        src={`https://pictures-compliance.fra1.digitaloceanspaces.com/${file.name}`}
                         alt={`Image ${index + 1}`}
                         width={100}
                         height={100}
