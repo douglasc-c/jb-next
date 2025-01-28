@@ -9,7 +9,7 @@ interface LoadingProps {
 
 export const Loading: React.FC<LoadingProps> = ({
   loading,
-  color = '#bac914',
+  color = '#A47659',
   width = 100,
 }) => {
   if (!loading) return null

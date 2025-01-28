@@ -94,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         <div className="grid gap-16">
           <div className="p-4 justify-center flex">
             <Image
-              src={`/images/svg/logoGreen.svg`}
+              src={`/images/svg/logo.svg`}
               alt="notifications"
               height={180}
               width={180}

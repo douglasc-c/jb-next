@@ -187,7 +187,11 @@
       "noNewDevelopmentsAvailable": "Nenhum novo empreendimento disponível",
       "youHaveNoBusiness": "Você não tem nenhum empreendimento disponível",
       "contract": "Contrato",
-      "contracts": "Contratos"
+      "contracts": "Contratos",
+      "addContract": "Adicionar contrato",
+      "uploadContract": "Selecione o contrato",
+      "model": "Modelo",
+      "selectAModel": "Selecione um modelo"
   }
 }
 

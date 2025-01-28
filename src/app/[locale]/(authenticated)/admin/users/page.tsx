@@ -109,6 +109,7 @@ export default function Users() {
         const newUser = response.data.user
         setUsers((prevUsers) => [...prevUsers, newUser])
         setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
+        fetchUsers()
         setLoadingButton(false)
         closeModal()
       } else {
@@ -130,32 +131,32 @@ export default function Users() {
     setIsModalOpen(true)
   }
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await api.get('/admin/get-all-users')
-        const fetchedUsers: User[] = response.data.users
+  const fetchUsers = async () => {
+    try {
+      const response = await api.get('/admin/get-all-users')
+      const fetchedUsers: User[] = response.data.users
 
-        const computedTotals = fetchedUsers.reduce<Totals>(
-          (acc, user) => {
-            acc.total += 1
-            if (user.role === 'USER') acc.totalUsers += 1
-            if (user.role === 'ADMIN') acc.totalAdmins += 1
-            return acc
-          },
-          { total: 0, totalUsers: 0, totalAdmins: 0 },
-        )
+      const computedTotals = fetchedUsers.reduce<Totals>(
+        (acc, user) => {
+          acc.total += 1
+          if (user.role === 'USER') acc.totalUsers += 1
+          if (user.role === 'ADMIN') acc.totalAdmins += 1
+          return acc
+        },
+        { total: 0, totalUsers: 0, totalAdmins: 0 },
+      )
 
-        setUsers(fetchedUsers)
-        setFilteredUsers(fetchedUsers)
-        setTotals(computedTotals)
-      } catch (err) {
-        console.error('Erro ao buscar usuários:', err)
-      } finally {
-        setLoading(false)
-      }
+      setUsers(fetchedUsers)
+      setFilteredUsers(fetchedUsers)
+      setTotals(computedTotals)
+    } catch (err) {
+      console.error('Erro ao buscar usuários:', err)
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchUsers()
   }, [])
 

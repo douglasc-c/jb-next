@@ -17,12 +17,12 @@ const config: Config = {
         backgroundStart: 'rgb(var(--background-start-rgb))',
         backgroundEnd: 'rgb(var(--background-end-rgb))',
         foreground: 'rgb(var(--foreground-rgb))',
-        primary: '#bac914',
-        secondary: '#717C2F',
+        primary: '#A47659',
+        secondary: '#86776B',
         tertiary: '#747756',
         quaternary: '#A4A96B',
         'index-number-of-house':
-          'linear-gradient(0deg, #bac914 30%, #78ffd6 100%)',
+          'linear-gradient(0deg, #A47659 30%, #78ffd6 100%)',
         'index-land': 'linear-gradient(0deg, #230057 30%, #71f697 100%)',
         'index-avaliable-value':
           'linear-gradient(0deg, #525820 30%, #a4a96b 100%)',
