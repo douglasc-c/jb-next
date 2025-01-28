@@ -132,6 +132,10 @@ export interface LayoutAdminContextProps {
     difference: string
     percentage: string
     contract: string
+    addContract: string
+    uploadContract: string
+    model: string
+    selectAModel: string
   }
 
   locale: string

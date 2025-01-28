@@ -171,6 +171,10 @@ export default async function RootLayout({
     difference: t('TextLang.difference'),
     percentage: t('TextLang.percentage'),
     contract: t('TextLang.contract'),
+    addContract: t('TextLang.addContract'),
+    uploadContract: t('TextLang.uploadContract'),
+    model: t('TextLang.model'),
+    selectAModel: t('TextLang.selectAModel'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

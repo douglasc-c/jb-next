@@ -187,8 +187,7 @@ export default function Ventures() {
           ...prevFilteredVentures,
           venture,
         ])
-        closeModal()
-        setLoadingButton(false)
+        fetchVentures()
         setFormData({
           name: '',
           description: '',
@@ -208,6 +207,8 @@ export default function Ventures() {
           startDate: '',
           images: [],
         })
+        setLoadingButton(false)
+        closeModal()
       } else {
         setError(response.data.message || 'Erro ao adicionar empreendimento')
         setLoadingButton(false)
@@ -242,44 +243,44 @@ export default function Ventures() {
     setIsModalOpen(true)
   }
 
-  useEffect(() => {
-    const fetchVentures = async () => {
-      try {
-        const response = await api.get('/admin/get-enterprise')
-        const fetchedVentures: Venture[] = response.data.enterprises
+  const fetchVentures = async () => {
+    try {
+      const response = await api.get('/admin/get-enterprise')
+      const fetchedVentures: Venture[] = response.data.enterprises
 
-        const computedTotals = fetchedVentures.reduce<Totals>(
-          (acc, venture) => {
-            acc.total += 1
-            if (venture.isAvailable) acc.available += 1
+      const computedTotals = fetchedVentures.reduce<Totals>(
+        (acc, venture) => {
+          acc.total += 1
+          if (venture.isAvailable) acc.available += 1
 
-            const approvedContracts = venture.contractInterests.filter(
-              (interest) => interest.status === 'APPROVED',
-            ).length
+          const approvedContracts = venture.contractInterests.filter(
+            (interest) => interest.status === 'APPROVED',
+          ).length
 
-            acc.inProgress += approvedContracts > 0 ? 1 : 0
-            return acc
-          },
-          { total: 0, available: 0, inProgress: 0 },
-        )
+          acc.inProgress += approvedContracts > 0 ? 1 : 0
+          return acc
+        },
+        { total: 0, available: 0, inProgress: 0 },
+      )
 
-        setVentures(
-          fetchedVentures.map((venture) => ({
-            ...venture,
-            progress: venture.contractInterests.filter(
-              (interest) => interest.status === 'APPROVED',
-            ).length,
-          })),
-        )
-        setFilteredVentures(fetchedVentures)
-        setTotals(computedTotals)
-      } catch (err) {
-        console.error('Erro ao buscar empreendimentos:', err)
-      } finally {
-        setLoading(false)
-      }
+      setVentures(
+        fetchedVentures.map((venture) => ({
+          ...venture,
+          progress: venture.contractInterests.filter(
+            (interest) => interest.status === 'APPROVED',
+          ).length,
+        })),
+      )
+      setFilteredVentures(fetchedVentures)
+      setTotals(computedTotals)
+    } catch (err) {
+      console.error('Erro ao buscar empreendimentos:', err)
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchVentures()
   }, [])
 
