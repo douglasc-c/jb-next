@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       backgroundImage: {
         global: "url('/images/bg/global.png')",
+        bgnew: "url('/images/bg/newbg.png')",
         render: "url('/images/bg/renders.png')",
         'base-home': "url('/images/bg/baseImage.png')",
       },

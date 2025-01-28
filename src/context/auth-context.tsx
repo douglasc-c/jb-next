@@ -31,8 +31,18 @@ interface AuthContextProps {
     enter: string
     useYour4HandsLoginToAccess: string
     email: string
+    useYour4HandsSignupToAccess: string
     password: string
+    username: string
+    phone: string
+    userType: string
+    documentNumber: string
+    company: string
+    individual: string
+    dateOfBith: string
+    name: string
     forgotYourPassword: string
+    signup: string
     signIn: string
     privacyCookPolicy: string
     TermsOfService: string

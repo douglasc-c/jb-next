@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
-import Image from 'next/image'
+import ButtonGlobal from '@/components/buttons/global'
 import Input from '@/components/inputs/input'
 import { useAuthContext } from '@/context/auth-context'
-import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
-import ButtonGlobal from '@/components/buttons/global'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { FormEvent, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
 export default function SignIn() {
@@ -123,15 +124,25 @@ export default function SignIn() {
               </div>
 
               {error && <p className="text-red-500 text-sm">{error}</p>}
-
-              <div className="flex items-center justify-between">
-                <div className="text-sm">
-                  <a href="#" className="">
-                    {textSignIn.forgotYourPassword}
-                  </a>
+              <section className="forgot flex  justify-between">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm">
+                    <a href="#" className="">
+                      {textSignIn.forgotYourPassword}
+                    </a>
+                  </div>
+                  <div className="flex items-center" />
                 </div>
-                <div className="flex items-center" />
-              </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="text-sm">
+                    <Link href="/signup" className="underline text-secondary ">
+                      {textSignIn.signup}
+                    </Link>
+                  </div>
+                  <div className="flex items-center" />
+                </div>
+              </section>
 
               <div className="text-white">
                 <ButtonGlobal

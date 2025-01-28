@@ -1,23 +1,37 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
-import Image from 'next/image'
-import Input from '@/components/inputs/input'
-import { useAuthContext } from '@/context/auth-context'
-import { useRouter } from 'next/navigation'
-import api from '@/lib/api'
 import ButtonGlobal from '@/components/buttons/global'
+import Input from '@/components/inputs/input'
+import ModalCongratulations from '@/components/modals/congratulations'
+import { useAuthContext } from '@/context/auth-context'
+import api from '@/lib/api'
+import axios from 'axios'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { FormEvent, useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
-export default function SignIn() {
-  const { textSignIn, locale, setAuthData } = useAuthContext()
-
+export default function Signup() {
+  const { textSignIn, locale } = useAuthContext()
   const router = useRouter()
-  const [formData, setFormData] = useState({ email: '', password: '' })
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    nickname: '',
+    phone: '',
+    accountType: '',
+    documentNumber: '',
+    birthDate: '',
+    password: '',
+  })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
@@ -37,40 +51,85 @@ export default function SignIn() {
       return
     }
 
+    if (!formData.accountType) {
+      setError('Por favor, selecione um tipo de conta.')
+      setLoading(false)
+      return
+    }
+
+    const payload = {
+      email: formData.email,
+      username: formData.nickname,
+      password: formData.password,
+      firstName: formData.fullName.split(' ')[0] || '',
+      lastName: formData.fullName.split(' ').slice(1).join(' ') || '',
+      birthDate: formData.birthDate ? formData.birthDate : undefined,
+      userType: formData.accountType,
+      numberDocument: formData.documentNumber || undefined,
+      phone: formData.phone || undefined,
+    }
+
+    console.log('Payload enviado:', payload)
+
     try {
-      const response = await api.post('/users/signin', formData)
-      if (response.status === 200) {
-        const data = response.data
-        const { token, mustChangePassword, user } = data
-
-        if (token) {
-          setAuthData({ token, user, mustChangePassword })
-          document.cookie = `auth-token=${token}; Max-Age=${60 * 60}; path=/; SameSite=Strict`
-
-          if (data.user.role === 'ADMIN') {
-            router.push(`/admin/users`)
-          } else {
-            router.push(`/dashboard`)
-          }
+      const response = await api.post('/users/register', payload)
+      if (response.status === 201) {
+        setIsModalOpen(true)
+      } else {
+        setError('Falha no cadastro')
+        console.error('Falha no cadastro:', response.statusText)
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors
+        ) {
+          const zodErrors = error.response.data.errors as Array<{
+            path: string[]
+            message: string
+          }>
+          const formattedErrors = zodErrors
+            .map((err) => `${err.path.join('.')} - ${err.message}`)
+            .join('\n')
+          setError(formattedErrors)
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          setError(error.response.data.error)
         } else {
-          setError('Token não encontrado na resposta')
-          console.error('Token não encontrado na resposta')
+          setError('Erro ao conectar ao servidor')
         }
       } else {
-        setError('Falha no login')
-
-        console.error('Falha no login:', response.statusText)
+        setError('Erro ao conectar ao servidor')
       }
-    } catch (error) {
-      setError('Erro ao conectar ao servidor')
       console.error('Erro na requisição:', error)
     } finally {
       setLoading(false)
     }
   }
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout
+    if (isModalOpen) {
+      timer = setTimeout(() => {
+        setIsModalOpen(false)
+        router.push('/')
+      }, 1500)
+    }
+    return () => clearTimeout(timer)
+  }, [isModalOpen, router])
+
   return (
     <main className="h-screen flex">
+      <ModalCongratulations
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <section className="hidden md:block w-1/3 relative">
         <div className="absolute inset-0 bg-render bg-cover bg-center">
           <div className="flex flex-col items-center mt-20">
@@ -84,56 +143,149 @@ export default function SignIn() {
           </div>
         </div>
       </section>
+
       <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 bg-stone-950 space-y-6">
         <div />
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-2xl space-y-6">
           <div className="w-full max-w-md space-y-1">
-            <h2 className="text-4xl font-medium">{textSignIn.enter}</h2>
+            <h2 className="text-4xl font-medium">{textSignIn.signup}</h2>
             <p className="text-gray-400">
-              {textSignIn.useYour4HandsLoginToAccess}
+              {textSignIn.useYour4HandsSignupToAccess}
             </p>
           </div>
-          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-slate-100 rounded-lg">
-            <form className="space-y-6 text-black" onSubmit={handleSubmit}>
+          <div className="w-full max-w-2xl p-8 space-y-8 shadow-lg bg-slate-100 rounded-lg">
+            <form
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 text-black"
+              onSubmit={handleSubmit}
+            >
+              {/* Nome Completo */}
               <div className="space-y-2">
-                <span>{textSignIn.email}</span>
+                <label htmlFor="fullName">{textSignIn.name}</label>
                 <Input
-                  id="email-address"
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  required
+                  className="rounded-md w-full"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email">{textSignIn.email}</label>
+                <Input
+                  id="email"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="rounded-md"
+                  className="rounded-md w-full"
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
+
               <div className="space-y-2">
-                <span>{textSignIn.password}</span>
+                <label htmlFor="nickname">{textSignIn.username}</label>
+                <Input
+                  id="nickname"
+                  name="nickname"
+                  type="text"
+                  required
+                  className="rounded-md w-full"
+                  value={formData.nickname}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="phone">{textSignIn.phone}</label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  className="rounded-md w-full"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="accountType">{textSignIn.userType}</label>
+                <select
+                  id="accountType"
+                  name="accountType"
+                  required
+                  className="rounded-md p-2 w-full border border-gray-700"
+                  value={formData.accountType}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>
+                    {textSignIn.userType}
+                  </option>
+                  {/* Enviar 'INDIVIDUAL' ou 'BUSINESS' */}
+                  <option value="INDIVIDUAL">{textSignIn.individual}</option>
+                  <option value="BUSINESS">{textSignIn.company}</option>
+                </select>
+              </div>
+
+              {/* Número do Documento */}
+              <div className="space-y-2">
+                <label htmlFor="documentNumber">
+                  {textSignIn.documentNumber}
+                </label>
+                <Input
+                  id="documentNumber"
+                  name="documentNumber"
+                  type="text"
+                  className="rounded-md w-full"
+                  value={formData.documentNumber}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Data de Nascimento */}
+              <div className="space-y-2">
+                <label htmlFor="birthDate">{textSignIn.dateOfBith}</label>{' '}
+                {/* Corrigido o erro de digitação */}
+                <Input
+                  id="birthDate"
+                  name="birthDate"
+                  type="date"
+                  className="rounded-md w-full"
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Senha */}
+              <div className="space-y-2 md:col-start-2">
+                <label htmlFor="password">{textSignIn.password}</label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="rounded-md"
+                  className="rounded-md w-full"
                   value={formData.password}
                   onChange={handleChange}
                 />
               </div>
 
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-
-              <div className="flex items-center justify-between">
-                <div className="text-sm">
-                  <a href="#" className="">
-                    {textSignIn.forgotYourPassword}
-                  </a>
+              {/* Mensagem de Erro */}
+              {error && (
+                <div className="md:col-span-2">
+                  <p className="text-red-500 text-sm whitespace-pre-wrap">
+                    {error}
+                  </p>
                 </div>
-                <div className="flex items-center" />
-              </div>
+              )}
 
-              <div className="text-white">
+              {/* Botão de Envio */}
+              <div className="md:col-span-2 text-white">
                 <ButtonGlobal
                   type="submit"
                   disabled={loading}
@@ -147,7 +299,7 @@ export default function SignIn() {
                         data-testid="loader"
                       />
                     ) : (
-                      textSignIn.signIn
+                      textSignIn.signup
                     ),
                     color: 'bg-primary',
                   }}
@@ -156,6 +308,7 @@ export default function SignIn() {
             </form>
           </div>
         </div>
+
         <div className="flex text-sm font-light justify-between w-full">
           <div className="flex flex-row items-center text-primary space-x-2">
             <Image

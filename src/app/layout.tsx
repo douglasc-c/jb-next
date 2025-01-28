@@ -1,7 +1,7 @@
+import { AuthProvider } from '@/context/auth-context'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import './globals.css'
-import { AuthProvider } from '@/context/auth-context'
 
 const languages = ['pt-BR']
 
@@ -31,8 +31,18 @@ export default async function RootLayout({
     enter: t('TextLang.enter'),
     useYour4HandsLoginToAccess: t('TextLang.useYour4HandsLoginToAccess'),
     email: t('TextLang.email'),
+    useYour4HandsSignupToAccess: t('TextLang.useYour4HandsSignupToAccess'),
     password: t('TextLang.password'),
     forgotYourPassword: t('TextLang.forgotYourPassword'),
+    signup: t('TextLang.signup'),
+    username: t('TextLang.username'),
+    userType: t('TextLang.userType'),
+    company: t('TextLang.company'),
+    individual: t('TextLang.individual'),
+    documentNumber: t('TextLang.documentNumber'),
+    phone: t('TextLang.phone'),
+    dateOfBith: t('TextLang.dateOfBith'),
+    name: t('TextLang.name'),
     signIn: t('TextLang.signIn'),
     privacyCookPolicy: t('TextLang.privacyCookPolicy'),
     TermsOfService: t('TextLang.TermsOfService'),
