@@ -52,6 +52,13 @@ interface Image {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -66,6 +73,10 @@ interface Venture {
   postalCode: string
   address: string
   city: string
+  contracts: Contract[]
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   squareMeterValue: number
   area: number
   progress: number
@@ -124,10 +135,10 @@ export default function Interests() {
               height={100}
               alt="warning"
             />
-            <p className="text-zinc-100 text-lg font-medium">
+            <p className=" text-lg font-medium">
               {texts.noInterestedPartiesFound}
             </p>
-            <p className="text-zinc-400 text-sm">
+            <p className="text-zinc-500 text-sm">
               {texts.thereAreStillNoInterestedPartiesForTheRegisteredProjects}
             </p>
           </div>

@@ -76,7 +76,7 @@ export function InterestedDetails({
 
   return (
     <>
-      <div className="flex flex-col p-5 bg-zinc-800 rounded-xl justify-around w-full space-y-6">
+      <div className="flex flex-col p-5 bg-zinc-200 rounded-xl justify-around w-full space-y-6">
         <div className="flex justify-between">
           <h2 className="uppercase font-medium text-zinc-300">
             {texts.interested}

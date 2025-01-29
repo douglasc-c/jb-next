@@ -87,7 +87,7 @@ export default function CategoryList({ categories }: CategoryListProps) {
           {expandedCategory === category.id && (
             <div className="mt-2 space-y-2">
               {category.faqs.map((faq) => (
-                <div key={faq.id} className="p-3 bg-zinc-800 rounded-lg">
+                <div key={faq.id} className="p-3 bg-zinc-200 rounded-lg">
                   <div className="flex justify-between">
                     <h3 className="bg-zinc-700">{faq.question}</h3>
                     <button

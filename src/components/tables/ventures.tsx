@@ -53,6 +53,9 @@ interface Venture {
   constructionType: string
   fundingAmount: number
   transferAmount: number
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   postalCode: string
   address: string
   city: string

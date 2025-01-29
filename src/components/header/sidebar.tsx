@@ -73,7 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             <ButtonAvatar params={{ path: `/mydata` }} />
           </div>
           <button
-            className="p-2 border z-50 border-neutral-600 rounded-lg md:hidden"
+            className="p-2 border z-50 border-neutral-600 bg-zinc-300 rounded-lg md:hidden"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <Image

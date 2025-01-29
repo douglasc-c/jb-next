@@ -243,10 +243,10 @@ export default function MyData() {
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.myData}</h1>
-        <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-10">
+        <div className="flex flex-col p-10 bg-zinc-200 rounded-xl space-y-10">
           <div className="flex flex-row">
             <section className="flex justify-center items-start w-1/5">
               <Image

@@ -32,7 +32,7 @@ interface ContractInterest {
   createdAt: string
 }
 
-interface Image {
+interface ImageItem {
   imageUrl: string
 }
 
@@ -55,6 +55,9 @@ interface Venture {
   progress: number
   floors: number
   completionDate: string
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   startDate: string
   currentPhaseId: number
   currentTaskId: number
@@ -65,7 +68,7 @@ interface Venture {
   interestStatus?: string
   contractInterests: ContractInterest[]
   coverImageUrl: string
-  images: Image[]
+  images: ImageItem[]
 }
 
 interface ContractProps {
@@ -80,6 +83,7 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false)
   const [loading] = useState(true)
   const [loadingButton, setLoadingButton] = useState(false)
+  const [loadingSignature, setLoadingSignature] = useState(false)
 
   const stages: Record<number, string> = {
     1: texts.topography,
@@ -122,6 +126,30 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       onClick()
     }
   }
+  console.log(data)
+  const signalContract = async () => {
+    setLoadingSignature(true)
+    try {
+      const response = await api.post(`/users/update/signature`, {
+        enterpriseId: data.id,
+      })
+      console.log(response)
+
+      if (response.status === 200) {
+        window.open(
+          response.data.newUserSigningUrl,
+          '_blank',
+          'noopener,noreferrer',
+        )
+      } else {
+        console.log(response.data.message || 'Erro ao abrir o contrato')
+      }
+    } catch (err) {
+      console.log('Erro na comunicação com a API', err)
+    } finally {
+      setLoadingSignature(false)
+    }
+  }
 
   const viewContract = async () => {
     setLoadingButton(true)
@@ -129,21 +157,20 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       const response = await api.get(`/users/contracts/view/TYPE1`)
 
       if (response.status === 200 && response.data.pdfUrl) {
-        // window.open(response.data.pdfUrl, '_blank', 'noopener,noreferrer')
         setPdfUrl(response.data.pdfUrl)
         setIsPdfModalOpen(true)
       } else {
-        // setError(response.data.message || 'Erro ao abrir o contrato')
+        console.log(response.data.message || 'Erro ao abrir o contrato')
       }
     } catch (err) {
-      // setError('Erro na comunicação com a API')
+      console.log('Erro na comunicação com a API')
     } finally {
       setLoadingButton(false)
     }
   }
 
   return (
-    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-10 bg-zinc-200 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
         <h2 className="uppercase font-medium">
           {data.name} - {data.city} {data.area}M²
@@ -165,20 +192,20 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
           </svg>
         </button>
       </div>
-      <section className="hidden md:block w-full h-64 relative">
+      <section className=" w-full h-64 relative">
         {data.coverImageUrl ? (
           <Image
             src={`${data.coverImageUrl}`}
             alt={`Image`}
             fill
-            className="absolute inset-0  bg-cover bg-center rounded-lg"
+            className="absolute inset-0 rounded-lg"
           />
         ) : (
           <div className="absolute inset-0 bg-base-home bg-cover bg-center rounded-lg" />
         )}
       </section>
-      <section className="flex flex-row text-xs space-x-4 pt-4 text-zinc-300">
-        <div className="grid grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
+      <section className="flex flex-row text-xs space-x-4 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 gap-x-40 w-2/3">
           <div className="w-full flex space-x-3">
             <p className="font-medium uppercase">{texts.typeOfConstruction}</p>
             <span className="font-light">{data.constructionType}</span>
@@ -213,11 +240,11 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
           </div>
         </div>
         <div className="flex flex-col justify-between gap-4 w-1/3">
-          <div className="w-full flex flex-col items-center space-x-3">
-            <p className="font-medium text-base uppercase">
+          <div className="w-full flex flex-col items-center">
+            <p className="font-medium text-center text-sm md:text-base uppercase">
               {texts.provisionalCompletion}
             </p>
-            <span className="font-light text-base">
+            <span className="font-light text-sm md:text-base text-center">
               {new Date(data.completionDate).toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
@@ -230,6 +257,22 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
             <span className="font-light">{data.status}</span>
           </div> */}
           <div className="flex flex-col gap-4">
+            <button
+              onClick={signalContract}
+              className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent ${data.clientSigningUrl ? '' : 'hidden'}`}
+            >
+              {loadingSignature ? (
+                <PulseLoader
+                  color="#A47659"
+                  loading={loadingSignature}
+                  size={6}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                texts.signalContract
+              )}
+            </button>
             <button
               onClick={viewContract}
               className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}

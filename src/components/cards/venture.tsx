@@ -35,6 +35,13 @@ interface Image {
   imageUrl: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -48,6 +55,10 @@ interface Venture {
   transferAmount: number
   postalCode: string
   address: string
+  contracts: Contract[]
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   city: string
   squareMeterValue: number
   area: number
@@ -83,7 +94,7 @@ export function VentureCard({ data }: VentureCardProps) {
   }
 
   return (
-    <div className="flex flex-col p-4 bg-zinc-800 rounded-xl h-auto justify-around w-full gap-4">
+    <div className="flex flex-col p-4 bg-zinc-200 shadow rounded-xl h-auto justify-around w-full gap-4">
       <section className=" md:block w-full h-28 md:h-64 relative">
         <Image
           src={`${data.coverImageUrl}`}
@@ -92,14 +103,30 @@ export function VentureCard({ data }: VentureCardProps) {
           className="absolute inset-0  bg-cover bg-center rounded-lg"
         />
       </section>
-      <section className="flex flex-col md:flex-row md:justify-between items-center  text-xs gap-4">
-        <div className="space-y-4">
+      <section className="flex flex-col justify-between items-center text-xs gap-4">
+        <div className="grid grid-cols-2 gap-2 w-full">
           <div className="w-full flex space-x-3">
             <p className="font-medium uppercase">{texts.document}</p>
             <span className="font-light"> {data.id}</span>
           </div>
+          <div className="w-full flex space-x-3 items-end">
+            <p className="font-medium uppercase">{texts.address}</p>
+            <span className="font-light">{data.address}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2 md:hidden w-full">
+          <div className="w-full flex space-x-3 items-end">
+            <p className="font-medium uppercase">{texts.transferAmount}</p>
+            <span className="font-light">{data.transferAmount}</span>
+          </div>
 
-          <div className="w-full flex space-x-3">
+          <div className="w-full flex space-x-3 items-end">
+            <p className="font-medium uppercase">{texts.fundingAmount}</p>
+            <span className="font-light">{data.fundingAmount}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <div className="w-full flex space-x-3 items-end">
             <p className="font-medium uppercase">{texts.startDate}</p>
             <span className="font-light">
               {new Date(data.completionDate).toLocaleDateString('pt-BR', {
@@ -108,23 +135,6 @@ export function VentureCard({ data }: VentureCardProps) {
                 year: 'numeric',
               })}
             </span>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className="w-full hidden md:flex space-x-3">
-            <p className="font-medium uppercase">{texts.transferAmount}</p>
-            <span className="font-light">{data.transferAmount}</span>
-          </div>
-
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.fundingAmount}</p>
-            <span className="font-light">{data.fundingAmount}</span>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className="w-full flex space-x-3">
-            <p className="font-medium uppercase">{texts.address}</p>
-            <span className="font-light">{data.address}</span>
           </div>
 
           <button

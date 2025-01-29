@@ -24,7 +24,7 @@ export function DataInvestments({ params }: DataInvestmentsPros) {
 
   return (
     <div
-      className={`flex items-center p-4 pr-10 rounded-xl ${bgColor} bg-zinc-700, justify-between`}
+      className={`flex items-center text-white p-4 pr-10 rounded-xl ${bgColor} bg-zinc-700, justify-between`}
     >
       <div className="flex flex-col justify-center items-center">
         <span className="text-xs transform -rotate-90 tracking-wide uppercase">

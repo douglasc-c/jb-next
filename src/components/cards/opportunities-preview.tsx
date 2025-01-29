@@ -56,6 +56,9 @@ interface Venture {
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask
@@ -76,13 +79,13 @@ export function OpportunitiesPreview({
   const { texts } = useLayoutContext()
 
   return (
-    <div className="flex flex-row p-4 bg-zinc-800 rounded-xl h-auto justify-around w-full space-x-4">
+    <div className="flex flex-row p-4 bg-zinc-200 rounded-xl h-auto justify-around w-full space-x-4">
       <section className="hidden md:block w-full h-40 relative">
         <Image
           src={`${data.coverImageUrl}`}
           alt={`Image`}
           fill
-          className="absolute inset-0  bg-cover bg-center rounded-lg"
+          className="absolute inset-0 rounded-lg"
         />
       </section>
       <section className="flex flex-col text-xs w-full md:w-2/3 gap-y-3 pt-4">

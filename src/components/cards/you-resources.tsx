@@ -17,7 +17,7 @@ interface YorResourcesProps {
 export function YorResources({ chart, totalInvested }: YorResourcesProps) {
   const { texts } = useLayoutContext()
 
-  const colors = ['#A47659', '#a4a96b', '#525820']
+  const colors = ['#A47659', '#86776B', '#A38C7E']
 
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6 bg-zinc-300 rounded-xl h-auto justify-around">
@@ -46,12 +46,12 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5 border-y border-zinc-500">
-          <span className="p-2 bg-[#a4a96b] rounded-full" />
+          <span className="p-2 bg-[#86776B] rounded-full" />
           <p>{texts.land}</p>
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
-          <span className="p-2 bg-[#525820] rounded-full" />
+          <span className="p-2 bg-[#A38C7E] rounded-full" />
           <p>{texts.avaliableValue}</p>
         </div>
       </section>

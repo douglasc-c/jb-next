@@ -55,7 +55,7 @@ const AddContractModal: React.FC<AddContractModalProps> = ({
               name="templateType"
               value={formData.templateType || ''}
               onChange={handleChange}
-              className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+              className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
               required
             >
               <option value="">{texts.selectAModel}</option>
@@ -78,7 +78,7 @@ const AddContractModal: React.FC<AddContractModalProps> = ({
                 type="file"
                 accept=".pdf,.docx"
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
                 required
               />
             </div>

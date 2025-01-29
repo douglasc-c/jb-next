@@ -51,6 +51,13 @@ interface Image {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -69,6 +76,10 @@ interface Venture {
   area: number
   progress: number
   floors: number
+  contracts: Contract[]
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   completionDate: string
   startDate: string
   currentPhaseId: number

@@ -46,6 +46,9 @@ interface Venture {
   transferAmount: number
   postalCode: string
   address: string
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   city: string
   squareMeterValue: number
   area: number
@@ -76,7 +79,7 @@ export function SmallOpportunitiesPreview({
   const { texts } = useLayoutContext()
   // console.log(data)
   return (
-    <div className="flex flex-col p-3 bg-zinc-800 rounded-xl h-auto justify-around w-full">
+    <div className="flex flex-col p-3 bg-zinc-200 rounded-xl h-auto justify-around w-full">
       <section className="hidden md:block w-full h-16 relative">
         <Image
           src={`${data.coverImageUrl}`}

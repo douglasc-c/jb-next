@@ -40,6 +40,13 @@ interface ImageItem {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -54,6 +61,7 @@ interface Venture {
   postalCode: string
   address: string
   city: string
+  contracts: Contract[]
   squareMeterValue: number
   area: number
   progress: number
@@ -63,6 +71,9 @@ interface Venture {
   currentPhaseId: number
   currentTaskId: number
   createdAt: string
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   updatedAt: string
   currentPhase?: CurrentPhase
   currentTask?: CurrentTask

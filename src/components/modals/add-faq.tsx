@@ -64,7 +64,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
                   placeholder={texts.newCategory}
-                  className="flex-grow p-2 rounded-lg bg-zinc-800 text-zinc-300"
+                  className="flex-grow p-2 rounded-lg bg-zinc-200 text-zinc-300"
                 />
                 <ButtonGlobal
                   type="button"
@@ -87,7 +87,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                   name="categoryId"
                   value={formData.categoryId || ''}
                   onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
                   required
                 >
                   <option value="">{texts.selectACategory}</option>
@@ -113,7 +113,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
                 placeholder={texts.newCategory}
-                className="flex-grow p-2 rounded-lg bg-zinc-800 text-zinc-300"
+                className="flex-grow p-2 rounded-lg bg-zinc-200 text-zinc-300"
                 required
               />
               <ButtonGlobal
@@ -142,7 +142,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                 name="question"
                 value={formData.question}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
                 required
               />
             </div>
@@ -153,7 +153,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                 name="answer"
                 value={formData.answer}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-800 text-zinc-300"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
                 required
               />
             </div>

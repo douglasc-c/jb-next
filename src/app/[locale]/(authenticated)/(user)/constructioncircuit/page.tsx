@@ -38,8 +38,8 @@ export default function ConstructionCircuit() {
   }
   if (enterprises.length === 0) {
     return (
-      <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
-        <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
+      <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
+        <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
           <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
           <div className="text-center items-center flex flex-col space-y-4">
             <Image
@@ -55,12 +55,14 @@ export default function ConstructionCircuit() {
     )
   }
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
-      <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
+      <div className="p-4 bg-zinc-300 shadow space-y-4 rounded-xl">
         <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
-        {enterprises.map((item, index) => (
-          <VentureCard key={index} data={item} />
-        ))}
+        <div className="grid md:grid-cols-2 gap-4 overflow-y-auto max-h-md  relative">
+          {enterprises.map((item, index) => (
+            <VentureCard key={index} data={item} />
+          ))}
+        </div>
       </div>
     </main>
   )

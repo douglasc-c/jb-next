@@ -63,7 +63,7 @@ export default function ComplianceStep({
     'incomeTaxProof',
   ]
   return (
-    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-6">
+    <div className="flex flex-col p-10 bg-zinc-200 rounded-xl space-y-6">
       <h1 className="text-xl font-semibold">{texts.verifyYourIdentity}</h1>
 
       {step === 1 && (
