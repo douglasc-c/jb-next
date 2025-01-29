@@ -136,6 +136,10 @@ export interface LayoutAdminContextProps {
     uploadContract: string
     model: string
     selectAModel: string
+    downloadContract: string
+    viewContract: string
+    signalContract: string
+    send: string
   }
 
   locale: string

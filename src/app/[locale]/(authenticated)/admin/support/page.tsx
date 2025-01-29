@@ -140,15 +140,15 @@ export default function Support() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="text-white grid grid-cols-4 items-center gap-4 w-full">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
+      <div className="grid grid-cols-4 items-center gap-4 w-full">
         <div className="col-span-3">
           <Search
             placeholder="Search FAQs..."
@@ -168,7 +168,7 @@ export default function Support() {
         </div>
       </div>
 
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4 p-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4 p-4">
         <CategoryList categories={filteredFaq} />
       </section>
 

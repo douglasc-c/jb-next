@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { UserDetails } from './user-datails'
+import { InputField } from '../inputs/input-field'
 
 interface User {
   firstName: string
@@ -45,7 +46,9 @@ interface ContractInterest {
 
 interface InterestedDetailsProps {
   interests: ContractInterest[]
-  onClick: (interestId: string, status: string) => void
+  mode: string
+  setMode: (value: string) => void
+  onClick: (interestId: string, userId: string, status: string) => void
   onClose: () => void
   updating: string | null
 }
@@ -55,6 +58,8 @@ export function InterestedDetails({
   onClick,
   onClose,
   updating,
+  mode,
+  setMode,
 }: InterestedDetailsProps) {
   const { texts } = useLayoutAdminContext()
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
@@ -120,19 +125,38 @@ export function InterestedDetails({
                   {interest.status}
                 </p>
               </div>
-              <div className="flex flex-col space-y-2 items-center w-full justify-end text-sm">
-                <div className="flex w-full items-center">
+              <div className="flex flex-col space-y-6 items-center w-full justify-end text-sm">
+                <div className="flex w-full items-end space-x-4">
                   <button
                     onClick={() => handleDetails(interest.user)}
                     className="py-1 px-14 border w-full border-primary text-primary rounded-full hover:bg-primary hover:text-zinc-600 transition-colors"
                   >
                     {texts.details}
                   </button>
+                  <InputField
+                    label={texts.contract}
+                    value={mode}
+                    isEditing={true}
+                    type="select"
+                    options={[
+                      { value: 'TYPE1', label: `${texts.model} 1` },
+                      { value: 'TYPE2', label: `${texts.model} 2` },
+                      { value: 'TYPE3', label: `${texts.model} 3` },
+                    ]}
+                    onChange={(value) => {
+                      if (typeof value === 'string') {
+                        setMode(value)
+                      }
+                    }}
+                  />
                 </div>
+
                 <div className="flex space-x-2 w-full items-center">
                   <button
-                    onClick={() => onClick(interest.interestId, 'APPROVED')}
-                    className="px-4 py-1 bg-green-500 w-1/2 text-white rounded-full hover:bg-green-600 transition-colors"
+                    onClick={() =>
+                      onClick(interest.interestId, interest.user.id, 'APPROVED')
+                    }
+                    className="px-4 py-1 bg-green-500 w-1/2 rounded-full hover:bg-green-600 transition-colors"
                     disabled={updating === interest.interestId}
                   >
                     {updating === interest.interestId
@@ -140,8 +164,10 @@ export function InterestedDetails({
                       : 'Aprovar'}
                   </button>
                   <button
-                    onClick={() => onClick(interest.interestId, 'REJECTED')}
-                    className="px-4 py-1 bg-red-500 w-1/2 text-white rounded-full hover:bg-red-600 transition-colors"
+                    onClick={() =>
+                      onClick(interest.interestId, interest.user.id, 'REJECTED')
+                    }
+                    className="px-4 py-1 bg-red-500 w-1/2 rounded-full hover:bg-red-600 transition-colors"
                     disabled={updating === interest.interestId}
                   >
                     {updating === interest.interestId

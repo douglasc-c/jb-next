@@ -7,6 +7,7 @@ import DeleteModal from './delete'
 import SelectWithToggle from '../tabs/stages'
 import { usePathname } from 'next/navigation'
 import ValuationForm from '../tabs/valuation'
+import { ContractTab } from '../tabs/contract'
 
 interface CurrentPhase {
   id: number
@@ -38,6 +39,13 @@ interface Image {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -47,6 +55,7 @@ interface Venture {
   isAvailable: boolean
   investmentType: string
   constructionType: string
+  contracts: Contract[]
   fundingAmount: number
   transferAmount: number
   postalCode: string
@@ -67,6 +76,11 @@ interface Venture {
   contractInterests: ContractInterest[]
   coverImageUrl: string
   images: Image[]
+}
+
+interface Links {
+  docxUrl: string
+  pdfUrl: string
 }
 
 interface VentureDetailsProps {
@@ -94,6 +108,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [newValuation, setNewValuation] = useState<number | string>('')
   const [mode, setMode] = useState<string>('consulting')
   const [valuationData, setValuationData] = useState(null)
+  const [urls, setUrls] = useState<Links | null>(null)
 
   const [activeTab, setActiveTab] = useState<
     'overview' | 'images' | 'tasks' | 'valuation' | 'contract'
@@ -173,8 +188,10 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         }
       } else if (activeTab === 'valuation') {
         response = await handleValuationUpdate()
+      } else if (activeTab === 'contract') {
+        response = await handleContractUpdate()
       }
-
+      console.log(response)
       if (response?.status === 200 || response?.status === 201) {
         console.log('Update successful:', response.data)
       } else {
@@ -239,6 +256,25 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
     }
   }
 
+  const handleContractUpdate = async () => {
+    try {
+      const numericValuation =
+        typeof newValuation === 'string' ? Number(newValuation) : newValuation
+
+      const response = await api.put(
+        `admin/update/${editableData.id}/valuation`,
+        {
+          newValuation: numericValuation,
+          mode,
+        },
+      )
+      setValuationData(response.data.data)
+      console.log('Resposta da API:', response.data)
+    } catch (error) {
+      console.error('Erro:', error)
+    }
+  }
+
   const resetState = () => {
     setChangedData({})
     setSelectedImages([])
@@ -275,27 +311,32 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   }
 
   useEffect(() => {
-    if (activeTab === 'images' && venture.id) {
-      const fetchVentureImages = async () => {
-        try {
-          const response = await api.get(
-            `/admin/enterprise/images/${venture.id}`,
-          )
-
-          setVentureImages(response.data.images)
-        } catch (err) {
-          console.log(err)
-        }
+    const fetchVentureImages = async () => {
+      try {
+        const response = await api.get(`/admin/enterprise/images/${venture.id}`)
+        setVentureImages(response.data.images)
+      } catch (err) {
+        console.log(err)
       }
-
-      fetchVentureImages()
     }
-  }, [activeTab, venture.id])
+
+    const fetcheContract = async () => {
+      try {
+        const response = await api.get(`/admin/contract/view/${venture.id}`)
+        setUrls(response.data)
+      } catch (error) {
+        console.error('Erro:', error)
+      }
+    }
+
+    fetchVentureImages()
+    fetcheContract()
+  }, [venture.id])
 
   if (!isOpen) return null
 
   return (
-    <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-8 bg-zinc-300 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
         <h3 className="text-lg md:text-2xl">{texts.ventureDetails}</h3>
         <button onClick={onClose} className="text-gray-500">
@@ -397,6 +438,13 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
             setMode={setMode}
             handleValuationUpdate={handleValuationUpdate}
             valuationData={valuationData}
+          />
+        )}
+        {activeTab === 'contract' && (
+          <ContractTab
+            links={urls}
+            contracts={venture.contracts}
+            // handleInputChange={handleInputChange}
           />
         )}
       </div>

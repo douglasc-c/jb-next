@@ -134,7 +134,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
@@ -171,11 +171,11 @@ export default function Dashboard() {
       <section className="flex w-full">
         <NewOpportunities recentEnterprises={recentEnterprises} />
       </section>
-      <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
+      <section className="flex w-full rounded-xl bg-zinc-300 space-x-6 overflow-auto">
         {userRecentEnterprises.length > 0 ? (
           <MyVenturesTable data={userRecentEnterprises} />
         ) : (
-          <div className="p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
+          <div className="p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
             <div className="text-center items-center flex flex-col space-y-4">
               <Image
                 src="/images/svg/warning-grey.svg"

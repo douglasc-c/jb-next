@@ -31,7 +31,7 @@ export default function ConstructionCircuit() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )

@@ -2,6 +2,9 @@ import { useAuthContext } from '@/context/auth-context'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
 import Image from 'next/image'
+import { useState } from 'react'
+import { Loading } from '../loading/loading'
+import { PulseLoader } from 'react-spinners'
 
 interface CurrentPhase {
   id: number
@@ -73,6 +76,10 @@ interface ContractProps {
 export function DetailsVentures({ data, onClick }: ContractProps) {
   const { texts } = useLayoutContext()
   const { authData } = useAuthContext()
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null)
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false)
+  const [loading] = useState(true)
+  const [loadingButton, setLoadingButton] = useState(false)
 
   const stages: Record<number, string> = {
     1: texts.topography,
@@ -113,6 +120,25 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       console.error('Error while updating:', error)
     } finally {
       onClick()
+    }
+  }
+
+  const viewContract = async () => {
+    setLoadingButton(true)
+    try {
+      const response = await api.get(`/users/contracts/view/TYPE1`)
+
+      if (response.status === 200 && response.data.pdfUrl) {
+        // window.open(response.data.pdfUrl, '_blank', 'noopener,noreferrer')
+        setPdfUrl(response.data.pdfUrl)
+        setIsPdfModalOpen(true)
+      } else {
+        // setError(response.data.message || 'Erro ao abrir o contrato')
+      }
+    } catch (err) {
+      // setError('Erro na comunicação com a API')
+    } finally {
+      setLoadingButton(false)
     }
   }
 
@@ -205,10 +231,20 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
           </div> */}
           <div className="flex flex-col gap-4">
             <button
-              onClick={onClick}
+              onClick={viewContract}
               className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent`}
             >
-              {texts.seeContract}
+              {loadingButton ? (
+                <PulseLoader
+                  color="#A47659"
+                  loading={loadingButton}
+                  size={6}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                texts.seeContract
+              )}
             </button>
             {!hasPendingContractInterest && !hasApprovedContract && (
               <button
@@ -242,6 +278,33 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
             </p>
           </div>
         </section>
+      )}
+
+      {isPdfModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-4 rounded-lg max-w-4xl w-full h-[80vh]">
+            <button
+              className="absolute top-4 right-4 text-black"
+              onClick={() => setIsPdfModalOpen(false)}
+            >
+              Fechar
+            </button>
+            {pdfUrl ? (
+              <iframe
+                src={pdfUrl}
+                className="w-full h-full"
+                frameBorder="0"
+                // sandbox="allow-scripts allow-same-origin"
+                style={{
+                  overflow: 'auto', // Permite o scroll
+                  pointerEvents: 'none', // Bloqueia interações (cliques, seleção)
+                }}
+              ></iframe>
+            ) : (
+              <Loading loading={loading} width={300} />
+            )}
+          </div>
+        </div>
       )}
     </div>
   )

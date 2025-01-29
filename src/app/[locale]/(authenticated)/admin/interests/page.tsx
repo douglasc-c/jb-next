@@ -105,15 +105,15 @@ export default function Interests() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
         {ventures.length > 0 ? (
           <InterestsTable data={ventures} />
         ) : (

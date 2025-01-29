@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export const api = axios.create({
-  // baseURL: 'https://sys.4handsgroup.com',
-  baseURL: 'http://localhost:3335',
+  baseURL: 'https://sys.4handsgroup.com',
+  // baseURL: 'http://localhost:3335',
 })
 
 api.interceptors.request.use(

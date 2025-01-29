@@ -236,7 +236,7 @@ export default function MyData() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
@@ -244,7 +244,7 @@ export default function MyData() {
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
-      <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
+      <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.myData}</h1>
         <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-10">
           <div className="flex flex-row">

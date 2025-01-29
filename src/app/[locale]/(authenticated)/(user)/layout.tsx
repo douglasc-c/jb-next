@@ -155,7 +155,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-800 text-white flex flex-col">
+      <body className="bg-zinc-800 bg-zinc-700 flex flex-col">
         <Sidebar text={textHeader} locale={locale} />
         <div className="md:ml-64 flex-grow">
           <LayoutProvider value={layoutValue}>

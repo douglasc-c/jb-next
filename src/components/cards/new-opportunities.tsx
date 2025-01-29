@@ -74,7 +74,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   }
 
   return (
-    <section className="flex p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full space-x-12">
+    <section className="flex p-4 bg-zinc-300 rounded-xl h-auto justify-around w-full space-x-12">
       <div
         className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} gap-y-2`}
       >

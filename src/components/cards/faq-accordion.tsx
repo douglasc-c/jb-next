@@ -27,7 +27,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ topic, faqs }) => {
         <div key={index} className="mb-2">
           <button
             onClick={() => toggleAnswer(index)}
-            className={`flex justify-between items-center w-full px-5 bg-zinc-700 text-left text-zinc-300 transition-all text-sm ${
+            className={`flex justify-between items-center w-full px-5 bg-zinc-300 text-left text-zinc-300 transition-all text-sm ${
               openIndex === index ? 'rounded-t-lg' : 'rounded-lg'
             }`}
           >
@@ -53,7 +53,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ topic, faqs }) => {
             </span>
           </button>
           {openIndex === index && (
-            <div className="p-4 bg-zinc-700 text-zinc-300 rounded-b-lg font-light text-sm">
+            <div className="p-4 bg-zinc-300 text-zinc-300 rounded-b-lg font-light text-sm">
               {faq.answer}
             </div>
           )}

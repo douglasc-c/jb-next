@@ -23,7 +23,7 @@ export default function ButtonGlobal({
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={`text-sm py-2 rounded-md w-full items-center justify-center ${color} ${disabled ? 'cursor-not-allowed' : ''}`}
+      className={`text-sm py-2 rounded-md text-white w-full items-center justify-center ${color} ${disabled ? 'cursor-not-allowed' : ''}`}
     >
       {title}
     </button>

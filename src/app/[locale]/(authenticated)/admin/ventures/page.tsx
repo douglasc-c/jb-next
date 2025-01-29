@@ -286,16 +286,16 @@ export default function Ventures() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="text-white grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
+      <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
+        <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/totalVentures.svg"
             width={25}
@@ -306,7 +306,7 @@ export default function Ventures() {
             {texts.total}: {totals.total}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/sale.svg"
             width={25}
@@ -317,7 +317,7 @@ export default function Ventures() {
             {texts.available}: {totals.available}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-zinc-700 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/clock.svg"
             width={25}
@@ -346,7 +346,7 @@ export default function Ventures() {
           />
         </div>
       </div>
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
         <VenturesTable data={filteredVentures} />
       </section>
 

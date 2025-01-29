@@ -30,7 +30,7 @@ export default function DocumentUploader({
   return (
     <section
       {...getRootProps()}
-      className="flex flex-col justify-center items-center py-24 bg-zinc-700 rounded-xl space-y-3 border-dashed border-2 border-gray-500 cursor-pointer hover:bg-zinc-600 hover:text-zinc-400 text-zinc-500 transition"
+      className="flex flex-col justify-center items-center py-24 bg-zinc-300 rounded-xl space-y-3 border-dashed border-2 border-gray-500 cursor-pointer hover:bg-zinc-600 hover:text-zinc-400 text-zinc-500 transition"
     >
       <input {...getInputProps()} />
       <Image

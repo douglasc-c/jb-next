@@ -20,7 +20,7 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
   const colors = ['#A47659', '#a4a96b', '#525820']
 
   return (
-    <div className="flex flex-col md:flex-row p-6 gap-6 bg-zinc-700 rounded-xl h-auto justify-around">
+    <div className="flex flex-col md:flex-row p-6 gap-6 bg-zinc-300 rounded-xl h-auto justify-around">
       <section className="relative flex justify-center items-center">
         <DoughnutChart
           data={[chart.houses, chart.lands, chart.walletBalance]}

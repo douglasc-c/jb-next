@@ -89,7 +89,7 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
           id="phase-select"
           value={selectedPhase}
           onChange={handlePhaseChange}
-          className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none text-sm max-w-[17rem] md:max-w-none"
+          className="px-4 py-2 rounded-md bg-zinc-300 border border-zinc-500 font-light focus:outline-none text-sm max-w-[17rem] md:max-w-none"
         >
           <option value="">{texts.selectAStage}</option>
           {phases.map((phase) => (
@@ -106,7 +106,7 @@ const SelectWithToggle: React.FC<SelectWithToggleProps> = ({
             id="task-select"
             value={selectedTask}
             onChange={handleTaskChange}
-            className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none text-sm max-w-[17rem] md:max-w-none"
+            className="px-4 py-2 rounded-md bg-zinc-300 border border-zinc-500 font-light focus:outline-none text-sm max-w-[17rem] md:max-w-none"
           >
             <option value="">{texts.selectATaks}</option>
             {selectedPhaseTasks.map((task) => (

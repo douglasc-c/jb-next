@@ -132,10 +132,10 @@ export default function Signup() {
 
       <section className="hidden md:block w-1/3 relative">
         <div className="absolute inset-0 bg-render bg-cover bg-center">
-          <div className="flex flex-col items-center mt-20">
+          <div className="flex flex-col items-center justify-center h-full">
             <Image
               className="py-4"
-              src="/images/svg/logoBlack.svg"
+              src="/images/svg/logo.svg"
               alt="WiseBot Logo"
               height={300}
               width={300}
@@ -144,12 +144,14 @@ export default function Signup() {
         </div>
       </section>
 
-      <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 bg-stone-950 space-y-6">
+      <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 md:bg-zinc-200 bg-render md:bg-none bg-cover bg-center space-y-6">
         <div />
         <div className="w-full max-w-2xl space-y-6">
           <div className="w-full max-w-md space-y-1">
-            <h2 className="text-4xl font-medium">{textSignIn.signup}</h2>
-            <p className="text-gray-400">
+            <h2 className="text-4xl font-medium text-zinc-600">
+              {textSignIn.signup}
+            </h2>
+            <p className="text-zinc-500">
               {textSignIn.useYour4HandsSignupToAccess}
             </p>
           </div>
@@ -284,8 +286,7 @@ export default function Signup() {
                 </div>
               )}
 
-              {/* Botão de Envio */}
-              <div className="md:col-span-2 text-white">
+              <div className="md:col-span-2">
                 <ButtonGlobal
                   type="submit"
                   disabled={loading}

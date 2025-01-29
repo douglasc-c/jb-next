@@ -43,7 +43,7 @@ export default function Support() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
@@ -51,8 +51,8 @@ export default function Support() {
 
   return (
     <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
-      <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
-        <h1 className="uppercase font-medium text-white">
+      <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
+        <h1 className="uppercase font-medium bg-zinc-700">
           {texts.frequentlyAskedQuestions}
         </h1>
         <section className="flex flex-col w-full rounded-xl  p-4 bg-zinc-800 space-y-5 max-h-[calc(76vh)]">

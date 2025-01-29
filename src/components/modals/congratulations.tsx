@@ -25,13 +25,13 @@ export default function ModalCongratulations({
           className="absolute inset-0"
         />
 
-        <div className="relative z-10 flex flex-col items-center text-white p-4 text-center">
+        <div className="relative z-10 flex flex-col items-center bg-zinc-700 p-4 text-center">
           <p className="text-lg font-semibold">🎉 Parabéns! 🎉</p>
           <p className="text-sm">Seu cadastro foi realizado com sucesso!</p>
 
           <button
             onClick={onClose}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="mt-4 px-4 py-2 bg-blue-500 bg-zinc-700 rounded-lg hover:bg-blue-600"
           >
             Fechar
           </button>
@@ -39,7 +39,7 @@ export default function ModalCongratulations({
 
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 z-10 text-white text-lg font-bold hover:text-gray-300"
+          className="absolute top-2 right-2 z-10 bg-zinc-700 text-lg font-bold hover:text-gray-300"
           aria-label="Fechar Modal"
         >
           ✕
