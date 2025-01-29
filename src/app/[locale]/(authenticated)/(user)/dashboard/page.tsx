@@ -46,6 +46,13 @@ interface ImageItem {
   imageUrl: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -62,9 +69,14 @@ interface Venture {
   city: string
   squareMeterValue: number
   area: number
+  contracts: Contract[]
+  totalValuation: number
   progress: number
   floors: number
   completionDate: string
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   startDate: string
   currentPhaseId: number
   currentTaskId: number
@@ -111,14 +123,14 @@ export default function Dashboard() {
 
         const fetchedPieChart = response.data.data.pieChart
         const fetchedTotalInvested = response.data.data.totalInvested
-        const fetchedTotalValution = response.data.data.totalValution
+        const fetchedTotalValuation = response.data.data.totalValuation
         const fetchedEnterpriseCount = response.data.data.enterpriseCount
         const fetchedRecentEnterprises = response.data.data.recentEnterprises
         const fetchedUserRecentEnterprises = response.data.data.userEnterprises
 
         setPieChart(fetchedPieChart)
         setTotalInvested(fetchedTotalInvested)
-        setTotalValution(fetchedTotalValution)
+        setTotalValution(fetchedTotalValuation)
         setEnterpriseCount(fetchedEnterpriseCount)
         setRecentEnterprises(fetchedRecentEnterprises)
         setUserRecentEnterprises(fetchedUserRecentEnterprises)
@@ -134,13 +146,14 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
+
   return (
-    <main className="bg-zinc-800 md:h-[calc(91vh)] flex flex-col items-start p-6 gap-6">
+    <main className="bg-zinc-200 md:h-[calc(91vh)] flex flex-col items-start p-6 gap-6">
       <section className="flex w-full flex-col md:flex-row gap-6">
         <div className="flex flex-col md:w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />
@@ -171,11 +184,11 @@ export default function Dashboard() {
       <section className="flex w-full">
         <NewOpportunities recentEnterprises={recentEnterprises} />
       </section>
-      <section className="flex w-full rounded-xl bg-zinc-700 space-x-6 overflow-auto">
+      <section className="flex w-full rounded-xl bg-zinc-300 space-x-6 overflow-auto">
         {userRecentEnterprises.length > 0 ? (
           <MyVenturesTable data={userRecentEnterprises} />
         ) : (
-          <div className="p-4 bg-zinc-700 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
+          <div className="p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
             <div className="text-center items-center flex flex-col space-y-4">
               <Image
                 src="/images/svg/warning-grey.svg"

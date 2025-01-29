@@ -64,7 +64,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                 : ''
             }
             onChange={(e) => onChange(e.target.value)}
-            className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none"
+            className="px-4 py-2 rounded-md bg-zinc-300 shadow border border-zinc-500 font-light  focus:outline-none"
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -78,10 +78,10 @@ export const InputField: React.FC<InputFieldProps> = ({
             multiple
             accept="image/*"
             onChange={handleFileChange}
-            className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400 focus:outline-none"
+            className="px-4 py-2 rounded-md bg-zinc-300 shadow border border-zinc-500 font-light  focus:outline-none"
           />
         ) : (
-          <div className="px-4 py-2 flex justify-between rounded-md bg-zinc-900 border border-zinc-500 font-light text-zinc-400">
+          <div className="px-4 py-2 flex justify-between rounded-md bg-zinc-300 border shadow border-zinc-500 font-light">
             <input
               type={showPassword ? 'text' : type}
               value={
@@ -90,7 +90,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                   : ''
               }
               onChange={(e) => onChange(e.target.value)}
-              className="bg-zinc-900 font-light text-zinc-400 w-full focus:outline-none"
+              className="bg-zinc-300 font-light w-full focus:outline-none"
             />
             {showPass && (
               <Image
@@ -109,7 +109,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           </div>
         )
       ) : (
-        <p className="px-4 py-2 rounded-md bg-zinc-900 text-xs text-zinc-400">
+        <p className="px-4 py-2 rounded-md bg-zinc-300 shadow text-xs border border-zinc-500 text-zinc-600">
           {value && Array.isArray(value)
             ? `${value.length} file(s)`
             : typeof value === 'string' && isValidDate(value)

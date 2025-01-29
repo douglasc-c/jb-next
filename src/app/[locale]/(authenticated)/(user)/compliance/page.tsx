@@ -109,15 +109,15 @@ export default function Compliance() {
 
   if (isLoadingAuthData) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={true} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col p-6 ">
-      <div className="flex flex-col p-4 bg-zinc-700 rounded-xl space-y-3">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
+      <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.compliance}</h1>
 
         {authData?.user.complianceStatus !== 'UNDER_REVIEW' ? (
@@ -133,7 +133,7 @@ export default function Compliance() {
             onFormDataUpdate={handleFormDataUpdate}
           />
         ) : (
-          <div className="p-10 py-[10rem] bg-zinc-800 rounded-xl items-center justify-center">
+          <div className="p-10 py-[10rem] bg-zinc-200 rounded-xl items-center justify-center">
             <div className="text-center space-y-4">
               <div className="bg-zinc-500 w-20 h-20 flex items-center justify-center rounded-full mx-auto">
                 <Image

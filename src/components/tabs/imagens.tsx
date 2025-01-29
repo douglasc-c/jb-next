@@ -93,7 +93,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
         )}
 
         {isEditing && (
-          <div className="flex bg-zinc-600 rounded-lg p-7 items-center justify-center">
+          <div className="flex bg-zinc-200 rounded-lg p-7 items-center justify-center">
             <label htmlFor="file-upload" className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 type IDataProps = {
@@ -19,13 +20,13 @@ export default function ButtonMenu({ params }: IDataProps) {
 
   return (
     <ul className="flex">
-      <a
+      <Link
         href={path}
-        className={`w-full pl-12 py-5 justify-start items-center space-x-3 flex font-regular text-sm uppercase  text-zinc-300 ${
-          isActive ? 'bg-zinc-800' : 'bg-tranparent'
+        className={`w-full pl-12 py-5 justify-start items-center space-x-3 text-primary flex font-regular text-sm uppercase ${
+          isActive ? 'bg-zinc-200' : 'bg-tranparent'
         }`}
       >
-        <div className="p-2  bg-zinc-600 rounded-lg">
+        <div className="p-2 bg-stone-300 shadow rounded-lg">
           <Image
             src={`/images/svg/${icon}.svg`}
             alt="notifications"
@@ -34,7 +35,7 @@ export default function ButtonMenu({ params }: IDataProps) {
           />
         </div>
         <span>{title}</span>
-      </a>
+      </Link>
     </ul>
   )
 }

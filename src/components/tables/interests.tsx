@@ -51,6 +51,13 @@ interface Image {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -69,6 +76,10 @@ interface Venture {
   area: number
   progress: number
   floors: number
+  contracts: Contract[]
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   completionDate: string
   startDate: string
   currentPhaseId: number
@@ -90,6 +101,7 @@ export function InterestsTable({ data }: MyVenturesProps) {
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
   const [isInterestedModalOpen, setIsInterestedModalOpen] = useState(false)
   const [updating, setUpdating] = useState<string | null>(null)
+  const [mode, setMode] = useState<string>('TYPE1')
 
   const openDetailsModal = (row: Venture) => {
     setSelectedContract(row)
@@ -111,7 +123,30 @@ export function InterestsTable({ data }: MyVenturesProps) {
     setSelectedContract(null)
   }
 
-  const handleClick = async (interestId: string, status: string) => {
+  const autoFill = async (interest: string, user: string) => {
+    try {
+      const enterpriseId = Number(interest)
+      const userId = Number(user)
+
+      const response = await api.post('/admin/contract/autofill', {
+        enterpriseId,
+        userId,
+        templateType: mode,
+      })
+      console.log(response)
+    } catch (error) {
+      console.error('Erro ao atualizar o status:', error)
+    } finally {
+      setUpdating(null)
+      setIsInterestedModalOpen(false)
+    }
+  }
+
+  const handleClick = async (
+    interestId: string,
+    userId: string,
+    status: string,
+  ) => {
     try {
       setUpdating(interestId)
       const response = await api.post('/admin/accept-or-reject-enterprise', {
@@ -120,8 +155,7 @@ export function InterestsTable({ data }: MyVenturesProps) {
       })
 
       if (response.status === 200) {
-        console.log('Status atualizado com sucesso:', response.data)
-
+        autoFill(interestId, userId)
         setSelectedContract((prev) => {
           if (!prev) return prev
 
@@ -210,6 +244,8 @@ export function InterestsTable({ data }: MyVenturesProps) {
               interests={selectedContract.contractInterests}
               onClose={closeInterestedModal}
               onClick={handleClick}
+              mode={mode}
+              setMode={setMode}
               updating={updating}
             />
           </div>

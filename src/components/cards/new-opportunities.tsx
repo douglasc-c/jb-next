@@ -36,6 +36,9 @@ interface Venture {
   city: string
   squareMeterValue: number
   area: number
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   progress: number
   floors: number
   completionDate: string
@@ -74,7 +77,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   }
 
   return (
-    <section className="flex p-4 bg-zinc-700 rounded-xl h-auto justify-around w-full space-x-12">
+    <section className="flex p-4 bg-zinc-300 rounded-xl h-auto justify-around w-full gap-6">
       <div
         className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} gap-y-2`}
       >
@@ -98,7 +101,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
           <div className="relative flex flex-row-reverse">
             <button
               onClick={handleClick}
-              className="absolute bg-zinc-600 rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3"
+              className="absolute bg-zinc-300 shadow rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3"
             >
               <Image
                 src="/images/svg/arrowRightGreen.svg"
@@ -128,12 +131,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
       )}
 
       {isModalOpen && selectedContract && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          role="dialog"
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
-        >
+        <div className="fixed inset-0  bg-black bg-opacity-50 w-full flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
             <DetailsVentures onClick={closeModal} data={selectedContract} />
           </div>

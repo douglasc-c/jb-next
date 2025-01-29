@@ -175,6 +175,10 @@ export default async function RootLayout({
     uploadContract: t('TextLang.uploadContract'),
     model: t('TextLang.model'),
     selectAModel: t('TextLang.selectAModel'),
+    downloadContract: t('TextLang.downloadContract'),
+    viewContract: t('TextLang.viewContract'),
+    signalContract: t('TextLang.signalContract'),
+    send: t('TextLang.send'),
   }
 
   const layoutValue: LayoutAdminContextProps = {
@@ -184,7 +188,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-800 text-white flex flex-col">
+      <body className="bg-zinc-200 text-zinc-600 flex flex-col">
         <Sidebar text={textHeader} locale={locale} />
         <div className="md:ml-64 flex-grow">
           <LayoutProvider value={layoutValue}>{children}</LayoutProvider>

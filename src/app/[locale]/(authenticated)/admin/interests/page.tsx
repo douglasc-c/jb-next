@@ -52,6 +52,13 @@ interface Image {
   url: string
 }
 
+interface Contract {
+  id: string
+  filePath: string
+  isFinalized: string
+  enterpriseId: string
+}
+
 interface Venture {
   id: number
   name: string
@@ -66,6 +73,10 @@ interface Venture {
   postalCode: string
   address: string
   city: string
+  contracts: Contract[]
+  clientSigningUrl: string
+  contractStatus: string
+  clientSigningUrlExpire: string
   squareMeterValue: number
   area: number
   progress: number
@@ -105,15 +116,15 @@ export default function Interests() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-800">
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-800 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <section className="flex flex-col w-full rounded-xl bg-zinc-700 space-y-4">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
+      <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
         {ventures.length > 0 ? (
           <InterestsTable data={ventures} />
         ) : (
@@ -124,10 +135,10 @@ export default function Interests() {
               height={100}
               alt="warning"
             />
-            <p className="text-zinc-100 text-lg font-medium">
+            <p className=" text-lg font-medium">
               {texts.noInterestedPartiesFound}
             </p>
-            <p className="text-zinc-400 text-sm">
+            <p className="text-zinc-500 text-sm">
               {texts.thereAreStillNoInterestedPartiesForTheRegisteredProjects}
             </p>
           </div>

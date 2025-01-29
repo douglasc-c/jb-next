@@ -53,10 +53,10 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
 
   return (
     <>
-      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-5 py-9 transition-all duration-300 bg-zinc-900">
+      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-5 py-9 transition-all duration-300 bg-zinc-300">
         <div className="flex flex-row md:ml-64 space-x-1">
           <h1 className="text-zinc-600">{text.welcome}</h1>
-          <h3 className="text-white font-semibold uppercase">
+          <h3 className=" font-semibold uppercase">
             {authData?.user?.username}
           </h3>
         </div>
@@ -73,7 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             <ButtonAvatar params={{ path: `/mydata` }} />
           </div>
           <button
-            className="p-2 border z-50 border-neutral-600 rounded-lg md:hidden"
+            className="p-2 border z-50 border-neutral-600 bg-zinc-300 rounded-lg md:hidden"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <Image
@@ -87,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
       </div>
 
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r-2 border-zinc-700 z-50 flex flex-col justify-between transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-zinc-300 border-r-2 border-zinc-400 z-50 flex flex-col justify-between transform transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:block`}
       >
@@ -149,7 +149,7 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
         <div className="p-2">
           <button
             onClick={handleSignOut}
-            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase text-zinc-300"
+            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase"
           >
             <div className="p-2 rounded-lg">
               <Image

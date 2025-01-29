@@ -63,7 +63,7 @@ export default function ComplianceStep({
     'incomeTaxProof',
   ]
   return (
-    <div className="flex flex-col p-10 bg-zinc-800 rounded-xl space-y-6">
+    <div className="flex flex-col p-10 bg-zinc-200 rounded-xl space-y-6">
       <h1 className="text-xl font-semibold">{texts.verifyYourIdentity}</h1>
 
       {step === 1 && (
@@ -76,7 +76,7 @@ export default function ComplianceStep({
               name="documentType"
               value={formData.documentType}
               onChange={handleFormChange}
-              className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-700 font-light text-sm text-zinc-400 outline-none"
+              className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-300 font-light text-sm text-zinc-400 outline-none"
               required
             >
               <option value="RG">{'RG'}</option>

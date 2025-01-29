@@ -102,6 +102,7 @@ export interface LayoutContextProps {
     fundingAmount: string
     transferAmount: string
     squareMeterValue: string
+    signalContract: string
   }
 
   locale: string

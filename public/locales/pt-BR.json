@@ -193,6 +193,10 @@
     "addContract": "Adicionar contrato",
     "uploadContract": "Selecione o contrato",
     "model": "Modelo",
-    "selectAModel": "Selecione um modelo"
+    "selectAModel": "Selecione um modelo",
+    "downloadContract": "Fazer download do contrato",
+    "viewContract": "Visualizar comtrato",
+    "signalContract": "Assinar contrato",
+    "send": "Enviar"
   }
 }

@@ -44,8 +44,8 @@ const AddUserModal: FC<AddUserModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-zinc-700 p-6 rounded-lg shadow-lg w-full md:w-1/2">
-        <h2 className="text-zinc-200 text-2xl mb-4">{texts.addUser}</h2>
+      <div className="bg-zinc-300 p-6 rounded-lg shadow-lg w-full md:w-1/2">
+        <h2 className="text-2xl mb-4">{texts.addUser}</h2>
         <form onSubmit={handleSubmit} className="overflow-auto">
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 grid-cols-2 gap-2">

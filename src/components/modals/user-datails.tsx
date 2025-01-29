@@ -188,9 +188,9 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   }
 
   if (!isOpen) return null
-
+  console.log(user)
   return (
-    <div className="flex flex-col p-8 bg-zinc-700 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-8 bg-zinc-300 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
         <h3 className="text-lg md:text-2xl">{texts.userDetails}</h3>
         <button onClick={onClose} className="text-gray-500">

@@ -121,7 +121,7 @@ export function UsersTable({ data }: MyVenturesProps) {
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
             role="dialog"
           >
-            <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
+            <div className="w-full md:w-2/3">
               <UserDetails
                 user={selectedUser}
                 isOpen={isModalOpen}

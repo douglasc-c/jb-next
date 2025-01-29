@@ -87,25 +87,25 @@ const ValuationForm: React.FC<ValuationFormProps> = ({
             <h3 className="text-zinc-300">{texts.venture}</h3>
             <p>
               {texts.percentage}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 {valuationData.enterprise.percentageChange.toFixed(2)}%
               </span>
             </p>
             <p>
               {texts.valuationBefore}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.enterprise.valuationBefore}
               </span>
             </p>
             <p>
               {texts.valuationAfter}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.enterprise.valuationAfter}
               </span>
             </p>
             <p>
               {texts.difference}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.enterprise.difference}
               </span>
             </p>
@@ -114,25 +114,25 @@ const ValuationForm: React.FC<ValuationFormProps> = ({
             <h3 className="text-zinc-300">{texts.user}</h3>
             <p>
               {texts.email}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 {valuationData.user.email}
               </span>
             </p>
             <p>
               {texts.valuationBefore}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.user.valuationBefore}
               </span>
             </p>
             <p>
               {texts.valuationAfter}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.user.valuationAfter}
               </span>
             </p>
             <p>
               {texts.difference}:{' '}
-              <span className="font-medium text-white">
+              <span className="font-medium bg-zinc-700">
                 $ {valuationData.user.difference}
               </span>
             </p>
