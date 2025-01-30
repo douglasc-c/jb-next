@@ -319,18 +319,18 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         console.log(err)
       }
     }
-
-    const fetcheContract = async () => {
-      try {
-        const response = await api.get(`/admin/contract/view/${venture.id}`)
-        setUrls(response.data)
-      } catch (error) {
-        console.error('Erro:', error)
-      }
-    }
-
     fetchVentureImages()
-    fetcheContract()
+    if (venture.contracts?.length > 0) {
+      const fetchContract = async () => {
+        try {
+          const response = await api.get(`/admin/contract/view/${venture.id}`)
+          setUrls(response.data)
+        } catch (error) {
+          console.error('Erro:', error)
+        }
+      }
+      fetchContract()
+    }
   }, [venture.id])
 
   if (!isOpen) return null
@@ -372,34 +372,34 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
             {texts.images}
           </button>
           {route !== 'interests' && (
-            <button
-              className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-primary' : ''}`}
-              onClick={() => setActiveTab('tasks')}
-            >
-              {texts.stage}
-            </button>
-          )}
-          {route !== 'interests' && (
-            <button
-              className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-primary' : ''}`}
-              onClick={() => setActiveTab('valuation')}
-            >
-              {texts.valuation}
-            </button>
-          )}
-          <button
-            className={`pb-2 ${activeTab === 'contract' ? 'border-b-2 border-primary' : ''}`}
-            onClick={() => setActiveTab('contract')}
-          >
-            {texts.contract}
-          </button>
-          {route !== 'interests' && (
-            <button
-              className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
-              onClick={() => setIsModalDeleteOpen(true)}
-            >
-              {texts.delete}
-            </button>
+            <>
+              <button
+                className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-primary' : ''}`}
+                onClick={() => setActiveTab('tasks')}
+              >
+                {texts.stage}
+              </button>
+              <button
+                className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-primary' : ''}`}
+                onClick={() => setActiveTab('valuation')}
+              >
+                {texts.valuation}
+              </button>
+              {venture.contracts?.length > 0 && (
+                <button
+                  className={`pb-2 ${activeTab === 'contract' ? 'border-b-2 border-primary' : ''}`}
+                  onClick={() => setActiveTab('contract')}
+                >
+                  {texts.contract}
+                </button>
+              )}
+              <button
+                className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
+                onClick={() => setIsModalDeleteOpen(true)}
+              >
+                {texts.delete}
+              </button>
+            </>
           )}
         </div>
       </div>

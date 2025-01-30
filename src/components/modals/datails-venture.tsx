@@ -108,8 +108,6 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
     data.contractInterests.some((interest) => interest.status === 'APPROVED')
 
   const handleClickInterest = async (id: number) => {
-    console.log(`Interest action for contract ID: ${id}`)
-
     try {
       const response = await api.post(`/users/interest-enterprise`, {
         enterpriseId: id,
@@ -126,7 +124,7 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       onClick()
     }
   }
-  console.log(data)
+
   const signalContract = async () => {
     setLoadingSignature(true)
     try {

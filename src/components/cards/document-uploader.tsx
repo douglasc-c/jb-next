@@ -3,22 +3,22 @@ import { useDropzone } from 'react-dropzone'
 import Image from 'next/image'
 
 interface DocumentUploaderProps {
-  onUpload: (documentKey: string, files: File[]) => void // Agora aceita dois parâmetros
+  onUpload: (documentKey: string, files: File[]) => void
   attachLabel: string
   dragHint: string
-  documentKey: string // Adicionando a chave do documento
+  documentKey: string
 }
 
 export default function DocumentUploader({
   onUpload,
   attachLabel,
   dragHint,
-  documentKey, // A chave do documento será recebida como uma prop
+  documentKey,
 }: DocumentUploaderProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        onUpload(documentKey, [acceptedFiles[0]]) // Passa o primeiro arquivo dentro de um array
+        onUpload(documentKey, [acceptedFiles[0]])
       }
     },
     multiple: false,
@@ -40,8 +40,10 @@ export default function DocumentUploader({
         alt="Document"
       />
       <div className="flex flex-row space-x-1">
-        <span className="text-2xl font-light underline">{attachLabel}</span>
-        <span className="text-2xl font-medium">{dragHint}</span>
+        <span className="md:text-2xl text-sm font-light underline">
+          {attachLabel}
+        </span>
+        <span className="md:text-2xl text-sm font-medium">{dragHint}</span>
       </div>
     </section>
   )

@@ -53,7 +53,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-200 bg-zinc-700">
+      <body className="bg-zinc-200">
         <AuthProvider value={layoutValue}>{children}</AuthProvider>
       </body>
     </html>

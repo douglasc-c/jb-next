@@ -190,13 +190,13 @@ export function InterestsTable({ data }: MyVenturesProps) {
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium">
+              <th className="px-4 py-2 text-left text-xs font-medium">
                 {texts.company}
               </th>
-              <th className="px-4 py-2 text-sm font-medium">
+              <th className="px-4 py-2 text-xs font-medium">
                 {texts.interests}
               </th>
-              <th className="px-4 py-2 text-sm font-medium" colSpan={2}>
+              <th className="px-4 py-2 text-xs font-medium" colSpan={2}>
                 {texts.shares}
               </th>
             </tr>

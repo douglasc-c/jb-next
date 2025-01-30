@@ -195,8 +195,10 @@
     "model": "Modelo",
     "selectAModel": "Selecione um modelo",
     "downloadContract": "Fazer download do contrato",
-    "viewContract": "Visualizar comtrato",
+    "viewContract": "Visualizar contrato",
     "signalContract": "Assinar contrato",
-    "send": "Enviar"
+    "send": "Enviar",
+    "signedIn": "Assinado em",
+    "generateSignature": "Gerar assinatura"
   }
 }

@@ -7,6 +7,28 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import api from '@/lib/api'
 import AddContractModal from '@/components/modals/add-contract'
 import Image from 'next/image'
+import ContractsList from '@/components/tables/contracts'
+
+interface Signature {
+  signedAt: string
+  user: {
+    email: string
+    firstName: string
+    lastName: string
+    userName: string
+  }
+}
+interface Contract {
+  adminSigningUrl: string
+  clientSigningUrl: string
+  id: string
+  signatures: Signature[]
+}
+interface Enterprise {
+  contracts: Contract[]
+  name: string
+  id: number
+}
 
 interface Type {
   id: number
@@ -24,8 +46,7 @@ export default function Contract() {
   const [loading, setLoading] = useState(true)
   const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [pdfUrl] = useState<string | null>(null)
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false)
+  const [contracts, setContracts] = useState<Enterprise[]>([])
 
   const [types] = useState<Type[]>([
     { name: `${texts.model} 1`, templateType: 'TYPE1', id: 0 },
@@ -55,8 +76,6 @@ export default function Contract() {
 
       if (response.status === 200 && response.data.pdfUrl) {
         window.open(response.data.pdfUrl, '_blank', 'noopener,noreferrer')
-        // setPdfUrl(response.data.pdfUrl)
-        // setIsPdfModalOpen(true)
       } else {
         setError(response.data.message || 'Erro ao abrir o contrato')
       }
@@ -131,7 +150,7 @@ export default function Contract() {
   const fetchContractPending = async () => {
     try {
       const response = await api.get('/admin/contract/pending')
-      console.log(response)
+      setContracts(response.data.enterprises)
     } catch (err) {
       console.error('Erro ao buscar categorias de FAQ:', err)
     } finally {
@@ -153,31 +172,33 @@ export default function Contract() {
 
   return (
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="grid grid-cols-4 items-center gap-4 w-full">
-        <ButtonGlobal
-          type="button"
-          params={{
-            title: `${texts.model} 1`,
-            color: 'bg-primary',
-          }}
-          onClick={() => openContract('TYPE1')}
-        />
-        <ButtonGlobal
-          type="button"
-          params={{
-            title: `${texts.model} 2`,
-            color: 'bg-primary',
-          }}
-          onClick={() => openContract('TYPE2')}
-        />
-        <ButtonGlobal
-          type="button"
-          params={{
-            title: `${texts.model} 3`,
-            color: 'bg-primary',
-          }}
-          onClick={() => openContract('TYPE3')}
-        />
+      <div className="grid md:grid-cols-2 items-center gap-4 w-full">
+        <div className="grid grid-cols-3 items-center gap-4 w-full">
+          <ButtonGlobal
+            type="button"
+            params={{
+              title: `${texts.model} 1`,
+              color: 'bg-primary',
+            }}
+            onClick={() => openContract('TYPE1')}
+          />
+          <ButtonGlobal
+            type="button"
+            params={{
+              title: `${texts.model} 2`,
+              color: 'bg-primary',
+            }}
+            onClick={() => openContract('TYPE2')}
+          />
+          <ButtonGlobal
+            type="button"
+            params={{
+              title: `${texts.model} 3`,
+              color: 'bg-primary',
+            }}
+            onClick={() => openContract('TYPE3')}
+          />
+        </div>
         <ButtonGlobal
           type="button"
           params={{
@@ -189,8 +210,10 @@ export default function Contract() {
       </div>
 
       <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4 p-4">
-        {types.length > 0 ? (
-          <div></div>
+        {contracts.length > 0 ? (
+          <div>
+            <ContractsList companies={contracts} />
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center py-8 space-y-4">
             <Image
@@ -220,28 +243,6 @@ export default function Contract() {
           handleSubmit={handleFormSubmit}
           closeModal={closeModal}
         />
-      )}
-
-      {isPdfModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-4 rounded-lg max-w-4xl w-full h-[80vh]">
-            <button
-              className="absolute top-4 right-4 text-black"
-              onClick={() => setIsPdfModalOpen(false)}
-            >
-              Fechar
-            </button>
-            {pdfUrl ? (
-              <iframe
-                src={pdfUrl}
-                className="w-full h-full"
-                frameBorder="0"
-              ></iframe>
-            ) : (
-              <Loading loading={loading} width={300} />
-            )}
-          </div>
-        </div>
       )}
     </main>
   )

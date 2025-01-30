@@ -188,7 +188,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   }
 
   if (!isOpen) return null
-  console.log(user)
+
   return (
     <div className="flex flex-col p-8 bg-zinc-300 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
