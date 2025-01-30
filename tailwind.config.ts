@@ -12,7 +12,6 @@ const config: Config = {
         global: "url('/images/bg/global.png')",
         bgnew: "url('/images/bg/newbg.png')",
         render: "url('/images/bg/renders.png')",
-        'base-home': "url('/images/bg/baseImage.png')",
       },
       colors: {
         backgroundStart: 'rgb(var(--background-start-rgb))',

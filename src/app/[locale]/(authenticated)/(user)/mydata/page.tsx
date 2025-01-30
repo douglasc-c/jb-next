@@ -246,9 +246,9 @@ export default function MyData() {
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.myData}</h1>
-        <div className="flex flex-col p-10 bg-zinc-200 rounded-xl space-y-10">
-          <div className="flex flex-row">
-            <section className="flex justify-center items-start w-1/5">
+        <div className="flex flex-col rounded-lg space-y-6 bg-zinc-200 p-6">
+          <div className="w-full flex flex-row">
+            <section className="md:flex hidden justify-center items-start md:w-1/5">
               <Image
                 src="/images/svg/avatar.svg"
                 width={110}
@@ -266,10 +266,9 @@ export default function MyData() {
                 </button>
               </div>
             </section>
-
-            <section className="space-y-3 w-4/5">
-              <div className="flex border-b border-gray-600 justify-between text-sm text-zinc-500">
-                <div className="space-x-4">
+            <div className="space-y-6 w-full">
+              <section className="flex border-b border-gray-600 w-full">
+                <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
                   <button
                     className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-primary' : ''}`}
                     onClick={() => setActiveTab('overview')}
@@ -288,176 +287,172 @@ export default function MyData() {
                   >
                     {texts.password}
                   </button>
+                  <button
+                    className={`pb-2 ${isEditing ? 'hidden' : ''}`}
+                    onClick={() => setIsEditing(true)}
+                  >
+                    {texts.edit}
+                  </button>
+                  <button
+                    className={`pb-2 ${isEditing ? '' : 'hidden'} `}
+                    onClick={handleCancel}
+                  >
+                    {texts.cancel}
+                  </button>
+                  <button
+                    className={`pb-2 ${isEditing ? '' : 'hidden'} `}
+                    onClick={handleSave}
+                  >
+                    {texts.save}
+                  </button>
                 </div>
-
-                <div className="">
-                  {isEditing ? (
-                    <div className="space-x-4">
-                      <button
-                        className={`hover:border-primary border-b-2 pb-2 border-transparent`}
-                        onClick={handleCancel}
-                      >
-                        {texts.cancel}
-                      </button>
-                      <button
-                        className={`hover:border-primary border-b-2 pb-2 border-transparent`}
-                        onClick={handleSave}
-                      >
-                        {texts.save}
-                      </button>
+              </section>
+              <section>
+                <div className="w-full">
+                  {activeTab === 'overview' && (
+                    <div className="grid grid-cols-1 w-full md:grid-cols-2 gap-4">
+                      <InputField
+                        label={texts.firstName}
+                        value={editableData.firstName || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('firstName', value)
+                        }
+                      />
+                      <InputField
+                        label={texts.lastName}
+                        value={editableData.lastName || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('lastName', value)
+                        }
+                      />
+                      <InputField
+                        label={texts.email}
+                        value={editableData.email || ''}
+                        isEditing={isEditing}
+                        onChange={(value) => handleInputChange('email', value)}
+                      />
+                      <InputField
+                        label={texts.documentNumber}
+                        value={editableData.numberDocument || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('numberDocument', value)
+                        }
+                      />
+                      <InputField
+                        type={'date'}
+                        label={texts.dateOfBith}
+                        value={editableData.birthDate || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('birthDate', value)
+                        }
+                      />
+                      <InputField
+                        label={texts.phone}
+                        value={editableData.phone || ''}
+                        isEditing={isEditing}
+                        onChange={(value) => handleInputChange('phone', value)}
+                      />
                     </div>
-                  ) : (
-                    <button
-                      className={`hover:border-primary border-b-2 pb-2 border-transparent`}
-                      onClick={() => setIsEditing(true)}
-                    >
-                      {texts.edit}
-                    </button>
+                  )}
+                  {activeTab === 'address' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputField
+                        label={texts.street}
+                        value={editableData.address?.street || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('street', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.number}
+                        value={editableData.address?.number || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('number', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.complement}
+                        value={editableData.address?.complement || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('complement', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.neighborhood}
+                        value={editableData.address?.neighborhood || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('neighborhood', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.city}
+                        value={editableData.address?.city || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('city', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.state}
+                        value={editableData.address?.state || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('state', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.postalCode}
+                        value={editableData.address?.postalCode || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('postalCode', value, 'address')
+                        }
+                      />
+                      <InputField
+                        label={texts.country}
+                        value={editableData.address?.country || ''}
+                        isEditing={isEditing}
+                        onChange={(value) =>
+                          handleInputChange('country', value, 'address')
+                        }
+                      />
+                    </div>
+                  )}
+                  {activeTab === 'password' && (
+                    <div className="grid cols-1 md:grid-cols-2 gap-4">
+                      <InputField
+                        label={texts.currentPassword}
+                        type={'password'}
+                        value={changedPass.currentPassword || ''}
+                        isEditing={isEditing}
+                        showPass={true}
+                        onChange={(value) =>
+                          handleInputChange('currentPassword', value)
+                        }
+                      />
+                      <InputField
+                        label={texts.newPassword}
+                        type={'password'}
+                        value={changedPass.newPassword || ''}
+                        isEditing={isEditing}
+                        showPass={true}
+                        onChange={(value) =>
+                          handleInputChange('newPassword', value)
+                        }
+                      />
+                    </div>
                   )}
                 </div>
-              </div>
-              <div className="">
-                {activeTab === 'overview' && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputField
-                      label={texts.firstName}
-                      value={editableData.firstName || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('firstName', value)
-                      }
-                    />
-                    <InputField
-                      label={texts.lastName}
-                      value={editableData.lastName || ''}
-                      isEditing={isEditing}
-                      onChange={(value) => handleInputChange('lastName', value)}
-                    />
-                    <InputField
-                      label={texts.email}
-                      value={editableData.email || ''}
-                      isEditing={isEditing}
-                      onChange={(value) => handleInputChange('email', value)}
-                    />
-                    <InputField
-                      label={texts.documentNumber}
-                      value={editableData.numberDocument || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('numberDocument', value)
-                      }
-                    />
-                    <InputField
-                      type={'date'}
-                      label={texts.dateOfBith}
-                      value={editableData.birthDate || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('birthDate', value)
-                      }
-                    />
-                    <InputField
-                      label={texts.phone}
-                      value={editableData.phone || ''}
-                      isEditing={isEditing}
-                      onChange={(value) => handleInputChange('phone', value)}
-                    />
-                  </div>
-                )}
-                {activeTab === 'address' && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputField
-                      label={texts.street}
-                      value={editableData.address?.street || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('street', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.number}
-                      value={editableData.address?.number || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('number', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.complement}
-                      value={editableData.address?.complement || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('complement', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.neighborhood}
-                      value={editableData.address?.neighborhood || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('neighborhood', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.city}
-                      value={editableData.address?.city || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('city', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.state}
-                      value={editableData.address?.state || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('state', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.postalCode}
-                      value={editableData.address?.postalCode || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('postalCode', value, 'address')
-                      }
-                    />
-                    <InputField
-                      label={texts.country}
-                      value={editableData.address?.country || ''}
-                      isEditing={isEditing}
-                      onChange={(value) =>
-                        handleInputChange('country', value, 'address')
-                      }
-                    />
-                  </div>
-                )}
-                {activeTab === 'password' && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputField
-                      label={texts.currentPassword}
-                      type={'password'}
-                      value={changedPass.currentPassword || ''}
-                      isEditing={isEditing}
-                      showPass={true}
-                      onChange={(value) =>
-                        handleInputChange('currentPassword', value)
-                      }
-                    />
-                    <InputField
-                      label={texts.newPassword}
-                      type={'password'}
-                      value={changedPass.newPassword || ''}
-                      isEditing={isEditing}
-                      showPass={true}
-                      onChange={(value) =>
-                        handleInputChange('newPassword', value)
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            </section>
+              </section>
+            </div>
           </div>
           <span className="border-[0.5px] border-zinc-500" />
           <div className="flex flex-row space-x-2 justify-center">

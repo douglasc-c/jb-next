@@ -66,7 +66,7 @@ export default function CategoryList({ categories }: CategoryListProps) {
           className="bg-zinc-300 p-2 border-b border-zinc-400"
         >
           <div className="flex justify-between items-center">
-            <h2 className="font-medium bg-zinc-700">{category.name}</h2>
+            <h2 className="font-medium">{category.name}</h2>
             <div className="flex space-x-2">
               {expandedCategory === category.id && (
                 <button
@@ -89,7 +89,7 @@ export default function CategoryList({ categories }: CategoryListProps) {
               {category.faqs.map((faq) => (
                 <div key={faq.id} className="p-3 bg-zinc-200 rounded-lg">
                   <div className="flex justify-between">
-                    <h3 className="bg-zinc-700">{faq.question}</h3>
+                    <h3 className="">{faq.question}</h3>
                     <button
                       onClick={() => openDeleteModal('faq', faq.id)}
                       className="bg-red-600 px-4 rounded-md text-sm"

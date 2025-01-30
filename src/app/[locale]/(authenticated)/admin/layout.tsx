@@ -179,6 +179,8 @@ export default async function RootLayout({
     viewContract: t('TextLang.viewContract'),
     signalContract: t('TextLang.signalContract'),
     send: t('TextLang.send'),
+    signedIn: t('TextLang.signedIn'),
+    generateSignature: t('TextLang.generateSignature'),
   }
 
   const layoutValue: LayoutAdminContextProps = {

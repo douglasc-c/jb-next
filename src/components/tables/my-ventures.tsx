@@ -95,26 +95,29 @@ export function MyVenturesTable({ data }: MyVenturesTableProps) {
     setIsModalOpen(false)
     setSelectedContract(null)
   }
-
+  console.log(data)
   return (
     <section className="h-auto w-full p-4">
       <div className="overflow-auto">
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
-              <th className="px-4 py-2 text-left font-regular text-xs">
+              <th className="px-4 py-2 text-left font-medium text-xs">
+                {texts.status}
+              </th>
+              <th className="px-4 py-2 text-left font-medium text-xs">
                 {texts.venture}
               </th>
-              <th className="px-4 py-2 text-center font-regular text-xs">
+              <th className="px-4 py-2 text-center font-medium text-xs">
                 {texts.completionDate}
               </th>
-              <th className="px-4 py-2 text-center font-regular text-xs">
+              <th className="px-4 py-2 text-center font-medium text-xs">
                 {texts.amountInvested}
               </th>
-              <th className="px-4 py-2 text-center font-regular text-xs">
+              <th className="px-4 py-2 text-center font-medium text-xs">
                 {texts.amountTransferred}
               </th>
-              <th className="px-4 py-2 text-center font-regular text-xs">
+              <th className="px-4 py-2 text-center font-medium text-xs">
                 {texts.shares}
               </th>
             </tr>
@@ -125,6 +128,9 @@ export function MyVenturesTable({ data }: MyVenturesTableProps) {
                 key={index}
                 className={`${index !== data.length - 1 ? 'border-b border-zinc-400' : ''}`}
               >
+                <td className="px-4 py-2 text-xs">
+                  {row.contractInterests[0].status}
+                </td>
                 <td className="px-4 py-2 text-xs">{row.name}</td>
                 <td className="px-4 py-2 text-center text-xs">
                   {new Date(row.completionDate).toLocaleDateString('pt-BR', {

@@ -52,10 +52,10 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-300 p-6 rounded-lg shadow-lg w-full md:w-1/2">
-        <h2 className="text-zinc-200 text-2xl mb-4">{texts.addFaq}</h2>
+        <h2 className="text-2xl mb-4">{texts.addFaq}</h2>
 
         <div className="mb-4">
-          <label className="text-zinc-300 block mb-1">{texts.category}</label>
+          <label className="block mb-1">{texts.category}</label>
           {hasCategories ? (
             isCreatingCategory ? (
               <div className="flex space-x-2 items-center">
@@ -64,7 +64,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
                   placeholder={texts.newCategory}
-                  className="flex-grow p-2 rounded-lg bg-zinc-200 text-zinc-300"
+                  className="flex-grow p-2 rounded-lg bg-zinc-200 focus:outline-none"
                 />
                 <ButtonGlobal
                   type="button"
@@ -87,7 +87,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                   name="categoryId"
                   value={formData.categoryId || ''}
                   onChange={handleChange}
-                  className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
+                  className="w-full p-2 mt-1 rounded-lg bg-zinc-200 focus:outline-none text-xs md:text-sm"
                   required
                 >
                   <option value="">{texts.selectACategory}</option>
@@ -113,7 +113,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
                 placeholder={texts.newCategory}
-                className="flex-grow p-2 rounded-lg bg-zinc-200 text-zinc-300"
+                className="flex-grow p-2 rounded-lg bg-zinc-200 focus:outline-none text-xs md:text-sm"
                 required
               />
               <ButtonGlobal
@@ -136,24 +136,24 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="text-zinc-300 block">{texts.question}</label>
+              <label className="block">{texts.question}</label>
               <input
                 type="text"
                 name="question"
                 value={formData.question}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 focus:outline-none text-xs md:text-sm"
                 required
               />
             </div>
 
             <div>
-              <label className="text-zinc-300 block">{texts.answer}</label>
+              <label className=" block">{texts.answer}</label>
               <textarea
                 name="answer"
                 value={formData.answer}
                 onChange={handleChange}
-                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 text-zinc-300"
+                className="w-full p-2 mt-1 rounded-lg bg-zinc-200 focus:outline-none text-xs md:text-sm"
                 required
               />
             </div>
@@ -164,7 +164,7 @@ const AddFaqModal: React.FC<AddFaqModalProps> = ({
               <button
                 type="button"
                 onClick={closeModal}
-                className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+                className="bg-zinc-600 text-zinc-200 text-sm py-2 px-4 rounded-lg"
               >
                 {texts.cancel}
               </button>

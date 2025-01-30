@@ -3,7 +3,7 @@ import { useLayoutContext } from '@/context/layout-context'
 import { useUploadContext } from '@/context/upload-context'
 import DocumentUploader from './document-uploader'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface FormData {
   documentType: string
@@ -35,12 +35,6 @@ export default function ComplianceStep({
 
   const handleUpload = (documentKey: string, newFiles: File[]) => {
     addFiles(documentKey, newFiles)
-  }
-
-  const router = useRouter()
-
-  const handleClick = () => {
-    router.push('/support')
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -127,20 +121,20 @@ export default function ComplianceStep({
       </div> */}
 
       <section className="flex flex-row justify-between items-center rounded-xl">
-        <button
-          className="border border-gray-500 rounded-md py-2 flex justify-center font-light text-sm w-1/3"
-          onClick={handleClick}
+        <Link
+          className="border border-gray-500 rounded-md py-2 md:flex hidden justify-center font-light text-sm md:w-1/3"
+          href={'/support'}
         >
           <p>{texts.support}</p>
-        </button>
-        <div className="flex flex-row space-x-1 items-center justify-center w-1/3 text-primary">
+        </Link>
+        <div className="flex flex-row space-x-1 items-center justify-center text-sm md:w-1/3 text-primary">
           <p>{`${texts.step} ${step} ${texts.from} ${totalSteps}`}</p>
         </div>
-        <div className="flex flex-row items-center justify-end gap-4 w-1/3">
+        <div className="flex flex-row items-center justify-end gap-4 md:w-1/3">
           {!isFirstStep && (
             <button
               onClick={onPrev}
-              className="uppercase text-zinc-500 font-medium hover:text-zinc-300"
+              className="uppercase text-zinc-500 font-medium hover:text-zinc-300 text-sm"
             >
               {texts.previo}
             </button>

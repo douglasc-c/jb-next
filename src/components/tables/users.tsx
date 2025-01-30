@@ -64,20 +64,20 @@ export function UsersTable({ data }: MyVenturesProps) {
 
   return (
     <section className="h-auto w-full p-4">
-      <div className="overflow-auto">
+      <div className="custom-scroll max-h-[40rem]">
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium">
+              <th className="px-4 py-2 text-left text-xs font-medium">
                 {texts.name}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center text-xs font-medium">
                 {texts.type}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center text-xs font-medium">
                 {texts.compliance}
               </th>
-              <th className="px-4 py-2 text-center text-sm font-medium">
+              <th className="px-4 py-2 text-center text-xs font-medium">
                 {texts.seeMore}
               </th>
             </tr>

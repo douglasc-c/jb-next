@@ -140,6 +140,8 @@ export interface LayoutAdminContextProps {
     viewContract: string
     signalContract: string
     send: string
+    signedIn: string
+    generateSignature: string
   }
 
   locale: string

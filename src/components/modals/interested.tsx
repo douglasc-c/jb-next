@@ -78,9 +78,7 @@ export function InterestedDetails({
     <>
       <div className="flex flex-col p-5 bg-zinc-200 rounded-xl justify-around w-full space-y-6">
         <div className="flex justify-between">
-          <h2 className="uppercase font-medium text-zinc-300">
-            {texts.interested}
-          </h2>
+          <h2 className="uppercase font-medium ">{texts.interested}</h2>
           <button onClick={onClose} className="text-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,24 +102,18 @@ export function InterestedDetails({
               key={interest.interestId}
               className={`space-y-4 ${index !== interests.length - 1 ? 'border-b border-zinc-400 pb-4' : ''}`}
             >
-              <div className="grid grid-flow-row gap-y-1 items-center text-sm text-zinc-300">
+              <div className="grid grid-flow-row gap-y-1 items-center text-sm ">
                 <p>
-                  <span className="font-medium text-zinc-200">
-                    {texts.user}:
-                  </span>{' '}
+                  <span className="font-medium">{texts.user}:</span>{' '}
                   {interest.user.firstName} {interest.user.lastName}
                 </p>
                 <p>{interest.user.email}</p>
                 <p>
-                  <span className="font-medium text-zinc-200">
-                    {texts.interestDate}:
-                  </span>{' '}
+                  <span className="font-medium">{texts.interestDate}:</span>{' '}
                   {new Date(interest.createdAt).toLocaleDateString()}
                 </p>
                 <p>
-                  <span className="font-medium text-zinc-200">
-                    {texts.status}:
-                  </span>{' '}
+                  <span className="font-medium">{texts.status}:</span>{' '}
                   {interest.status}
                 </p>
               </div>
