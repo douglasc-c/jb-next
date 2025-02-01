@@ -7,6 +7,7 @@ import { FinancialTab } from '../tabs/financial'
 import { usePathname } from 'next/navigation'
 import DeleteModal from './delete'
 import CompleanceImage from '../tabs/compliance-imagens'
+import axios from 'axios'
 
 interface UserData {
   firstName: string
@@ -58,7 +59,8 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [reason, setReason] = useState('')
-
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [activeTab, setActiveTab] = useState<
     'user' | 'address' | 'financial' | 'compliance'
   >('user')
@@ -97,11 +99,12 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     } else {
       setEditableData((prev) => ({ ...prev, [field]: value }))
     }
+    setError('')
+    setSuccess('')
   }
 
   const handleSave = async () => {
-    setIsEditing(false)
-
+    setIsEditing(true)
     try {
       let response
 
@@ -131,16 +134,32 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       }
 
       if (response?.status === 200 || response?.status === 201) {
-        console.log('Update successful', response.data)
+        setSuccess(response.data.message)
       } else {
         console.error('Failed to update data', response)
       }
     } catch (error) {
-      console.error('Error while updating:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      setIsEditing(false)
     }
   }
 
   const handleCompliance = async (status: string) => {
+    setIsEditing(true)
     try {
       const response = await api.put(
         `admin/updatecompliance/${editableData.id}`,
@@ -149,7 +168,22 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       console.log('Compliance atualizado com sucesso:', response.data)
       onClose()
     } catch (error) {
-      console.error('Erro ao atualizar compliance:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      setIsEditing(false)
     }
   }
 
@@ -168,6 +202,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         ...user.address,
       },
     })
+    setSuccess('')
     setIsEditing(false)
   }
 
@@ -175,10 +210,25 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
     try {
       await api.delete(`/admin/user/${editableData.id}/delete`)
     } catch (error) {
-      console.error('Erro ao deletar:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
+      setIsEditing(false)
       closeModalDelete()
       setIsModalDeleteOpen(false)
+      setSuccess('')
       onClose()
     }
   }
@@ -278,49 +328,55 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
         {activeTab === 'compliance' && <CompleanceImage images={images} />}
       </div>
 
-      <div className="flex justify-end mt-4 space-x-4">
-        {isEditing && activeTab !== 'compliance' && (
-          <button
-            onClick={handleCancel}
-            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
-          >
-            {texts.cancel}
-          </button>
-        )}
+      <div className="flex flex-col justify-end gap-2">
+        {success && <p className=" text-green-600 text-sm">{success}</p>}
+        {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
+        <div className="flex flex-row gap-2 w-full">
+          {isEditing && activeTab !== 'compliance' && (
+            <button
+              onClick={handleCancel}
+              className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+            >
+              {texts.cancel}
+            </button>
+          )}
 
-        {route !== 'interests' && activeTab !== 'compliance' && (
-          <button
-            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-            className="bg-primary text-zinc-200 py-2 rounded-lg text-sm w-full"
-          >
-            {isEditing ? texts.save : texts.edit}
-          </button>
-        )}
+          {route !== 'interests' && activeTab !== 'compliance' && (
+            <button
+              onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+              className="bg-primary text-zinc-200 py-2 rounded-lg text-sm w-full"
+            >
+              {isEditing ? texts.save : texts.edit}
+            </button>
+          )}
+        </div>
 
         {editableData.complianceStatus !== 'APPROVED' &&
           !isAllNull &&
           route !== 'interests' &&
           activeTab === 'compliance' && (
-            <div className="flex w-full space-x-4">
-              <textarea
-                placeholder="Escreva uma mensagem"
-                className="w-full px-3 py-2 border border-gray-600 rounded-lg placeholder-gray-300 bg-transparent text-gray-300 focus:outline-none focus:z-10 sm:text-sm"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-              <div className="space-y-4">
-                <button
-                  onClick={() => handleCompliance('REJECTED')}
-                  className="bg-red-600 text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
-                >
-                  {texts.reject}
-                </button>
-                <button
-                  onClick={() => handleCompliance('APPROVED')}
-                  className="bg-primary text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
-                >
-                  {texts.approve}
-                </button>
+            <div className="flex flex-col w-full space-y-2">
+              <div className="flex w-full space-x-4">
+                <textarea
+                  placeholder="Escreva uma mensagem"
+                  className="w-full px-3 py-2 border border-gray-600 rounded-lg placeholder-gray-300 bg-transparent focus:outline-none focus:z-10 sm:text-sm"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                />
+                <div className="space-y-4">
+                  <button
+                    onClick={() => handleCompliance('REJECTED')}
+                    className="bg-red-600 text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
+                  >
+                    {texts.reject}
+                  </button>
+                  <button
+                    onClick={() => handleCompliance('APPROVED')}
+                    className="bg-primary text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
+                  >
+                    {texts.approve}
+                  </button>
+                </div>
               </div>
             </div>
           )}

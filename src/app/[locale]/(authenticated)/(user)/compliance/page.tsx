@@ -8,6 +8,7 @@ import Image from 'next/image'
 import api from '@/lib/api'
 import { useAuthContext } from '@/context/auth-context'
 import { Loading } from '@/components/loading/loading'
+import axios from 'axios'
 
 interface FormData {
   documentType: string
@@ -17,9 +18,11 @@ export default function Compliance() {
   const { authData, isLoadingAuthData } = useAuthContext()
   const { texts } = useLayoutContext()
   const { files, addFiles } = useUploadContext()
-
   const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
   const [currentStep, setCurrentStep] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const steps = [
     {
@@ -71,6 +74,7 @@ export default function Compliance() {
   }
 
   const handleFormDataUpdate = (updatedFormData: FormData) => {
+    setLoading(true)
     setFormData(updatedFormData)
   }
 
@@ -101,9 +105,25 @@ export default function Compliance() {
         },
       })
 
+      setSuccess(response.data)
       console.log('Resposta do servidor:', response.data)
     } catch (error) {
-      console.error('Erro ao enviar os documentos:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -115,6 +135,22 @@ export default function Compliance() {
     )
   }
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <Loading loading={true} width={300} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <p>{error}</p>
+      </div>
+    )
+  }
+  console.log(success)
   return (
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">

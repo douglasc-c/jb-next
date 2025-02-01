@@ -47,6 +47,7 @@ interface ContractInterest {
 interface InterestedDetailsProps {
   interests: ContractInterest[]
   mode: string
+  error: string
   setMode: (value: string) => void
   onClick: (interestId: string, userId: string, status: string) => void
   onClose: () => void
@@ -59,6 +60,7 @@ export function InterestedDetails({
   onClose,
   updating,
   mode,
+  error,
   setMode,
 }: InterestedDetailsProps) {
   const { texts } = useLayoutAdminContext()
@@ -76,7 +78,7 @@ export function InterestedDetails({
 
   return (
     <>
-      <div className="flex flex-col p-5 bg-zinc-200 rounded-xl justify-around w-full space-y-6">
+      <div className="flex flex-col p-5 bg-zinc-200 rounded-xl justify-around w-full space-y-6 custom-scroll max-h-[40rem]">
         <div className="flex justify-between">
           <h2 className="uppercase font-medium ">{texts.interested}</h2>
           <button onClick={onClose} className="text-gray-500">
@@ -142,7 +144,7 @@ export function InterestedDetails({
                     }}
                   />
                 </div>
-
+                {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
                 <div className="flex space-x-2 w-full items-center">
                   <button
                     onClick={() =>

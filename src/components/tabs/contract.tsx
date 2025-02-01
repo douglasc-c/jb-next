@@ -76,7 +76,7 @@ export const ContractTab: React.FC<ContractTabProps> = ({
 
   const handleOpenPdf = () => {
     if (links?.pdfUrl) {
-      window.open(links.pdfUrl, '_blank')
+      window.open(links.pdfUrl, '_blank', 'noopener,noreferrer')
     }
   }
 
@@ -90,7 +90,7 @@ export const ContractTab: React.FC<ContractTabProps> = ({
         const linkAdmin = response.data.adminSigningUrl
 
         if (linkAdmin) {
-          window.open(linkAdmin, '_blank')
+          window.open(linkAdmin, '_blank', 'noopener,noreferrer')
         }
       }
     } catch (error) {

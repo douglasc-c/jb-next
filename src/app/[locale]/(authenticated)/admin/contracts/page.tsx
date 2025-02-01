@@ -8,6 +8,7 @@ import api from '@/lib/api'
 import AddContractModal from '@/components/modals/add-contract'
 import Image from 'next/image'
 import ContractsList from '@/components/tables/contracts'
+import axios from 'axios'
 
 interface Signature {
   signedAt: string
@@ -70,22 +71,6 @@ export default function Contract() {
     setIsModalOpen(true)
   }
 
-  const openContract = async (templateType: string) => {
-    try {
-      const response = await api.get(`/users/contracts/view/${templateType}`)
-
-      if (response.status === 200 && response.data.pdfUrl) {
-        window.open(response.data.pdfUrl, '_blank', 'noopener,noreferrer')
-      } else {
-        setError(response.data.message || 'Erro ao abrir o contrato')
-      }
-    } catch (err) {
-      setError('Erro na comunicação com a API')
-    } finally {
-      setLoadingButton(false)
-    }
-  }
-
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -104,6 +89,35 @@ export default function Contract() {
         ...prev,
         [name]: value,
       }))
+    }
+  }
+
+  const openContract = async (templateType: string) => {
+    try {
+      const response = await api.get(`/users/contracts/view/${templateType}`)
+
+      if (response.status === 200 && response.data.pdfUrl) {
+        window.open(response.data.pdfUrl, '_blank', 'noopener,noreferrer')
+      } else {
+        setError(response.data.message || 'Erro ao abrir o contrato')
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      setLoadingButton(false)
     }
   }
 
@@ -134,16 +148,28 @@ export default function Contract() {
       const response = await api.post('/admin/upload/contract/template', data)
 
       if (response.status === 200) {
-        closeModal()
         await fetchContractPending()
-        setLoadingButton(false)
       } else {
         setError(response.data.message || 'Erro ao adicionar contrato')
-        setLoadingButton(false)
       }
-    } catch (err) {
-      setError('Erro na comunicação com a API')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
       setLoadingButton(false)
+      closeModal()
     }
   }
 
@@ -151,8 +177,21 @@ export default function Contract() {
     try {
       const response = await api.get('/admin/contract/pending')
       setContracts(response.data.enterprises)
-    } catch (err) {
-      console.error('Erro ao buscar categorias de FAQ:', err)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setLoading(false)
     }

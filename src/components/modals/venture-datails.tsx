@@ -8,6 +8,7 @@ import SelectWithToggle from '../tabs/stages'
 import { usePathname } from 'next/navigation'
 import ValuationForm from '../tabs/valuation'
 import { ContractTab } from '../tabs/contract'
+import axios from 'axios'
 
 interface CurrentPhase {
   id: number
@@ -109,7 +110,8 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   const [mode, setMode] = useState<string>('consulting')
   const [valuationData, setValuationData] = useState(null)
   const [urls, setUrls] = useState<Links | null>(null)
-
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [activeTab, setActiveTab] = useState<
     'overview' | 'images' | 'tasks' | 'valuation' | 'contract'
   >('overview')
@@ -161,7 +163,8 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
             [field]: value,
           }))
         }
-
+        setError('')
+        setSuccess('')
         return { ...prev, [key]: value }
       } else {
         console.warn(`Field "${field}" is not a valid property of Venture.`)
@@ -191,15 +194,29 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
       } else if (activeTab === 'contract') {
         response = await handleContractUpdate()
       }
-      console.log(response)
       if (response?.status === 200 || response?.status === 201) {
-        console.log('Update successful:', response.data)
+        console.log('Update successful:', response.data.message)
+        setSuccess(response.data.message)
       } else {
         console.error('Failed to update data:', response)
       }
     } catch (error) {
-      console.error('Error while updating:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
+      setIsEditing(false)
       resetState()
     }
   }
@@ -222,7 +239,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
       uploadedFiles.forEach((file) => formData.append('images', file))
 
       await api.put(`/admin/images-enterprise/${editableData.id}`, formData)
-      console.log('Imagens enviadas com sucesso.')
     } else {
       console.log('Nenhuma imagem para upload.')
     }
@@ -233,7 +249,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
       })
     } else {
       console.log('Nenhuma imagem para deletar.')
-      return null
     }
   }
 
@@ -250,7 +265,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         },
       )
       setValuationData(response.data.data)
-      console.log('Resposta da API:', response.data)
     } catch (error) {
       console.error('Erro:', error)
     }
@@ -269,7 +283,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         },
       )
       setValuationData(response.data.data)
-      console.log('Resposta da API:', response.data)
     } catch (error) {
       console.error('Erro:', error)
     }
@@ -448,7 +461,8 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           />
         )}
       </div>
-
+      {success && <p className=" text-green-600 text-sm">{success}</p>}
+      {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
       {route !== 'interests' &&
         activeTab !== 'tasks' &&
         activeTab !== 'contract' &&

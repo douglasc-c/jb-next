@@ -4,6 +4,7 @@ import { VentureCard } from '@/components/cards/venture'
 import { Loading } from '@/components/loading/loading'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
+import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -11,6 +12,7 @@ export default function ConstructionCircuit() {
   const { texts } = useLayoutContext()
   const [enterprises, setEnterprises] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchConstructionCircuit = async () => {
@@ -19,8 +21,21 @@ export default function ConstructionCircuit() {
         const fetchedEnterprises = response.data
 
         setEnterprises(fetchedEnterprises)
-      } catch (err) {
-        console.error('Erro ao buscar dados do circuito contrutivo:', err)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response &&
+            error.response.data &&
+            typeof error.response.data.error === 'string'
+          ) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.response?.data.message)
+          }
+        } else {
+          setError('Erro inesperado ao conectar ao servidor.')
+        }
+        console.error('Erro na requisição:', error)
       } finally {
         setLoading(false)
       }
@@ -36,6 +51,15 @@ export default function ConstructionCircuit() {
       </div>
     )
   }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <p>{error}</p>
+      </div>
+    )
+  }
+
   if (enterprises.length === 0) {
     return (
       <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">

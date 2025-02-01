@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { useLayoutContext } from '@/context/layout-context'
 import { useUploadContext } from '@/context/upload-context'
 import DocumentUploader from './document-uploader'
-import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface FormData {
   documentType: string
@@ -24,16 +25,26 @@ export default function ComplianceStep({
   onPrev: () => void
   isFirstStep: boolean
   isLastStep: boolean
-  onFileUpload: (newFiles: File[]) => void
   step: number
   totalSteps: number
   onFormDataUpdate: (formData: FormData) => void
+  onFileUpload?: (newFiles: File[]) => void
 }) {
   const { texts } = useLayoutContext()
   const { addFiles } = useUploadContext()
   const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
+  const [uploadedImages, setUploadedImages] = useState<{
+    [key: string]: string
+  }>({})
 
   const handleUpload = (documentKey: string, newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      const fileUrl = URL.createObjectURL(newFiles[0]) // Cria um preview da imagem
+      setUploadedImages((prev) => ({
+        ...prev,
+        [documentKey]: fileUrl, // Salva a imagem correspondente ao step
+      }))
+    }
     addFiles(documentKey, newFiles)
   }
 
@@ -56,6 +67,7 @@ export default function ComplianceStep({
     'proofOfAddress',
     'incomeTaxProof',
   ]
+
   return (
     <div className="flex flex-col p-10 bg-zinc-200 rounded-xl space-y-6">
       <h1 className="text-xl font-semibold">{texts.verifyYourIdentity}</h1>
@@ -73,52 +85,36 @@ export default function ComplianceStep({
               className="border border-gray-500 rounded-md px-4 py-2 flex w-full bg-zinc-300 font-light text-sm text-zinc-400 outline-none"
               required
             >
-              <option value="RG">{'RG'}</option>
-              <option value="CNH">{'CNH'}</option>
-              <option value="PASSPORT">{'PASSPORT'}</option>
+              <option value="RG">RG</option>
+              <option value="CNH">CNH</option>
+              <option value="PASSPORT">PASSPORT</option>
             </select>
           </div>
         </section>
       )}
 
       {step > 0 && step <= documentSteps.length && (
-        <DocumentUploader
-          onUpload={handleUpload}
-          attachLabel={texts.attach}
-          dragHint={documentStepsText[step - 1]}
-          documentKey={documentSteps[step - 1]}
-        />
+        <div className="flex flex-col items-center space-y-4">
+          {uploadedImages[documentSteps[step - 1]] ? (
+            // Se a imagem foi enviada, exibir a prévia
+            <Image
+              src={uploadedImages[documentSteps[step - 1]]}
+              width={150}
+              height={150}
+              alt="Uploaded Document"
+              className="rounded-md"
+            />
+          ) : (
+            // Caso contrário, exibir o componente de upload
+            <DocumentUploader
+              onUpload={handleUpload}
+              attachLabel={texts.attach}
+              dragHint={documentStepsText[step - 1]}
+              documentKey={documentSteps[step - 1]}
+            />
+          )}
+        </div>
       )}
-
-      {/* <div className="image-gallery">
-        {Object.keys(files).map((documentKey) => {
-          const documentFiles = files[documentKey]
-
-          return (
-            <div key={documentKey} className="mb-4">
-              <h3 className="text-lg font-semibold">{documentKey}</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {documentFiles.map((file, index) => {
-                  // const isImageSelected = isSelected.includes(file.url)
-                  console.log(file)
-                  return (
-                    <div key={index} className="relative">
-                      <Image
-                        src={`https://pictures-compliance.fra1.digitaloceanspaces.com/${file.name}`}
-                        alt={`Image ${index + 1}`}
-                        width={100}
-                        height={100}
-                        // className={`rounded-lg cursor-pointer ${isImageSelected ? 'border-4 border-blue-500' : ''}`}
-                        // onClick={() => openImage(file)} // Exibe a imagem ao clicar
-                      />
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )
-        })}
-      </div> */}
 
       <section className="flex flex-row justify-between items-center rounded-xl">
         <Link
