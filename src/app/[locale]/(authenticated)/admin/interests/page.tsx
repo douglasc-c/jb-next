@@ -4,6 +4,7 @@ import { Loading } from '@/components/loading/loading'
 import { InterestsTable } from '@/components/tables/interests'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import api from '@/lib/api'
+import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -96,6 +97,7 @@ export default function Interests() {
   const { texts } = useLayoutAdminContext()
   const [loading, setLoading] = useState(true)
   const [ventures, setVentures] = useState<Venture[]>([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchVentures = async () => {
@@ -104,8 +106,21 @@ export default function Interests() {
         const fetchedVentures: Venture[] = response.data.enterprises
 
         setVentures(fetchedVentures)
-      } catch (err) {
-        console.error('Erro ao buscar empreendimentos:', err)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response &&
+            error.response.data &&
+            typeof error.response.data.error === 'string'
+          ) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.response?.data.message)
+          }
+        } else {
+          setError('Erro inesperado ao conectar ao servidor.')
+        }
+        console.error('Erro na requisição:', error)
       } finally {
         setLoading(false)
       }
@@ -118,6 +133,14 @@ export default function Interests() {
     return (
       <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <p>{error}</p>
       </div>
     )
   }

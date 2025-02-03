@@ -28,13 +28,9 @@ export default function SignIn() {
     }))
   }
 
-  const fetchTokenEmail = async (token: string) => {
+  const fetchTokenEmail = async () => {
     try {
-      await api.get('users/geratetoken', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      await api.get('users/geratetoken')
     } catch (error) {
       setError('Erro ao gerar token de email. Por favor, tente novamente.')
     }
@@ -62,7 +58,7 @@ export default function SignIn() {
           setAuthData({ token, user, mustChangePassword })
           document.cookie = `auth-token=${token}; Max-Age=${60 * 60}; path=/; SameSite=Strict`
           if (user.complianceStatus === 'PENDING_EMAIL') {
-            await fetchTokenEmail(token)
+            await fetchTokenEmail()
             setIsTokenModalOpen(true)
             return
           }
@@ -70,13 +66,11 @@ export default function SignIn() {
           const roleRoutes: { [key: string]: string } = {
             ADMIN: '/admin/users',
             USER: '/dashboard',
-            MODERATOR: '/moderator/tools',
           }
 
           switch (user.role) {
             case 'ADMIN':
             case 'USER':
-            case 'MODERATOR':
               router.push(roleRoutes[user.role])
               break
             default:
@@ -92,7 +86,7 @@ export default function SignIn() {
         setError('Falha no login.')
         console.error('Falha no login:', response.statusText)
       }
-    } catch (error: unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
           error.response &&
@@ -101,7 +95,7 @@ export default function SignIn() {
         ) {
           setError(error.response.data.error)
         } else {
-          setError('Erro inesperado ao conectar ao servidor.')
+          setError(error.response?.data.message)
         }
       } else {
         setError('Erro inesperado ao conectar ao servidor.')

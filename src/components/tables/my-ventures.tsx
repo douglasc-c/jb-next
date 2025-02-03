@@ -95,7 +95,7 @@ export function MyVenturesTable({ data }: MyVenturesTableProps) {
     setIsModalOpen(false)
     setSelectedContract(null)
   }
-  console.log(data)
+
   return (
     <section className="h-auto w-full p-4">
       <div className="overflow-auto">

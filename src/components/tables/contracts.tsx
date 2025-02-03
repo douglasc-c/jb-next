@@ -1,6 +1,7 @@
 import { useAuthContext } from '@/context/auth-context'
 import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import api from '@/lib/api'
+import axios from 'axios'
 import React, { useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
@@ -35,6 +36,7 @@ export default function ContractsList({ companies }: ContractsListProps) {
   const { texts } = useLayoutAdminContext()
   const { authData } = useAuthContext()
   const [isSigning, setIsSigning] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSignContract = async (companyId: number) => {
     setIsSigning(true)
@@ -45,11 +47,24 @@ export default function ContractsList({ companies }: ContractsListProps) {
       if (response.status === 200) {
         const linkAdmin = response.data.adminSigningUrl
         if (linkAdmin) {
-          window.open(linkAdmin, '_blank')
+          window.open(linkAdmin, '_blank', 'noopener,noreferrer')
         }
       }
     } catch (error) {
-      console.error('Erro no upload:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setIsSigning(false)
     }
@@ -60,6 +75,7 @@ export default function ContractsList({ companies }: ContractsListProps) {
       {companies.map((company) => (
         <div key={company.id} className="p-4 bg-zinc-200 rounded-lg">
           <h2 className="md:text-lgbase font-medium">{company.name}</h2>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
           <div className="custom-scroll">
             <table className="table-auto w-full border-collapse text-sm">
               <thead className="uppercase border-b border-zinc-500 bg-zinc-300">

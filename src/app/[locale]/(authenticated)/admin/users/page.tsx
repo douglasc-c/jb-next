@@ -9,6 +9,7 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { Loading } from '@/components/loading/loading'
 import Search from '@/components/searchs/search'
 import Image from 'next/image'
+import axios from 'axios'
 
 interface User {
   firstName: string
@@ -109,16 +110,28 @@ export default function Users() {
         const newUser = response.data.user
         setUsers((prevUsers) => [...prevUsers, newUser])
         setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
-        fetchUsers()
-        setLoadingButton(false)
-        closeModal()
       } else {
-        setLoadingButton(false)
         setError(response.data.message || 'Erro ao adicionar usuário')
       }
-    } catch (err) {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      fetchUsers()
       setLoadingButton(false)
-      setError('Erro na comunicação com a API')
+      closeModal()
     }
   }
 
@@ -149,8 +162,20 @@ export default function Users() {
       setUsers(fetchedUsers)
       setFilteredUsers(fetchedUsers)
       setTotals(computedTotals)
-    } catch (err) {
-      console.error('Erro ao buscar usuários:', err)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
     } finally {
       setLoading(false)
     }

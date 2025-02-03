@@ -9,6 +9,7 @@ import { VenturesTable } from '@/components/tables/ventures'
 import { Loading } from '@/components/loading/loading'
 import Search from '@/components/searchs/search'
 import Image from 'next/image'
+import axios from 'axios'
 
 interface CurrentPhase {
   id: number
@@ -182,7 +183,7 @@ export default function Ventures() {
   const handleSubmit = async (e: React.FormEvent) => {
     setLoadingButton(true)
     e.preventDefault()
-    console.log(formData)
+
     try {
       const response = await api.post('/admin/create-enterprise', formData, {
         headers: {
@@ -218,15 +219,28 @@ export default function Ventures() {
           startDate: '',
           images: [],
         })
-        setLoadingButton(false)
-        closeModal()
       } else {
         setError(response.data.message || 'Erro ao adicionar empreendimento')
-        setLoadingButton(false)
       }
     } catch (error) {
-      console.error('Erro ao enviar:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
       setLoadingButton(false)
+      fetchVentures()
+      closeModal()
     }
   }
 
@@ -284,8 +298,21 @@ export default function Ventures() {
       )
       setFilteredVentures(fetchedVentures)
       setTotals(computedTotals)
-    } catch (err) {
-      console.error('Erro ao buscar empreendimentos:', err)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setLoading(false)
     }

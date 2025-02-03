@@ -5,6 +5,7 @@ import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { InterestedDetails } from '../modals/interested'
 import api from '@/lib/api'
 import { VentureDetails } from '../modals/venture-datails'
+import axios from 'axios'
 
 interface User {
   firstName: string
@@ -102,6 +103,7 @@ export function InterestsTable({ data }: MyVenturesProps) {
   const [isInterestedModalOpen, setIsInterestedModalOpen] = useState(false)
   const [updating, setUpdating] = useState<string | null>(null)
   const [mode, setMode] = useState<string>('TYPE1')
+  const [error, setError] = useState('')
 
   const openDetailsModal = (row: Venture) => {
     setSelectedContract(row)
@@ -133,9 +135,22 @@ export function InterestsTable({ data }: MyVenturesProps) {
         userId,
         templateType: mode,
       })
-      console.log(response)
+      console.log('aqui', response)
     } catch (error) {
-      console.error('Erro ao atualizar o status:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setUpdating(null)
       setIsInterestedModalOpen(false)
@@ -155,7 +170,9 @@ export function InterestsTable({ data }: MyVenturesProps) {
       })
 
       if (response.status === 200) {
-        autoFill(interestId, userId)
+        if (status === 'APPROVED') {
+          autoFill(interestId, userId)
+        }
         setSelectedContract((prev) => {
           if (!prev) return prev
 
@@ -176,8 +193,20 @@ export function InterestsTable({ data }: MyVenturesProps) {
         })
       }
     } catch (error) {
-      console.error('Erro ao atualizar o status:', error)
-      alert('Erro ao atualizar o status. Tente novamente.')
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setUpdating(null)
       setIsInterestedModalOpen(false)
@@ -185,7 +214,7 @@ export function InterestsTable({ data }: MyVenturesProps) {
   }
 
   return (
-    <section className="h-auto w-full p-4">
+    <section className="h-[40rem] w-full p-4 custon-scroll">
       <div className="overflow-auto">
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
@@ -245,6 +274,7 @@ export function InterestsTable({ data }: MyVenturesProps) {
               onClose={closeInterestedModal}
               onClick={handleClick}
               mode={mode}
+              error={error}
               setMode={setMode}
               updating={updating}
             />

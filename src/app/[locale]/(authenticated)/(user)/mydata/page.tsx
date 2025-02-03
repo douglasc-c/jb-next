@@ -4,6 +4,7 @@ import { InputField } from '@/components/inputs/input-field'
 import { Loading } from '@/components/loading/loading'
 import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
+import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -37,6 +38,8 @@ export default function MyData() {
     currentPassword: '',
     newPassword: '',
   })
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState<
     'overview' | 'address' | 'password'
@@ -157,12 +160,8 @@ export default function MyData() {
         Object.keys(changedData).length === 0 &&
         Object.keys(changedPass).length === 0
       ) {
-        console.log('Nenhuma alteração detectada.')
         return null
       }
-
-      // Caso contrário, prossegue com a lógica
-      console.log('Alterações detectadas:', { changedData, changedPass })
 
       if (activeTab === 'overview') {
         response = await api.post(`/users/update/profile`, {
@@ -183,12 +182,27 @@ export default function MyData() {
       }
 
       if (response?.status === 200 || response?.status === 201) {
-        console.log('Update successful', response.data)
+        setSuccess(response.data.message)
       } else {
         console.error('Failed to update data', response)
       }
     } catch (error) {
-      console.error('Error while updating:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -224,8 +238,21 @@ export default function MyData() {
 
         setUserData(fetchedUserData)
         setEditableData(fetchedUserData)
-      } catch (err) {
-        console.error('Erro ao buscar dados do usuario:', err)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response &&
+            error.response.data &&
+            typeof error.response.data.error === 'string'
+          ) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.response?.data.message)
+          }
+        } else {
+          setError('Erro inesperado ao conectar ao servidor.')
+        }
+        console.error('Erro na requisição:', error)
       } finally {
         setLoading(false)
       }
@@ -242,13 +269,21 @@ export default function MyData() {
     )
   }
 
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <p>{error}</p>
+      </div>
+    )
+  }
+
   return (
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.myData}</h1>
         <div className="flex flex-col rounded-lg space-y-6 bg-zinc-200 p-6">
           <div className="w-full flex flex-row">
-            <section className="md:flex hidden justify-center items-start md:w-1/5">
+            <section className="md:flex hidden justify-center items-start">
               <Image
                 src="/images/svg/avatar.svg"
                 width={110}
@@ -452,6 +487,8 @@ export default function MyData() {
                   )}
                 </div>
               </section>
+              {success && <p className=" text-green-600 text-sm">{success}</p>}
+              {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
             </div>
           </div>
           <span className="border-[0.5px] border-zinc-500" />

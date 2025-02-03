@@ -9,6 +9,7 @@ import api from '@/lib/api'
 import { Loading } from '@/components/loading/loading'
 import Image from 'next/image'
 import { MyVenturesTable } from '@/components/tables/my-ventures'
+import axios from 'axios'
 
 interface PieChart {
   houses: number
@@ -102,6 +103,7 @@ export default function Dashboard() {
   const [totalValution, setTotalValution] = useState(0)
   const [enterpriseCount, setEnterpriseCount] = useState(0)
   const [recentEnterprises, setRecentEnterprises] = useState<Venture[]>([])
+  const [error, setError] = useState('')
   const [userRecentEnterprises, setUserRecentEnterprises] = useState<Venture[]>(
     [],
   )
@@ -134,8 +136,21 @@ export default function Dashboard() {
         setEnterpriseCount(fetchedEnterpriseCount)
         setRecentEnterprises(fetchedRecentEnterprises)
         setUserRecentEnterprises(fetchedUserRecentEnterprises)
-      } catch (err) {
-        console.error('Erro ao buscar dados do dashboard:', err)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response &&
+            error.response.data &&
+            typeof error.response.data.error === 'string'
+          ) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.response?.data.message)
+          }
+        } else {
+          setError('Erro inesperado ao conectar ao servidor.')
+        }
+        console.error('Erro na requisição:', error)
       } finally {
         setLoading(false)
       }
@@ -148,6 +163,14 @@ export default function Dashboard() {
     return (
       <div className="flex justify-center items-center h-screen bg-zinc-200">
         <Loading loading={loading} width={300} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-zinc-200">
+        <p>{error}</p>
       </div>
     )
   }
