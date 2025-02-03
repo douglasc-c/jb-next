@@ -183,7 +183,7 @@ export default function Ventures() {
   const handleSubmit = async (e: React.FormEvent) => {
     setLoadingButton(true)
     e.preventDefault()
-    console.log(formData)
+
     try {
       const response = await api.post('/admin/create-enterprise', formData, {
         headers: {

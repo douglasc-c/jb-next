@@ -47,12 +47,10 @@ export default function ContractsList({ companies }: ContractsListProps) {
       if (response.status === 200) {
         const linkAdmin = response.data.adminSigningUrl
         if (linkAdmin) {
-          console.log(linkAdmin)
           window.open(linkAdmin, '_blank', 'noopener,noreferrer')
         }
       }
     } catch (error) {
-      console.log(error)
       if (axios.isAxiosError(error)) {
         if (
           error.response &&

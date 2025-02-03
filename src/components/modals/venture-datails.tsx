@@ -152,7 +152,6 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           }))
         } else if (field === 'startDate' || field === 'completionDate') {
           const dateValue = value ? new Date(value as string) : null
-          console.log(dateValue)
           setChangedData((prevState) => ({
             ...prevState,
             [field]: dateValue,

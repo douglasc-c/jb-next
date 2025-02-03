@@ -59,11 +59,11 @@ export default function Support() {
 
     const results = categories.filter(
       (category) =>
-        category.name.toLowerCase().includes(query.toLowerCase()) || // Busca no nome da categoria
+        category.name.toLowerCase().includes(query.toLowerCase()) ||
         category.faqs.some(
           (faq) =>
-            faq.question.toLowerCase().includes(query.toLowerCase()) || // Busca nas perguntas
-            faq.answer.toLowerCase().includes(query.toLowerCase()), // Busca nas respostas
+            faq.question.toLowerCase().includes(query.toLowerCase()) ||
+            faq.answer.toLowerCase().includes(query.toLowerCase()),
         ),
     )
 
@@ -96,8 +96,22 @@ export default function Support() {
         setError(response.data.message || 'Erro ao adicionar FAQ')
         setLoadingButton(false)
       }
-    } catch (err) {
-      setError('Erro na comunicação com a API')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
+    } finally {
       setLoadingButton(false)
     }
   }

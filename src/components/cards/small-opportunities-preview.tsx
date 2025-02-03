@@ -77,7 +77,7 @@ export function SmallOpportunitiesPreview({
   onClick,
 }: OpportunitiesPreviewProps) {
   const { texts } = useLayoutContext()
-  // console.log(data)
+
   return (
     <div className="flex flex-col p-3 bg-zinc-200 rounded-xl h-auto justify-around w-full">
       <section className="hidden md:block w-full h-16 relative">

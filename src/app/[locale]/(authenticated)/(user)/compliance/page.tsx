@@ -150,24 +150,27 @@ export default function Compliance() {
       </div>
     )
   }
-  console.log(success)
+
   return (
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
         <h1 className="uppercase font-medium">{texts.compliance}</h1>
 
         {authData?.user.complianceStatus !== 'UNDER_REVIEW' ? (
-          <ComplianceStep
-            buttonLabel={steps[currentStep].buttonLabel}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            isFirstStep={currentStep === 0}
-            isLastStep={currentStep === steps.length - 1}
-            onFileUpload={handleFileUpload}
-            step={currentStep + 1}
-            totalSteps={steps.length}
-            onFormDataUpdate={handleFormDataUpdate}
-          />
+          <>
+            <ComplianceStep
+              buttonLabel={steps[currentStep].buttonLabel}
+              onNext={handleNext}
+              onPrev={handlePrev}
+              isFirstStep={currentStep === 0}
+              isLastStep={currentStep === steps.length - 1}
+              onFileUpload={handleFileUpload}
+              step={currentStep + 1}
+              totalSteps={steps.length}
+              onFormDataUpdate={handleFormDataUpdate}
+            />
+            {success && <p className=" text-green-600 text-sm">{success}</p>}
+          </>
         ) : (
           <div className="p-10 py-[10rem] bg-zinc-200 rounded-xl items-center justify-center">
             <div className="text-center space-y-4">

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { Loading } from '../loading/loading'
 import { PulseLoader } from 'react-spinners'
+import axios from 'axios'
 
 interface CurrentPhase {
   id: number
@@ -82,6 +83,7 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false)
   const [loading] = useState(true)
+  const [error, setError] = useState('')
   const [loadingButton, setLoadingButton] = useState(false)
   const [loadingSignature, setLoadingSignature] = useState(false)
 
@@ -119,7 +121,20 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
         console.error('Failed to update data', response)
       }
     } catch (error) {
-      console.error('Error while updating:', error)
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       onClick()
     }
@@ -131,7 +146,6 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       const response = await api.post(`/users/update/signature`, {
         enterpriseId: data.id,
       })
-      console.log(response)
 
       if (response.status === 200) {
         window.open(
@@ -142,8 +156,21 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       } else {
         console.log(response.data.message || 'Erro ao abrir o contrato')
       }
-    } catch (err) {
-      console.log('Erro na comunicação com a API', err)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setLoadingSignature(false)
     }
@@ -160,8 +187,21 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
       } else {
         console.log(response.data.message || 'Erro ao abrir o contrato')
       }
-    } catch (err) {
-      console.log('Erro na comunicação com a API')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data.error === 'string'
+        ) {
+          setError(error.response.data.error)
+        } else {
+          setError(error.response?.data.message)
+        }
+      } else {
+        setError('Erro inesperado ao conectar ao servidor.')
+      }
+      console.error('Erro na requisição:', error)
     } finally {
       setLoadingButton(false)
     }
@@ -255,6 +295,7 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
             <span className="font-light">{data.status}</span>
           </div> */}
           <div className="flex flex-col gap-4">
+            {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
             <button
               onClick={signalContract}
               className={`border rounded-full text-center border-primary text-primary py-3 bg-transparent ${data.clientSigningUrl ? '' : 'hidden'}`}
@@ -335,10 +376,8 @@ export function DetailsVentures({ data, onClick }: ContractProps) {
                 src={pdfUrl}
                 className="w-full h-full"
                 frameBorder="0"
-                // sandbox="allow-scripts allow-same-origin"
                 style={{
-                  overflow: 'auto', // Permite o scroll
-                  pointerEvents: 'none', // Bloqueia interações (cliques, seleção)
+                  overflow: 'auto',
                 }}
               ></iframe>
             ) : (
