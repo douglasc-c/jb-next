@@ -1,11 +1,11 @@
 import '@/app/globals.css'
 import { getLocale, getTranslations } from 'next-intl/server'
 // import Header from '@/components/header/header-admin'
+import Sidebar from '@/components/header/sidebar-admin'
 import {
   LayoutAdminContextProps,
   LayoutProvider,
 } from '@/context/layout-admin-context'
-import Sidebar from '@/components/header/sidebar-admin'
 
 const languages = ['pt-BR']
 export const dynamic = 'force-dynamic'
@@ -36,6 +36,7 @@ export default async function RootLayout({
     interests: t('TextLang.interests'),
     ventures: t('TextLang.ventures'),
     support: t('TextLang.support'),
+    wallet: t('TextLang.wallet'),
     signOut: t('TextLang.signOut'),
     contracts: t('TextLang.contracts'),
   }

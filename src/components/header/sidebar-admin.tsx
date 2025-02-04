@@ -1,8 +1,8 @@
 'use client'
+import { useAuthContext } from '@/context/auth-context'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import ButtonMenu from '../buttons/menu'
-import { useAuthContext } from '@/context/auth-context'
 
 interface User {
   avatar: string
@@ -33,6 +33,7 @@ interface SidebarProps {
     interests: string
     stages: string
     support: string
+    wallet: string
     signOut: string
   }
   locale: string
@@ -122,6 +123,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
                 title: text.contracts,
                 path: `/${locale}/admin/contracts`,
                 icon: 'file',
+              }}
+            />
+            <ButtonMenu
+              params={{
+                title: text.wallet,
+                path: `/${locale}/admin/wallet`,
+                icon: 'walletbrown',
               }}
             />
             <ButtonMenu
