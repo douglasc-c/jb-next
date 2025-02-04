@@ -103,6 +103,13 @@ export interface LayoutContextProps {
     transferAmount: string
     squareMeterValue: string
     signalContract: string
+    wallet: string
+    generateDeposit: string
+    sendReceipt: string
+    myDeposits: string
+    value: string
+    youHaveNoDepositos: string
+    generate: string
   }
 
   locale: string
