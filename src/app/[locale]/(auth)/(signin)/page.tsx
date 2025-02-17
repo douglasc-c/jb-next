@@ -6,6 +6,7 @@ import TokenModal from '@/components/modals/modal-code-email'
 import { useAuthContext } from '@/context/auth-context'
 import api from '@/lib/api'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,7 +14,9 @@ import { FormEvent, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
 export default function SignIn() {
-  const { textSignIn, locale, setAuthData } = useAuthContext()
+  const { setAuthData } = useAuthContext() // 2) Removemos textSignIn e locale do AuthContext
+  const t = useTranslations('TextLang') // 3) Hook para obter traduções do namespace 'TextLang'
+
   const router = useRouter()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
@@ -41,28 +44,25 @@ export default function SignIn() {
     setLoading(true)
     setError('')
 
-    if (!locale) {
-      setError('Erro: Locale não definido.')
-      console.error('Locale está undefined')
-      setLoading(false)
-      return
-    }
-
     try {
       const response = await api.post('/users/signin', formData)
-
       if (response.status === 200) {
         const { token, mustChangePassword, user } = response.data
 
         if (token) {
           setAuthData({ token, user, mustChangePassword })
-          document.cookie = `auth-token=${token}; Max-Age=${60 * 60}; path=/; SameSite=Strict`
+          document.cookie = `auth-token=${token}; Max-Age=${
+            60 * 60
+          }; path=/; SameSite=Strict`
+
+          // Se o usuário não confirmou o e-mail, abre o modal de token
           if (user.complianceStatus === 'PENDING_EMAIL') {
             await fetchTokenEmail()
             setIsTokenModalOpen(true)
             return
           }
 
+          // Redireciona de acordo com a role do usuário
           const roleRoutes: { [key: string]: string } = {
             ADMIN: '/admin/users',
             USER: '/dashboard',
@@ -126,21 +126,18 @@ export default function SignIn() {
           </div>
         </div>
       </section>
+
       <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 md:bg-zinc-200 bg-render md:bg-none bg-cover bg-center space-y-6">
         <div />
         <div className="w-full max-w-md space-y-6">
           <div className="w-full max-w-md space-y-1">
-            <h2 className="text-4xl font-medium text-zinc-800">
-              {textSignIn.enter}
-            </h2>
-            <p className="text-zinc-500">
-              {textSignIn.useYour4HandsLoginToAccess}
-            </p>
+            <h2 className="text-4xl font-medium text-zinc-800">{t('enter')}</h2>
+            <p className="text-zinc-500">{t('useYour4HandsLoginToAccess')}</p>
           </div>
           <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-slate-100 rounded-lg">
             <form className="space-y-6 text-black" onSubmit={handleSubmit}>
               <div className="space-y-2">
-                <span>{textSignIn.email}</span>
+                <span>{t('email')}</span>
                 <Input
                   id="email-address"
                   name="email"
@@ -153,7 +150,7 @@ export default function SignIn() {
                 />
               </div>
               <div className="space-y-2">
-                <span>{textSignIn.password}</span>
+                <span>{t('password')}</span>
                 <Input
                   id="password"
                   name="password"
@@ -171,7 +168,7 @@ export default function SignIn() {
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
                     <a href="#" className="">
-                      {textSignIn.forgotYourPassword}
+                      {t('forgotYourPassword')}
                     </a>
                   </div>
                 </div>
@@ -179,13 +176,13 @@ export default function SignIn() {
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
                     <Link href="/signup" className="underline text-secondary">
-                      {textSignIn.signup}
+                      {t('signup')}
                     </Link>
                   </div>
                 </div>
               </section>
 
-              <div className="">
+              <div>
                 <ButtonGlobal
                   type="submit"
                   disabled={loading}
@@ -199,7 +196,7 @@ export default function SignIn() {
                         data-testid="loader"
                       />
                     ) : (
-                      textSignIn.signIn
+                      t('signIn')
                     ),
                     color: 'bg-primary',
                   }}
@@ -217,12 +214,12 @@ export default function SignIn() {
               height={24}
               width={24}
             />
-            <p>{textSignIn.yourInformationIsSafe}</p>
+            <p>{t('yourInformationIsSafe')}</p>
           </div>
           <div className="flex flex-row items-center text-gray-400 space-x-2">
-            <a href="#">{textSignIn.privacyCookPolicy}</a>
+            <a href="#">{t('privacyCookPolicy')}</a>
             <span> | </span>
-            <a href="#">{textSignIn.TermsOfService}</a>
+            <a href="#">{t('TermsOfService')}</a>
           </div>
         </div>
       </section>
