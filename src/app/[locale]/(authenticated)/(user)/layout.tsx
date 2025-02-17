@@ -36,6 +36,7 @@ export default async function RootLayout({
     constructionCircuit: t('TextLang.constructionCircuit'),
     myData: t('TextLang.myData'),
     myVentures: t('TextLang.myVentures'),
+    wallet: t('TextLang.wallet'),
   }
 
   const texts = {
@@ -147,6 +148,13 @@ export default async function RootLayout({
     transferAmount: t('TextLang.transferAmount'),
     squareMeterValue: t('TextLang.squareMeterValue'),
     signalContract: t('TextLang.signalContract'),
+    generateDeposit: t('TextLang.generateDeposit'),
+    sendReceipt: t('TextLang.sendReceipt'),
+    myDeposits: t('TextLang.myDeposits'),
+    value: t('TextLang.value'),
+    wallet: t('TextLang.wallet'),
+    youHaveNoDepositos: t('TextLang.youHaveNoDepositos'),
+    generate: t('TextLang.generate'),
   }
 
   const layoutValue: LayoutContextProps = {

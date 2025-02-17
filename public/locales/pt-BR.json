@@ -199,6 +199,13 @@
     "signalContract": "Assinar contrato",
     "send": "Enviar",
     "signedIn": "Assinado em",
-    "generateSignature": "Gerar assinatura"
+    "generateSignature": "Gerar assinatura",
+    "wallet": "Carteira",
+    "generateDeposit": "Gerar deposito",
+    "sendReceipt": "Enviar comporvante",
+    "myDeposits": "Meus depositos",
+    "value": "Valor",
+    "generate": "Gerar",
+    "youHaveNoDepositos": "Você não tem nenhum deposito"
   }
 }

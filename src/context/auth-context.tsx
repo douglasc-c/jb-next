@@ -1,8 +1,8 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 
-interface User {
+export interface User {
   avatar: string
   birthDate: string
   complianceStatus: string
@@ -20,38 +20,39 @@ interface User {
   username: string
 }
 
-interface AuthData {
+export interface AuthData {
   token: string
   user: User
   mustChangePassword: boolean
 }
 
-interface AuthContextProps {
-  textSignIn: {
-    enter: string
-    useYour4HandsLoginToAccess: string
-    email: string
-    useYour4HandsSignupToAccess: string
-    password: string
-    username: string
-    phone: string
-    userType: string
-    documentNumber: string
-    company: string
-    individual: string
-    dateOfBith: string
-    name: string
-    forgotYourPassword: string
-    signup: string
-    signIn: string
-    privacyCookPolicy: string
-    TermsOfService: string
-    yourInformationIsSafe: string
-  }
-  locale: string
+export interface AuthContextProps {
   authData: AuthData | null
   setAuthData: (data: AuthData) => void
   isLoadingAuthData: boolean
+}
+
+interface AuthState {
+  authData: AuthData | null
+  isLoadingAuthData: boolean
+}
+
+type AuthAction =
+  | { type: 'SET_AUTH_DATA'; payload: AuthData }
+  | { type: 'CLEAR_AUTH_DATA' }
+  | { type: 'SET_LOADING'; payload: boolean }
+
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case 'SET_AUTH_DATA':
+      return { ...state, authData: action.payload }
+    case 'CLEAR_AUTH_DATA':
+      return { ...state, authData: null }
+    case 'SET_LOADING':
+      return { ...state, isLoadingAuthData: action.payload }
+    default:
+      return state
+  }
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -69,31 +70,45 @@ export const AuthProvider = ({
   value,
 }: {
   children: React.ReactNode
+  // Nesse caso não precisamos mais de 'locale' no AuthContext.
   value: Omit<
     AuthContextProps,
     'authData' | 'setAuthData' | 'isLoadingAuthData'
   >
 }) => {
-  const [authData, setAuthData] = useState<AuthData | null>(null)
-  const [isLoadingAuthData, setIsLoadingAuthData] = useState(true)
+  const initialState: AuthState = {
+    authData: null,
+    isLoadingAuthData: true,
+  }
+
+  const [state, dispatch] = useReducer(authReducer, initialState)
+
+  const setAuthData = (data: AuthData) => {
+    dispatch({ type: 'SET_AUTH_DATA', payload: data })
+  }
 
   useEffect(() => {
     const savedAuthData = localStorage.getItem('authData')
     if (savedAuthData) {
-      setAuthData(JSON.parse(savedAuthData))
+      dispatch({ type: 'SET_AUTH_DATA', payload: JSON.parse(savedAuthData) })
     }
-    setIsLoadingAuthData(false)
+    dispatch({ type: 'SET_LOADING', payload: false })
   }, [])
 
   useEffect(() => {
-    if (authData) {
-      localStorage.setItem('authData', JSON.stringify(authData))
+    if (state.authData) {
+      localStorage.setItem('authData', JSON.stringify(state.authData))
     }
-  }, [authData])
+  }, [state.authData])
 
   return (
     <AuthContext.Provider
-      value={{ ...value, authData, setAuthData, isLoadingAuthData }}
+      value={{
+        ...value,
+        authData: state.authData,
+        setAuthData,
+        isLoadingAuthData: state.isLoadingAuthData,
+      }}
     >
       {children}
     </AuthContext.Provider>

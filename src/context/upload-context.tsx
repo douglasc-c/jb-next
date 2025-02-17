@@ -2,13 +2,12 @@
 
 import React, { createContext, useContext, useState } from 'react'
 
-// Definindo a estrutura dos arquivos por tipo de documento
 interface UploadContextType {
   files: {
-    [key: string]: File[] // Chaves para diferentes tipos de documentos
+    [key: string]: File[]
   }
   addFiles: (documentKey: string, newFiles: File[]) => void
-  removeFile: (documentKey: string, index: number) => void // Remove um arquivo por chave e índice
+  removeFile: (documentKey: string, index: number) => void
 }
 
 const UploadContext = createContext<UploadContextType | undefined>(undefined)
@@ -16,7 +15,6 @@ const UploadContext = createContext<UploadContextType | undefined>(undefined)
 export const UploadProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Inicializando o estado com um objeto vazio para cada tipo de documento
   const [files, setFiles] = useState<UploadContextType['files']>({
     documentFront: [],
     documentBack: [],
@@ -24,19 +22,17 @@ export const UploadProvider: React.FC<{ children: React.ReactNode }> = ({
     incomeTaxProof: [],
   })
 
-  // Função para adicionar arquivos a uma chave específica
   const addFiles = (documentKey: string, newFiles: File[]) => {
     setFiles((prev) => ({
       ...prev,
-      [documentKey]: [...(prev[documentKey] || []), ...newFiles], // Garante que prev[documentKey] seja um array
+      [documentKey]: [...(prev[documentKey] || []), ...newFiles],
     }))
   }
 
-  // Função para remover um arquivo de uma chave específica
   const removeFile = (documentKey: string, index: number) => {
     setFiles((prev) => ({
       ...prev,
-      [documentKey]: prev[documentKey].filter((_, i) => i !== index), // Remove arquivo pela chave e índice
+      [documentKey]: prev[documentKey].filter((_, i) => i !== index),
     }))
   }
 

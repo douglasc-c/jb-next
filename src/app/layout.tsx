@@ -1,6 +1,7 @@
-import { AuthProvider } from '@/context/auth-context'
+// src/app/layout.tsx
+import { AppProviders } from '@/context'
 import type { Metadata } from 'next'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { NextIntlClientProvider } from 'next-intl'
 import './globals.css'
 
 const languages = ['pt-BR']
@@ -20,41 +21,36 @@ export default async function RootLayout({
   params: { lng },
 }: {
   children: React.ReactNode
-  params: {
-    lng: string
-  }
+  params: { lng: string }
 }) {
-  const locale = await getLocale()
-  const t = await getTranslations(lng)
+  const locale = lng || 'pt-BR'
 
-  const textSignIn = {
-    enter: t('TextLang.enter'),
-    useYour4HandsLoginToAccess: t('TextLang.useYour4HandsLoginToAccess'),
-    email: t('TextLang.email'),
-    useYour4HandsSignupToAccess: t('TextLang.useYour4HandsSignupToAccess'),
-    password: t('TextLang.password'),
-    forgotYourPassword: t('TextLang.forgotYourPassword'),
-    signup: t('TextLang.signup'),
-    username: t('TextLang.username'),
-    userType: t('TextLang.userType'),
-    company: t('TextLang.company'),
-    individual: t('TextLang.individual'),
-    documentNumber: t('TextLang.documentNumber'),
-    phone: t('TextLang.phone'),
-    dateOfBith: t('TextLang.dateOfBith'),
-    name: t('TextLang.name'),
-    signIn: t('TextLang.signIn'),
-    privacyCookPolicy: t('TextLang.privacyCookPolicy'),
-    TermsOfService: t('TextLang.TermsOfService'),
-    yourInformationIsSafe: t('TextLang.yourInformationIsSafe'),
+  // Define a URL base; pode ser definida via variável de ambiente
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+    : 'http://localhost:3000'
+
+  // Carrega as traduções
+  const res = await fetch(`${baseUrl}/locales/${locale}.json`)
+  if (!res.ok) {
+    throw new Error(
+      `Não foi possível carregar as traduções para o idioma ${locale}`,
+    )
   }
+  const messages = await res.json()
 
-  const layoutValue = { textSignIn, locale }
+  // Valores iniciais para o AuthProvider e LayoutProvider (exemplo)
+  const authValue = {}
+  const layoutValue = { locale }
 
   return (
-    <html lang={lng}>
+    <html lang={locale}>
       <body className="bg-zinc-200">
-        <AuthProvider value={layoutValue}>{children}</AuthProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <AppProviders authValue={authValue} layoutValue={layoutValue}>
+            {children}
+          </AppProviders>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

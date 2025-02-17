@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useReducer } from 'react'
 
 export interface LayoutAdminContextProps {
   texts: {
@@ -143,13 +143,45 @@ export interface LayoutAdminContextProps {
     signedIn: string
     generateSignature: string
   }
-
   locale: string
 }
 
-const LayoutAdminContext = createContext<LayoutAdminContextProps | undefined>(
-  undefined,
-)
+// Definindo o estado para o reducer
+interface LayoutAdminState {
+  texts: LayoutAdminContextProps['texts']
+  locale: string
+}
+
+// Definindo as ações que atualizam o estado
+type LayoutAdminAction =
+  | { type: 'SET_TEXTS'; payload: LayoutAdminContextProps['texts'] }
+  | { type: 'SET_LOCALE'; payload: string }
+
+// Reducer para atualizar o estado do LayoutAdminContext
+const layoutAdminReducer = (
+  state: LayoutAdminState,
+  action: LayoutAdminAction,
+): LayoutAdminState => {
+  switch (action.type) {
+    case 'SET_TEXTS':
+      return { ...state, texts: action.payload }
+    case 'SET_LOCALE':
+      return { ...state, locale: action.payload }
+    default:
+      return state
+  }
+}
+
+// Extendendo a interface para incluir funções de atualização
+export interface LayoutAdminContextExtendedProps
+  extends LayoutAdminContextProps {
+  setTexts: (texts: LayoutAdminContextProps['texts']) => void
+  setLocale: (locale: string) => void
+}
+
+const LayoutAdminContext = createContext<
+  LayoutAdminContextExtendedProps | undefined
+>(undefined)
 
 export const useLayoutAdminContext = () => {
   const context = useContext(LayoutAdminContext)
@@ -167,8 +199,23 @@ export const LayoutProvider = ({
 }: {
   children: React.ReactNode
   value: LayoutAdminContextProps
-}) => (
-  <LayoutAdminContext.Provider value={value}>
-    {children}
-  </LayoutAdminContext.Provider>
-)
+}) => {
+  const [state, dispatch] = useReducer(layoutAdminReducer, {
+    texts: value.texts,
+    locale: value.locale,
+  })
+
+  const setTexts = (texts: LayoutAdminContextProps['texts']) => {
+    dispatch({ type: 'SET_TEXTS', payload: texts })
+  }
+
+  const setLocale = (locale: string) => {
+    dispatch({ type: 'SET_LOCALE', payload: locale })
+  }
+
+  return (
+    <LayoutAdminContext.Provider value={{ ...state, setTexts, setLocale }}>
+      {children}
+    </LayoutAdminContext.Provider>
+  )
+}

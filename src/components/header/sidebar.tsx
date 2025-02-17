@@ -37,6 +37,7 @@ interface SidebarProps {
     constructionCircuit: string
     myData: string
     myVentures: string
+    wallet: string
   }
   locale: string
 }
@@ -128,6 +129,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
                 title: text.myData,
                 path: `/${locale}/mydata`,
                 icon: 'cash',
+              }}
+            />
+            <ButtonMenu
+              params={{
+                title: text.wallet,
+                path: `/${locale}/wallet`,
+                icon: 'walletBrown',
               }}
             />
             <ButtonMenu
