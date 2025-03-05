@@ -1,6 +1,6 @@
-import React from 'react'
 import ButtonGlobal from '@/components/buttons/global'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
+import React from 'react'
 import { PulseLoader } from 'react-spinners'
 
 interface FormData {

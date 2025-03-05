@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import './globals.css'
 
-const languages = ['pt-BR']
+const languages = ['pt-BR', 'es-US']
 
 export const metadata: Metadata = {
   title: '4Hands',
@@ -25,12 +25,10 @@ export default async function RootLayout({
 }) {
   const locale = lng || 'pt-BR'
 
-  // Define a URL base; pode ser definida via variável de ambiente
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
     : 'http://localhost:3000'
 
-  // Carrega as traduções
   const res = await fetch(`${baseUrl}/locales/${locale}.json`)
   if (!res.ok) {
     throw new Error(
@@ -39,13 +37,12 @@ export default async function RootLayout({
   }
   const messages = await res.json()
 
-  // Valores iniciais para o AuthProvider e LayoutProvider (exemplo)
   const authValue = {}
   const layoutValue = { locale }
 
   return (
     <html lang={locale}>
-      <body className="bg-zinc-200">
+      <body className="bg-primary antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProviders authValue={authValue} layoutValue={layoutValue}>
             {children}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
 import axios from 'axios'
 import { usePathname } from 'next/navigation'

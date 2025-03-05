@@ -1,9 +1,9 @@
 'use client'
 
+import { useLayoutAdminContext } from '@/context/admin-context'
 import { useState } from 'react'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import { UserDetails } from './user-datails'
 import { InputField } from '../inputs/input-field'
+import { UserDetails } from './user-datails'
 
 interface User {
   firstName: string

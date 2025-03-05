@@ -3,13 +3,11 @@
 import { DataInvestments } from '@/components/cards/data-investments'
 import { NewOpportunities } from '@/components/cards/new-opportunities'
 import { YorResources } from '@/components/cards/you-resources'
-import { useLayoutContext } from '@/context/layout-context'
-import { useEffect, useState } from 'react'
 import api from '@/lib/api'
-import { Loading } from '@/components/loading/loading'
-import Image from 'next/image'
-import { MyVenturesTable } from '@/components/tables/my-ventures'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
+import { PulseLoader } from 'react-spinners'
 
 interface PieChart {
   houses: number
@@ -91,7 +89,7 @@ interface Venture {
 }
 
 export default function Dashboard() {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
 
   const [loading, setLoading] = useState(true)
   const [pieChart, setPieChart] = useState<PieChart>({
@@ -100,7 +98,7 @@ export default function Dashboard() {
     walletBalance: 0,
   })
   const [totalInvested, setTotalInvested] = useState(0)
-  const [totalValution, setTotalValution] = useState(0)
+  const [totalValuation, setTotalValuation] = useState(0)
   const [enterpriseCount, setEnterpriseCount] = useState(0)
   const [recentEnterprises, setRecentEnterprises] = useState<Venture[]>([])
   const [error, setError] = useState('')
@@ -108,34 +106,28 @@ export default function Dashboard() {
     [],
   )
 
-  const textPortfoli0 = {
-    balance: texts.totalBalance,
-    type: texts.portfolio,
+  const textPortfolio = {
+    balance: t('totalBalance'),
+    type: t('portfolio'),
   }
 
   const textInvested = {
-    balance: texts.balanceInvested,
-    type: texts.invested,
+    balance: t('balanceInvested'),
+    type: t('invested'),
   }
 
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
         const response = await api.get('/users/web/dashboard')
+        const data = response.data.data
 
-        const fetchedPieChart = response.data.data.pieChart
-        const fetchedTotalInvested = response.data.data.totalInvested
-        const fetchedTotalValuation = response.data.data.totalValuation
-        const fetchedEnterpriseCount = response.data.data.enterpriseCount
-        const fetchedRecentEnterprises = response.data.data.recentEnterprises
-        const fetchedUserRecentEnterprises = response.data.data.userEnterprises
-
-        setPieChart(fetchedPieChart)
-        setTotalInvested(fetchedTotalInvested)
-        setTotalValution(fetchedTotalValuation)
-        setEnterpriseCount(fetchedEnterpriseCount)
-        setRecentEnterprises(fetchedRecentEnterprises)
-        setUserRecentEnterprises(fetchedUserRecentEnterprises)
+        setPieChart(data.pieChart)
+        setTotalInvested(data.totalInvested)
+        setTotalValuation(data.totalValuation)
+        setEnterpriseCount(data.enterpriseCount)
+        setRecentEnterprises(data.recentEnterprises)
+        setUserRecentEnterprises(data.userEnterprises)
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (
@@ -161,41 +153,41 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-200">
-        <Loading loading={loading} width={300} />
+      <div className="flex justify-center items-center h-screen bg-primary">
+        <PulseLoader loading={loading} size={300} />
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-200">
+      <div className="flex justify-center items-center h-screen bg-primary">
         <p>{error}</p>
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-200 md:h-[calc(91vh)] flex flex-col items-start p-6 gap-6">
-      <section className="flex w-full flex-col md:flex-row gap-6">
+    <main className=" m-7 bg-gray  h-screen p-10 border border-border rounded-lg flex flex-col items-start gap-6">
+      <section className="flex w-full flex-col md:flex-row gap-6   ">
         <div className="flex flex-col md:w-9/12">
           <YorResources chart={pieChart} totalInvested={totalInvested} />
         </div>
         <div className="flex flex-col gap-5">
           <DataInvestments
             params={{
-              text: textPortfoli0,
-              bgColor: 'bg-secondary',
+              text: textPortfolio,
+              bgColor: 'bg-primary',
               image: 'wallet',
               imageColor: 'bg-primary',
-              totalValue: totalValution,
+              totalValue: totalValuation,
               enterpriseCount,
             }}
           />
           <DataInvestments
             params={{
               text: textInvested,
-              bgColor: 'bg-tertiary',
+              bgColor: 'bg-primary',
               image: 'investment',
               imageColor: 'bg-quaternary',
               totalValue: totalInvested,
@@ -206,23 +198,6 @@ export default function Dashboard() {
       </section>
       <section className="flex w-full">
         <NewOpportunities recentEnterprises={recentEnterprises} />
-      </section>
-      <section className="flex w-full rounded-xl bg-zinc-300 space-x-6 overflow-auto">
-        {userRecentEnterprises.length > 0 ? (
-          <MyVenturesTable data={userRecentEnterprises} />
-        ) : (
-          <div className="p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative w-full">
-            <div className="text-center items-center flex flex-col space-y-4">
-              <Image
-                src="/images/svg/warning-grey.svg"
-                alt="arrow icon"
-                height={90}
-                width={90}
-              />
-              <span className="text-lg">{texts.youHaveNoBusiness}</span>
-            </div>
-          </div>
-        )}
       </section>
     </main>
   )

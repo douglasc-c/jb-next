@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import api from '@/lib/api'
-import { UsersTable } from '@/components/tables/users'
 import ButtonGlobal from '@/components/buttons/global'
-import AddUserModal from '@/components/modals/add-user'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { Loading } from '@/components/loading/loading'
+import AddUserModal from '@/components/modals/add-user'
 import Search from '@/components/searchs/search'
-import Image from 'next/image'
+import { UsersTable } from '@/components/tables/users'
+import api from '@/lib/api'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 interface User {
   firstName: string
@@ -52,7 +52,7 @@ interface Totals {
 }
 
 export default function Users() {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingButton, setLoadingButton] = useState(false)
@@ -60,7 +60,6 @@ export default function Users() {
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
-
   const [totals, setTotals] = useState<Totals>({
     total: 0,
     totalUsers: 0,
@@ -105,13 +104,16 @@ export default function Users() {
     e.preventDefault()
     try {
       const response = await api.post('/admin/register', formData)
-
       if (response.status === 201) {
         const newUser = response.data.user
         setUsers((prevUsers) => [...prevUsers, newUser])
         setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
       } else {
-        setError(response.data.message || 'Erro ao adicionar usuário')
+        setError(
+          response.data.message ||
+            t('errorAddingUser') ||
+            'Erro ao adicionar usuário',
+        )
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -148,7 +150,6 @@ export default function Users() {
     try {
       const response = await api.get('/admin/get-all-users')
       const fetchedUsers: User[] = response.data.users
-
       const computedTotals = fetchedUsers.reduce<Totals>(
         (acc, user) => {
           acc.total += 1
@@ -158,7 +159,6 @@ export default function Users() {
         },
         { total: 0, totalUsers: 0, totalAdmins: 0 },
       )
-
       setUsers(fetchedUsers)
       setFilteredUsers(fetchedUsers)
       setTotals(computedTotals)
@@ -187,16 +187,16 @@ export default function Users() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-zinc-200">
+      <div className="flex justify-center items-center h-screen ">
         <Loading loading={loading} width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
-      <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1 bg-zinc-300 shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+    <main className="m-7 bg-gray border border-border  h-screen flex flex-col items-start p-10 rounded-lg space-y-4 antialiased ">
+      <div className="grid md:grid-cols-3  bg-primary grid-cols-2 items-center gap-4 w-full">
+        <div className="col-span-2 md:col-span-1  text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -204,10 +204,10 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {texts.total}: {totals.total}
+            {t('total')}: {totals.total}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-zinc-300 shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/user.svg"
             width={30}
@@ -215,10 +215,10 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {texts.users}: {totals.totalUsers}
+            {t('users')}: {totals.totalUsers}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-zinc-300 shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/admin.svg"
             width={30}
@@ -226,7 +226,7 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {texts.admins}: {totals.totalAdmins}
+            {t('admins')}: {totals.totalAdmins}
           </p>
         </div>
         <div className="col-span-2">
@@ -239,10 +239,7 @@ export default function Users() {
         <div className="col-span-2 md:col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
-            params={{
-              title: texts.addUser,
-              color: 'bg-primary',
-            }}
+            params={{ title: t('addUser'), color: 'bg-primary' }}
             onClick={openModal}
           />
         </div>
@@ -250,7 +247,6 @@ export default function Users() {
       <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
         <UsersTable data={filteredUsers} />
       </section>
-
       {isModalOpen && (
         <AddUserModal
           isOpen={isModalOpen}

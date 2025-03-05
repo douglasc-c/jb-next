@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 interface CurrentPhase {
@@ -76,14 +76,14 @@ export function OpportunitiesPreview({
   data,
   onClick,
 }: OpportunitiesPreviewProps) {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
 
   return (
     <div className="flex flex-row p-4 bg-zinc-200 rounded-xl h-auto justify-around w-full space-x-4">
       <section className="hidden md:block w-full h-40 relative">
         <Image
-          src={`${data.coverImageUrl}`}
-          alt={`Image`}
+          src={data.coverImageUrl}
+          alt="Image"
           fill
           className="absolute inset-0 rounded-lg"
         />
@@ -91,8 +91,8 @@ export function OpportunitiesPreview({
       <section className="flex flex-col text-xs w-full md:w-2/3 gap-y-3 pt-4">
         <div className="flex uppercase">
           <div className="w-full flex flex-col space-y-3">
-            <p className="font-medium">{texts.document}</p>
-            <p className="font-medium">{texts.startDate}</p>
+            <p className="font-medium">{t('document')}</p>
+            <p className="font-medium">{t('startDate')}</p>
           </div>
           <div className="w-full flex flex-col space-y-3">
             <span className="font-light">{data.id}</span>
@@ -106,16 +106,16 @@ export function OpportunitiesPreview({
           </div>
         </div>
         <p className="font-medium uppercase">
-          {texts.address} <span className="font-light">{data.address}</span>
+          {t('address')} <span className="font-light">{data.address}</span>
         </p>
         <span className="border border-zinc-500" />
         <button
           className="flex space-x-2 items-center"
           onClick={() => onClick(data)}
         >
-          <p className="font-normal">{texts.seeMore}</p>
+          <p className="font-normal">{t('seeMore')}</p>
           <Image
-            src={`/images/svg/arrowRight.svg`}
+            src="/images/svg/arrowRight.svg"
             alt="arrow right icon"
             height={12}
             width={12}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { DetailsVentures } from '../modals/datails-venture'
 
@@ -82,7 +82,7 @@ interface MyVenturesTableProps {
 }
 
 export function MyVenturesTable({ data }: MyVenturesTableProps) {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
 
@@ -103,22 +103,22 @@ export function MyVenturesTable({ data }: MyVenturesTableProps) {
           <thead className="uppercase border-b border-zinc-500">
             <tr>
               <th className="px-4 py-2 text-left font-medium text-xs">
-                {texts.status}
+                {t('status')}
               </th>
               <th className="px-4 py-2 text-left font-medium text-xs">
-                {texts.venture}
+                {t('venture')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.completionDate}
+                {t('completionDate')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.amountInvested}
+                {t('amountInvested')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.amountTransferred}
+                {t('amountTransferred')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.shares}
+                {t('shares')}
               </th>
             </tr>
           </thead>
@@ -150,7 +150,7 @@ export function MyVenturesTable({ data }: MyVenturesTableProps) {
                     className="border rounded-full text-primary border-primary py-1 px-4 bg-transparent"
                     onClick={() => openModal(row)}
                   >
-                    {texts.seeMore}
+                    {t('seeMore')}
                   </button>
                 </td>
               </tr>

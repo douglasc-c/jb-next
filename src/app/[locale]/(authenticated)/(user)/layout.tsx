@@ -1,8 +1,6 @@
 import '@/app/globals.css'
-import { getLocale, getTranslations } from 'next-intl/server'
-import { LayoutProvider, LayoutContextProps } from '@/context/layout-context'
 import Sidebar from '@/components/header/sidebar'
-import { UploadProvider } from '@/context/upload-context'
+import { getLocale } from 'next-intl/server'
 
 const languages = ['pt-BR']
 export const dynamic = 'force-dynamic'
@@ -16,160 +14,16 @@ export default async function RootLayout({
   params: { lng },
 }: {
   children: React.ReactNode
-  params: {
-    lng: string
-  }
+  params: { lng: string }
 }) {
   const locale = await getLocale()
-  const t = await getTranslations(lng)
-
-  const textHeader = {
-    welcome: t('TextLang.welcome'),
-    dashboard: t('TextLang.dashboard'),
-    users: t('TextLang.users'),
-    compliance: t('TextLang.compliance'),
-    ventures: t('TextLang.ventures'),
-    interests: t('TextLang.interests'),
-    stages: t('TextLang.stages'),
-    support: t('TextLang.support'),
-    signOut: t('TextLang.signOut'),
-    constructionCircuit: t('TextLang.constructionCircuit'),
-    myData: t('TextLang.myData'),
-    myVentures: t('TextLang.myVentures'),
-    wallet: t('TextLang.wallet'),
-  }
-
-  const texts = {
-    youResources: t('TextLang.youResources'),
-    estimatedAssets: t('TextLang.estimatedAssets'),
-    numberOfHouse: t('TextLang.numberOfHouse'),
-    land: t('TextLang.land'),
-    avaliableValue: t('TextLang.avaliableValue'),
-    totalBalance: t('TextLang.totalBalance'),
-    balanceInvested: t('TextLang.balanceInvested'),
-    developments: t('TextLang.developments'),
-    portfolio: t('TextLang.portfolio'),
-    invested: t('TextLang.invested'),
-    newOpportunitiesPortifolio: t('TextLang.newOpportunitiesPortifolio'),
-    document: t('TextLang.document'),
-    startDate: t('TextLang.startDate'),
-    address: t('TextLang.address'),
-    seeMore: t('TextLang.seeMore'),
-    status: t('TextLang.status'),
-    company: t('TextLang.company'),
-    date: t('TextLang.date'),
-    amountInvested: t('TextLang.amountInvested'),
-    amountTransferred: t('TextLang.amountTransferred'),
-    shares: t('TextLang.shares'),
-    myData: t('TextLang.myData'),
-    name: t('TextLang.name'),
-    lastName: t('TextLang.lastName'),
-    email: t('TextLang.email'),
-    documentNumber: t('TextLang.documentNumber'),
-    dateOfBith: t('TextLang.dateOfBith'),
-    country: t('TextLang.country'),
-    city: t('TextLang.city'),
-    password: t('TextLang.password'),
-    confirmPassword: t('TextLang.confirmPassword'),
-    at4HandsRealEstateInvestments: t('TextLang.at4HandsRealEstateInvestments'),
-    tochangeInformationPleaseContactOur: t(
-      'TextLang.tochangeInformationPleaseContactOur',
-    ),
-    technicalSupport: t('TextLang.technicalSupport'),
-    compliance: t('TextLang.compliance'),
-    verifyYourIdentity: t('TextLang.verifyYourIdentity'),
-    documentType: t('TextLang.documentType'),
-    idOfTheIssuingBody: t('TextLang.idOfTheIssuingBody'),
-    orDragYourDocumentHere: t('TextLang.orDragYourDocumentHere'),
-    attach: t('TextLang.attach'),
-    support: t('TextLang.support'),
-    step: t('TextLang.step'),
-    from: t('TextLang.from'),
-    previo: t('TextLang.previo'),
-    next: t('TextLang.next'),
-    finish: t('TextLang.finish'),
-    at4HandsRealEstateInvestmentsWeNeedTo: t(
-      'TextLang.at4HandsRealEstateInvestmentsWeNeedTo',
-    ),
-    lgptLaws: t('TextLang.lgptLaws'),
-    verificationCompleted: t('TextLang.verificationCompleted'),
-    congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep:
-      t(
-        'TextLang.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep',
-      ),
-    howDoIChangeMyDataAndDocuments: t(
-      'TextLang.howDoIChangeMyDataAndDocuments',
-    ),
-    constructionCircuit: t('TextLang.constructionCircuit'),
-    myVentures: t('TextLang.myVentures'),
-    typeOfConstruction: t('TextLang.typeOfConstruction'),
-    contributionAmount: t('TextLang.contributionAmount'),
-    amountPassed: t('TextLang.amountPassed'),
-    postalCode: t('TextLang.postalCode'),
-    valueM2: t('TextLang.valueM2'),
-    footage: t('TextLang.footage'),
-    floors: t('TextLang.floors'),
-    seeContract: t('TextLang.seeContract'),
-    provisionalCompletion: t('TextLang.provisionalCompletion'),
-    constructionStatus: t('TextLang.constructionStatus'),
-    stage: t('TextLang.stage'),
-    topography: t('TextLang.topography'),
-    masonry: t('TextLang.masonry'),
-    inspections: t('TextLang.inspections'),
-    thermalInsulationOfTheWalls: t('TextLang.thermalInsulationOfTheWalls'),
-    roofInsulation: t('TextLang.roofInsulation'),
-    doors: t('TextLang.doors'),
-    frequentlyAskedQuestions: t('TextLang.frequentlyAskedQuestions'),
-    talkToTheSupport: t('TextLang.talkToTheSupport'),
-    stillHaveQuestions: t('TextLang.stillHaveQuestions'),
-    summary: t('TextLang.summary'),
-    firstName: t('TextLang.firstName'),
-    phone: t('TextLang.phone'),
-    street: t('TextLang.street'),
-    number: t('TextLang.number'),
-    complement: t('TextLang.complement'),
-    neighborhood: t('TextLang.neighborhood'),
-    state: t('TextLang.state'),
-    edit: t('TextLang.edit'),
-    save: t('TextLang.save'),
-    cancel: t('TextLang.cancel'),
-    currentPassword: t('TextLang.currentPassword'),
-    newPassword: t('TextLang.newPassword'),
-    documentFront: t('TextLang.documentFront'),
-    documentBack: t('TextLang.documentBack'),
-    proofOfAddress: t('TextLang.proofOfAddress'),
-    incomeTaxProof: t('TextLang.incomeTaxProof'),
-    takeAnInterest: t('TextLang.takeAnInterest'),
-    venture: t('TextLang.venture'),
-    completionDate: t('TextLang.completionDate'),
-    noNewDevelopmentsAvailable: t('TextLang.noNewDevelopmentsAvailable'),
-    youHaveNoBusiness: t('TextLang.youHaveNoBusiness'),
-    fundingAmount: t('TextLang.fundingAmount'),
-    transferAmount: t('TextLang.transferAmount'),
-    squareMeterValue: t('TextLang.squareMeterValue'),
-    signalContract: t('TextLang.signalContract'),
-    generateDeposit: t('TextLang.generateDeposit'),
-    sendReceipt: t('TextLang.sendReceipt'),
-    myDeposits: t('TextLang.myDeposits'),
-    value: t('TextLang.value'),
-    wallet: t('TextLang.wallet'),
-    youHaveNoDepositos: t('TextLang.youHaveNoDepositos'),
-    generate: t('TextLang.generate'),
-  }
-
-  const layoutValue: LayoutContextProps = {
-    texts,
-    locale,
-  }
 
   return (
     <html lang={lng}>
-      <body className="bg-zinc-200 flex flex-col">
-        <Sidebar text={textHeader} locale={locale} />
-        <div className="md:ml-64 flex-grow">
-          <LayoutProvider value={layoutValue}>
-            <UploadProvider>{children}</UploadProvider>
-          </LayoutProvider>
+      <body className="bg-primary flex flex-col h-screen overflow-hidden">
+        <Sidebar locale={locale} />
+        <div className="md:ml-64 flex-grow overflow-y-auto bg-primary">
+          {children}
         </div>
       </body>
     </html>

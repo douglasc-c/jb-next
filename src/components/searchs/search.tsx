@@ -20,13 +20,13 @@ const Search: React.FC<SearchProps> = ({
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center antialiased">
       <input
         type="text"
         value={query}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="bg-zinc-300 p-2 rounded-lg w-full focus:outline-none"
+        className="bg-primary border antialiased border-border  px-6 py-2 text-[0.90rem] rounded-lg w-full focus:outline-none"
       />
     </div>
   )

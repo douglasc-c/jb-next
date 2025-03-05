@@ -1,14 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
 import { Loading } from '@/components/loading/loading'
 import AddFaqModal from '@/components/modals/add-faq'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import api from '@/lib/api'
 import Search from '@/components/searchs/search'
 import CategoryList from '@/components/tables/category'
+import { useLayoutAdminContext } from '@/context/admin-context'
+import api from '@/lib/api'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 interface Faq {
   id: number

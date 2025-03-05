@@ -3,7 +3,7 @@
 import { Loading } from '@/components/loading/loading'
 import Search from '@/components/searchs/search'
 import { DepositsTable } from '@/components/tables/deposit'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
 import axios from 'axios'
 import Image from 'next/image'

@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useTranslations } from 'next-intl'
 import DoughnutChart from '../charts/doughnut-chart'
 
 interface PieChart {
@@ -15,12 +15,11 @@ interface YorResourcesProps {
 }
 
 export function YorResources({ chart, totalInvested }: YorResourcesProps) {
-  const { texts } = useLayoutContext()
-
+  const t = useTranslations('TextLang')
   const colors = ['#A47659', '#86776B', '#A38C7E']
 
   return (
-    <div className="flex flex-col md:flex-row p-6 gap-6 bg-zinc-300 rounded-xl h-auto justify-around">
+    <div className="flex antialiased flex-col md:flex-row p-6 gap-6 bg-primary text-textPrimary border border-border rounded-xl h-auto justify-around">
       <section className="relative flex justify-center items-center">
         <DoughnutChart
           data={[chart.houses, chart.lands, chart.walletBalance]}
@@ -34,25 +33,25 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
               maximumFractionDigits: 2,
             })}
           </p>
-          <p className="text-xs font-light">{texts.estimatedAssets}</p>
+          <p className="text-xs font-light">{t('estimatedAssets')}</p>
         </div>
       </section>
 
       <section className="flex-col justify-between">
-        <h1 className="uppercase font-medium">{texts.youResources}</h1>
+        <h1 className="uppercase font-medium">{t('youResources')}</h1>
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#A47659] rounded-full" />
-          <p>{texts.numberOfHouse}</p>
+          <p>{t('numberOfHouse')}</p>
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5 border-y border-zinc-500">
           <span className="p-2 bg-[#86776B] rounded-full" />
-          <p>{texts.land}</p>
+          <p>{t('land')}</p>
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#A38C7E] rounded-full" />
-          <p>{texts.avaliableValue}</p>
+          <p>{t('avaliableValue')}</p>
         </div>
       </section>
     </div>

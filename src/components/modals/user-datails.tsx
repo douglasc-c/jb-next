@@ -1,13 +1,13 @@
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
-import React, { useState } from 'react'
-import { UserTab } from '../tabs/user'
-import { AddressTab } from '../tabs/address'
-import { FinancialTab } from '../tabs/financial'
-import { usePathname } from 'next/navigation'
-import DeleteModal from './delete'
-import CompleanceImage from '../tabs/compliance-imagens'
 import axios from 'axios'
+import { usePathname } from 'next/navigation'
+import React, { useState } from 'react'
+import { AddressTab } from '../tabs/address'
+import CompleanceImage from '../tabs/compliance-imagens'
+import { FinancialTab } from '../tabs/financial'
+import { UserTab } from '../tabs/user'
+import DeleteModal from './delete'
 
 interface UserData {
   firstName: string

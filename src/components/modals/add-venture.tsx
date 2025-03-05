@@ -1,6 +1,8 @@
-import React, { FC } from 'react'
+'use client'
+
 import ButtonGlobal from '@/components/buttons/global'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useTranslations } from 'next-intl'
+import React, { FC } from 'react'
 import { PulseLoader } from 'react-spinners'
 import { InputField } from '../inputs/input-field'
 
@@ -13,14 +15,17 @@ interface FormData {
   isAvailable: boolean
   constructionType: 'HOUSE' | 'APARTMENT' | 'OTHER'
   fundingAmount: number
-  transferAmount: number
+  transferAmount?: number | null
   postalCode: string
+  state: string
   city: string
   squareMeterValue: number
   area: number
   floors: number
   completionDate: string
+  startDate: string
   images: File[]
+  commercializationType: 'TOKENIZATION' | 'FRACTIONAL'
 }
 
 interface AddVentureModalProps {
@@ -42,68 +47,69 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
   handleSubmit,
   closeModal,
 }) => {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-zinc-300 p-6 rounded-lg shadow-lg w-full md:w-2/3 max-h-[90vh] overflow-hidden">
-        <h2 className="text-2xl mb-4">{texts.addVenture}</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
+      <div className="bg-primary border border-border p-6 rounded-lg shadow-lg w-full md:w-2/3 max-h-[90vh] overflow-hidden">
+        <h2 className="text-2xl mb-4">{t('addVenture')}</h2>
         <form onSubmit={handleSubmit} className="overflow-y-auto max-h-[70vh]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <InputField
-              label={texts.ventureName}
+              label={t('ventureName')}
               value={formData.name}
               isEditing={true}
               onChange={(value) => handleChange('name', value)}
             />
             <InputField
-              label={texts.corporateName}
+              label={t('corporateName')}
               value={formData.corporateName}
               isEditing={true}
               onChange={(value) => handleChange('corporateName', value)}
             />
             <InputField
-              label={texts.description}
+              label={t('description')}
               value={formData.description}
               isEditing={true}
               onChange={(value) => handleChange('description', value)}
             />
             <div className="grid grid-cols-2 gap-4">
               <InputField
-                label={texts.constructionType}
+                label={t('constructionType')}
                 type="select"
                 value={formData.constructionType}
                 isEditing={true}
                 options={[
-                  { label: texts.house, value: 'HOUSE' },
-                  { label: texts.apartment, value: 'APARTMENT' },
-                  { label: texts.other, value: 'OTHER' },
+                  { label: t('house'), value: 'HOUSE' },
+                  { label: t('apartment'), value: 'APARTMENT' },
+                  { label: t('land'), value: 'land' },
+                  { label: t('other'), value: 'OTHER' },
                 ]}
                 onChange={(value) => handleChange('constructionType', value)}
               />
               <InputField
-                label={texts.isAvailable}
+                label={t('isAvailable')}
                 type="select"
                 value={formData.isAvailable ? 'true' : 'false'}
                 isEditing={true}
                 options={[
-                  { label: texts.available, value: 'true' },
-                  { label: texts.notAvaliable, value: 'false' },
+                  { label: t('available'), value: 'true' },
+                  { label: t('notAvaliable'), value: 'false' },
                 ]}
                 onChange={(value) => handleChange('isAvailable', value)}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <InputField
-                label={texts.address}
+                label={t('address')}
                 value={formData.address}
                 isEditing={true}
                 onChange={(value) => handleChange('address', value)}
               />
               <InputField
-                label={texts.city}
+                label={t('city')}
                 value={formData.city}
                 isEditing={true}
                 onChange={(value) => handleChange('city', value)}
@@ -111,45 +117,51 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <InputField
-                label={texts.postalCode}
+                label={t('state')}
+                value={formData.state}
+                isEditing={true}
+                onChange={(value) => handleChange('state', value)}
+              />
+              <InputField
+                label={t('postalCode')}
                 value={formData.postalCode}
                 isEditing={true}
                 onChange={(value) => handleChange('postalCode', value)}
               />
-              <InputField
-                label={texts.completionDate}
-                type="date"
-                value={formData.completionDate}
-                isEditing={true}
-                onChange={(value) => handleChange('completionDate', value)}
-              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <InputField
-                label={texts.fundingAmount}
+                label={t('fundingAmount')}
                 type="number"
                 value={formData.fundingAmount}
                 isEditing={true}
+                formatCurrency={true}
                 onChange={(value) => handleChange('fundingAmount', value)}
               />
               <InputField
-                label={texts.transferAmount}
-                type="number"
-                value={formData.transferAmount}
+                label={t('typeofmarketing')}
+                type="select"
+                value={formData.commercializationType}
                 isEditing={true}
-                onChange={(value) => handleChange('transferAmount', value)}
+                options={[
+                  { label: t('Tokenization'), value: 'TOKENIZATION' },
+                  { label: t('Quotas'), value: 'FRACTIONAL' },
+                ]}
+                onChange={(value) =>
+                  handleChange('commercializationType', value)
+                }
               />
             </div>
             <div className="grid grid-cols-2 gap-4 items-end">
               <InputField
-                label={texts.squareMeterValue}
+                label={t('squareMeterValue')}
                 type="number"
                 value={formData.squareMeterValue}
                 isEditing={true}
                 onChange={(value) => handleChange('squareMeterValue', value)}
               />
               <InputField
-                label={texts.area}
+                label={t('area')}
                 type="number"
                 value={formData.area}
                 isEditing={true}
@@ -158,26 +170,26 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
             </div>
             <div className="grid grid-cols-2 gap-4 items-end">
               <InputField
-                label={texts.floors}
+                label={t('floors')}
                 type="number"
                 value={formData.floors}
                 isEditing={true}
                 onChange={(value) => handleChange('floors', value)}
               />
               <InputField
-                label={texts.investmentType}
+                label={t('investmentType')}
                 type="select"
                 value={formData.investmentType}
                 isEditing={true}
                 options={[
-                  { label: texts.property, value: 'PROPERTY' },
-                  { label: texts.other, value: 'OTHER' },
+                  { label: t('property'), value: 'PROPERTY' },
+                  { label: t('other'), value: 'OTHER' },
                 ]}
-                onChange={(value) => handleChange('investment', value)}
+                onChange={(value) => handleChange('investmentType', value)}
               />
             </div>
             <InputField
-              label={texts.images}
+              label={t('images')}
               type="file"
               value={formData.images}
               isEditing={true}
@@ -192,7 +204,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                 onClick={closeModal}
                 className="bg-zinc-600 text-white py-2 px-4 rounded-lg"
               >
-                {texts.cancel}
+                {t('cancel')}
               </button>
               <ButtonGlobal
                 type="submit"
@@ -207,7 +219,7 @@ const AddVentureModal: FC<AddVentureModalProps> = ({
                       data-testid="loader"
                     />
                   ) : (
-                    texts.add
+                    t('add')
                   ),
                   color: 'bg-primary',
                 }}

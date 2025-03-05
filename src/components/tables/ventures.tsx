@@ -1,79 +1,11 @@
 'use client'
 
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import { useState } from 'react'
-import { VentureDetails } from '../modals/venture-datails'
+import { useEnterpriseContext } from '@/context/enterprise-context'; // <-- Importamos o contexto
+import { useTranslations } from 'next-intl';
+import { useParams, useRouter } from 'next/navigation';
 
-interface CurrentPhase {
-  id: number
-  phaseName: string
-  description: string
-  order: number
-  createdAt: string
-  updatedAt: string
-}
-
-interface CurrentTask {
-  id: number
-  taskName: string
-  description: string
-  phaseId: number
-  createdAt: string
-  updatedAt: string
-}
-
-interface ContractInterest {
-  interestId: string
-  userId: number
-  enterpriseId: number
-  status: string
-  createdAt: string
-}
-
-interface Image {
-  url: string
-}
-
-interface Contract {
-  id: string
-  filePath: string
-  isFinalized: string
-  enterpriseId: string
-}
-
-interface Venture {
-  id: number
-  name: string
-  corporateName: string
-  description: string
-  status: string
-  isAvailable: boolean
-  investmentType: string
-  contracts: Contract[]
-  constructionType: string
-  fundingAmount: number
-  transferAmount: number
-  clientSigningUrl: string
-  contractStatus: string
-  clientSigningUrlExpire: string
-  postalCode: string
-  address: string
-  city: string
-  squareMeterValue: number
-  area: number
-  progress: number
-  floors: number
-  completionDate: string
-  startDate: string
-  currentPhaseId: number
-  currentTaskId: number
-  createdAt: string
-  updatedAt: string
-  currentPhase?: CurrentPhase
-  currentTask?: CurrentTask
-  contractInterests: ContractInterest[]
-  coverImageUrl: string
-  images: Image[]
+export interface Venture {
+  // ... (seus campos)
 }
 
 interface MyVenturesProps {
@@ -81,19 +13,18 @@ interface MyVenturesProps {
 }
 
 export function VenturesTable({ data }: MyVenturesProps) {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
+  const router = useRouter()
+  const params = useParams() as { locale: string }
+  const locale = params.locale
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
+ 
+  const { setCurrentEnterprise } = useEnterpriseContext()
 
-  const openModal = (row: Venture) => {
-    setSelectedContract(row)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedContract(null)
+  const handleSeeMore = (row: Venture) => {
+  
+    setCurrentEnterprise(row)
+    router.push(`/${locale}/admin/ventures/${row.id}`)
   }
 
   return (
@@ -103,27 +34,29 @@ export function VenturesTable({ data }: MyVenturesProps) {
           <thead className="uppercase border-b border-zinc-500">
             <tr>
               <th className="px-4 py-2 text-left font-medium text-xs">
-                {texts.venture}
+                {t('venture')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.completionDate}
+                {t('completionDate')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.amountInvested}
+                {t('amountInvested')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.amountTransferred}
+                {t('amountTransferred')}
               </th>
               <th className="px-4 py-2 text-center font-medium text-xs">
-                {texts.shares}
+                {t('seeMore')}
               </th>
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
               <tr
-                key={index}
-                className={`${index !== data.length - 1 ? 'border-b border-zinc-400' : ''}`}
+                key={row.id}
+                className={
+                  index !== data.length - 1 ? 'border-b border-zinc-400' : ''
+                }
               >
                 <td className="px-4 py-2 text-xs">{row.name}</td>
                 <td className="px-4 py-2 text-center text-xs">
@@ -142,9 +75,9 @@ export function VenturesTable({ data }: MyVenturesProps) {
                 <td className="px-4 py-2 text-center text-xs">
                   <button
                     className="border rounded-full text-primary border-primary py-1 px-4 bg-transparent"
-                    onClick={() => openModal(row)}
+                    onClick={() => handleSeeMore(row)}
                   >
-                    {texts.seeMore}
+                    {t('seeMore')}
                   </button>
                 </td>
               </tr>
@@ -152,19 +85,6 @@ export function VenturesTable({ data }: MyVenturesProps) {
           </tbody>
         </table>
       </div>
-
-      {/* Modal */}
-      {isModalOpen && selectedContract && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className=" w-full md:w-2/3">
-            <VentureDetails
-              isOpen={isModalOpen}
-              onClose={closeModal}
-              venture={selectedContract}
-            />
-          </div>
-        </div>
-      )}
     </section>
   )
 }

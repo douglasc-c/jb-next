@@ -70,7 +70,7 @@ export const AuthProvider = ({
   value,
 }: {
   children: React.ReactNode
-  // Nesse caso não precisamos mais de 'locale' no AuthContext.
+  
   value: Omit<
     AuthContextProps,
     'authData' | 'setAuthData' | 'isLoadingAuthData'

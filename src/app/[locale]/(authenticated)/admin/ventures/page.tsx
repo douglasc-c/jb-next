@@ -1,87 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import api from '@/lib/api'
-import ButtonGlobal from '@/components/buttons/global'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import AddVentureModal from '@/components/modals/add-venture'
-import { VenturesTable } from '@/components/tables/ventures'
-import { Loading } from '@/components/loading/loading'
-import Search from '@/components/searchs/search'
-import Image from 'next/image'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
-interface CurrentPhase {
-  id: number
-  phaseName: string
-  description: string
-  order: number
-  createdAt: string
-  updatedAt: string
-}
-
-interface CurrentTask {
-  id: number
-  taskName: string
-  description: string
-  phaseId: number
-  createdAt: string
-  updatedAt: string
-}
-
-interface ContractInterest {
-  interestId: string
-  userId: number
-  enterpriseId: number
-  status: string
-  createdAt: string
-}
-
-interface ImageItem {
-  url: string
-}
-
-interface Contract {
-  id: string
-  filePath: string
-  isFinalized: string
-  enterpriseId: string
-}
-
-interface Venture {
-  id: number
-  name: string
-  corporateName: string
-  description: string
-  status: string
-  isAvailable: boolean
-  investmentType: string
-  constructionType: string
-  fundingAmount: number
-  transferAmount: number
-  postalCode: string
-  address: string
-  city: string
-  contracts: Contract[]
-  squareMeterValue: number
-  area: number
-  progress: number
-  floors: number
-  completionDate: string
-  startDate: string
-  currentPhaseId: number
-  currentTaskId: number
-  createdAt: string
-  clientSigningUrl: string
-  contractStatus: string
-  clientSigningUrlExpire: string
-  updatedAt: string
-  currentPhase?: CurrentPhase
-  currentTask?: CurrentTask
-  contractInterests: ContractInterest[]
-  coverImageUrl: string
-  images: ImageItem[]
-}
+import ButtonGlobal from '@/components/buttons/global'
+import { Loading } from '@/components/loading/loading'
+import AddVentureModal from '@/components/modals/add-venture'
+import Search from '@/components/searchs/search'
+import { VenturesTable } from '@/components/tables/ventures'
+import { useEnterpriseContext } from '@/context/enterprise-context'
+import api from '@/lib/api'
 
 interface FormData {
   name: string
@@ -92,8 +22,9 @@ interface FormData {
   isAvailable: boolean
   constructionType: 'HOUSE' | 'APARTMENT' | 'OTHER'
   fundingAmount: number
-  transferAmount: number
+  transferAmount: number | null
   postalCode: string
+  state: string
   city: string
   squareMeterValue: number
   area: number
@@ -101,6 +32,7 @@ interface FormData {
   completionDate: string
   startDate: string
   images: File[]
+  commercializationType: 'TOKENIZATION' | 'FRACTIONAL'
 }
 
 interface Totals {
@@ -109,15 +41,21 @@ interface Totals {
   available: number
 }
 
-export default function Ventures() {
-  const { texts } = useLayoutAdminContext()
-  const [ventures, setVentures] = useState<Venture[]>([])
-  const [loading, setLoading] = useState(true)
+export default function VenturesPage() {
+  const t = useTranslations('TextLang')
+  
+  // Pega os dados do contexto
+  const { enterprises, fetchEnterprises } = useEnterpriseContext()
+
+  // Estados locais
+  const [pageLoading, setPageLoading] = useState(true)
   const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Estado para o filtro local
   const [searchQuery, setSearchQuery] = useState('')
-  const [filteredVentures, setFilteredVentures] = useState<Venture[]>(ventures)
+  const [filteredVentures, setFilteredVentures] = useState(enterprises)
 
   const [totals, setTotals] = useState<Totals>({
     total: 0,
@@ -125,6 +63,7 @@ export default function Ventures() {
     available: 0,
   })
 
+  // Formulário para novo empreendimento
   const [formData, setFormData] = useState<FormData>({
     name: '',
     description: '',
@@ -134,8 +73,9 @@ export default function Ventures() {
     isAvailable: true,
     constructionType: 'HOUSE',
     fundingAmount: 0,
-    transferAmount: 0,
+    transferAmount: null,
     postalCode: '',
+    state: '',
     city: '',
     squareMeterValue: 0,
     area: 0,
@@ -143,46 +83,61 @@ export default function Ventures() {
     completionDate: '',
     startDate: '',
     images: [],
+    commercializationType: 'TOKENIZATION',
   })
+
+  // Chama fetchEnterprises sempre que a página monta
+  useEffect(() => {
+    async function loadEnterprises() {
+      try {
+        setPageLoading(true)
+        await fetchEnterprises()
+      } catch (err) {
+        console.error('Erro ao carregar ventures:', err)
+      } finally {
+        setPageLoading(false)
+      }
+    }
+    loadEnterprises()
+  }, [fetchEnterprises])
+
+  // Atualiza o estado do filtro sempre que enterprises mudar
+  useEffect(() => {
+    setFilteredVentures(enterprises)
+  }, [enterprises])
 
   const handleChange = (
     field: string,
     value: string | number | File[] | null,
   ) => {
-    if (field === 'images' && Array.isArray(value)) {
-      setFormData((prevState) => ({
-        ...prevState,
-        images: value,
-      }))
-    } else if (
-      [
-        'fundingAmount',
-        'transferAmount',
-        'squareMeterValue',
-        'area',
-        'floors',
-      ].includes(field)
-    ) {
-      setFormData((prevState) => ({
-        ...prevState,
-        [field]: value ? parseFloat(value as string) : 0,
-      }))
-    } else if (field === 'isAvailable') {
-      setFormData((prevState) => ({
-        ...prevState,
-        isAvailable: value === 'true',
-      }))
-    } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [field]: value,
-      }))
-    }
+    setFormData((prev) => {
+      if (field === 'images' && Array.isArray(value)) {
+        return { ...prev, images: value }
+      }
+      if (field === 'transferAmount') {
+        return {
+          ...prev,
+          transferAmount:
+            value === '' || value === null ? null : parseFloat(value as string),
+        }
+      }
+      if (['fundingAmount', 'squareMeterValue', 'area', 'floors'].includes(field)) {
+        return {
+          ...prev,
+          [field]: value ? parseFloat(value as string) : 0,
+        }
+      }
+      if (field === 'isAvailable') {
+        return { ...prev, isAvailable: value === 'true' }
+      }
+      return { ...prev, [field]: value }
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    setLoadingButton(true)
     e.preventDefault()
+    setLoadingButton(true)
+    setError(null)
 
     try {
       const response = await api.post('/admin/create-enterprise', formData, {
@@ -192,14 +147,9 @@ export default function Ventures() {
       })
 
       if (response.status === 201) {
-        const venture = response.data.enterprise.enterprise
-
-        setVentures((prevVentures) => [...prevVentures, venture])
-        setFilteredVentures((prevFilteredVentures) => [
-          ...prevFilteredVentures,
-          venture,
-        ])
-        fetchVentures()
+        // Atualiza o contexto após criar
+        await fetchEnterprises()
+        // Limpa o formulário
         setFormData({
           name: '',
           description: '',
@@ -209,8 +159,9 @@ export default function Ventures() {
           isAvailable: true,
           constructionType: 'HOUSE',
           fundingAmount: 0,
-          transferAmount: 0,
+          transferAmount: null,
           postalCode: '',
+          state: '',
           city: '',
           squareMeterValue: 0,
           area: 0,
@@ -218,6 +169,7 @@ export default function Ventures() {
           completionDate: '',
           startDate: '',
           images: [],
+          commercializationType: 'TOKENIZATION',
         })
       } else {
         setError(response.data.message || 'Erro ao adicionar empreendimento')
@@ -231,7 +183,7 @@ export default function Ventures() {
         ) {
           setError(error.response.data.error)
         } else {
-          setError(error.response?.data.message)
+          setError(error.response?.data.message || 'Erro ao adicionar.')
         }
       } else {
         setError('Erro inesperado ao conectar ao servidor.')
@@ -239,22 +191,24 @@ export default function Ventures() {
       console.error('Erro na requisição:', error)
     } finally {
       setLoadingButton(false)
-      fetchVentures()
       closeModal()
     }
   }
 
+  // Filtra os empreendimentos conforme a busca
   const handleSearch = (query: string) => {
     setSearchQuery(query)
-    const results = ventures.filter(
-      (venture) =>
-        venture.name.toLowerCase().includes(query.toLowerCase()) ||
-        venture.description.toLowerCase().includes(query.toLowerCase()) ||
-        venture.corporateName.toLowerCase().includes(query.toLowerCase()) ||
-        venture.investmentType.toLowerCase().includes(query.toLowerCase()) ||
-        venture.address.toLowerCase().includes(query.toLowerCase()) ||
-        venture.constructionType.toLowerCase().includes(query.toLowerCase()) ||
-        venture.city.toLowerCase().includes(query.toLowerCase()),
+    const lowerQuery = query.toLowerCase()
+    const results = enterprises.filter((venture) =>
+      [
+        venture.name,
+        venture.description,
+        venture.corporateName,
+        venture.investmentType,
+        venture.address,
+        venture.constructionType,
+        venture.city,
+      ].some((field) => field.toLowerCase().includes(lowerQuery)),
     )
     setFilteredVentures(results)
   }
@@ -268,70 +222,17 @@ export default function Ventures() {
     setIsModalOpen(true)
   }
 
-  const fetchVentures = async () => {
-    try {
-      const response = await api.get('/admin/get-enterprise')
-      const fetchedVentures: Venture[] = response.data.enterprises
-
-      const computedTotals = fetchedVentures.reduce<Totals>(
-        (acc, venture) => {
-          acc.total += 1
-          if (venture.isAvailable) acc.available += 1
-
-          const approvedContracts = venture.contractInterests.filter(
-            (interest) => interest.status === 'APPROVED',
-          ).length
-
-          acc.inProgress += approvedContracts > 0 ? 1 : 0
-          return acc
-        },
-        { total: 0, available: 0, inProgress: 0 },
-      )
-
-      setVentures(
-        fetchedVentures.map((venture) => ({
-          ...venture,
-          progress: venture.contractInterests.filter(
-            (interest) => interest.status === 'APPROVED',
-          ).length,
-        })),
-      )
-      setFilteredVentures(fetchedVentures)
-      setTotals(computedTotals)
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (
-          error.response &&
-          error.response.data &&
-          typeof error.response.data.error === 'string'
-        ) {
-          setError(error.response.data.error)
-        } else {
-          setError(error.response?.data.message)
-        }
-      } else {
-        setError('Erro inesperado ao conectar ao servidor.')
-      }
-      console.error('Erro na requisição:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchVentures()
-  }, [])
-
-  if (loading) {
+  if (pageLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-zinc-200">
-        <Loading loading={loading} width={300} />
+        <Loading loading width={300} />
       </div>
     )
   }
 
   return (
-    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col items-start p-6 space-y-4">
+    <main className="bg-gray border h-[calc(80vh)] overflow-y-auto border-border flex flex-col p-10 rounded-lg space-y-4">
+
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
         <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
@@ -341,7 +242,7 @@ export default function Ventures() {
             alt="Projects"
           />
           <p>
-            {texts.total}: {totals.total}
+            {t('total')}: {totals.total}
           </p>
         </div>
         <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
@@ -352,7 +253,7 @@ export default function Ventures() {
             alt="Available"
           />
           <p>
-            {texts.available}: {totals.available}
+            {t('available')}: {totals.available}
           </p>
         </div>
         <div className="col-span-2 md:col-span-1 bg-zinc-300 rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
@@ -363,7 +264,7 @@ export default function Ventures() {
             alt="In Progress"
           />
           <p>
-            {texts.inProgress}: {totals.inProgress}
+            {t('inProgress')}: {totals.inProgress}
           </p>
         </div>
         <div className="col-span-2">
@@ -377,13 +278,14 @@ export default function Ventures() {
           <ButtonGlobal
             type="button"
             params={{
-              title: texts.addVenture,
+              title: t('addVenture'),
               color: 'bg-primary',
             }}
             onClick={openModal}
           />
         </div>
       </div>
+
       <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
         <VenturesTable data={filteredVentures} />
       </section>

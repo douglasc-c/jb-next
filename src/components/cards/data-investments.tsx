@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 interface DataInvestmentsPros {
@@ -20,11 +20,11 @@ interface DataInvestmentsPros {
 export function DataInvestments({ params }: DataInvestmentsPros) {
   const { text, bgColor, image, imageColor, totalValue, enterpriseCount } =
     params
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
 
   return (
     <div
-      className={`flex items-center text-white p-4 pr-10 rounded-xl ${bgColor} bg-zinc-700, justify-between`}
+      className={`flex items-center text-white p-4 pr-10 rounded-xl ${bgColor} bg-primary border border-gray justify-between`}
     >
       <div className="flex flex-col justify-center items-center">
         <span className="text-xs transform -rotate-90 tracking-wide uppercase">
@@ -46,7 +46,7 @@ export function DataInvestments({ params }: DataInvestmentsPros) {
           <span className="text-lg font-semibold">U$ {totalValue}</span>
           <span className="text-sm text-zinc-300">{text.balance}</span>
           <span className="text-xl font-bold">{enterpriseCount}</span>
-          <span className="text-sm text-zinc-300">{texts.developments}</span>
+          <span className="text-sm text-zinc-300">{t('developments')}</span>
         </div>
       </div>
     </div>

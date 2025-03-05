@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
 import ButtonGlobal from '@/components/buttons/global'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
+import { FC } from 'react'
 
 interface DeleteModalProps {
   isOpen: boolean

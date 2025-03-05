@@ -1,7 +1,7 @@
+import { useLayoutAdminContext } from '@/context/admin-context'
+import api from '@/lib/api'
 import { useState } from 'react'
 import DeleteModal from '../modals/delete'
-import api from '@/lib/api'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
 
 interface Faq {
   id: number

@@ -2,13 +2,13 @@
 
 import { Loading } from '@/components/loading/loading'
 import { MyVenturesTable } from '@/components/tables/my-ventures'
-import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function MyVentures() {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
   const [userRecentEnterprises, setUserRecentEnterprises] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -17,7 +17,6 @@ export default function MyVentures() {
     const fetchMyVenture = async () => {
       try {
         const response = await api.get('/users/my-enterprise')
-
         const fetchedUserRecentEnterprises = response.data
         setUserRecentEnterprises(fetchedUserRecentEnterprises)
       } finally {
@@ -37,9 +36,9 @@ export default function MyVentures() {
   }
 
   return (
-    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
-        <h1 className="uppercase font-medium">{texts.myVentures}</h1>
+        <h1 className="uppercase font-medium">{t('myVentures')}</h1>
         <section className="flex w-full rounded-xl bg-zinc-200 space-x-6 overflow-auto">
           {userRecentEnterprises.length > 0 ? (
             <MyVenturesTable data={userRecentEnterprises} />
@@ -52,7 +51,7 @@ export default function MyVentures() {
                   height={90}
                   width={90}
                 />
-                <span className="text-lg">{texts.youHaveNoBusiness}</span>
+                <span className="text-lg">{t('youHaveNoBusiness')}</span>
               </div>
             </div>
           )}

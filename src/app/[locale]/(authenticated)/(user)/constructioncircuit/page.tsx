@@ -2,14 +2,14 @@
 
 import { VentureCard } from '@/components/cards/venture'
 import { Loading } from '@/components/loading/loading'
-import { useLayoutContext } from '@/context/layout-context'
 import api from '@/lib/api'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function ConstructionCircuit() {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
   const [enterprises, setEnterprises] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -64,7 +64,7 @@ export default function ConstructionCircuit() {
     return (
       <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
         <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3 overflow-y-auto max-h-md relative">
-          <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
+          <h1 className="uppercase font-medium">{t('constructionCircuit')}</h1>
           <div className="text-center items-center flex flex-col space-y-4">
             <Image
               src="/images/svg/warning-grey.svg"
@@ -72,7 +72,7 @@ export default function ConstructionCircuit() {
               height={100}
               width={100}
             />
-            <span className="text-lg">{texts.noNewDevelopmentsAvailable}</span>
+            <span className="text-lg">{t('noNewDevelopmentsAvailable')}</span>
           </div>
         </div>
       </main>
@@ -81,8 +81,8 @@ export default function ConstructionCircuit() {
   return (
     <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
       <div className="p-4 bg-zinc-300 shadow space-y-4 rounded-xl">
-        <h1 className="uppercase font-medium">{texts.constructionCircuit}</h1>
-        <div className="grid md:grid-cols-2 gap-4 overflow-y-auto max-h-md  relative">
+        <h1 className="uppercase font-medium">{t('constructionCircuit')}</h1>
+        <div className="grid md:grid-cols-2 gap-4 overflow-y-auto max-h-md relative">
           {enterprises.map((item, index) => (
             <VentureCard key={index} data={item} />
           ))}

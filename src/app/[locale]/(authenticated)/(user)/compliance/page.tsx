@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from 'react'
-import { useLayoutContext } from '@/context/layout-context'
-import { useUploadContext } from '@/context/upload-context'
 import ComplianceStep from '@/components/cards/compliance-step'
-import Image from 'next/image'
-import api from '@/lib/api'
-import { useAuthContext } from '@/context/auth-context'
 import { Loading } from '@/components/loading/loading'
+import { useAuthContext } from '@/context/auth-context'
+import { useUploadContext } from '@/context/upload-context'
+import api from '@/lib/api'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import { useState } from 'react'
 
 interface FormData {
   documentType: string
@@ -16,8 +16,8 @@ interface FormData {
 
 export default function Compliance() {
   const { authData, isLoadingAuthData } = useAuthContext()
-  const { texts } = useLayoutContext()
   const { files, addFiles } = useUploadContext()
+  const t = useTranslations('TextLang')
   const [formData, setFormData] = useState<FormData>({ documentType: 'CNH' })
   const [currentStep, setCurrentStep] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -25,18 +25,10 @@ export default function Compliance() {
   const [success, setSuccess] = useState('')
 
   const steps = [
-    {
-      buttonLabel: texts.next,
-    },
-    {
-      buttonLabel: texts.next,
-    },
-    {
-      buttonLabel: texts.next,
-    },
-    {
-      buttonLabel: texts.finish,
-    },
+    { buttonLabel: t('next') },
+    { buttonLabel: t('next') },
+    { buttonLabel: t('next') },
+    { buttonLabel: t('finish') },
   ]
 
   const handleNext = () => {
@@ -82,7 +74,6 @@ export default function Compliance() {
     const documentType = formData.documentType
 
     const formDataToSend = new FormData()
-
     formDataToSend.append('documentType', documentType)
 
     if (files.documentFront && files.documentFront[0]) {
@@ -100,11 +91,8 @@ export default function Compliance() {
 
     try {
       const response = await api.post(`/users/send-document`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
-
       setSuccess(response.data)
       console.log('Resposta do servidor:', response.data)
     } catch (error) {
@@ -152,10 +140,9 @@ export default function Compliance() {
   }
 
   return (
-    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6 ">
+    <main className="bg-zinc-200 h-[calc(91vh)] flex flex-col p-6">
       <div className="flex flex-col p-4 bg-zinc-300 rounded-xl space-y-3">
-        <h1 className="uppercase font-medium">{texts.compliance}</h1>
-
+        <h1 className="uppercase font-medium">{t('compliance')}</h1>
         {authData?.user.complianceStatus !== 'UNDER_REVIEW' ? (
           <>
             <ComplianceStep
@@ -169,7 +156,7 @@ export default function Compliance() {
               totalSteps={steps.length}
               onFormDataUpdate={handleFormDataUpdate}
             />
-            {success && <p className=" text-green-600 text-sm">{success}</p>}
+            {success && <p className="text-green-600 text-sm">{success}</p>}
           </>
         ) : (
           <div className="p-10 py-[10rem] bg-zinc-200 rounded-xl items-center justify-center">
@@ -183,15 +170,15 @@ export default function Compliance() {
                 />
               </div>
               <h1 className="text-xl font-medium text-zinc-400">
-                {texts.verificationCompleted}
+                {t('verificationCompleted')}
               </h1>
               <p className="text-sm font-light text-zinc-500">
-                {
-                  texts.congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep
-                }
+                {t(
+                  'congratulationsYouHaveSubmittedYourDocumentsAndCompletedTheMandatoryComplianceStep',
+                )}
               </p>
               <p className="text-sm font-light text-primary underline">
-                {texts.howDoIChangeMyDataAndDocuments}
+                {t('howDoIChangeMyDataAndDocuments')}
               </p>
             </div>
           </div>

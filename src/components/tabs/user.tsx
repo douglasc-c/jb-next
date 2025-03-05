@@ -1,4 +1,4 @@
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import { InputField } from '../inputs/input-field'
 
 interface UserData {

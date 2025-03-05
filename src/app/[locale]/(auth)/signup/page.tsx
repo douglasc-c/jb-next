@@ -3,18 +3,18 @@
 import ButtonGlobal from '@/components/buttons/global'
 import Input from '@/components/inputs/input'
 import ModalCongratulations from '@/components/modals/congratulations'
-import { useAuthContext } from '@/context/auth-context'
 import api from '@/lib/api'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
 export default function Signup() {
-  const { textSignIn, locale } = useAuthContext()
-  const router = useRouter()
+  const t = useTranslations('TextLang')
 
+  const router = useRouter()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -43,13 +43,6 @@ export default function Signup() {
     event.preventDefault()
     setLoading(true)
     setError('')
-
-    if (!locale) {
-      setError('Erro: Locale não definido.')
-      console.error('Locale está undefined')
-      setLoading(false)
-      return
-    }
 
     if (!formData.accountType) {
       setError('Por favor, selecione um tipo de conta.')
@@ -149,11 +142,9 @@ export default function Signup() {
         <div className="w-full max-w-2xl space-y-6">
           <div className="w-full max-w-md space-y-1">
             <h2 className="text-4xl font-medium text-zinc-600">
-              {textSignIn.signup}
+              {t('signup')}
             </h2>
-            <p className="text-zinc-500">
-              {textSignIn.useYour4HandsSignupToAccess}
-            </p>
+            <p className="text-zinc-500">{t('useYour4HandsSignupToAccess')}</p>
           </div>
           <div className="w-full max-w-2xl p-8 space-y-8 shadow-lg bg-slate-100 rounded-lg">
             <form
@@ -162,7 +153,7 @@ export default function Signup() {
             >
               {/* Nome Completo */}
               <div className="space-y-2">
-                <label htmlFor="fullName">{textSignIn.name}</label>
+                <label htmlFor="fullName">{t('name')}</label>
                 <Input
                   id="fullName"
                   name="fullName"
@@ -175,7 +166,7 @@ export default function Signup() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="email">{textSignIn.email}</label>
+                <label htmlFor="email">{t('email')}</label>
                 <Input
                   id="email"
                   name="email"
@@ -189,7 +180,7 @@ export default function Signup() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="nickname">{textSignIn.username}</label>
+                <label htmlFor="nickname">{t('username')}</label>
                 <Input
                   id="nickname"
                   name="nickname"
@@ -202,7 +193,7 @@ export default function Signup() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="phone">{textSignIn.phone}</label>
+                <label htmlFor="phone">{t('phone')}</label>
                 <Input
                   id="phone"
                   name="phone"
@@ -215,7 +206,7 @@ export default function Signup() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="accountType">{textSignIn.userType}</label>
+                <label htmlFor="accountType">{t('userType')}</label>
                 <select
                   id="accountType"
                   name="accountType"
@@ -225,19 +216,17 @@ export default function Signup() {
                   onChange={handleChange}
                 >
                   <option value="" disabled>
-                    {textSignIn.userType}
+                    {t('userType')}
                   </option>
                   {/* Enviar 'INDIVIDUAL' ou 'BUSINESS' */}
-                  <option value="INDIVIDUAL">{textSignIn.individual}</option>
-                  <option value="BUSINESS">{textSignIn.company}</option>
+                  <option value="INDIVIDUAL">{t('individual')}</option>
+                  <option value="BUSINESS">{t('company')}</option>
                 </select>
               </div>
 
               {/* Número do Documento */}
               <div className="space-y-2">
-                <label htmlFor="documentNumber">
-                  {textSignIn.documentNumber}
-                </label>
+                <label htmlFor="documentNumber">{t('documentNumber')}</label>
                 <Input
                   id="documentNumber"
                   name="documentNumber"
@@ -250,8 +239,7 @@ export default function Signup() {
 
               {/* Data de Nascimento */}
               <div className="space-y-2">
-                <label htmlFor="birthDate">{textSignIn.dateOfBith}</label>{' '}
-                {/* Corrigido o erro de digitação */}
+                <label htmlFor="birthDate">{t('dateOfBith')}</label>
                 <Input
                   id="birthDate"
                   name="birthDate"
@@ -264,7 +252,7 @@ export default function Signup() {
 
               {/* Senha */}
               <div className="space-y-2 md:col-start-2">
-                <label htmlFor="password">{textSignIn.password}</label>
+                <label htmlFor="password">{t('password')}</label>
                 <Input
                   id="password"
                   name="password"
@@ -300,7 +288,7 @@ export default function Signup() {
                         data-testid="loader"
                       />
                     ) : (
-                      textSignIn.signup
+                      t('signup')
                     ),
                     color: 'bg-primary',
                   }}
@@ -319,12 +307,12 @@ export default function Signup() {
               height={24}
               width={24}
             />
-            <p>{textSignIn.yourInformationIsSafe}</p>
+            <p>{t('yourInformationIsSafe')}</p>
           </div>
           <div className="flex flex-row items-center text-gray-400 space-x-2">
-            <a href="#">{textSignIn.privacyCookPolicy}</a>
+            <a href="#">{t('privacyCookPolicy')}</a>
             <span> | </span>
-            <a href="#">{textSignIn.TermsOfService}</a>
+            <a href="#">{t('TermsOfService')}</a>
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 'use client'
 import { useAuthContext } from '@/context/auth-context'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import ButtonMenu from '../buttons/menu'
@@ -23,24 +24,12 @@ interface User {
 }
 
 interface SidebarProps {
-  text: {
-    welcome: string
-    dashboard: string
-    users: string
-    compliance: string
-    ventures: string
-    contracts: string
-    interests: string
-    stages: string
-    support: string
-    wallet: string
-    signOut: string
-  }
   locale: string
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
+const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const { setAuthData, authData } = useAuthContext()
+  const t = useTranslations('TextLang')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleSignOut = () => {
@@ -51,17 +40,17 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
 
   return (
     <>
-      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-5 py-9 transition-all duration-300 bg-zinc-300">
+      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-9 py-9 transition-all duration-300 bg-primary">
         <div className="flex flex-row md:ml-64 space-x-1">
-          <h1 className="text-zinc-600">{text.welcome}</h1>
-          <h3 className="font-semibold uppercase">
+          <h1 className="text-textPrimary">{t('welcome')}</h1>
+          <h3 className="font-semibold uppercase text-title">
             {authData?.user?.username}
           </h3>
         </div>
         <div className="flex flex-row items-center space-x-4">
-          <button className="p-2 border border-neutral-600 rounded-lg">
+          <button className="p-2 border border-neutral-600 rounded-lg hidden">
             <Image
-              src={`/images/svg/notification.svg`}
+              src="/images/svg/notification.svg"
               alt="notifications"
               height={18}
               width={18}
@@ -72,8 +61,8 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <Image
-              src={`/images/svg/menu.svg`}
-              alt="notifications"
+              src="/images/svg/menu.svg"
+              alt="menu"
               height={18}
               width={18}
             />
@@ -82,15 +71,15 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
       </div>
 
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-zinc-300 border-r-2 border-zinc-400 z-50 flex flex-col justify-between transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-screen w-64 bg-primary  z-50 flex flex-col justify-between transform transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:block`}
       >
-        <div className="grid gap-16">
-          <div className="p-4 justify-center flex">
+        <div className="grid gap-16 ">
+          <div className="p-4  items-center justify-center flex">
             <Image
-              src={`/images/svg/logo.svg`}
-              alt="notifications"
+              src="/images/svg/logo.svg"
+              alt="logo"
               height={180}
               width={180}
             />
@@ -99,42 +88,42 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
           <nav className="grid grid-rows-1">
             <ButtonMenu
               params={{
-                title: text.users,
+                title: t('users'),
                 path: `/${locale}/admin/users`,
                 icon: 'users',
               }}
             />
             <ButtonMenu
               params={{
-                title: text.interests,
+                title: t('interests'),
                 path: `/${locale}/admin/interests`,
                 icon: 'interests',
               }}
             />
             <ButtonMenu
               params={{
-                title: text.ventures,
+                title: t('ventures'),
                 path: `/${locale}/admin/ventures`,
                 icon: 'shock',
               }}
             />
             <ButtonMenu
               params={{
-                title: text.contracts,
+                title: t('contracts'),
                 path: `/${locale}/admin/contracts`,
                 icon: 'file',
               }}
             />
             <ButtonMenu
               params={{
-                title: text.wallet,
+                title: t('wallet'),
                 path: `/${locale}/admin/wallet`,
                 icon: 'walletbrown',
               }}
             />
             <ButtonMenu
               params={{
-                title: text.support,
+                title: t('support'),
                 path: `/${locale}/admin/support`,
                 icon: 'support',
               }}
@@ -148,13 +137,13 @@ const Sidebar: React.FC<SidebarProps> = ({ text, locale }) => {
           >
             <div className="p-2 rounded-lg">
               <Image
-                src={`/images/svg/signout.svg`}
-                alt="notifications"
+                src="/images/svg/signout.svg"
+                alt="sign out"
                 height={19}
                 width={19}
               />
             </div>
-            <span>{text.signOut}</span>
+            <span>{t('signOut')}</span>
           </button>
         </div>
       </div>

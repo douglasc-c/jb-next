@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import { InterestedDetails } from '../modals/interested'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
-import { VentureDetails } from '../modals/venture-datails'
 import axios from 'axios'
+import { useState } from 'react'
+import { InterestedDetails } from '../modals/interested'
+import { VentureDetails } from '../modals/venture-datails'
 
 interface User {
   firstName: string

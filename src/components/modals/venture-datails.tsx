@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
 import api from '@/lib/api'
-import { VentureTab } from '../tabs/venture'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
-import ImageGallery from '../tabs/imagens'
-import DeleteModal from './delete'
-import SelectWithToggle from '../tabs/stages'
-import { usePathname } from 'next/navigation'
-import ValuationForm from '../tabs/valuation'
-import { ContractTab } from '../tabs/contract'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import { usePathname } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { ContractTab } from '../tabs/contract'
+import ImageGallery from '../tabs/imagens'
+import SelectWithToggle from '../tabs/stages'
+import ValuationForm from '../tabs/valuation'
+import { VentureTab } from '../tabs/venture'
+import DeleteModal from './delete'
 
 interface CurrentPhase {
   id: number
@@ -58,7 +58,7 @@ interface Venture {
   constructionType: string
   contracts: Contract[]
   fundingAmount: number
-  transferAmount: number
+  transferAmount?: number | null
   postalCode: string
   address: string
   city: string
@@ -95,7 +95,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
   const pathname = usePathname()
   const parts = pathname.split('/')
   const route = parts.slice(3).join('/')
@@ -211,7 +211,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           setError(error.response?.data.message)
         }
       } else {
-        setError('Erro inesperado ao conectar ao servidor.')
+        setError(t('unexpectedServerError'))
       }
       console.error('Erro na requisição:', error)
     } finally {
@@ -264,6 +264,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         },
       )
       setValuationData(response.data.data)
+      return response
     } catch (error) {
       console.error('Erro:', error)
     }
@@ -282,6 +283,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
         },
       )
       setValuationData(response.data.data)
+      return response
     } catch (error) {
       console.error('Erro:', error)
     }
@@ -350,7 +352,7 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
   return (
     <div className="flex flex-col p-8 bg-zinc-300 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h3 className="text-lg md:text-2xl">{texts.ventureDetails}</h3>
+        <h3 className="text-lg md:text-2xl">{t('ventureDetails')}</h3>
         <button onClick={onClose} className="text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -375,13 +377,13 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
             className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-primary text-sm' : ''}`}
             onClick={() => setActiveTab('overview')}
           >
-            {texts.summary}
+            {t('summary')}
           </button>
           <button
             className={`pb-2 ${activeTab === 'images' ? 'border-b-2 border-primary' : ''}`}
             onClick={() => setActiveTab('images')}
           >
-            {texts.images}
+            {t('images')}
           </button>
           {route !== 'interests' && (
             <>
@@ -389,27 +391,27 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
                 className={`pb-2 ${activeTab === 'tasks' ? 'border-b-2 border-primary' : ''}`}
                 onClick={() => setActiveTab('tasks')}
               >
-                {texts.stage}
+                {t('stage')}
               </button>
               <button
                 className={`pb-2 ${activeTab === 'valuation' ? 'border-b-2 border-primary' : ''}`}
                 onClick={() => setActiveTab('valuation')}
               >
-                {texts.valuation}
+                {t('valuation')}
               </button>
               {venture.contracts?.length > 0 && (
                 <button
                   className={`pb-2 ${activeTab === 'contract' ? 'border-b-2 border-primary' : ''}`}
                   onClick={() => setActiveTab('contract')}
                 >
-                  {texts.contract}
+                  {t('contract')}
                 </button>
               )}
               <button
-                className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
+                className={`pb-2 hover:border-b-2 hover:border-red-600 hover:text-red-600`}
                 onClick={() => setIsModalDeleteOpen(true)}
               >
-                {texts.delete}
+                {t('delete')}
               </button>
             </>
           )}
@@ -453,14 +455,10 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
           />
         )}
         {activeTab === 'contract' && (
-          <ContractTab
-            links={urls}
-            contracts={venture.contracts}
-            // handleInputChange={handleInputChange}
-          />
+          <ContractTab links={urls} contracts={venture.contracts} />
         )}
       </div>
-      {success && <p className=" text-green-600 text-sm">{success}</p>}
+      {success && <p className="text-green-600 text-sm">{success}</p>}
       {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
       {route !== 'interests' &&
         activeTab !== 'tasks' &&
@@ -472,14 +470,14 @@ export const VentureDetails: React.FC<VentureDetailsProps> = ({
                 onClick={handleCancel}
                 className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
               >
-                {texts.cancel}
+                {t('cancel')}
               </button>
             )}
             <button
               onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
               className="bg-primary text-zinc-200 py-2 px-4 rounded-lg w-full"
             >
-              {isEditing ? texts.save : texts.edit}
+              {isEditing ? t('save') : t('edit')}
             </button>
           </div>
         )}

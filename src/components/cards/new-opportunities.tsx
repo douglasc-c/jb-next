@@ -1,12 +1,12 @@
 'use client'
 
-import { useLayoutContext } from '@/context/layout-context'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { DetailsVentures } from '../modals/datails-venture'
 import { OpportunitiesPreview } from './opportunities-preview'
 import { SmallOpportunitiesPreview } from './small-opportunities-preview'
-import { DetailsVentures } from '../modals/datails-venture'
-import Image from 'next/image'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 interface ContractInterest {
   interestId: string
@@ -57,7 +57,7 @@ interface NewOpportunitiesProps {
 }
 
 export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
-  const { texts } = useLayoutContext()
+  const t = useTranslations('TextLang')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedContract, setSelectedContract] = useState<Venture | null>(null)
   const router = useRouter()
@@ -77,12 +77,12 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
   }
 
   return (
-    <section className="flex p-4 bg-zinc-300 rounded-xl h-auto justify-around w-full gap-6">
+    <section className="flex p-4 bg-primary text-textPrimary border border-border rounded-xl h-auto justify-around w-full gap-6">
       <div
         className={`flex flex-col ${recentEnterprises.length >= 0 ? 'w-full' : 'w-2/3'} gap-y-2`}
       >
         <h3 className="uppercase font-medium">
-          {texts.newOpportunitiesPortifolio}
+          {t('newOpportunitiesPortifolio')}
         </h3>
 
         {recentEnterprises.length <= 0 && (
@@ -93,7 +93,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
               height={100}
               width={100}
             />
-            <span className="text-lg">{texts.noNewDevelopmentsAvailable}</span>
+            <span className="text-lg">{t('noNewDevelopmentsAvailable')}</span>
           </div>
         )}
 
@@ -101,7 +101,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
           <div className="relative flex flex-row-reverse">
             <button
               onClick={handleClick}
-              className="absolute bg-zinc-300 shadow rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3"
+              className="absolute bg-primary shadow rounded-full p-2 h-10 w-10 flex items-center justify-center -mt-3 -mr-3"
             >
               <Image
                 src="/images/svg/arrowRightGreen.svg"
@@ -131,7 +131,7 @@ export function NewOpportunities({ recentEnterprises }: NewOpportunitiesProps) {
       )}
 
       {isModalOpen && selectedContract && (
-        <div className="fixed inset-0  bg-black bg-opacity-50 w-full flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 w-full flex items-center justify-center z-50">
           <div className="rounded-lg p-6 shadow-lg w-full md:w-2/3">
             <DetailsVentures onClick={closeModal} data={selectedContract} />
           </div>

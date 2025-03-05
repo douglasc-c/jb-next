@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import { useState } from 'react'
 import { DepositDetails } from '../modals/deposit-detail'
 interface DepositUser {

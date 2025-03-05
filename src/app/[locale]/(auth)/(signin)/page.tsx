@@ -14,8 +14,8 @@ import { FormEvent, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
 export default function SignIn() {
-  const { setAuthData } = useAuthContext() // 2) Removemos textSignIn e locale do AuthContext
-  const t = useTranslations('TextLang') // 3) Hook para obter traduções do namespace 'TextLang'
+  const { setAuthData } = useAuthContext()
+  const t = useTranslations('TextLang')
 
   const router = useRouter()
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -55,14 +55,13 @@ export default function SignIn() {
             60 * 60
           }; path=/; SameSite=Strict`
 
-          // Se o usuário não confirmou o e-mail, abre o modal de token
+         
           if (user.complianceStatus === 'PENDING_EMAIL') {
             await fetchTokenEmail()
             setIsTokenModalOpen(true)
             return
           }
 
-          // Redireciona de acordo com a role do usuário
           const roleRoutes: { [key: string]: string } = {
             ADMIN: '/admin/users',
             USER: '/dashboard',
@@ -107,13 +106,13 @@ export default function SignIn() {
   }
 
   return (
-    <main className="h-screen flex">
+    <main className="h-screen flex bg-primary">
       <TokenModal
         isOpen={isTokenModalOpen}
         onClose={() => setIsTokenModalOpen(false)}
       />
 
-      <section className="hidden md:block w-1/3 relative">
+      <section className="hidden md:block w-1/3 relative ">
         <div className="absolute inset-0 bg-render bg-cover bg-center">
           <div className="flex flex-col items-center justify-center h-full">
             <Image
@@ -127,15 +126,18 @@ export default function SignIn() {
         </div>
       </section>
 
-      <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 md:bg-zinc-200 bg-render md:bg-none bg-cover bg-center space-y-6">
+      <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 md:bg-primary bg-render md:bg-none bg-cover bg-center space-y-6">
         <div />
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-md space-y-6 ">
           <div className="w-full max-w-md space-y-1">
             <h2 className="text-4xl font-medium text-zinc-800">{t('enter')}</h2>
             <p className="text-zinc-500">{t('useYour4HandsLoginToAccess')}</p>
           </div>
-          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-slate-100 rounded-lg">
-            <form className="space-y-6 text-black" onSubmit={handleSubmit}>
+          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-primary border border-border  rounded-lg">
+            <form
+              className="space-y-6 text-textPrimary"
+              onSubmit={handleSubmit}
+            >
               <div className="space-y-2">
                 <span>{t('email')}</span>
                 <Input
@@ -189,7 +191,7 @@ export default function SignIn() {
                   params={{
                     title: loading ? (
                       <PulseLoader
-                        color="#fff"
+                        color="#3f3f3f"
                         loading={loading}
                         size={6}
                         aria-label="Loading Spinner"
@@ -198,7 +200,7 @@ export default function SignIn() {
                     ) : (
                       t('signIn')
                     ),
-                    color: 'bg-primary',
+                    color: 'bg-gray',
                   }}
                 />
               </div>

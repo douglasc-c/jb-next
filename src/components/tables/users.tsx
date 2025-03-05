@@ -1,7 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
 import { UserDetails } from '../modals/user-datails'
 
 interface User {
@@ -31,24 +31,24 @@ interface MyVenturesProps {
 }
 
 export function UsersTable({ data }: MyVenturesProps) {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
   const getComplianceText = (status: string) => {
     switch (status) {
       case 'PENDING_EMAIL':
-        return texts.pendingEmail
+        return t('pendingEmail')
       case 'PENDING_ADDRESS':
-        return texts.pendingAddress
+        return t('pendingAddress')
       case 'PENDING_DOCUMENTS':
-        return texts.pendingDocuments
+        return t('pendingDocuments')
       case 'UNDER_REVIEW':
-        return texts.underReview
+        return t('underReview')
       case 'APPROVED':
-        return texts.validated
+        return t('validated')
       default:
-        return texts.unknownStatus
+        return t('unknownStatus')
     }
   }
 
@@ -63,22 +63,22 @@ export function UsersTable({ data }: MyVenturesProps) {
   }
 
   return (
-    <section className="h-auto w-full p-4">
+    <section className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-md">
       <div className="custom-scroll max-h-[40rem]">
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium">
-                {texts.name}
+                {t('name')}
               </th>
               <th className="px-4 py-2 text-center text-xs font-medium">
-                {texts.type}
+                {t('type')}
               </th>
               <th className="px-4 py-2 text-center text-xs font-medium">
-                {texts.compliance}
+                {t('compliance')}
               </th>
               <th className="px-4 py-2 text-center text-xs font-medium">
-                {texts.seeMore}
+                {t('seeMore')}
               </th>
             </tr>
           </thead>
@@ -108,7 +108,7 @@ export function UsersTable({ data }: MyVenturesProps) {
                     className="rounded-full border border-primary text-primary py-1 px-4 bg-transparent"
                     onClick={() => openModal(row)}
                   >
-                    {texts.seeMore}
+                    {t('seeMore')}
                   </button>
                 </td>
               </tr>

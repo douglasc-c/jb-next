@@ -15,23 +15,24 @@ type IDataProps = {
 export default function ButtonMenu({ params }: IDataProps) {
   const { title, path, icon } = params
   const pathname = usePathname()
-
   const isActive: boolean = pathname === path
 
   return (
     <ul className="flex">
       <Link
         href={path}
-        className={`w-full pl-12 py-5 justify-start items-center space-x-3 text-primary flex font-regular text-sm uppercase ${
-          isActive ? 'bg-zinc-200' : 'bg-tranparent'
+        className={`w-full pl-12 ml-5 py-2  gap-2  my-4 flex items-center rounded-2xl space-x-3 text-textPrimary font-regular text-[0.70rem] uppercase transition-transform duration-200 cursor-pointer ${
+          isActive
+            ? 'bg-border'
+            : 'bg-transparent hover:bg-gray hover:translate-x-2 hover:scale-95'
         }`}
       >
         <div className="p-2 bg-stone-300 shadow rounded-lg">
           <Image
             src={`/images/svg/${icon}.svg`}
-            alt="notifications"
-            height={19}
-            width={19}
+            alt={title}
+            height={14}
+            width={14}
           />
         </div>
         <span>{title}</span>

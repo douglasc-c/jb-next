@@ -1,4 +1,4 @@
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useTranslations } from 'next-intl'
 import { InputField } from '../inputs/input-field'
 
 interface Venture {
@@ -11,7 +11,7 @@ interface Venture {
   investmentType: string
   constructionType: string
   fundingAmount: number
-  transferAmount: number
+  transferAmount?: number | null
   postalCode: string
   address: string
   city: string
@@ -42,19 +42,19 @@ export const VentureTab: React.FC<VentureTabProps> = ({
   editableData,
   handleInputChange,
 }) => {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
 
   return (
     <div className="grid md:grid-cols-4 grid-cols-2 gap-4 text-left items-end custom-scroll max-h-[400px]">
       <div className="col-span-2 grid-cols-2 grid gap-4">
         <InputField
-          label={texts.name}
+          label={t('name')}
           value={editableData.name}
           isEditing={isEditing}
           onChange={(value) => handleInputChange('name', value)}
         />
         <InputField
-          label={texts.corporateName}
+          label={t('corporateName')}
           value={editableData.corporateName}
           isEditing={isEditing}
           onChange={(value) => handleInputChange('corporateName', value)}
@@ -62,112 +62,96 @@ export const VentureTab: React.FC<VentureTabProps> = ({
       </div>
       <div className="col-span-2 grid-cols-1 grid">
         <InputField
-          label={texts.description}
+          label={t('description')}
           value={editableData.description}
           isEditing={isEditing}
           onChange={(value) => handleInputChange('description', value)}
         />
       </div>
       <InputField
-        label={texts.constructionType}
+        label={t('constructionType')}
         value={editableData.constructionType}
         isEditing={isEditing}
         type="select"
         options={[
-          { value: 'HOUSE', label: texts.house },
-          { value: 'APARTMENT', label: texts.apartment },
-          { value: 'OTHER', label: texts.other },
+          { value: 'HOUSE', label: t('house') },
+          { value: 'APARTMENT', label: t('apartment') },
+          { value: 'OTHER', label: t('other') },
         ]}
         onChange={(value) => handleInputChange('constructionType', value)}
       />
       <InputField
-        label={texts.address}
+        label={t('address')}
         value={editableData.address}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('address', value)}
       />
-
       <InputField
-        label={texts.city}
+        label={t('city')}
         value={editableData.city}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('city', value)}
       />
-
       <InputField
-        label={texts.isAvailable}
+        label={t('isAvailable')}
         value={editableData.isAvailable ? 'true' : 'false'}
         isEditing={isEditing}
         type="select"
         options={[
-          { value: 'true', label: texts.available },
-          { value: 'false', label: texts.notAvaliable },
+          { value: 'true', label: t('available') },
+          { value: 'false', label: t('notAvaliable') },
         ]}
         onChange={(value) => handleInputChange('isAvailable', value)}
       />
       <InputField
-        label={texts.postalCode}
+        label={t('postalCode')}
         value={editableData.postalCode}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('postalCode', value)}
       />
-
       <InputField
-        type={'date'}
-        label={texts.startDate}
+        type="date"
+        label={t('startDate')}
         value={editableData.startDate}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('startDate', value)}
       />
-
       <InputField
-        type={'date'}
-        label={texts.completionDate}
+        type="date"
+        label={t('completionDate')}
         value={editableData.completionDate}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('completionDate', value)}
       />
-
       <InputField
-        type={'number'}
-        label={texts.fundingAmount}
+        type="number"
+        label={t('fundingAmount')}
         value={editableData.fundingAmount.toString()}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('fundingAmount', value)}
       />
-
       <InputField
-        type={'number'}
-        label={texts.transferAmount}
-        value={editableData.transferAmount.toString()}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('transferAmount', value)}
-      />
-
-      <InputField
-        type={'number'}
-        label={texts.squareMeterValue}
+        type="number"
+        label={t('squareMeterValue')}
         value={editableData.squareMeterValue.toString()}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('squareMeterValue', value)}
       />
-
       <InputField
-        type={'number'}
-        label={texts.area}
+        type="number"
+        label={t('area')}
         value={editableData.area.toString()}
         isEditing={isEditing}
         onChange={(value) => handleInputChange('area', value)}
       />
-
       <InputField
-        label={texts.investmentType}
+        label={t('investmentType')}
         value={editableData.investmentType}
         isEditing={isEditing}
         type="select"
         options={[
-          { value: 'PROPERTY', label: texts.property },
-          { value: 'MONEY', label: texts.other },
+          { value: 'PROPERTY', label: t('property') },
+          { value: 'MONEY', label: t('other') },
         ]}
         onChange={(value) => handleInputChange('investmentType', value)}
       />

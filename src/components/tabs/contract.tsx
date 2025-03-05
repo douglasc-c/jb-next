@@ -1,6 +1,6 @@
-import { useLayoutAdminContext } from '@/context/layout-admin-context'
+import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
-import { useEffect, useState, ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { BarLoader, PulseLoader } from 'react-spinners'
 interface Contract {
   id: string
