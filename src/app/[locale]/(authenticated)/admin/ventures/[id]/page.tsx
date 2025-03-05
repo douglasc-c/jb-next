@@ -20,28 +20,19 @@ export default function VentureDetailsPage() {
   const t = useTranslations('TextLang')
   const { id } = useParams() as { id: string }
 
-  const {
-    currentEnterprise,
-    setCurrentEnterprise,
-  } = useEnterpriseContext()
+  const { currentEnterprise, setCurrentEnterprise } = useEnterpriseContext()
 
   const [images, setImages] = useState<ImageData[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingImages, setLoadingImages] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState('resumo')
-  // const [orderType, setOrderType] = useState<'market' | 'limit'>('market')
-  // const [shares, setShares] = useState<string>('')
-  // const [sharePrice, setSharePrice] = useState<string>('')
-  // const [propertyValue, setPropertyValue] = useState<string>('')
-  // const [sliderValue, setSliderValue] = useState<number>(0)
-
 
   useEffect(() => {
     async function fetchOneEnterprise() {
       try {
         const response = await api.get(`/admin/enterprise/${id}`)
-        setCurrentEnterprise(response.data.enterprise) // atualiza no contexto
+        setCurrentEnterprise(response.data.enterprise)
         setLoading(false)
       } catch (err) {
         setError('Erro ao buscar empreendimento.')
@@ -49,15 +40,12 @@ export default function VentureDetailsPage() {
       }
     }
 
-  
     if (!currentEnterprise || currentEnterprise.id !== Number(id)) {
       fetchOneEnterprise()
     } else {
-    
       setLoading(false)
     }
   }, [id, currentEnterprise, setCurrentEnterprise])
-
 
   useEffect(() => {
     if (currentEnterprise) {
@@ -88,17 +76,12 @@ export default function VentureDetailsPage() {
   if (error) return <p>{error}</p>
   if (!currentEnterprise) return <p>{t('ventureNotFound')}</p>
 
-
   const venture = currentEnterprise
-
-  
 
   return (
     <div className="container mx-auto w-full bg-gray px-10 py-5 rounded-lg antialiased text-textPrimary ">
-     
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div className="w-full md:w-[40%]">
-          
           <p className="text-lg font-bold text-[#727272] mb-2">
             {venture.name}
           </p>
@@ -120,19 +103,20 @@ export default function VentureDetailsPage() {
             title="Total de cotas"
             value={venture?.fractionalSale?.totalQuotas}
             icon="up"
-        
           />
-            <CardBalance
+          <CardBalance
             title="Total Vendidas"
             value={venture?.fractionalSale?.soldQuotas}
             icon="up"
-        
           />
-       <CardBalance
-  title="Total disponiveis"
-  value={(venture?.fractionalSale?.totalQuotas ?? 0) - (venture?.fractionalSale?.soldQuotas ?? 0)}
-  icon="up"
-/>
+          <CardBalance
+            title="Total disponiveis"
+            value={
+              (venture?.fractionalSale?.totalQuotas ?? 0) -
+              (venture?.fractionalSale?.soldQuotas ?? 0)
+            }
+            icon="up"
+          />
         </div>
       </section>
 
@@ -160,10 +144,8 @@ export default function VentureDetailsPage() {
       </div>
 
       <div className="bg-primary order-r border-l border-b border-border">
- 
         {activeTab === 'resumo' && <ResumeTab venture={venture} />}
 
-       
         {activeTab === 'imagens' && images.length > 0 && (
           <div className="grid grid-cols-2 gap-px rounded-lg">
             <div className="col-span-1 row-span-2 mr-4">

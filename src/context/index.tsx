@@ -1,35 +1,22 @@
-
 import React from 'react'
-
 
 import type { AuthContextProps } from './auth-context'
 import { AuthProvider } from './auth-context'
 
-
 import { EnterpriseProvider } from './enterprise-context'
-import type { LayoutContextProps } from './layout-context'
-import { LayoutProvider } from './layout-context'
-
 
 interface AppProvidersProps {
   children: React.ReactNode
-  authValue: Omit<AuthContextProps, 'authData' | 'setAuthData' | 'isLoadingAuthData'>
-  layoutValue: LayoutContextProps
-
+  authValue: Omit<
+    AuthContextProps,
+    'authData' | 'setAuthData' | 'isLoadingAuthData'
+  >
 }
 
-export const AppProviders = ({
-  children,
-  authValue,
-  layoutValue,
-}: AppProvidersProps) => {
+export const AppProviders = ({ children, authValue }: AppProvidersProps) => {
   return (
     <AuthProvider value={authValue}>
-      <LayoutProvider value={layoutValue}>
-        <EnterpriseProvider>
-          {children}
-        </EnterpriseProvider>
-      </LayoutProvider>
+      <EnterpriseProvider>{children}</EnterpriseProvider>
     </AuthProvider>
   )
 }

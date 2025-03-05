@@ -1,7 +1,12 @@
 'use client'
 
 import api from '@/lib/api'
-import React, { createContext, useCallback, useContext, useReducer } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useReducer,
+} from 'react'
 
 export interface FractionalSale {
   id: number
@@ -51,17 +56,14 @@ export interface Enterprise {
   investments?: Investment[]
 }
 
-
 interface EnterpriseState {
   enterprises: Enterprise[]
   currentEnterprise: Enterprise | null
 }
 
-
 type EnterpriseAction =
   | { type: 'SET_ENTERPRISES'; payload: Enterprise[] }
   | { type: 'SET_CURRENT_ENTERPRISE'; payload: Enterprise | null }
-
 
 function enterpriseReducer(
   state: EnterpriseState,
@@ -77,7 +79,6 @@ function enterpriseReducer(
   }
 }
 
-
 export interface EnterpriseContextProps {
   enterprises: Enterprise[]
   currentEnterprise: Enterprise | null
@@ -86,9 +87,9 @@ export interface EnterpriseContextProps {
   setCurrentEnterprise: (ent: Enterprise | null) => void
 }
 
-
-const EnterpriseContext = createContext<EnterpriseContextProps | undefined>(undefined)
-
+const EnterpriseContext = createContext<EnterpriseContextProps | undefined>(
+  undefined,
+)
 
 export function useEnterpriseContext() {
   const context = useContext(EnterpriseContext)
@@ -100,8 +101,11 @@ export function useEnterpriseContext() {
   return context
 }
 
-
-export const EnterpriseProvider = ({ children }: { children: React.ReactNode }) => {
+export const EnterpriseProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
   const initialState: EnterpriseState = {
     enterprises: [],
     currentEnterprise: null,
@@ -122,10 +126,10 @@ export const EnterpriseProvider = ({ children }: { children: React.ReactNode }) 
       const response = await api.get('/admin/get-enterprise')
       const { enterprises } = response.data
       setEnterprises(enterprises)
-      return enterprises  
+      return enterprises
     } catch (error) {
       console.error('Erro ao buscar empreendimentos:', error)
-      return []  
+      return []
     }
   }, [setEnterprises])
 
