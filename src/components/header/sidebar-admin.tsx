@@ -46,8 +46,8 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
       <div
         className={`w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary ${isMinimized ? 'md:ml-16' : 'md:ml-64'}`}
       >
-        <div className="flex flex-row mt-5 space-x-1">
-          <h1 className="text-textPrimary">{t('welcome')}</h1>
+        <div className="flex flex-row py-5 space-x-1">
+          <h1 className="text-zinc-200">{t('welcome')}</h1>
           <h3 className="font-semibold uppercase text-title">
             {authData?.user?.firstName}
           </h3>
@@ -76,13 +76,13 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
       </div>
 
       <div
-        className={`fixed top-0 left-0 h-screen bg-primary z-50 flex flex-col justify-between transform transition-all duration-300 ${
+        className={`fixed h-screen bg-primary z-50 flex flex-col justify-between transform transition-all duration-300 -mt-[4rem] ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:block ${isMinimized ? 'w-16' : 'w-64'}`}
       >
-        <div className="grid gap-16">
+        <div className="flex flex-col h-full gap-8 pt-8">
           <div
-            className="p-4 items-center justify-center flex cursor-pointer"
+            className=" justify-center flex cursor-pointer"
             onClick={() => setIsMinimized(!isMinimized)}
           >
             <Image
@@ -90,30 +90,34 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
               alt="logo"
               height={isMinimized ? 40 : 180}
               width={isMinimized ? 40 : 180}
+              className="transition-all duration-300"
             />
           </div>
-
-          <nav className="grid grid-rows-1">
-            <ButtonMenu
-              params={{
-                title: t('users'),
-                path: `/${locale}/admin/users`,
-                icon: 'users',
-                isMinimized,
-              }}
-            />
-          </nav>
-        </div>
-        <div className="p-2">
-          <ButtonMenu
-            params={{
-              title: t('signOut'),
-              path: '#',
-              icon: 'signout',
-              isMinimized,
-              onClick: handleSignOut,
-            }}
-          />
+          <div
+            className={`flex flex-col flex-auto justify-between ${isMinimized ? 'py-2' : 'p-4'}`}
+          >
+            <nav className="grid gap-4">
+              <ButtonMenu
+                params={{
+                  title: t('users'),
+                  path: `/${locale}/admin/users`,
+                  icon: 'users',
+                  isMinimized,
+                }}
+              />
+            </nav>
+            <nav>
+              <ButtonMenu
+                params={{
+                  title: t('signOut'),
+                  path: '#',
+                  icon: 'signout',
+                  isMinimized,
+                  onClick: handleSignOut,
+                }}
+              />
+            </nav>
+          </div>
         </div>
       </div>
 

@@ -12,7 +12,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const { isMinimized } = useSidebar()
 
   return (
-    <>
+    <div className="overflow-x-hidden bg-primary">
       <Sidebar locale={locale} />
       <div
         className={`flex-grow overflow-y-auto bg-primary transition-all duration-300 ${
@@ -21,6 +21,6 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
       >
         {children}
       </div>
-    </>
+    </div>
   )
 }

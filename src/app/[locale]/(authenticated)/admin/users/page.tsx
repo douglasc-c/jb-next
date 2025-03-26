@@ -183,7 +183,7 @@ export default function Users() {
   }
 
   return (
-    <main className="m-7 bg-gray border border-border h-[47rem] flex flex-col items-start p-10 rounded-lg space-y-4 antialiased ">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[48rem] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
         <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image

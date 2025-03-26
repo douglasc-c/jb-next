@@ -22,7 +22,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lng}>
-      <body className="flex flex-col h-screen">
+      <body className="flex flex-col h-screen bg-primary">
         <SidebarProvider>
           <ClientLayout locale={locale}>{children}</ClientLayout>
         </SidebarProvider>

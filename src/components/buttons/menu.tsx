@@ -21,21 +21,26 @@ export default function ButtonMenu({ params }: IDataProps) {
 
   const buttonContent = (
     <div
-      className={`w-full gap-2 my-4 flex items-center rounded-2xl space-x-3 text-textPrimary font-regular text-[0.70rem] uppercase transition-transform duration-200 cursor-pointer ${
+      className={`w-full gap-2 flex items-center rounded-2xl space-x-3 text-zinc-200 font-regular text-[0.70rem] uppercase transition-transform duration-200 cursor-pointer ${
         isActive
           ? 'bg-border'
           : 'bg-transparent hover:bg-gray hover:translate-x-2 hover:scale-95'
-      } ${isMinimized ? 'justify-center py-2' : 'pl-12  ml-5 py-2'}`}
+      } ${isMinimized ? 'justify-center py-2' : 'pl-12 py-2'}`}
     >
       <div className="p-2 bg-stone-300 shadow rounded-lg">
         <Image
           src={`/images/svg/${icon}.svg`}
           alt={title}
-          height={14}
-          width={14}
+          height={16}
+          width={16}
         />
       </div>
-      {!isMinimized && <span>{title}</span>}
+
+      <span
+        className={`transition-all duration-300 ${isMinimized ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}
+      >
+        {title}
+      </span>
     </div>
   )
 
