@@ -1,6 +1,8 @@
 import '@/app/globals.css'
-import Sidebar from '@/components/header/sidebar-admin'
+
+import { SidebarProvider } from '@/context/sidebar-context'
 import { getLocale } from 'next-intl/server'
+import ClientLayout from './client-layout'
 
 const languages = ['pt-BR']
 export const dynamic = 'force-dynamic'
@@ -21,10 +23,9 @@ export default async function RootLayout({
   return (
     <html lang={lng}>
       <body className="flex flex-col h-screen">
-        <Sidebar locale={locale} />
-        <div className="md:ml-64 flex-grow overflow-y-auto bg-primary">
-          {children}
-        </div>
+        <SidebarProvider>
+          <ClientLayout locale={locale}>{children}</ClientLayout>
+        </SidebarProvider>
       </body>
     </html>
   )

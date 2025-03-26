@@ -31,7 +31,7 @@ export default function ModalCongratulations({
 
           <button
             onClick={onClose}
-            className="mt-4 px-4 py-2 bg-blue-500 bg-zinc-700 rounded-lg hover:bg-blue-600"
+            className="mt-4 px-4 py-2 bg-zinc-700 rounded-lg hover:bg-blue-600"
           >
             Fechar
           </button>

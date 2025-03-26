@@ -1,5 +1,7 @@
 'use client'
+
 import { useAuthContext } from '@/context/auth-context'
+import { useSidebar } from '@/context/sidebar-context'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -29,6 +31,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const { setAuthData, authData } = useAuthContext()
+  const { isMinimized, setIsMinimized } = useSidebar()
   const t = useTranslations('TextLang')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
@@ -40,8 +43,10 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
 
   return (
     <>
-      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary">
-        <div className="flex flex-row md:ml-64 mt-5 space-x-1">
+      <div
+        className={`w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary ${isMinimized ? 'md:ml-16' : 'md:ml-64'}`}
+      >
+        <div className="flex flex-row mt-5 space-x-1">
           <h1 className="text-textPrimary">{t('welcome')}</h1>
           <h3 className="font-semibold uppercase text-title">
             {authData?.user?.firstName}
@@ -71,17 +76,20 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
       </div>
 
       <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-primary  z-50 flex flex-col justify-between transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-screen bg-primary z-50 flex flex-col justify-between transform transition-all duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:block`}
+        } md:translate-x-0 md:block ${isMinimized ? 'w-16' : 'w-64'}`}
       >
-        <div className="grid gap-16 ">
-          <div className="p-4  items-center justify-center flex">
+        <div className="grid gap-16">
+          <div
+            className="p-4 items-center justify-center flex cursor-pointer"
+            onClick={() => setIsMinimized(!isMinimized)}
+          >
             <Image
               src="/images/svg/logo.svg"
               alt="logo"
-              height={180}
-              width={180}
+              height={isMinimized ? 40 : 180}
+              width={isMinimized ? 40 : 180}
             />
           </div>
 
@@ -91,46 +99,21 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
                 title: t('users'),
                 path: `/${locale}/admin/users`,
                 icon: 'users',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('interests'),
-                path: `/${locale}/admin/interests`,
-                icon: 'interests',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('ventures'),
-                path: `/${locale}/admin/ventures`,
-                icon: 'shock',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('contracts'),
-                path: `/${locale}/admin/contracts`,
-                icon: 'file',
+                isMinimized,
               }}
             />
           </nav>
         </div>
         <div className="p-2">
-          <button
-            onClick={handleSignOut}
-            className="w-full pl-10 py-5 items-center space-x-3 text-zinc-200 flex font-regular text-sm uppercase"
-          >
-            <div className="p-2 rounded-lg">
-              <Image
-                src="/images/svg/signout.svg"
-                alt="sign out"
-                height={19}
-                width={19}
-              />
-            </div>
-            <span>{t('signOut')}</span>
-          </button>
+          <ButtonMenu
+            params={{
+              title: t('signOut'),
+              path: '#',
+              icon: 'signout',
+              isMinimized,
+              onClick: handleSignOut,
+            }}
+          />
         </div>
       </div>
 
