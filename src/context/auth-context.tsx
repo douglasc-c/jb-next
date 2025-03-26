@@ -3,27 +3,16 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 
 export interface User {
-  avatar: string
-  birthDate: string
-  complianceStatus: string
-  email: string
-  emailVerified: boolean
-  firstName: string
   id: number
-  isActive: boolean
-  isApproved: boolean
+  firstName: string
   lastName: string
-  mustChangePassword: boolean
-  numberDocument: string
-  phone: string
+  email: string
   role: string
-  username: string
 }
 
 export interface AuthData {
   token: string
   user: User
-  mustChangePassword: boolean
 }
 
 export interface AuthContextProps {
@@ -70,7 +59,7 @@ export const AuthProvider = ({
   value,
 }: {
   children: React.ReactNode
-  
+
   value: Omit<
     AuthContextProps,
     'authData' | 'setAuthData' | 'isLoadingAuthData'

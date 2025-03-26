@@ -116,40 +116,7 @@ export default function Dashboard() {
     type: t('invested'),
   }
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const response = await api.get('/users/web/dashboard')
-        const data = response.data.data
-
-        setPieChart(data.pieChart)
-        setTotalInvested(data.totalInvested)
-        setTotalValuation(data.totalValuation)
-        setEnterpriseCount(data.enterpriseCount)
-        setRecentEnterprises(data.recentEnterprises)
-        setUserRecentEnterprises(data.userEnterprises)
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          if (
-            error.response &&
-            error.response.data &&
-            typeof error.response.data.error === 'string'
-          ) {
-            setError(error.response.data.error)
-          } else {
-            setError(error.response?.data.message)
-          }
-        } else {
-          setError('Erro inesperado ao conectar ao servidor.')
-        }
-        console.error('Erro na requisição:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchDashboard()
-  }, [])
+  useEffect(() => {}, [])
 
   if (loading) {
     return (
@@ -168,37 +135,8 @@ export default function Dashboard() {
   }
 
   return (
-    <main className=" m-7 bg-gray  h-screen p-10 border border-border rounded-lg flex flex-col items-start gap-6">
-      <section className="flex w-full flex-col md:flex-row gap-6   ">
-        <div className="flex flex-col md:w-9/12">
-          <YorResources chart={pieChart} totalInvested={totalInvested} />
-        </div>
-        <div className="flex flex-col gap-5">
-          <DataInvestments
-            params={{
-              text: textPortfolio,
-              bgColor: 'bg-primary',
-              image: 'wallet',
-              imageColor: 'bg-primary',
-              totalValue: totalValuation,
-              enterpriseCount,
-            }}
-          />
-          <DataInvestments
-            params={{
-              text: textInvested,
-              bgColor: 'bg-primary',
-              image: 'investment',
-              imageColor: 'bg-quaternary',
-              totalValue: totalInvested,
-              enterpriseCount,
-            }}
-          />
-        </div>
-      </section>
-      <section className="flex w-full">
-        <NewOpportunities recentEnterprises={recentEnterprises} />
-      </section>
+    <main className="m-7 bg-gray  h-screen p-10 border border-border rounded-lg flex flex-col items-start gap-6">
+      <section className="flex w-full flex-col md:flex-row gap-6"></section>
     </main>
   )
 }

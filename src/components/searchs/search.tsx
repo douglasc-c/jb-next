@@ -26,7 +26,7 @@ const Search: React.FC<SearchProps> = ({
         value={query}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="bg-primary border antialiased border-border  px-6 py-2 text-[0.90rem] rounded-lg w-full focus:outline-none"
+        className="bg-primary border antialiased border-border text-zinc-200 px-6 py-2 text-[0.90rem] rounded-lg w-full focus:outline-none"
       />
     </div>
   )

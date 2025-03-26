@@ -33,18 +33,18 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleSignOut = () => {
-    setAuthData({ token: '', user: {} as User, mustChangePassword: false })
+    setAuthData({ token: '', user: {} as User })
     document.cookie = 'auth-token=; Max-Age=0; path=/;'
     window.location.href = '/'
   }
 
   return (
     <>
-      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-9 py-9 transition-all duration-300 bg-primary">
-        <div className="flex flex-row md:ml-64 space-x-1">
+      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary">
+        <div className="flex flex-row md:ml-64 mt-5 space-x-1">
           <h1 className="text-textPrimary">{t('welcome')}</h1>
           <h3 className="font-semibold uppercase text-title">
-            {authData?.user?.username}
+            {authData?.user?.firstName}
           </h3>
         </div>
         <div className="flex flex-row items-center space-x-4">
@@ -114,26 +114,12 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
                 icon: 'file',
               }}
             />
-            <ButtonMenu
-              params={{
-                title: t('wallet'),
-                path: `/${locale}/admin/wallet`,
-                icon: 'walletbrown',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('support'),
-                path: `/${locale}/admin/support`,
-                icon: 'support',
-              }}
-            />
           </nav>
         </div>
         <div className="p-2">
           <button
             onClick={handleSignOut}
-            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase"
+            className="w-full pl-10 py-5 items-center space-x-3 text-zinc-200 flex font-regular text-sm uppercase"
           >
             <div className="p-2 rounded-lg">
               <Image

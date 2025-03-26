@@ -7,7 +7,7 @@ import './globals.css'
 const languages = ['pt-BR', 'es-US']
 
 export const metadata: Metadata = {
-  title: '4Hands',
+  title: 'Auditax',
 }
 
 export async function generateStaticParams() {
@@ -38,15 +38,12 @@ export default async function RootLayout({
   const messages = await res.json()
 
   const authValue = {}
-  const layoutValue = { locale }
 
   return (
     <html lang={locale}>
       <body className="bg-primary antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AppProviders authValue={authValue} layoutValue={layoutValue}>
-            {children}
-          </AppProviders>
+          <AppProviders authValue={authValue}>{children}</AppProviders>
         </NextIntlClientProvider>
       </body>
     </html>

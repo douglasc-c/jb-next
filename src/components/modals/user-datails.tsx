@@ -1,34 +1,18 @@
-import { useLayoutAdminContext } from '@/context/admin-context'
 import api from '@/lib/api'
 import axios from 'axios'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { AddressTab } from '../tabs/address'
-import CompleanceImage from '../tabs/compliance-imagens'
-import { FinancialTab } from '../tabs/financial'
 import { UserTab } from '../tabs/user'
 import DeleteModal from './delete'
+import { useTranslations } from 'next-intl'
 
 interface UserData {
   firstName: string
   lastName: string
-  complianceStatus: string
   email: string
-  phone: string
   role: string
-  birthDate: string
-  createdAt: string
-  totalInvested: number
-  totalValuation: number
-  documentFront: string
-  documentBack: string
-  proofOfAddress: string
-  incomeTaxProof: string
-  username: string
-  walletBalance: number
-  numberDocument: string
   id: string
-  userType: string
   address?: {
     street?: string
     number?: string
@@ -45,20 +29,21 @@ interface UserDetailsModalProps {
   user: UserData
   isOpen: boolean
   onClose: () => void
+  onUpdate?: (updatedUser: UserData) => void
 }
 
 export const UserDetails: React.FC<UserDetailsModalProps> = ({
   user,
   isOpen,
   onClose,
+  onUpdate,
 }) => {
-  const { texts } = useLayoutAdminContext()
+  const t = useTranslations('TextLang')
   const pathname = usePathname()
   const parts = pathname.split('/')
   const route = parts.slice(3).join('/')
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [reason, setReason] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [activeTab, setActiveTab] = useState<
@@ -78,13 +63,6 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       ...user.address,
     },
   })
-  const images = [
-    user.documentFront,
-    user.documentBack,
-    user.proofOfAddress,
-    user.incomeTaxProof,
-  ]
-  const isAllNull = images.every((image) => image === null)
 
   const handleInputChange = (
     field: string,
@@ -109,64 +87,40 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       let response
 
       if (activeTab === 'user') {
-        response = await api.put(`/admin/update/user/${editableData.id}`, {
-          firstName: editableData.firstName,
-          lastName: editableData.lastName,
-          email: editableData.email,
-          phone: editableData.phone,
-          birthDate: editableData.birthDate,
-          numberDocument: editableData.numberDocument,
-          userType: editableData.userType,
-          role: editableData.role,
-        })
+        const updatedFields: Record<string, string> = {}
+
+        if (editableData.firstName !== user.firstName) {
+          updatedFields.firstName = editableData.firstName
+        }
+        if (editableData.lastName !== user.lastName) {
+          updatedFields.lastName = editableData.lastName
+        }
+        if (editableData.email !== user.email) {
+          updatedFields.email = editableData.email
+        }
+        if (editableData.role !== user.role) {
+          updatedFields.role = editableData.role
+        }
+
+        response = await api.patch(`/users/${editableData.id}`, updatedFields)
       } else if (activeTab === 'address') {
         response = await api.post(
           `/admin/users/${editableData.id}/address`,
           editableData.address,
         )
-      } else if (activeTab === 'financial') {
-        const walletBalance = Number(editableData.walletBalance)
-
-        response = await api.put(`/admin/update/balance/${editableData.id}`, {
-          amount: walletBalance,
-          description: 'Saldo adicionado à carteira',
-        })
       }
 
       if (response?.status === 200 || response?.status === 201) {
         setSuccess(response.data.message)
+        setTimeout(() => {
+          setSuccess('')
+        }, 5000)
+        if (onUpdate) {
+          onUpdate(response.data.user)
+        }
       } else {
         console.error('Failed to update data', response)
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (
-          error.response &&
-          error.response.data &&
-          typeof error.response.data.error === 'string'
-        ) {
-          setError(error.response.data.error)
-        } else {
-          setError(error.response?.data.message)
-        }
-      } else {
-        setError('Erro inesperado ao conectar ao servidor.')
-      }
-      console.error('Erro na requisição:', error)
-    } finally {
-      setIsEditing(false)
-    }
-  }
-
-  const handleCompliance = async (status: string) => {
-    setIsEditing(true)
-    try {
-      const response = await api.put(
-        `admin/updatecompliance/${editableData.id}`,
-        { status, reason },
-      )
-      console.log('Compliance atualizado com sucesso:', response.data)
-      onClose()
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -208,7 +162,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/admin/user/${editableData.id}/delete`)
+      await api.delete(`/user/${editableData.id}`)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -240,10 +194,10 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className="flex flex-col p-8 bg-zinc-300 rounded-xl h-auto justify-around w-full space-y-6">
+    <div className="flex flex-col p-8 bg-zinc-800 rounded-xl h-auto justify-around w-full space-y-6">
       <div className="flex justify-between">
-        <h3 className="text-lg md:text-2xl">{texts.userDetails}</h3>
-        <button onClick={onClose} className="text-gray-500">
+        <h3 className="text-lg md:text-2xl">{t('userDetails')}</h3>
+        <button onClick={onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -264,38 +218,25 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
       <div className="flex border-b border-gray-600 justify-between">
         <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
           <button
-            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-primary' : ''}`}
+            className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-amber-600 text-amber-600' : 'hover:border-b-2 hover:border-amber-600 hover:text-amber-600'}`}
             onClick={() => setActiveTab('user')}
           >
-            {texts.userData}
+            {t('userData')}
           </button>
           {route !== 'interests' && (
             <button
-              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-primary' : ''}`}
+              className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-amber-600 text-amber-600' : 'hover:border-b-2 hover:border-amber-600 hover:text-amber-600'}`}
               onClick={() => setActiveTab('address')}
             >
-              {texts.address}
+              {t('address')}
             </button>
           )}
-          <button
-            className={`pb-2 ${activeTab === 'financial' ? 'border-b-2 border-primary' : ''}`}
-            onClick={() => setActiveTab('financial')}
-          >
-            {texts.financial}
-          </button>
-
-          <button
-            className={`pb-2 ${activeTab === 'compliance' ? 'border-b-2 border-primary' : ''}`}
-            onClick={() => setActiveTab('compliance')}
-          >
-            {texts.compliance}
-          </button>
           {route !== 'interests' && (
             <button
               className={`pb-2 hover:border-b-2  hover:border-red-600 hover:text-red-600`}
               onClick={() => setIsModalDeleteOpen(true)}
             >
-              {texts.delete}
+              {t('delete')}
             </button>
           )}
         </div>
@@ -316,16 +257,6 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
             handleInputChange={handleInputChange}
           />
         )}
-
-        {activeTab === 'financial' && (
-          <FinancialTab
-            isEditing={isEditing}
-            editableData={editableData}
-            handleInputChange={handleInputChange}
-          />
-        )}
-
-        {activeTab === 'compliance' && <CompleanceImage images={images} />}
       </div>
 
       <div className="flex flex-col justify-end gap-2">
@@ -337,7 +268,7 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
               onClick={handleCancel}
               className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
             >
-              {texts.cancel}
+              {t('cancel')}
             </button>
           )}
 
@@ -346,40 +277,10 @@ export const UserDetails: React.FC<UserDetailsModalProps> = ({
               onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
               className="bg-primary text-zinc-200 py-2 rounded-lg text-sm w-full"
             >
-              {isEditing ? texts.save : texts.edit}
+              {isEditing ? t('save') : t('edit')}
             </button>
           )}
         </div>
-
-        {editableData.complianceStatus !== 'APPROVED' &&
-          !isAllNull &&
-          route !== 'interests' &&
-          activeTab === 'compliance' && (
-            <div className="flex flex-col w-full space-y-2">
-              <div className="flex w-full space-x-4">
-                <textarea
-                  placeholder="Escreva uma mensagem"
-                  className="w-full px-3 py-2 border border-gray-600 rounded-lg placeholder-gray-300 bg-transparent focus:outline-none focus:z-10 sm:text-sm"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                />
-                <div className="space-y-4">
-                  <button
-                    onClick={() => handleCompliance('REJECTED')}
-                    className="bg-red-600 text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
-                  >
-                    {texts.reject}
-                  </button>
-                  <button
-                    onClick={() => handleCompliance('APPROVED')}
-                    className="bg-primary text-zinc-200 text-sm py-2 px-4 rounded-lg w-full"
-                  >
-                    {texts.approve}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
       </div>
 
       {isModalDeleteOpen && (

@@ -8,7 +8,6 @@ import api from '@/lib/api'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
@@ -31,36 +30,21 @@ export default function SignIn() {
     }))
   }
 
-  const fetchTokenEmail = async () => {
-    try {
-      await api.get('users/geratetoken')
-    } catch (error) {
-      setError('Erro ao gerar token de email. Por favor, tente novamente.')
-    }
-  }
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     setError('')
 
     try {
-      const response = await api.post('/users/signin', formData)
-      if (response.status === 200) {
-        const { token, mustChangePassword, user } = response.data
+      const response = await api.post('/sessions', formData)
 
-        if (token) {
-          setAuthData({ token, user, mustChangePassword })
+      if (response.status === 200) {
+        const { token, user } = response.data
+        if (token && user) {
+          setAuthData({ token, user })
           document.cookie = `auth-token=${token}; Max-Age=${
             60 * 60
           }; path=/; SameSite=Strict`
-
-         
-          if (user.complianceStatus === 'PENDING_EMAIL') {
-            await fetchTokenEmail()
-            setIsTokenModalOpen(true)
-            return
-          }
 
           const roleRoutes: { [key: string]: string } = {
             ADMIN: '/admin/users',
@@ -130,14 +114,10 @@ export default function SignIn() {
         <div />
         <div className="w-full max-w-md space-y-6 ">
           <div className="w-full max-w-md space-y-1">
-            <h2 className="text-4xl font-medium text-zinc-800">{t('enter')}</h2>
-            <p className="text-zinc-500">{t('useYour4HandsLoginToAccess')}</p>
+            <h2 className="text-4xl font-medium text-zinc-200">{t('enter')}</h2>
           </div>
-          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-primary border border-border  rounded-lg">
-            <form
-              className="space-y-6 text-textPrimary"
-              onSubmit={handleSubmit}
-            >
+          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-zinc-200 border border-border  rounded-lg">
+            <form className="space-y-6 text-zinc-800" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <span>{t('email')}</span>
                 <Input
@@ -175,13 +155,7 @@ export default function SignIn() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="text-sm">
-                    <Link href="/signup" className="underline text-secondary">
-                      {t('signup')}
-                    </Link>
-                  </div>
-                </div>
+                <div className="flex items-center justify-between"></div>
               </section>
 
               <div>
@@ -208,7 +182,7 @@ export default function SignIn() {
           </div>
         </div>
         <div className="flex text-sm font-light justify-between w-full">
-          <div className="flex flex-row items-center text-primary space-x-2">
+          <div className="flex flex-row items-center text-zinc-200 space-x-2">
             <Image
               className="py-4"
               src="/images/svg/lock.svg"
@@ -218,7 +192,7 @@ export default function SignIn() {
             />
             <p>{t('yourInformationIsSafe')}</p>
           </div>
-          <div className="flex flex-row items-center text-gray-400 space-x-2">
+          <div className="flex flex-row items-center text-zinc-200 space-x-2">
             <a href="#">{t('privacyCookPolicy')}</a>
             <span> | </span>
             <a href="#">{t('TermsOfService')}</a>

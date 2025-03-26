@@ -33,7 +33,7 @@ export default function Input({
       placeholder={placeholder}
       autoComplete={autoComplete}
       required={required}
-      className={`w-full px-3 py-2 border border-gray-700 placeholder-gray-500 bg-transparent text-gray-500 focus:outline-none focus:z-10 sm:text-sm ${className}`}
+      className={`w-full px-3 py-2 border border-zinc-700 bg-transparent text-zinc-800 focus:outline-none focus:z-10 sm:text-sm ${className}`}
       value={value}
       onChange={onChange}
     />

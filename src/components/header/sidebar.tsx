@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleSignOut = () => {
-    setAuthData({ token: '', user: {} as User, mustChangePassword: false })
+    setAuthData({ token: '', user: {} as User })
     document.cookie = 'auth-token=; Max-Age=0; path=/;'
     window.location.href = '/'
   }
@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
         <div className="flex flex-row md:ml-64 space-x-1">
           <h1 className="text-textPrimary">{t('welcome')}</h1>
           <h3 className="font-semibold uppercase text-title">
-            {authData?.user?.username}
+            {authData?.user?.firstName}
           </h3>
         </div>
         <div className="flex flex-row items-center space-x-4">

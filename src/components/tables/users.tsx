@@ -5,52 +5,22 @@ import { useState } from 'react'
 import { UserDetails } from '../modals/user-datails'
 
 interface User {
+  id: string
+  email: string
   firstName: string
   lastName: string
-  complianceStatus: string
-  email: string
-  phone: string
   role: string
-  birthDate: string
-  createdAt: string
-  totalInvested: number
-  totalValuation: number
-  username: string
-  documentFront: string
-  documentBack: string
-  proofOfAddress: string
-  incomeTaxProof: string
-  walletBalance: number
-  numberDocument: string
-  id: string
-  userType: string
 }
 
 interface MyVenturesProps {
   data: User[]
+  onUserUpdate: (updatedUser: User) => void
 }
 
-export function UsersTable({ data }: MyVenturesProps) {
+export function UsersTable({ data, onUserUpdate }: MyVenturesProps) {
   const t = useTranslations('TextLang')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
-
-  const getComplianceText = (status: string) => {
-    switch (status) {
-      case 'PENDING_EMAIL':
-        return t('pendingEmail')
-      case 'PENDING_ADDRESS':
-        return t('pendingAddress')
-      case 'PENDING_DOCUMENTS':
-        return t('pendingDocuments')
-      case 'UNDER_REVIEW':
-        return t('underReview')
-      case 'APPROVED':
-        return t('validated')
-      default:
-        return t('unknownStatus')
-    }
-  }
 
   const openModal = (user: User) => {
     setSelectedUser(user)
@@ -75,7 +45,7 @@ export function UsersTable({ data }: MyVenturesProps) {
                 {t('type')}
               </th>
               <th className="px-4 py-2 text-center text-xs font-medium">
-                {t('compliance')}
+                {t('email')}
               </th>
               <th className="px-4 py-2 text-center text-xs font-medium">
                 {t('seeMore')}
@@ -92,20 +62,11 @@ export function UsersTable({ data }: MyVenturesProps) {
                   {row.firstName} {row.lastName}
                 </td>
                 <td className="px-4 py-2 text-xs text-center">{row.role}</td>
-                <td className="px-4 py-2 text-xs text-center">
-                  <div
-                    className={`border rounded-full py-0.5 px-2 inline-block ${
-                      row.complianceStatus === 'Validado'
-                        ? 'bg-primary text-zinc-700 border-primary'
-                        : 'bg-transparent border-primary'
-                    }`}
-                  >
-                    {getComplianceText(row.complianceStatus)}
-                  </div>
-                </td>
+                <td className="px-4 py-2 text-xs text-center">{row.email}</td>
+
                 <td className="px-4 py-2 text-xs text-center">
                   <button
-                    className="rounded-full border border-primary text-primary py-1 px-4 bg-transparent"
+                    className="rounded-full border border-primary py-1 px-4 bg-transparent"
                     onClick={() => openModal(row)}
                   >
                     {t('seeMore')}
@@ -126,6 +87,7 @@ export function UsersTable({ data }: MyVenturesProps) {
                 user={selectedUser}
                 isOpen={isModalOpen}
                 onClose={closeModal}
+                onUpdate={onUserUpdate}
               />
             </div>
           </div>

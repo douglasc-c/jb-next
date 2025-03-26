@@ -14,34 +14,16 @@ import { useEffect, useState } from 'react'
 interface User {
   firstName: string
   lastName: string
-  complianceStatus: string
   email: string
-  phone: string
   role: string
-  birthDate: string
-  createdAt: string
-  totalInvested: number
-  totalValuation: number
-  documentFront: string
-  documentBack: string
-  proofOfAddress: string
-  incomeTaxProof: string
-  username: string
-  walletBalance: number
-  numberDocument: string
   id: string
-  userType: string
 }
 
 interface FormData {
   email: string
   password: string
-  username: string
   firstName: string
   lastName: string
-  numberDocument: string
-  phone: string
-  userType: 'INDIVIDUAL' | 'COMPANY'
   role: 'ADMIN' | 'USER'
 }
 
@@ -69,12 +51,8 @@ export default function Users() {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
-    username: '',
     firstName: '',
     lastName: '',
-    numberDocument: '',
-    phone: '',
-    userType: 'INDIVIDUAL',
     role: 'USER',
   })
 
@@ -85,8 +63,6 @@ export default function Users() {
         user.firstName.toLowerCase().includes(query.toLowerCase()) ||
         user.lastName.toLowerCase().includes(query.toLowerCase()) ||
         user.email.toLowerCase().includes(query.toLowerCase()) ||
-        user.complianceStatus.toLowerCase().includes(query.toLowerCase()) ||
-        user.userType.toLowerCase().includes(query.toLowerCase()) ||
         user.role.toLowerCase().includes(query.toLowerCase()),
     )
     setFilteredUsers(results)
@@ -103,7 +79,7 @@ export default function Users() {
     setLoadingButton(true)
     e.preventDefault()
     try {
-      const response = await api.post('/admin/register', formData)
+      const response = await api.post('/users', formData)
       if (response.status === 201) {
         const newUser = response.data.user
         setUsers((prevUsers) => [...prevUsers, newUser])
@@ -148,8 +124,8 @@ export default function Users() {
 
   const fetchUsers = async () => {
     try {
-      const response = await api.get('/admin/get-all-users')
-      const fetchedUsers: User[] = response.data.users
+      const response = await api.get('/users')
+      const fetchedUsers: User[] = response.data
       const computedTotals = fetchedUsers.reduce<Totals>(
         (acc, user) => {
           acc.total += 1
@@ -181,6 +157,19 @@ export default function Users() {
     }
   }
 
+  const handleUserUpdate = (updatedUser: User) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user,
+      ),
+    )
+    setFilteredUsers((prevFilteredUsers) =>
+      prevFilteredUsers.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user,
+      ),
+    )
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [])
@@ -194,9 +183,9 @@ export default function Users() {
   }
 
   return (
-    <main className="m-7 bg-gray border border-border  h-screen flex flex-col items-start p-10 rounded-lg space-y-4 antialiased ">
-      <div className="grid md:grid-cols-3  bg-primary grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1  text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+    <main className="m-7 bg-gray border border-border h-[47rem] flex flex-col items-start p-10 rounded-lg space-y-4 antialiased ">
+      <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -245,7 +234,7 @@ export default function Users() {
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
-        <UsersTable data={filteredUsers} />
+        <UsersTable data={filteredUsers} onUserUpdate={handleUserUpdate} />
       </section>
       {isModalOpen && (
         <AddUserModal
