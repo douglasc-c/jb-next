@@ -25,7 +25,7 @@ export default function ButtonMenu({ params }: IDataProps) {
         isActive
           ? 'bg-border'
           : 'bg-transparent hover:bg-gray hover:translate-x-2 hover:scale-95'
-      } ${isMinimized ? 'justify-center py-2' : 'pl-12 py-2'}`}
+      } ${isMinimized ? 'justify-center py-2' : 'pl-8 py-2'}`}
     >
       <div className="p-2 bg-stone-300 shadow rounded-lg">
         <Image

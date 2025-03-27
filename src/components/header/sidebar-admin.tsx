@@ -8,21 +8,11 @@ import React, { useState } from 'react'
 import ButtonMenu from '../buttons/menu'
 
 interface User {
-  avatar: string
-  birthDate: string
-  complianceStatus: string
-  email: string
-  emailVerified: boolean
-  firstName: string
   id: number
-  isActive: boolean
-  isApproved: boolean
+  email: string
+  firstName: string
   lastName: string
-  mustChangePassword: boolean
-  numberDocument: string
-  phone: string
   role: string
-  username: string
 }
 
 interface SidebarProps {
@@ -44,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   return (
     <>
       <div
-        className={`w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary ${isMinimized ? 'md:ml-16' : 'md:ml-64'}`}
+        className={`w-full z-50 flex justify-between items-center px-9 md:px-24 transition-all duration-300 bg-primary ${isMinimized ? 'md:ml-16' : 'md:ml-64'}`}
       >
         <div className="flex flex-row py-5 space-x-1">
           <h1 className="text-zinc-200">{t('welcome')}</h1>
@@ -53,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
           </h3>
         </div>
         <div className="flex flex-row items-center space-x-4">
-          <button className="p-2 border border-neutral-600 rounded-lg hidden">
+          <button className="p-2 border border-neutral-600 rounded-lg">
             <Image
               src="/images/svg/notification.svg"
               alt="notifications"
@@ -94,13 +84,21 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
             />
           </div>
           <div
-            className={`flex flex-col flex-auto justify-between ${isMinimized ? 'py-2' : 'p-4'}`}
+            className={`flex flex-col flex-auto justify-between transition-all duration-300 ${isMinimized ? 'py-5' : 'p-4 py-7'}`}
           >
             <nav className="grid gap-4">
               <ButtonMenu
                 params={{
                   title: t('users'),
                   path: `/${locale}/admin/users`,
+                  icon: 'users',
+                  isMinimized,
+                }}
+              />
+              <ButtonMenu
+                params={{
+                  title: t('establishments'),
+                  path: `/${locale}/admin/establishments`,
                   icon: 'users',
                   isMinimized,
                 }}

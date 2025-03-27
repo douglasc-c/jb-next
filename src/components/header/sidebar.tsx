@@ -1,5 +1,6 @@
 'use client'
 import { useAuthContext } from '@/context/auth-context'
+import { useSidebar } from '@/context/sidebar-context'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -7,21 +8,11 @@ import ButtonAvatar from '../buttons/avatar'
 import ButtonMenu from '../buttons/menu'
 
 interface User {
-  avatar: string
-  birthDate: string
-  complianceStatus: string
-  email: string
-  emailVerified: boolean
-  firstName: string
   id: number
-  isActive: boolean
-  isApproved: boolean
+  email: string
+  firstName: string
   lastName: string
-  mustChangePassword: boolean
-  numberDocument: string
-  phone: string
   role: string
-  username: string
 }
 
 interface SidebarProps {
@@ -30,6 +21,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const { setAuthData, authData } = useAuthContext()
+  const { isMinimized, setIsMinimized } = useSidebar()
   const t = useTranslations('TextLang')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
@@ -41,8 +33,10 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
 
   return (
     <>
-      <div className="w-full z-50 flex justify-between items-center px-9 md:px-20 md:py-5 py-9 transition-all duration-300 bg-primary">
-        <div className="flex flex-row md:ml-64 space-x-1">
+      <div
+        className={`w-full z-50 flex justify-between items-center px-9 md:px-20 transition-all duration-300 bg-primary ${isMinimized ? 'md:ml-16' : 'md:ml-64'}`}
+      >
+        <div className="flex flex-row py-5 space-x-1">
           <h1 className="text-textPrimary">{t('welcome')}</h1>
           <h3 className="font-semibold uppercase text-title">
             {authData?.user?.firstName}
@@ -75,87 +69,56 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
       </div>
 
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-primary    flex flex-col justify-between transform transition-transform duration-300 ${
+        className={`fixed h-screen bg-primary z-50 flex flex-col justify-between transform transition-all duration-300 -mt-[4rem] ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:block`}
+        } md:translate-x-0 md:block ${isMinimized ? 'w-16' : 'w-64'}`}
       >
-        <div className="grid gap-16">
-          <div className="p-4 justify-center flex">
+        <div className="flex flex-col h-full gap-8 pt-8">
+          <div
+            className="justify-center flex cursor-pointer"
+            onClick={() => setIsMinimized(!isMinimized)}
+          >
             <Image
               src={`/images/svg/logo.svg`}
               alt="logo"
-              height={180}
-              width={180}
+              height={isMinimized ? 40 : 180}
+              width={isMinimized ? 40 : 180}
+              className="transition-all duration-300"
             />
           </div>
-
-          <nav className="grid grid-rows-1">
-            <ButtonMenu
-              params={{
-                title: t('dashboard'),
-                path: `/${locale}/dashboard`,
-                icon: 'home',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('constructionCircuit'),
-                path: `/${locale}/constructioncircuit`,
-                icon: 'arrowDiagonalGreen',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('compliance'),
-                path: `/${locale}/compliance`,
-                icon: 'shock',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('myData'),
-                path: `/${locale}/mydata`,
-                icon: 'cash',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('wallet'),
-                path: `/${locale}/wallet`,
-                icon: 'walletBrown',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('myVentures'),
-                path: `/${locale}/myventures`,
-                icon: 'clock',
-              }}
-            />
-            <ButtonMenu
-              params={{
-                title: t('support'),
-                path: `/${locale}/support`,
-                icon: 'support',
-              }}
-            />
-          </nav>
-        </div>
-        <div className="p-2">
-          <button
-            onClick={handleSignOut}
-            className="w-full pl-10 py-5 items-center space-x-3 flex font-regular text-sm uppercase"
+          <div
+            className={`flex flex-col flex-auto justify-between transition-all duration-300 ${isMinimized ? 'py-5' : 'p-4 py-7'}`}
           >
-            <div className="p-2 rounded-lg">
-              <Image
-                src={`/images/svg/signout.svg`}
-                alt="sign out"
-                height={19}
-                width={19}
+            <nav className="grid gap-4">
+              <ButtonMenu
+                params={{
+                  title: t('dashboard'),
+                  path: `/${locale}/dashboard`,
+                  icon: 'home',
+                  isMinimized,
+                }}
               />
-            </div>
-            <span>{t('signOut')}</span>
-          </button>
+              <ButtonMenu
+                params={{
+                  title: t('establishments'),
+                  path: `/${locale}/establishments`,
+                  icon: 'arrowDiagonalGreen',
+                  isMinimized,
+                }}
+              />
+            </nav>
+            <nav>
+              <ButtonMenu
+                params={{
+                  title: t('signOut'),
+                  path: '#',
+                  icon: 'signout',
+                  isMinimized,
+                  onClick: handleSignOut,
+                }}
+              />
+            </nav>
+          </div>
         </div>
       </div>
 

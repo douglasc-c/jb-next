@@ -41,17 +41,17 @@ export function YorResources({ chart, totalInvested }: YorResourcesProps) {
         <h1 className="uppercase font-medium">{t('youResources')}</h1>
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#A47659] rounded-full" />
-          <p>{t('numberOfHouse')}</p>
+          <p className="text-sm">{t('numberOfHouse')}</p>
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5 border-y border-zinc-500">
           <span className="p-2 bg-[#86776B] rounded-full" />
-          <p>{t('land')}</p>
+          <p className="text-sm">{t('land')}</p>
         </div>
 
         <div className="flex items-center gap-x-2 font-light p-2 md:p-5">
           <span className="p-2 bg-[#A38C7E] rounded-full" />
-          <p>{t('avaliableValue')}</p>
+          <p className="text-sm">{t('avaliableValue')}</p>
         </div>
       </section>
     </div>

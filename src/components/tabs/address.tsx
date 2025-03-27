@@ -9,7 +9,7 @@ interface UserData {
     neighborhood?: string
     city?: string
     state?: string
-    postalCode?: string
+    zipCode?: string
     country?: string
   }
 }
@@ -31,7 +31,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   const t = useTranslations('TextLang')
 
   return (
-    <div className="grid grid-cols-2 gap-4 text-left items-end">
+    <div className="grid grid-cols-3 gap-4 text-left items-end">
       <div className="col-span-2">
         <InputField
           label={t('street')}
@@ -55,12 +55,6 @@ export const AddressTab: React.FC<AddressTabProps> = ({
       />
 
       <InputField
-        label={t('neighborhood')}
-        value={editableData.address?.neighborhood || ''}
-        isEditing={isEditing}
-        onChange={(value) => handleInputChange('neighborhood', value, true)}
-      />
-      <InputField
         label={t('city')}
         value={editableData.address?.city || ''}
         isEditing={isEditing}
@@ -68,9 +62,9 @@ export const AddressTab: React.FC<AddressTabProps> = ({
       />
       <InputField
         label={t('postalCode')}
-        value={editableData.address?.postalCode || ''}
+        value={editableData.address?.zipCode || ''}
         isEditing={isEditing}
-        onChange={(value) => handleInputChange('postalCode', value, true)}
+        onChange={(value) => handleInputChange('zipCode', value, true)}
       />
       <InputField
         label={t('state')}
