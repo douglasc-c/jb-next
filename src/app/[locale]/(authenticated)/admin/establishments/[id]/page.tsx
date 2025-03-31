@@ -1,7 +1,7 @@
 'use client'
 
 import { Loading } from '@/components/loading/loading'
-import { Audits } from '@/components/tabs/audits'
+import { Audits } from '@/components/tables/audits'
 import { Overview } from '@/components/tabs/overview'
 import { AddressTab } from '@/components/tabs/address'
 import api from '@/lib/api'

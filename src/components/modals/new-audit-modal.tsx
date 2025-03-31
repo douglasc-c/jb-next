@@ -1,0 +1,251 @@
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+import ButtonGlobal from '../buttons/global'
+import processApi from '@/lib/process-api'
+import api from '@/lib/api'
+
+interface FlagPercentage {
+  flag: string
+  percentage: number
+}
+
+interface Audit {
+  id: number
+  exported: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+interface NewAuditModalProps {
+  isOpen: boolean
+  onClose: () => void
+  establishmentId: string
+  onSuccess?: (newAudit: Audit) => void
+}
+
+export function NewAuditModal({
+  isOpen,
+  onClose,
+  establishmentId,
+  onSuccess,
+}: NewAuditModalProps) {
+  const t = useTranslations('TextLang')
+  const [files, setFiles] = useState<File[]>([])
+  const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
+    { flag: '', percentage: 0 },
+  ])
+  const [loading, setLoading] = useState(false)
+
+  const clearForm = () => {
+    setFiles([])
+    setFlagPercentages([{ flag: '', percentage: 0 }])
+  }
+
+  const handleAddFlag = () => {
+    setFlagPercentages([...flagPercentages, { flag: '', percentage: 0 }])
+  }
+
+  const handleRemoveFlag = (index: number) => {
+    setFlagPercentages(flagPercentages.filter((_, i) => i !== index))
+  }
+
+  const handleFlagChange = (
+    index: number,
+    field: 'flag' | 'percentage',
+    value: string,
+  ) => {
+    const newFlagPercentages = [...flagPercentages]
+    newFlagPercentages[index] = {
+      ...newFlagPercentages[index],
+      [field]: field === 'percentage' ? parseFloat(value) || 0 : value,
+    }
+    setFlagPercentages(newFlagPercentages)
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || [])
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles])
+  }
+
+  const handleRemoveFile = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+  }
+
+  const handleSubmit = async () => {
+    if (files.length === 0) return
+
+    setLoading(true)
+    try {
+      const formData = new FormData()
+
+      // Adicionar todos os arquivos
+      files.forEach((file) => {
+        formData.append('files', file)
+      })
+
+      // Converter array de flagPercentages para objeto
+      const flagPercentagesObject = flagPercentages.reduce(
+        (acc, { flag, percentage }) => {
+          if (flag && percentage > 0) {
+            acc[flag] = percentage
+          }
+          return acc
+        },
+        {} as Record<string, number>,
+      )
+
+      // Adicionar flag_percentages como um objeto JSON
+      formData.append('flag_percentages', JSON.stringify(flagPercentagesObject))
+
+      // Processar os arquivos
+      const processResponse = await processApi.post(
+        '/process-excel/',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+
+      // Salvar os dados processados no backend principal
+      const response = await api.post(
+        `/establishments/${establishmentId}/audits`,
+        {
+          detailsData: processResponse.data.details,
+          summaryData: processResponse.data.summary,
+        },
+      )
+
+      if (onSuccess) {
+        onSuccess(response.data.audit)
+      }
+
+      clearForm()
+      onClose()
+    } catch (error) {
+      console.error('Erro ao criar auditoria:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleClose = () => {
+    clearForm()
+    onClose()
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-primary p-6 rounded-lg w-full max-w-2xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-zinc-200">
+            {t('newAudit')}
+          </h2>
+          <button
+            onClick={handleClose}
+            className="text-zinc-400 hover:text-zinc-200"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-200 mb-2">
+              {t('uploadFiles')}
+            </label>
+            <input
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={handleFileChange}
+              multiple
+              className="w-full p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+            />
+            {files.length > 0 && (
+              <div className="mt-2 space-y-2">
+                {files.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-2 bg-zinc-800 rounded"
+                  >
+                    <span className="text-sm text-zinc-200 truncate">
+                      {file.name}
+                    </span>
+                    <button
+                      onClick={() => handleRemoveFile(index)}
+                      className="text-zinc-400 hover:text-zinc-200 ml-2"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-sm font-medium text-zinc-200">
+                {t('flagPercentages')}
+              </label>
+              <button
+                onClick={handleAddFlag}
+                className="text-sm text-title hover:text-title/80"
+              >
+                {t('addFlag')}
+              </button>
+            </div>
+            <div className="space-y-2">
+              {flagPercentages.map((flag, index) => (
+                <div key={index} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={flag.flag}
+                    onChange={(e) =>
+                      handleFlagChange(index, 'flag', e.target.value)
+                    }
+                    placeholder={t('flagName')}
+                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                  />
+                  <input
+                    type="number"
+                    value={flag.percentage}
+                    onChange={(e) =>
+                      handleFlagChange(index, 'percentage', e.target.value)
+                    }
+                    placeholder={t('percentage')}
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    className="w-24 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                  />
+                  <button
+                    onClick={() => handleRemoveFlag(index)}
+                    className="text-zinc-400 hover:text-zinc-200"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2 mt-6">
+          <ButtonGlobal
+            params={{ title: t('cancel'), color: 'bg-zinc-800' }}
+            onClick={handleClose}
+          />
+          <ButtonGlobal
+            params={{ title: t('create'), color: 'bg-title' }}
+            onClick={handleSubmit}
+            disabled={files.length === 0 || loading}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}

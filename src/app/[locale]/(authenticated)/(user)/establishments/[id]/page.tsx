@@ -1,7 +1,7 @@
 'use client'
 
 import { Loading } from '@/components/loading/loading'
-import { Audits } from '@/components/tabs/audits'
+import { Audits } from '@/components/tables/audits'
 import { Overview } from '@/components/tabs/overview'
 import { AddressTab } from '@/components/tabs/address'
 import api from '@/lib/api'
@@ -207,6 +207,14 @@ export default function EstablishmentDetails() {
     setSuccess(null)
   }
 
+  const handleNewAudit = (newAudit: any) => {
+    if (!establishment) return
+    setEstablishment({
+      ...establishment,
+      audits: [...(establishment.audits || []), newAudit],
+    })
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -227,8 +235,8 @@ export default function EstablishmentDetails() {
 
   return (
     <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
-      <div className="w-full">
-        <h1 className="text-2xl font-medium text-zinc-200 mb-6">
+      <div className="w-full flex flex-col gap-4">
+        <h1 className="text-2xl font-medium text-zinc-200">
           {establishment.tradeName}
         </h1>
         <div className="flex flex-row w-full gap-4">
@@ -301,7 +309,11 @@ export default function EstablishmentDetails() {
           </div>
         </div>
         <div className="w-full">
-          <Audits audits={establishment.audits} />
+          <Audits 
+            audits={establishment.audits} 
+            establishmentId={establishment.id}
+            onNewAudit={handleNewAudit}
+          />
         </div>
       </div>
     </main>
