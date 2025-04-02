@@ -5,7 +5,8 @@ import processApi from '@/lib/process-api'
 import api from '@/lib/api'
 
 interface FlagPercentage {
-  flag: string
+  bandeira: string
+  tipoTransacao: string
   percentage: number
 }
 
@@ -32,17 +33,20 @@ export function NewAuditModal({
   const t = useTranslations('TextLang')
   const [files, setFiles] = useState<File[]>([])
   const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
-    { flag: '', percentage: 0 },
+    { bandeira: '', tipoTransacao: '', percentage: 0 },
   ])
   const [loading, setLoading] = useState(false)
 
   const clearForm = () => {
     setFiles([])
-    setFlagPercentages([{ flag: '', percentage: 0 }])
+    setFlagPercentages([{ bandeira: '', tipoTransacao: '', percentage: 0 }])
   }
 
   const handleAddFlag = () => {
-    setFlagPercentages([...flagPercentages, { flag: '', percentage: 0 }])
+    setFlagPercentages([
+      ...flagPercentages,
+      { bandeira: '', tipoTransacao: '', percentage: 0 },
+    ])
   }
 
   const handleRemoveFlag = (index: number) => {
@@ -51,7 +55,7 @@ export function NewAuditModal({
 
   const handleFlagChange = (
     index: number,
-    field: 'flag' | 'percentage',
+    field: 'bandeira' | 'tipoTransacao' | 'percentage',
     value: string,
   ) => {
     const newFlagPercentages = [...flagPercentages]
@@ -83,15 +87,18 @@ export function NewAuditModal({
         formData.append('files', file)
       })
 
-      // Converter array de flagPercentages para objeto
+      // Converter array de flagPercentages para objeto agrupado por bandeira
       const flagPercentagesObject = flagPercentages.reduce(
-        (acc, { flag, percentage }) => {
-          if (flag && percentage > 0) {
-            acc[flag] = percentage
+        (acc, { bandeira, tipoTransacao, percentage }) => {
+          if (bandeira && tipoTransacao && percentage > 0) {
+            if (!acc[bandeira]) {
+              acc[bandeira] = {}
+            }
+            acc[bandeira][tipoTransacao] = percentage
           }
           return acc
         },
-        {} as Record<string, number>,
+        {} as Record<string, Record<string, number>>,
       )
 
       // Adicionar flag_percentages como um objeto JSON
@@ -203,11 +210,20 @@ export function NewAuditModal({
                 <div key={index} className="flex gap-2">
                   <input
                     type="text"
-                    value={flag.flag}
+                    value={flag.bandeira}
                     onChange={(e) =>
-                      handleFlagChange(index, 'flag', e.target.value)
+                      handleFlagChange(index, 'bandeira', e.target.value)
                     }
-                    placeholder={t('flagName')}
+                    placeholder={t('flag')}
+                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                  />
+                  <input
+                    type="text"
+                    value={flag.tipoTransacao}
+                    onChange={(e) =>
+                      handleFlagChange(index, 'tipoTransacao', e.target.value)
+                    }
+                    placeholder={t('tipoTransacao')}
                     className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
                   />
                   <input

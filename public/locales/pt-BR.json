@@ -263,6 +263,7 @@
     "flagPercentages": "Porcentagens das bandeiras",
     "addFlag": "Adicionar bandeira",
     "flagName": "Nome da bandeira",
+    "tipoTransacao": "Tipo de transação",
     "uploadFiles": "Upload de arquivos"
   }
 }
