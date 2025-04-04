@@ -97,7 +97,7 @@ export function SummaryDataTable({ data }: SummaryDataTableProps) {
         </div>
       </div>
       <section className="h-auto w-full antialiased text-textPrimary rounded-md">
-        <div className="custom-scroll max-h-[40rem]">
+        <div className="custom-scroll max-h-[31rem]">
           <table className="table-auto w-full border-collapse text-sm">
             <thead className="uppercase border-b border-zinc-500">
               <tr>
@@ -127,7 +127,7 @@ export function SummaryDataTable({ data }: SummaryDataTableProps) {
                   className={`${
                     row.flag === 'Total'
                       ? 'bg-gray-100 font-bold'
-                      : index % 2 === 0
+                      : index % 2 === 1
                         ? 'bg-gray-50'
                         : 'bg-zinc-800'
                   }`}

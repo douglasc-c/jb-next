@@ -29,7 +29,7 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
     }
     setIsModalOpen(true)
   }
-
+  console.log(audits)
   return (
     <>
       <div className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-xl">
@@ -55,9 +55,9 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
                     <th className="px-4 py-2 text-left text-xs font-medium">
                       {t('id')}
                     </th>
-                    <th className="px-4 py-2 text-center text-xs font-medium">
+                    {/* <th className="px-4 py-2 text-center text-xs font-medium">
                       {t('status')}
-                    </th>
+                    </th> */}
                     <th className="px-4 py-2 text-center text-xs font-medium">
                       {t('createdAt')}
                     </th>
@@ -72,11 +72,11 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
                       <td className="px-4 py-2 text-left text-xs font-medium">
                         {audit.id}
                       </td>
-                      <td className="px-4 py-2 text-center text-xs font-medium">
+                      {/* <td className="px-4 py-2 text-center text-xs font-medium">
                         {audit.exported ? t('exported') : t('notExported')}
-                      </td>
+                      </td> */}
                       <td className="px-4 py-2 text-center text-xs font-medium">
-                        {new Date(audit.createdAt).toLocaleDateString()}
+                        {new Date(audit.createdAt).toLocaleDateString('pt-BR')}
                       </td>
                       <td className="px-4 py-2 text-center text-xs font-medium">
                         <button

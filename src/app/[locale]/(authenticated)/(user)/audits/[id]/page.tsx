@@ -10,6 +10,8 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Audit, PaginatedDetailsData } from '@/types/audit'
 
+type TabType = 'summary' | 'details'
+
 export default function AuditDetails() {
   const t = useTranslations('TextLang')
   const params = useParams()
@@ -22,6 +24,7 @@ export default function AuditDetails() {
   const [loading, setLoading] = useState(true)
   const [loadingDetails, setLoadingDetails] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<TabType>('summary')
 
   useEffect(() => {
     const fetchAudit = async () => {
@@ -106,63 +109,59 @@ export default function AuditDetails() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
-      <div className="w-full">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start p-8 rounded-lg space-y-4 antialiased">
+      <div className="w-full h-full flex flex-col">
         <h1 className="text-2xl font-medium text-zinc-200 mb-6">
           {t('auditDetails')} <span className="text-title">#{audit.id}</span>
         </h1>
 
-        <div className="space-y-6">
-          {/* <div className="bg-zinc-800 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold text-zinc-200 mb-4">
-              {t('auditInfo')}
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-zinc-400">{t('status')}</p>
-                <p className="text-zinc-200">
-                  {audit.exported ? t('exported') : t('notExported')}
-                </p>
-              </div>
-              <div>
-                <p className="text-zinc-400">{t('createdAt')}</p>
-                <p className="text-zinc-200">
-                  {new Date(audit.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-zinc-400">{t('updatedAt')}</p>
-                <p className="text-zinc-200">
-                  {new Date(audit.updatedAt).toLocaleDateString()}
-                </p>
-              </div>
+        <div className="w-full h-full flex flex-col">
+          <section className="flex border-b border-zinc-200 text-zinc-200 w-full mb-6">
+            <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
+              <button
+                className={`pb-2 ${activeTab === 'summary' ? 'border-b-2 border-title text-title' : ''}`}
+                onClick={() => setActiveTab('summary')}
+              >
+                {t('summary')}
+              </button>
+              <button
+                className={`pb-2 ${activeTab === 'details' ? 'border-b-2 border-title text-title' : ''}`}
+                onClick={() => setActiveTab('details')}
+              >
+                {t('details')}
+              </button>
             </div>
-          </div> */}
+          </section>
 
-          {audit.summaryData && <SummaryDataTable data={audit.summaryData} />}
+          <div className="flex-1 overflow-hidden">
+            {activeTab === 'summary' && audit.summaryData && (
+              <SummaryDataTable data={audit.summaryData} />
+            )}
 
-          {loadingDetails ? (
-            <div className="flex justify-center items-center p-4">
-              <Loading loading={loadingDetails} width={100} />
-            </div>
-          ) : (
-            <DetailsDataTable
-              data={
-                detailsData || {
-                  data: [],
-                  totalPages: 0,
-                  currentPage: 1,
-                  totalItems: 0,
-                  auditId: String(audit.id),
-                  pageSize: currentPageSize,
-                }
-              }
-              onPageChange={handlePageChange}
-              onPageSizeChange={handlePageSizeChange}
-              currentPage={currentPage}
-              currentPageSize={currentPageSize}
-            />
-          )}
+            {activeTab === 'details' &&
+              (loadingDetails ? (
+                <div className="flex justify-center items-center p-4">
+                  <Loading loading={loadingDetails} width={100} />
+                </div>
+              ) : (
+                <DetailsDataTable
+                  data={
+                    detailsData || {
+                      data: [],
+                      totalPages: 0,
+                      currentPage: 1,
+                      totalItems: 0,
+                      auditId: String(audit.id),
+                      pageSize: currentPageSize,
+                    }
+                  }
+                  onPageChange={handlePageChange}
+                  onPageSizeChange={handlePageSizeChange}
+                  currentPage={currentPage}
+                  currentPageSize={currentPageSize}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </main>

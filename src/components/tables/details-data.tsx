@@ -59,10 +59,10 @@ export function DetailsDataTable({
         [t('saleValue')]: formatValue(row.valor_venda),
         [t('taxValue')]: formatValue(row.valor_taxa),
         [t('netValue')]: formatValue(row.valor_liquido),
-        [t('referencedTax')]: formatValue(row.taxa_referenciada),
+        [t('referencedTax')]: row.taxa_referenciada + '%',
         [t('cardNumber')]: row.numero_cartao,
         [t('receiptDate')]: row.data_recebimento,
-        [t('auditedTax')]: formatValue(row.taxa_auditada),
+        [t('auditedTax')]: row.taxa_auditada + '%',
         [t('auditedTaxValue')]: formatValue(row.valor_taxa_auditada),
         [t('differenceToReceive')]: formatValue(row.diferenca_receber),
       }))
@@ -124,7 +124,7 @@ export function DetailsDataTable({
     }
 
     return (
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-between items-center mt-4 text-sm">
         <div className="flex items-center space-x-2">
           <span className="text-zinc-400">{t('itemsPerPage')}:</span>
           <select
@@ -135,7 +135,7 @@ export function DetailsDataTable({
             <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
-            <option value={data.totalItems}>{t('all')}</option>
+            {/* <option value={data.totalItems}>{t('all')}</option> */}
           </select>
         </div>
         <div className="flex items-center space-x-2">
@@ -189,7 +189,7 @@ export function DetailsDataTable({
         </div>
       </div>
       <section className="h-auto w-full antialiased text-textPrimary rounded-md">
-        <div className="custom-scroll max-h-[40rem] overflow-x-auto">
+        <div className="custom-scroll max-h-[31rem] overflow-x-auto">
           <table className="table-auto w-full border-collapse text-sm">
             <thead className="uppercase border-b border-zinc-500">
               <tr>
@@ -286,7 +286,7 @@ export function DetailsDataTable({
                     {formatValue(row.valor_liquido)}
                   </td>
                   <td className="px-4 py-2 text-left text-xs font-medium">
-                    {formatValue(row.taxa_referenciada)}
+                    {row.taxa_referenciada}%
                   </td>
                   <td className="px-4 py-2 text-left text-xs font-medium">
                     {row.numero_cartao}
@@ -295,7 +295,7 @@ export function DetailsDataTable({
                     {row.data_recebimento}
                   </td>
                   <td className="px-4 py-2 text-left text-xs font-medium">
-                    {formatValue(row.taxa_auditada)}
+                    {row.taxa_auditada}%
                   </td>
                   <td className="px-4 py-2 text-left text-xs font-medium">
                     {formatValue(row.valor_taxa_auditada)}
