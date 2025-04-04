@@ -90,14 +90,14 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
             className={`flex flex-col flex-auto justify-between transition-all duration-300 ${isMinimized ? 'py-5' : 'p-4 py-7'}`}
           >
             <nav className="grid gap-4">
-              <ButtonMenu
+              {/* <ButtonMenu
                 params={{
                   title: t('dashboard'),
                   path: `/${locale}/dashboard`,
                   icon: 'home',
                   isMinimized,
                 }}
-              />
+              /> */}
               <ButtonMenu
                 params={{
                   title: t('establishments'),

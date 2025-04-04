@@ -48,7 +48,7 @@ export default function SignIn() {
 
           const roleRoutes: { [key: string]: string } = {
             ADMIN: '/admin/users',
-            USER: '/dashboard',
+            USER: '/establishments',
           }
 
           switch (user.role) {
