@@ -2,70 +2,94 @@
 
 import ButtonGlobal from '@/components/buttons/global'
 import { Loading } from '@/components/loading/loading'
-import AddUserModal from '@/components/modals/add-user'
+import AddEstablishmentModal from '@/components/modals/add-establishment'
 import Search from '@/components/searchs/search'
-import { UsersTable } from '@/components/tables/users'
+import { EstablishmentsTable } from '@/components/tables/establishments'
 import api from '@/lib/api'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-interface User {
-  firstName: string
-  lastName: string
-  email: string
-  role: string
-  id: string
+interface Establishment {
+  id: number
+  tradeName: string
+  companyName: string
+  cnpj: string
+  phone: string
+  responsible: string
+  address?: {
+    street: string
+    number: string
+    zipCode: string
+    complement: string
+    city: string
+    state: string
+    country: string
+  }
+  audits?: {
+    exported: boolean
+  }[]
 }
 
 interface FormData {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
-  role: 'ADMIN' | 'USER'
+  tradeName: string
+  companyName: string
+  cnpj: string
+  phone: string
+  responsible: string
+  address?: {
+    street: string
+    number: string
+    zipCode: string
+    complement: string
+    city: string
+    state: string
+    country: string
+  }
 }
 
-interface Totals {
-  total: number
-  totalUsers: number
-  totalAdmins: number
-}
+// interface Totals {
+//   total: number
+//   totalAudits: number
+//   totalExported: number
+// }
 
-export default function Users() {
+export default function Establishments() {
   const t = useTranslations('TextLang')
-  const [users, setUsers] = useState<User[]>([])
+  const [establishments, setEstablishments] = useState<Establishment[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingButton, setLoadingButton] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    totalUsers: 0,
-    totalAdmins: 0,
-  })
+  const [filteredEstablishments, setFilteredEstablishments] =
+    useState<Establishment[]>(establishments)
+  // const [totals, setTotals] = useState<Totals>({
+  //   total: 0,
+  //   totalAudits: 0,
+  //   totalExported: 0,
+  // })
 
   const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    role: 'USER',
+    tradeName: '',
+    companyName: '',
+    cnpj: '',
+    phone: '',
+    responsible: '',
   })
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
-    const results = users.filter(
-      (user) =>
-        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(query.toLowerCase()) ||
-        user.email.toLowerCase().includes(query.toLowerCase()) ||
-        user.role.toLowerCase().includes(query.toLowerCase()),
+    const results = establishments.filter(
+      (establishment) =>
+        establishment.tradeName.toLowerCase().includes(query.toLowerCase()) ||
+        establishment.companyName.toLowerCase().includes(query.toLowerCase()) ||
+        establishment.cnpj.toLowerCase().includes(query.toLowerCase()) ||
+        establishment.phone.toLowerCase().includes(query.toLowerCase()) ||
+        establishment.responsible.toLowerCase().includes(query.toLowerCase()),
     )
-    setFilteredUsers(results)
+    setFilteredEstablishments(results)
   }
 
   const handleInputChange = (
@@ -79,16 +103,22 @@ export default function Users() {
     setLoadingButton(true)
     e.preventDefault()
     try {
-      const response = await api.post('/users', formData)
+      const response = await api.post('/establishments', formData)
       if (response.status === 201) {
-        const newUser = response.data.user
-        setUsers((prevUsers) => [...prevUsers, newUser])
-        setFilteredUsers((prevFilteredUsers) => [...prevFilteredUsers, newUser])
+        const newEstablishment = response.data
+        setEstablishments((prevEstablishments) => [
+          ...prevEstablishments,
+          newEstablishment,
+        ])
+        setFilteredEstablishments((prevFilteredEstablishments) => [
+          ...prevFilteredEstablishments,
+          newEstablishment,
+        ])
       } else {
         setError(
           response.data.message ||
-            t('errorAddingUser') ||
-            'Erro ao adicionar usuário',
+            t('errorAddingEstablishment') ||
+            'Erro ao adicionar estabelecimento',
         )
       }
     } catch (error) {
@@ -107,7 +137,7 @@ export default function Users() {
       }
       console.error('Erro na requisição:', error)
     } finally {
-      fetchUsers()
+      fetchEstablishments()
       setLoadingButton(false)
       closeModal()
     }
@@ -122,22 +152,25 @@ export default function Users() {
     setIsModalOpen(true)
   }
 
-  const fetchUsers = async () => {
+  const fetchEstablishments = async () => {
     try {
-      const response = await api.get('/users')
-      const fetchedUsers: User[] = response.data
-      const computedTotals = fetchedUsers.reduce<Totals>(
-        (acc, user) => {
-          acc.total += 1
-          if (user.role === 'USER') acc.totalUsers += 1
-          if (user.role === 'ADMIN') acc.totalAdmins += 1
-          return acc
-        },
-        { total: 0, totalUsers: 0, totalAdmins: 0 },
-      )
-      setUsers(fetchedUsers)
-      setFilteredUsers(fetchedUsers)
-      setTotals(computedTotals)
+      const response = await api.get('/establishments')
+
+      const fetchedEstablishments: Establishment[] =
+        response.data.establishments
+      // const computedTotals = fetchedEstablishments.reduce<Totals>(
+      //   (acc, establishment) => {
+      //     acc.total += 1
+      //     acc.totalAudits += establishment.audits?.length || 0
+      //     acc.totalExported +=
+      //       establishment.audits?.filter((audit) => audit.exported).length || 0
+      //     return acc
+      //   },
+      //   { total: 0, totalAudits: 0, totalExported: 0 },
+      // )
+      setEstablishments(fetchedEstablishments)
+      setFilteredEstablishments(fetchedEstablishments)
+      // setTotals(computedTotals)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -157,21 +190,8 @@ export default function Users() {
     }
   }
 
-  const handleUserUpdate = (updatedUser: User) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === updatedUser.id ? updatedUser : user,
-      ),
-    )
-    setFilteredUsers((prevFilteredUsers) =>
-      prevFilteredUsers.map((user) =>
-        user.id === updatedUser.id ? updatedUser : user,
-      ),
-    )
-  }
-
   useEffect(() => {
-    fetchUsers()
+    fetchEstablishments()
   }, [])
 
   if (loading) {
@@ -183,9 +203,9 @@ export default function Users() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start p-8 rounded-lg space-y-4 antialiased">
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        {/* <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -198,13 +218,13 @@ export default function Users() {
         </div>
         <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
-            src="/images/svg/user.svg"
+            src="/images/svg/interests.svg"
             width={30}
             height={30}
             alt="Document"
           />
           <p>
-            {t('users')}: {totals.totalUsers}
+            {t('totalAudits')}: {totals.totalAudits}
           </p>
         </div>
         <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
@@ -215,12 +235,12 @@ export default function Users() {
             alt="Document"
           />
           <p>
-            {t('admins')}: {totals.totalAdmins}
+            {t('totalExported')}: {totals.totalExported}
           </p>
-        </div>
+        </div> */}
         <div className="col-span-2">
           <Search
-            placeholder="Buscar usuários..."
+            placeholder="Buscar estabelecimentos..."
             searchQuery={searchQuery}
             onSearch={handleSearch}
           />
@@ -228,16 +248,16 @@ export default function Users() {
         <div className="col-span-2 md:col-span-1 flex justify-center items-center">
           <ButtonGlobal
             type="button"
-            params={{ title: t('addUser'), color: 'bg-primary' }}
+            params={{ title: t('addEstablishment'), color: 'bg-primary' }}
             onClick={openModal}
           />
         </div>
       </div>
       <section className="flex flex-col w-full rounded-xl bg-zinc-300 space-y-4">
-        <UsersTable data={filteredUsers} onUserUpdate={handleUserUpdate} />
+        <EstablishmentsTable data={filteredEstablishments} />
       </section>
       {isModalOpen && (
-        <AddUserModal
+        <AddEstablishmentModal
           isOpen={isModalOpen}
           formData={formData}
           error={error}

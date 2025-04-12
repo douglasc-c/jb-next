@@ -1,0 +1,109 @@
+'use client'
+
+import { useTranslations } from 'next-intl'
+import { Audit } from '@/types/audit'
+import { useRouter, usePathname } from 'next/navigation'
+import ButtonGlobal from '../buttons/global'
+import { NewAuditModal } from '../modals/new-audit-modal'
+import { useState } from 'react'
+
+interface AuditsProps {
+  audits?: Audit[]
+  establishmentId?: number
+  onNewAudit?: (newAudit: Audit) => void
+}
+
+export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
+  const t = useTranslations('TextLang')
+  const router = useRouter()
+  const pathname = usePathname()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const isAdmin = pathname.includes('/admin')
+
+  const handleSeeMore = (id: number) => {
+    router.push(isAdmin ? `/admin/audits/${id}` : `/audits/${id}`)
+  }
+
+  const handleNewAudit = () => {
+    if (!establishmentId) {
+      console.error('establishmentId não está definido')
+      return
+    }
+    setIsModalOpen(true)
+  }
+
+  return (
+    <>
+      <div className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-xl">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
+          <div className="flex gap-2">
+            <ButtonGlobal
+              params={{ title: t('newAudit'), color: 'bg-title' }}
+              onClick={handleNewAudit}
+            />
+          </div>
+        </div>
+        <section className="h-auto w-full antialiased text-textPrimary">
+          <div className="custom-scroll max-h-[40rem]">
+            {!audits || audits.length === 0 ? (
+              <div className="flex justify-center items-center p-8">
+                <p className="text-zinc-400">{t('noAudits')}</p>
+              </div>
+            ) : (
+              <table className="table-auto w-full border-collapse text-sm">
+                <thead className="uppercase border-b border-zinc-500">
+                  <tr className="border-b border-border">
+                    <th className="px-4 py-2 text-left text-xs font-medium">
+                      {t('id')}
+                    </th>
+                    {/* <th className="px-4 py-2 text-center text-xs font-medium">
+                      {t('status')}
+                    </th> */}
+                    <th className="px-4 py-2 text-center text-xs font-medium">
+                      {t('createdAt')}
+                    </th>
+                    <th className="px-4 py-2 text-center text-xs font-medium">
+                      {t('shares')}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {audits.map((audit) => (
+                    <tr key={audit.id} className="border-b border-border">
+                      <td className="px-4 py-2 text-left text-xs font-medium">
+                        {audit.id}
+                      </td>
+                      {/* <td className="px-4 py-2 text-center text-xs font-medium">
+                        {audit.exported ? t('exported') : t('notExported')}
+                      </td> */}
+                      <td className="px-4 py-2 text-center text-xs font-medium">
+                        {new Date(audit.createdAt).toLocaleDateString('pt-BR')}
+                      </td>
+                      <td className="px-4 py-2 text-center text-xs font-medium">
+                        <button
+                          onClick={() => handleSeeMore(audit.id)}
+                          className="rounded-full hover:bg-title hover:text-primary py-1 px-4 bg-transparent"
+                        >
+                          {t('seeMore')}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </section>
+      </div>
+
+      <NewAuditModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        establishmentId={establishmentId?.toString() || ''}
+        onSuccess={onNewAudit}
+      />
+    </>
+  )
+}
