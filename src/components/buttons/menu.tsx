@@ -37,7 +37,7 @@ export default function ButtonMenu({ params }: IDataProps) {
       </div>
 
       <span
-        className={`transition-all duration-300 ${isMinimized ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}
+        className={`transition-all duration-300 ${isMinimized ? 'opacity-0 w-0 hidden' : 'opacity-100 w-auto'}`}
       >
         {title}
       </span>

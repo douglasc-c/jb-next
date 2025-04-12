@@ -207,7 +207,12 @@ export default function EstablishmentDetails() {
     setSuccess(null)
   }
 
-  const handleNewAudit = (newAudit: any) => {
+  const handleNewAudit = (newAudit: {
+    id: number
+    exported: boolean
+    createdAt: string
+    updatedAt: string
+  }) => {
     if (!establishment) return
     setEstablishment({
       ...establishment,
@@ -250,13 +255,13 @@ export default function EstablishmentDetails() {
             <section className="flex border-b border-zinc-200 text-zinc-200 w-full">
               <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
                 <button
-                  className={`pb-2 ${activeTab === 'overview' ? 'border-b-2 border-title text-title' : ''}`}
+                  className={`pb-2 ${activeTab === 'overview' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
                   onClick={() => setActiveTab('overview')}
                 >
                   {t('overview')}
                 </button>
                 <button
-                  className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-title text-title' : ''}`}
+                  className={`pb-2 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
                   onClick={() => setActiveTab('address')}
                 >
                   {t('address')}
@@ -309,8 +314,8 @@ export default function EstablishmentDetails() {
           </div>
         </div>
         <div className="w-full">
-          <Audits 
-            audits={establishment.audits} 
+          <Audits
+            audits={establishment.audits}
             establishmentId={establishment.id}
             onNewAudit={handleNewAudit}
           />

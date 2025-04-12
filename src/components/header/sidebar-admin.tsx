@@ -70,13 +70,15 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:block ${isMinimized ? 'w-16' : 'w-64'}`}
       >
-        <div className="flex flex-col h-full gap-8 pt-8">
+        <div className="flex flex-col h-full gap-8 pt-4">
           <div
             className=" justify-center flex cursor-pointer"
             onClick={() => setIsMinimized(!isMinimized)}
           >
             <Image
-              src="/images/svg/logo.svg"
+              src={
+                isMinimized ? `/images/svg/icon.svg` : `/images/svg/logo.svg`
+              }
               alt="logo"
               height={isMinimized ? 40 : 180}
               width={isMinimized ? 40 : 180}

@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { YorResources } from '@/components/cards/you-resources'
+// import { YorResources } from '@/components/cards/you-resources'
 
 interface UserData {
   id: string
@@ -248,23 +248,23 @@ export default function UserDetails() {
           {user.firstName} {user.lastName}
         </h1>
         <div className="flex flex-row w-full gap-4">
-          <div className="space-y-6 w-full">
+          {/* <div className="space-y-6 w-full">
             <YorResources
               chart={{ houses: 1, lands: 2, walletBalance: 3 }}
               totalInvested={100}
             />
-          </div>
+          </div> */}
           <div className="space-y-6 w-full">
             <section className="flex border-b border-zinc-200 text-zinc-200 w-full">
               <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
                 <button
-                  className={`pb-2 ${activeTab === 'user' ? 'border-b-2 border-title text-title' : ''}`}
+                  className={`pb-2 ${activeTab === 'user' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
                   onClick={() => setActiveTab('user')}
                 >
                   {t('userData')}
                 </button>
                 <button
-                  className={`pb-2 ${activeTab === 'address' ? 'border-b-2 border-title text-title' : ''}`}
+                  className={`pb-2 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
                   onClick={() => setActiveTab('address')}
                 >
                   {t('address')}

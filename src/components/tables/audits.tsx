@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { Audit } from '@/types/audit'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import ButtonGlobal from '../buttons/global'
 import { NewAuditModal } from '../modals/new-audit-modal'
 import { useState } from 'react'
@@ -16,10 +16,13 @@ interface AuditsProps {
 export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
   const t = useTranslations('TextLang')
   const router = useRouter()
+  const pathname = usePathname()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const isAdmin = pathname.includes('/admin')
+
   const handleSeeMore = (id: number) => {
-    router.push(`/audits/${id}`)
+    router.push(isAdmin ? `/admin/audits/${id}` : `/audits/${id}`)
   }
 
   const handleNewAudit = () => {
@@ -29,7 +32,7 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
     }
     setIsModalOpen(true)
   }
-  console.log(audits)
+
   return (
     <>
       <div className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-xl">

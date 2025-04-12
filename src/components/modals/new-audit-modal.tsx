@@ -3,6 +3,7 @@ import { useState } from 'react'
 import ButtonGlobal from '../buttons/global'
 import processApi from '@/lib/process-api'
 import api from '@/lib/api'
+import { useRouter } from 'next/navigation'
 
 interface FlagPercentage {
   bandeira: string
@@ -31,11 +32,13 @@ export function NewAuditModal({
   onSuccess,
 }: NewAuditModalProps) {
   const t = useTranslations('TextLang')
+  const router = useRouter()
   const [files, setFiles] = useState<File[]>([])
   const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
     { bandeira: '', tipoTransacao: '', percentage: 0 },
   ])
   const [loading, setLoading] = useState(false)
+  const [isHelpOpen, setIsHelpOpen] = useState(false)
 
   const clearForm = () => {
     setFiles([])
@@ -105,33 +108,56 @@ export function NewAuditModal({
       formData.append('flag_percentages', JSON.stringify(flagPercentagesObject))
 
       // Processar os arquivos
-      const processResponse = await processApi.post(
-        '/process-excel/',
-        formData,
-        {
+      let processResponse
+      try {
+        processResponse = await processApi.post('/process-excel/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        },
-      )
-
-      // Salvar os dados processados no backend principal
-      const response = await api.post(
-        `/establishments/${establishmentId}/audits`,
-        {
-          detailsData: processResponse.data.details,
-          summaryData: processResponse.data.summary,
-        },
-      )
-
-      if (onSuccess) {
-        onSuccess(response.data.audit)
+        })
+        console.log(
+          'Processamento de Excel bem-sucedido:',
+          processResponse.data,
+        )
+      } catch (processError) {
+        console.error('Erro no processamento do Excel:', processError)
+        throw new Error(
+          'Falha no processamento da planilha. Verifique se os nomes das colunas estão corretos.',
+        )
       }
 
-      clearForm()
-      onClose()
+      // Salvar os dados processados no backend principal
+      try {
+        const response = await api.post(
+          `/establishments/${establishmentId}/audits`,
+          {
+            detailsData: processResponse.data.details,
+            summaryData: processResponse.data.summary,
+          },
+        )
+
+        console.log('Auditoria criada com sucesso:', response.data)
+
+        if (onSuccess) {
+          onSuccess(response.data.audit)
+        }
+
+        clearForm()
+        onClose()
+
+        // Redirecionar para a página de detalhes da auditoria
+        router.push(`/audits/${response.data.audit.id}`)
+      } catch (apiError) {
+        console.error('Erro ao salvar auditoria na API:', apiError)
+        throw new Error('Falha ao salvar a auditoria no sistema.')
+      }
     } catch (error) {
       console.error('Erro ao criar auditoria:', error)
+      alert(
+        error instanceof Error
+          ? error.message
+          : 'Ocorreu um erro ao processar a auditoria.',
+      )
     } finally {
       setLoading(false)
     }
@@ -160,9 +186,59 @@ export function NewAuditModal({
         </div>
 
         <div className="space-y-4">
+          <div className="bg-zinc-800 p-4 rounded-lg">
+            <button
+              onClick={() => setIsHelpOpen(!isHelpOpen)}
+              className="flex items-center gap-2 text-zinc-200 hover:text-title"
+            >
+              <span className="text-sm font-medium">
+                {t('requiredColumns')}
+              </span>
+              <svg
+                className={`w-4 h-4 transform transition-transform ${
+                  isHelpOpen ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {isHelpOpen && (
+              <div className="mt-4 space-y-4 text-sm text-zinc-300">
+                <div>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>{t('columnDataPagamento')}</li>
+                    <li>{t('columnDataVenda')}</li>
+                    <li>{t('columnNumeroEstabelecimento')}</li>
+                    <li>{t('columnCodigoAutorizacao')}</li>
+                    <li>{t('columnProduto')}</li>
+                    <li>{t('columnTipoCartao')}</li>
+                    <li>{t('columnBandeira')}</li>
+                    <li>{t('columnStatusVenda')}</li>
+                    <li>{t('columnValorBruto')}</li>
+                    <li>{t('columnValorTaxa')}</li>
+                    <li>{t('columnValorLiquido')}</li>
+                    <li>{t('columnNumeroCartao')}</li>
+                  </ul>
+                  <p className="mt-4 text-yellow-400 font-medium">
+                    {t('columnNamesWarning')}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-zinc-200 mb-2">
-              {t('uploadFiles')}
+              {t('uploadFiles')} (.xlsx / .xls)
             </label>
             <input
               type="file"

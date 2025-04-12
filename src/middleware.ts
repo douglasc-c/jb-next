@@ -13,22 +13,11 @@ export function middleware(request: NextRequest) {
   const [, locale] = request.nextUrl.pathname.split('/')
   const token = request.cookies.get('auth-token')
 
-  const protectedRoutes = [
-    'dashboard',
-    'mydata',
-    'compliance',
-    'constructioncircuit',
-    'myventures',
-    'support',
-  ]
+  const protectedRoutes = ['establishments', 'audits']
 
-  const adminRoutes = [
-    'admin/users',
-    'admin/interests',
-    'admin/ventures',
-    'admin/contracts',
-    'admin/support',
-  ]
+  const publicRoutes = ['summary']
+
+  const adminRoutes = ['admin/users', 'admin/establishments', 'admin/audits']
 
   const user = token ? decodeToken(token.value) : null
 
@@ -38,7 +27,10 @@ export function middleware(request: NextRequest) {
         .concat(adminRoutes)
         .some((route) =>
           request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
-        )
+        ) &&
+      !publicRoutes.some((route) =>
+        request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
+      )
     ) {
       return NextResponse.redirect(new URL(`/${locale}`, request.url))
     }
@@ -50,7 +42,9 @@ export function middleware(request: NextRequest) {
     ) &&
     (!user || user.role !== 'ADMIN')
   ) {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
+    return NextResponse.redirect(
+      new URL(`/${locale}/establishments`, request.url),
+    )
   }
 
   return intlResponse

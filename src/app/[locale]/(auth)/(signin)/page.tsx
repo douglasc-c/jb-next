@@ -174,30 +174,14 @@ export default function SignIn() {
                     ) : (
                       t('signIn')
                     ),
-                    color: 'bg-gray',
+                    color: 'bg-title',
                   }}
                 />
               </div>
             </form>
           </div>
         </div>
-        <div className="flex text-sm font-light justify-between w-full">
-          <div className="flex flex-row items-center text-zinc-200 space-x-2">
-            <Image
-              className="py-4"
-              src="/images/svg/lock.svg"
-              alt="WiseBot Logo"
-              height={24}
-              width={24}
-            />
-            <p>{t('yourInformationIsSafe')}</p>
-          </div>
-          <div className="flex flex-row items-center text-zinc-200 space-x-2">
-            <a href="#">{t('privacyCookPolicy')}</a>
-            <span> | </span>
-            <a href="#">{t('TermsOfService')}</a>
-          </div>
-        </div>
+        <div className="flex text-sm font-light justify-between w-full"></div>
       </section>
     </main>
   )
