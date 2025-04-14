@@ -35,7 +35,7 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
 
   return (
     <>
-      <div className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-xl">
+      <div className="h-auto w-full p-4 bg-primary antialiased text-textPrimary rounded-xl">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
           <div className="flex gap-2">

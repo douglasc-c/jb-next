@@ -96,8 +96,9 @@ export default function SignIn() {
         onClose={() => setIsTokenModalOpen(false)}
       />
 
-      <section className="hidden md:block w-1/3 relative ">
-        <div className="absolute inset-0 bg-render bg-cover bg-center">
+      <section className="hidden md:block w-2/5 relative ">
+        <div className="absolute inset-0 bg-render bg-cover bg-top">
+          {/* <div className="absolute inset-0 bg-gradient-to-l from-primary to-transparent"></div> */}
           <div className="flex flex-col items-center justify-center h-full">
             <Image
               className="py-4"
@@ -110,7 +111,7 @@ export default function SignIn() {
         </div>
       </section>
 
-      <section className="flex flex-col items-center justify-between md:w-2/3 w-full p-10 md:bg-primary bg-render md:bg-none bg-cover bg-center space-y-6">
+      <section className="flex flex-col items-center justify-between md:w-3/5 w-full p-10 md:bg-primary bg-render md:bg-none bg-cover bg-center space-y-6">
         <div />
         <div className="w-full max-w-md space-y-6 ">
           <div className="w-full max-w-md space-y-1">

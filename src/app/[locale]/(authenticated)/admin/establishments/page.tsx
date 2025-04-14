@@ -8,7 +8,6 @@ import { EstablishmentsTable } from '@/components/tables/establishments'
 import api from '@/lib/api'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 interface Establishment {
@@ -49,12 +48,6 @@ interface FormData {
   }
 }
 
-interface Totals {
-  total: number
-  totalAudits: number
-  totalExported: number
-}
-
 export default function Establishments() {
   const t = useTranslations('TextLang')
   const [establishments, setEstablishments] = useState<Establishment[]>([])
@@ -65,11 +58,6 @@ export default function Establishments() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredEstablishments, setFilteredEstablishments] =
     useState<Establishment[]>(establishments)
-  const [totals, setTotals] = useState<Totals>({
-    total: 0,
-    totalAudits: 0,
-    totalExported: 0,
-  })
 
   const [formData, setFormData] = useState<FormData>({
     tradeName: '',
@@ -158,19 +146,9 @@ export default function Establishments() {
 
       const fetchedEstablishments: Establishment[] =
         response.data.establishments
-      const computedTotals = fetchedEstablishments.reduce<Totals>(
-        (acc, establishment) => {
-          acc.total += 1
-          acc.totalAudits += establishment.audits?.length || 0
-          acc.totalExported +=
-            establishment.audits?.filter((audit) => audit.exported).length || 0
-          return acc
-        },
-        { total: 0, totalAudits: 0, totalExported: 0 },
-      )
+
       setEstablishments(fetchedEstablishments)
       setFilteredEstablishments(fetchedEstablishments)
-      setTotals(computedTotals)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -205,39 +183,6 @@ export default function Establishments() {
   return (
     <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
-          <Image
-            src="/images/svg/users.svg"
-            width={30}
-            height={30}
-            alt="Document"
-          />
-          <p>
-            {t('total')}: {totals.total}
-          </p>
-        </div>
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
-          <Image
-            src="/images/svg/interests.svg"
-            width={30}
-            height={30}
-            alt="Document"
-          />
-          <p>
-            {t('totalAudits')}: {totals.totalAudits}
-          </p>
-        </div>
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
-          <Image
-            src="/images/svg/admin.svg"
-            width={30}
-            height={30}
-            alt="Document"
-          />
-          <p>
-            {t('totalExported')}: {totals.totalExported}
-          </p>
-        </div>
         <div className="col-span-2">
           <Search
             placeholder="Buscar estabelecimentos..."
@@ -245,7 +190,7 @@ export default function Establishments() {
             onSearch={handleSearch}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 flex justify-center items-center">
+        <div className="flex justify-center items-center">
           <ButtonGlobal
             type="button"
             params={{ title: t('addEstablishment'), color: 'bg-primary' }}

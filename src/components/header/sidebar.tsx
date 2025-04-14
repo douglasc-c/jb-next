@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
                 params={{
                   title: t('establishments'),
                   path: `/${locale}/establishments`,
-                  icon: 'arrowDiagonalGreen',
+                  icon: 'estableshments',
                   isMinimized,
                 }}
               />

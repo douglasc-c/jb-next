@@ -5,12 +5,11 @@ import { SummaryData } from '@/types/audit'
 import ButtonGlobal from '../buttons/global'
 import { jsPDF as JSPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { DoughnutChart } from '../charts/doughnut-chart'
 import { BarChart } from '../charts/bar-chart'
 import { HorizontalBarChart } from '../charts/horizontal-bar-chart'
 import html2canvas from 'html2canvas'
-// import { usePathname } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 interface SummaryDataTableProps {
@@ -20,14 +19,15 @@ interface SummaryDataTableProps {
 
 export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
   const t = useTranslations('TextLang')
-  // const pathname = usePathname()
   const doughnutChartRef = useRef<HTMLDivElement>(null)
   const barChartRef = useRef<HTMLDivElement>(null)
+  const flagDropdownRef = useRef<HTMLDivElement>(null)
 
   // Estados para os filtros
-  const [selectedFlag, setSelectedFlag] = useState<string>('')
+  const [selectedFlags, setSelectedFlags] = useState<string[]>([])
   const [selectedMethod, setSelectedMethod] = useState<string>('')
-  const [selectedYear, setSelectedYear] = useState<string>('')
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false)
+  const [isFlagDropdownOpen, setIsFlagDropdownOpen] = useState(false)
 
   // Garantir que data seja um array
   const safeData = useMemo(() => (Array.isArray(data) ? data : []), [data])
@@ -57,11 +57,12 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
   // Filtrar dados
   const filteredData = useMemo(() => {
     return safeData.filter((row) => {
-      const flagMatch = !selectedFlag || row.flag === selectedFlag
+      const flagMatch =
+        selectedFlags.length === 0 || selectedFlags.includes(row.flag)
       const methodMatch = !selectedMethod || row.method === selectedMethod
       return flagMatch && methodMatch
     })
-  }, [safeData, selectedFlag, selectedMethod])
+  }, [safeData, selectedFlags, selectedMethod])
 
   const formatValue = (value: string | undefined | null) => {
     if (!value) return '0,00'
@@ -184,30 +185,121 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
 
     const locale = window.location.pathname.split('/')[1]
     const summaryUrl = `${window.location.origin}/${locale}/summary/${auditId}`
-    navigator.clipboard.writeText(summaryUrl)
-    toast.success(t('summaryLinkCopied'))
+
+    navigator.clipboard
+      .writeText(summaryUrl)
+      .then(() => {
+        console.log('Link copiado:', summaryUrl)
+        toast.success(t('summaryLinkCopied'))
+
+        // Mostrar mensagem na tela
+        setShowCopiedMessage(true)
+
+        // Esconder a mensagem após 3 segundos
+        setTimeout(() => {
+          setShowCopiedMessage(false)
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error('Erro ao copiar link:', err)
+        toast.error('Erro ao copiar link')
+      })
   }
+
+  // Fechar dropdown quando clicar fora
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        flagDropdownRef.current &&
+        !flagDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsFlagDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <div className="bg-primary p-4 rounded-b-lg rounded-r-lg">
+      {showCopiedMessage && (
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 animate-fade-in-out">
+          {t('summaryLinkCopied')}
+        </div>
+      )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-zinc-200">
           {t('summaryData')}
         </h2>
         <div className="flex gap-4 w-2/3 justify-end ">
-          {/* Filtros */}
-          <select
-            value={selectedFlag}
-            onChange={(e) => setSelectedFlag(e.target.value)}
-            className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700"
-          >
-            <option value="">{t('allFlags')}</option>
-            {uniqueFlags.map((flag) => (
-              <option key={flag} value={flag}>
-                {flag}
-              </option>
-            ))}
-          </select>
+          {/* Filtro de bandeiras com seleção múltipla */}
+          <div className="relative" ref={flagDropdownRef}>
+            <button
+              onClick={() => setIsFlagDropdownOpen(!isFlagDropdownOpen)}
+              className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700 flex items-center justify-between min-w-[150px]"
+            >
+              <span>
+                {selectedFlags.length === 0
+                  ? t('allFlags')
+                  : selectedFlags.length === 1
+                    ? selectedFlags[0]
+                    : `${selectedFlags.length} ${t('flags')}`}
+              </span>
+              <svg
+                className={`w-4 h-4 transition-transform ${
+                  isFlagDropdownOpen ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            {isFlagDropdownOpen && (
+              <div className="absolute z-10 mt-1 w-full bg-zinc-800 border border-zinc-700 text-zinc-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                <div className="p-2">
+                  <div className="checkbox-container">
+                    <input
+                      type="checkbox"
+                      checked={selectedFlags.length === 0}
+                      onChange={() => setSelectedFlags([])}
+                      className="custom-checkbox"
+                    />
+                    <span className="checkbox-label">{t('allFlags')}</span>
+                  </div>
+                  {uniqueFlags.map((flag) => (
+                    <div key={flag} className="checkbox-container">
+                      <input
+                        type="checkbox"
+                        checked={selectedFlags.includes(flag)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedFlags([...selectedFlags, flag])
+                          } else {
+                            setSelectedFlags(
+                              selectedFlags.filter((f) => f !== flag),
+                            )
+                          }
+                        }}
+                        className="custom-checkbox"
+                      />
+                      <span className="checkbox-label">{flag}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           <select
             value={selectedMethod}
@@ -218,19 +310,6 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             {uniqueMethods.map((method) => (
               <option key={method} value={method}>
                 {method}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700"
-          >
-            <option value="">{t('allYears')}</option>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
               </option>
             ))}
           </select>
@@ -321,9 +400,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 {years.map((year) => (
                   <th
                     key={year}
-                    className={`px-4 py-2 text-left text-xs font-medium ${
-                      selectedYear && selectedYear !== year ? 'opacity-50' : ''
-                    }`}
+                    className="px-4 py-2 text-left text-xs font-medium"
                   >
                     {year}
                   </th>
@@ -340,9 +417,9 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                   className={`${
                     row.flag === 'Total'
                       ? 'bg-gray-100 font-bold'
-                      : index % 2 === 1
-                        ? 'bg-gray-50'
-                        : 'bg-zinc-900'
+                      : index % 2 === 0
+                        ? 'bg-zinc-900'
+                        : 'bg-slate-800'
                   }`}
                 >
                   <td className="px-4 py-2 text-left text-xs font-medium">
@@ -354,11 +431,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                   {years.map((year) => (
                     <td
                       key={year}
-                      className={`px-4 py-2 text-left text-xs font-medium ${
-                        selectedYear && selectedYear !== year
-                          ? 'opacity-50'
-                          : ''
-                      }`}
+                      className="px-4 py-2 text-left text-xs font-medium"
                     >
                       {formatValue(row[year])}
                     </td>
@@ -369,7 +442,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 </tr>
               ))}
               {/* Linha de total */}
-              <tr className="bg-gray-100 font-bold">
+              <tr className={` font-bold`}>
                 <td className="px-4 py-2 text-left text-sm font-bold">
                   {t('total')}
                 </td>
@@ -377,9 +450,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 {years.map((year) => (
                   <td
                     key={year}
-                    className={`px-4 py-2 text-left text-xs font-bold ${
-                      selectedYear && selectedYear !== year ? 'opacity-50' : ''
-                    }`}
+                    className="px-4 py-2 text-left text-xs font-bold"
                   >
                     {formatNumberBR(
                       filteredData.reduce(

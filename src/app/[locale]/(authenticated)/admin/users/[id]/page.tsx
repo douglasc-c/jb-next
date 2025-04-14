@@ -8,7 +8,6 @@ import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-// import { YorResources } from '@/components/cards/you-resources'
 
 interface UserData {
   id: string
@@ -248,41 +247,35 @@ export default function UserDetails() {
           {user.firstName} {user.lastName}
         </h1>
         <div className="flex flex-row w-full gap-4">
-          {/* <div className="space-y-6 w-full">
-            <YorResources
-              chart={{ houses: 1, lands: 2, walletBalance: 3 }}
-              totalInvested={100}
-            />
-          </div> */}
-          <div className="space-y-6 w-full">
-            <section className="flex border-b border-zinc-200 text-zinc-200 w-full">
+          <div className="w-full">
+            <section className="flex text-zinc-200 w-full">
               <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
                 <button
-                  className={`pb-2 ${activeTab === 'user' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                  className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'user' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                   onClick={() => setActiveTab('user')}
                 >
                   {t('userData')}
                 </button>
                 <button
-                  className={`pb-2 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                  className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                   onClick={() => setActiveTab('address')}
                 >
                   {t('address')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? 'hidden' : ''}`}
+                  className={`p-2 px-4 ${isEditing ? 'hidden' : ''}`}
                   onClick={() => setIsEditing(true)}
                 >
                   {t('edit')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? '' : 'hidden'}`}
+                  className={`p-2 px-4 ${isEditing ? '' : 'hidden'}`}
                   onClick={handleCancel}
                 >
                   {t('cancel')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? '' : 'hidden'}`}
+                  className={`p-2 px-4 ${isEditing ? '' : 'hidden'}`}
                   onClick={handleSave}
                 >
                   {t('save')}
@@ -291,7 +284,9 @@ export default function UserDetails() {
             </section>
 
             <section>
-              <div className="w-full">
+              <div
+                className={`bg-primary p-4 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''} rounded-b-lg rounded-r-lg w-full `}
+              >
                 {activeTab === 'user' && (
                   <UserTab
                     isEditing={isEditing}
