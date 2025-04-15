@@ -11,7 +11,7 @@ const config: Config = {
       backgroundImage: {
         global: "url('/images/bg/global.png')",
         bgnew: "url('/images/bg/newbg.png')",
-        render: "url('/images/bg/renders.png')",
+        render: "url('/images/bg/gain.jpeg')",
       },
       colors: {
         backgroundStart: '#1f1f23',

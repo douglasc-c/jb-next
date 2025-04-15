@@ -9,7 +9,6 @@ import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { YorResources } from '@/components/cards/you-resources'
 
 interface Establishment {
   id: number
@@ -33,6 +32,7 @@ interface Establishment {
     exported: boolean
     createdAt: string
     updatedAt: string
+    establishmentId: number
   }[]
 }
 
@@ -212,6 +212,7 @@ export default function EstablishmentDetails() {
     exported: boolean
     createdAt: string
     updatedAt: string
+    establishmentId: number
   }) => {
     if (!establishment) return
     setEstablishment({
@@ -245,41 +246,35 @@ export default function EstablishmentDetails() {
           {establishment.tradeName}
         </h1>
         <div className="flex flex-row w-full gap-4">
-          <div className="space-y-6 w-full">
-            <YorResources
-              chart={{ houses: 1, lands: 2, walletBalance: 3 }}
-              totalInvested={100}
-            />
-          </div>
-          <div className="space-y-6 w-full">
-            <section className="flex border-b border-zinc-200 text-zinc-200 w-full">
+          <div className="w-full">
+            <section className="flex text-zinc-200 w-full">
               <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
                 <button
-                  className={`pb-2 ${activeTab === 'overview' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                  className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'overview' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                   onClick={() => setActiveTab('overview')}
                 >
                   {t('overview')}
                 </button>
                 <button
-                  className={`pb-2 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                  className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                   onClick={() => setActiveTab('address')}
                 >
                   {t('address')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? 'hidden' : ''}`}
+                  className={`p-2 px-4 ${isEditing ? 'hidden' : ''}`}
                   onClick={() => setIsEditing(true)}
                 >
                   {t('edit')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? '' : 'hidden'}`}
+                  className={`p-2 px-4 ${isEditing ? '' : 'hidden'}`}
                   onClick={handleCancel}
                 >
                   {t('cancel')}
                 </button>
                 <button
-                  className={`pb-2 ${isEditing ? '' : 'hidden'}`}
+                  className={`p-2 px-4 ${isEditing ? '' : 'hidden'}`}
                   onClick={handleSave}
                 >
                   {t('save')}
@@ -288,7 +283,9 @@ export default function EstablishmentDetails() {
             </section>
 
             <section>
-              <div className="w-full">
+              <div
+                className={`bg-primary p-4 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''} rounded-b-lg rounded-r-lg w-full `}
+              >
                 {activeTab === 'overview' && (
                   <Overview
                     isEditing={isEditing}

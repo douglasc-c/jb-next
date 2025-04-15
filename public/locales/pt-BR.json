@@ -14,7 +14,6 @@
     "addEstablishment": "Adicionar estabelecimento",
     "establishments": "Estabelecimentos",
     "signOut": "Sair",
-    "youResources": "Seus recursos",
     "estimatedAssets": "Patrimônio estimado",
     "numberOfHouse": "Número de casas",
     "land": "Terreno",
@@ -127,6 +126,8 @@
     "admins": "Administradores",
     "shareSummary": "Copiar link",
     "summaryLinkCopied": "Link copiado",
-    "establishment": "Estabelecimento"
+    "establishment": "Estabelecimento",
+    "flags": "Bandeiras",
+    "searchAudits": "Buscar auditorias..."
   }
 }

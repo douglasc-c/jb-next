@@ -11,22 +11,16 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
 
-export default async function RootLayout({
+export default async function UserLayout({
   children,
-  params: { lng },
 }: {
   children: React.ReactNode
-  params: { lng: string }
 }) {
   const locale = await getLocale()
 
   return (
-    <html lang={lng}>
-      <body className="flex flex-col h-screen bg-primary">
-        <SidebarProvider>
-          <ClientLayout locale={locale}>{children}</ClientLayout>
-        </SidebarProvider>
-      </body>
-    </html>
+    <SidebarProvider>
+      <ClientLayout locale={locale}>{children}</ClientLayout>
+    </SidebarProvider>
   )
 }

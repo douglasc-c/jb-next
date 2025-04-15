@@ -4,18 +4,12 @@ import ButtonGlobal from '../buttons/global'
 import processApi from '@/lib/process-api'
 import api from '@/lib/api'
 import { useRouter } from 'next/navigation'
+import { Audit } from '@/types/audit'
 
 interface FlagPercentage {
   bandeira: string
   tipoTransacao: string
   percentage: number
-}
-
-interface Audit {
-  id: number
-  exported: boolean
-  createdAt: string
-  updatedAt: string
 }
 
 interface NewAuditModalProps {

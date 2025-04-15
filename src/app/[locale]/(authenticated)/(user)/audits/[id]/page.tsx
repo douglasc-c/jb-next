@@ -109,23 +109,23 @@ export default function AuditDetails() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start p-8 rounded-lg space-y-4 antialiased">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border min-h-[calc(100vh-5rem)] flex flex-col items-start p-4 rounded-lg space-y-4 antialiased">
       <div className="w-full h-full flex flex-col">
-        <h1 className="text-2xl font-medium text-zinc-200 mb-6">
+        <h1 className="text-xl font-medium text-zinc-200 mb-4">
           {t('auditDetails')} <span className="text-title">#{audit.id}</span>
         </h1>
 
         <div className="w-full h-full flex flex-col">
-          <section className="flex border-b border-zinc-200 text-zinc-200 w-full mb-6">
-            <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
+          <section className="flex text-zinc-200 w-full">
+            <div className="flex flex-row w-full text-xs md:text-sm custom-scroll">
               <button
-                className={`pb-2 ${activeTab === 'summary' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'summary' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                 onClick={() => setActiveTab('summary')}
               >
                 {t('summary')}
               </button>
               <button
-                className={`pb-2 ${activeTab === 'details' ? 'rounded-t-lg p-2 bg-zinc-200 text-zinc-900' : ''}`}
+                className={`p-2 px-4 transition-colors duration-300 ${activeTab === 'details' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''}`}
                 onClick={() => setActiveTab('details')}
               >
                 {t('details')}

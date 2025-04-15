@@ -13,11 +13,18 @@ interface AuditsProps {
   onNewAudit?: (newAudit: Audit) => void
 }
 
-export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
+export function Audits({
+  audits = [],
+  establishmentId,
+  onNewAudit,
+}: AuditsProps) {
   const t = useTranslations('TextLang')
   const router = useRouter()
   const pathname = usePathname()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedEstablishmentId, setSelectedEstablishmentId] = useState<
+    number | null
+  >(null)
 
   const isAdmin = pathname.includes('/admin')
 
@@ -25,25 +32,24 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
     router.push(isAdmin ? `/admin/audits/${id}` : `/audits/${id}`)
   }
 
-  const handleNewAudit = () => {
-    if (!establishmentId) {
-      console.error('establishmentId não está definido')
-      return
-    }
+  const handleNewAudit = (establishmentId: number) => {
+    setSelectedEstablishmentId(establishmentId)
     setIsModalOpen(true)
   }
 
   return (
     <>
-      <div className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-xl">
+      <div className="h-auto w-full p-4 bg-primary antialiased rounded-xl">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
-          <div className="flex gap-2">
-            <ButtonGlobal
-              params={{ title: t('newAudit'), color: 'bg-title' }}
-              onClick={handleNewAudit}
-            />
-          </div>
+          {establishmentId && (
+            <div className="flex gap-2">
+              <ButtonGlobal
+                params={{ title: t('newAudit'), color: 'bg-title' }}
+                onClick={() => handleNewAudit(establishmentId)}
+              />
+            </div>
+          )}
         </div>
         <section className="h-auto w-full antialiased text-textPrimary">
           <div className="custom-scroll max-h-[40rem]">
@@ -58,11 +64,11 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
                     <th className="px-4 py-2 text-left text-xs font-medium">
                       {t('id')}
                     </th>
-                    {/* <th className="px-4 py-2 text-center text-xs font-medium">
-                      {t('status')}
-                    </th> */}
                     <th className="px-4 py-2 text-center text-xs font-medium">
                       {t('createdAt')}
+                    </th>
+                    <th className="px-4 py-2 text-center text-xs font-medium">
+                      {t('establishment')}
                     </th>
                     <th className="px-4 py-2 text-center text-xs font-medium">
                       {t('shares')}
@@ -75,19 +81,32 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
                       <td className="px-4 py-2 text-left text-xs font-medium">
                         {audit.id}
                       </td>
-                      {/* <td className="px-4 py-2 text-center text-xs font-medium">
-                        {audit.exported ? t('exported') : t('notExported')}
-                      </td> */}
                       <td className="px-4 py-2 text-center text-xs font-medium">
                         {new Date(audit.createdAt).toLocaleDateString('pt-BR')}
                       </td>
                       <td className="px-4 py-2 text-center text-xs font-medium">
-                        <button
-                          onClick={() => handleSeeMore(audit.id)}
-                          className="rounded-full hover:bg-title hover:text-primary py-1 px-4 bg-transparent"
-                        >
-                          {t('seeMore')}
-                        </button>
+                        {audit.establishment?.companyName || '-'}
+                      </td>
+                      <td className="px-4 py-2 text-center text-xs font-medium">
+                        <div className="flex justify-center gap-2">
+                          <button
+                            onClick={() => handleSeeMore(audit.id)}
+                            className="rounded-full hover:bg-title hover:text-primary py-1 px-4 bg-transparent"
+                          >
+                            {t('seeMore')}
+                          </button>
+                          {!establishmentId && audit.establishmentId && (
+                            <ButtonGlobal
+                              params={{
+                                title: t('newAudit'),
+                                color: 'bg-title',
+                              }}
+                              onClick={() =>
+                                handleNewAudit(audit.establishmentId)
+                              }
+                            />
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -101,7 +120,7 @@ export function Audits({ audits, establishmentId, onNewAudit }: AuditsProps) {
       <NewAuditModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        establishmentId={establishmentId?.toString() || ''}
+        establishmentId={selectedEstablishmentId?.toString() || ''}
         onSuccess={onNewAudit}
       />
     </>

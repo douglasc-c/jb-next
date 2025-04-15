@@ -25,7 +25,7 @@ export function UsersTable({ data }: UsersTableProps) {
   }
 
   return (
-    <section className="h-auto w-full p-4 bg-primary antialiased border border-border text-textPrimary rounded-md">
+    <section className="h-auto w-full p-4 bg-primary antialiased text-textPrimary rounded-lg">
       <div className="custom-scroll max-h-[40rem]">
         <table className="table-auto w-full border-collapse text-sm">
           <thead className="uppercase border-b border-zinc-500">

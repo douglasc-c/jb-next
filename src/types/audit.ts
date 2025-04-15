@@ -38,6 +38,14 @@ export interface Audit {
   exported: boolean
   createdAt: string
   updatedAt: string
+  establishmentId: number
+  establishment?: {
+    id: number
+    companyName: string
+    tradeName: string
+    cnpj: string
+    responsible: string
+  }
   summaryData?: SummaryData[]
   detailsData?: DetailsData[]
 }

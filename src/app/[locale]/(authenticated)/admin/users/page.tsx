@@ -185,7 +185,7 @@ export default function Users() {
   return (
     <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/users.svg"
             width={30}
@@ -196,7 +196,7 @@ export default function Users() {
             {t('total')}: {totals.total}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/user.svg"
             width={30}
@@ -207,7 +207,7 @@ export default function Users() {
             {t('users')}: {totals.totalUsers}
           </p>
         </div>
-        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary border border-border shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
+        <div className="col-span-2 md:col-span-1 bg-primary text-textPrimary shadow rounded-md p-1 px-4 flex space-x-2 items-center text-sm">
           <Image
             src="/images/svg/admin.svg"
             width={30}
