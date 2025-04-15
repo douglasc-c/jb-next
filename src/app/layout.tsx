@@ -25,17 +25,13 @@ export default async function RootLayout({
 }) {
   const locale = lng || 'pt-BR'
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
-    : 'http://localhost:3000'
-
-  const res = await fetch(`${baseUrl}/locales/${locale}.json`)
-  if (!res.ok) {
-    throw new Error(
-      `Não foi possível carregar as traduções para o idioma ${locale}`,
-    )
+  let messages
+  try {
+    messages = (await import(`../messages/${locale}.json`)).default
+  } catch (error) {
+    console.error(`Erro ao carregar traduções para ${locale}:`, error)
+    messages = {}
   }
-  const messages = await res.json()
 
   const authValue = {}
 
