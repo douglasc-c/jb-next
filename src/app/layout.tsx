@@ -3,6 +3,8 @@ import { AppProviders } from '@/context'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import './globals.css'
+import fs from 'fs/promises'
+import path from 'path'
 
 const languages = ['pt-BR', 'es-US']
 
@@ -27,7 +29,14 @@ export default async function RootLayout({
 
   let messages
   try {
-    messages = (await import(`../messages/${locale}.json`)).default
+    const filePath = path.join(
+      process.cwd(),
+      'public',
+      'locales',
+      `${locale}.json`,
+    )
+    const fileContent = await fs.readFile(filePath, 'utf8')
+    messages = JSON.parse(fileContent)
   } catch (error) {
     console.error(`Erro ao carregar traduções para ${locale}:`, error)
     messages = {}
