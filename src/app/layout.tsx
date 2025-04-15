@@ -16,6 +16,15 @@ export async function generateStaticParams() {
 
 export const dynamic = 'force-dynamic'
 
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../../public/locales/${locale}.json`)).default
+  } catch (error) {
+    console.error(`Erro ao carregar traduções para ${locale}:`, error)
+    return {}
+  }
+}
+
 export default async function RootLayout({
   children,
   params: { lng },
@@ -24,24 +33,7 @@ export default async function RootLayout({
   params: { lng: string }
 }) {
   const locale = lng || 'pt-BR'
-
-  let messages
-  try {
-    // Em produção, a URL será relativa ao domínio atual
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000'
-
-    const res = await fetch(`${baseUrl}/locales/${locale}.json`)
-    if (!res.ok) {
-      throw new Error(`Falha ao carregar traduções: ${res.status}`)
-    }
-    messages = await res.json()
-  } catch (error) {
-    console.error(`Erro ao carregar traduções para ${locale}:`, error)
-    messages = {}
-  }
-
+  const messages = await getMessages(locale)
   const authValue = {}
 
   return (
