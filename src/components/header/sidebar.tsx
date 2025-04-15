@@ -108,6 +108,14 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
                   isMinimized,
                 }}
               />
+              <ButtonMenu
+                params={{
+                  title: t('audits'),
+                  path: `/${locale}/audits`,
+                  icon: 'audits',
+                  isMinimized,
+                }}
+              />
             </nav>
             <nav>
               <ButtonMenu

@@ -32,6 +32,7 @@ interface Establishment {
     exported: boolean
     createdAt: string
     updatedAt: string
+    establishmentId: number
   }[]
 }
 
@@ -70,7 +71,7 @@ export default function EstablishmentDetails() {
 
     fetchEstablishment()
   }, [params.id])
-  console.log(establishment)
+
   const handleInputChange = (
     field: string,
     value: string,
@@ -211,6 +212,7 @@ export default function EstablishmentDetails() {
     exported: boolean
     createdAt: string
     updatedAt: string
+    establishmentId: number
   }) => {
     if (!establishment) return
     setEstablishment({

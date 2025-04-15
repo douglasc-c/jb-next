@@ -41,7 +41,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className="bg-primary antialiased">
+      <body className="flex flex-col h-screen bg-primary antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProviders authValue={authValue}>{children}</AppProviders>
         </NextIntlClientProvider>
