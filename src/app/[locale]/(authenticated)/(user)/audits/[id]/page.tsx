@@ -109,7 +109,7 @@ export default function AuditDetails() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border min-h-[calc(100vh-5rem)] flex flex-col items-start p-4 rounded-lg space-y-4 antialiased">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-zinc-700 min-h-[calc(100vh-5rem)] flex flex-col items-start p-4 rounded-lg space-y-4 antialiased">
       <div className="w-full h-full flex flex-col">
         <h1 className="text-xl font-medium text-zinc-200 mb-4">
           {t('auditDetails')} <span className="text-title">#{audit.id}</span>

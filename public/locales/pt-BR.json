@@ -128,6 +128,157 @@
     "summaryLinkCopied": "Link copiado",
     "establishment": "Estabelecimento",
     "flags": "Bandeiras",
-    "searchAudits": "Buscar auditorias..."
+    "searchAudits": "Buscar auditorias...",
+    "home": {
+      "hero": {
+        "title": "Você tem clareza sobre quanto recebe nas vendas com cartão?",
+        "subtitle": "Contamos com um sistema intuitivo, seguro e eficiente para simplificar a conciliação dos seus recebimentos com cartão."
+      },
+      "problems": {
+        "title": "O que pode acontecer sem a conciliação",
+        "fraudes": {
+          "title": "Fraudes",
+          "items": {
+            "0": "Substituição de maquinetas",
+            "1": "Comprovantes forjados",
+            "2": "Estornos (chargebacks)"
+          }
+        },
+        "erros": {
+          "title": "Erros",
+          "items": {
+            "0": "Pagamentos não identificados",
+            "1": "Cobranças equivocadas",
+            "2": "Antecipações não autorizadas"
+          }
+        },
+        "duvidas": {
+          "title": "Incertezas",
+          "items": {
+            "0": "Inconsistências nos registros",
+            "1": "Desconhecimento das taxas aplicadas"
+          }
+        },
+        "problemas": {
+          "title": "Dificuldades",
+          "items": {
+            "0": "Número de vendas incorreto",
+            "1": "Excesso de tempo investido",
+            "2": "Diferenças nos valores finais"
+          }
+        }
+      },
+      "about": {
+        "title": "Quem somos",
+        "subtitle": "O controle completo das suas vendas em cartão",
+        "description": "A Auditax nasceu com o objetivo de apoiar empresas e equipes administrativas na precisão dos dados de vendas em cartão, assegurando sempre a saúde financeira do seu negócio. Nosso compromisso é proteger seu lucro e garantir que você receba exatamente o que é seu por direito.",
+        "stats": {
+          "adquirentes": "Adquirentes",
+          "bandeiras": "Bandeiras"
+        }
+      },
+      "benefits": {
+        "title": "Conciliação de Cartões",
+        "subtitle": "Benefícios Principais",
+        "description": "Veja como nosso sistema pode melhorar seu controle financeiro, reduzir custos e centralizar todas as informações de vendas em um único lugar.",
+        "items": {
+          "economia": {
+            "title": "Redução de Custos",
+            "description": "Corte gastos com taxas e maquininhas; otimize tempo e recursos humanos nas análises."
+          },
+          "controle": {
+            "title": "Gestão Eficiente",
+            "description": "Acompanhe suas taxas e custos com clareza; monitore diariamente seus recebimentos."
+          },
+          "integracao": {
+            "title": "Conexão Total",
+            "description": "Compatível com qualquer ERP, TEF ou sistema; integre dados diretamente das operadoras."
+          },
+          "atendimento": {
+            "title": "Suporte Atento",
+            "description": "Nossa equipe especializada está disponível para te auxiliar com atendimento personalizado."
+          }
+        }
+      },
+      "steps": {
+        "title": "Nosso processo",
+        "subtitle": "Etapas de Implementação",
+        "description": "Cada fase foi pensada para trazer clareza e apoiar decisões estratégicas para o seu negócio.",
+        "items": {
+          "levantamento": {
+            "title": "Mapeamento",
+            "description": "Analisamos o ambiente de vendas para entender o fluxo e identificar as adquirentes utilizadas."
+          },
+          "validacao": {
+            "title": "Confirmação",
+            "description": "Validamos as adquirentes apontadas pela empresa para darmos sequência ao processo."
+          },
+          "recebimentos": {
+            "title": "Importação de Dados",
+            "description": "Estruturamos o banco de dados do cliente para receber e armazenar todas as informações."
+          },
+          "treinamento": {
+            "title": "Capacitação",
+            "description": "Com os dados em mãos, analisamos e agendamos um treinamento para apresentar os resultados à empresa."
+          }
+        }
+      },
+      "solution": {
+        "title": "Nossa Solução",
+        "subtitle": "Por que escolher a Auditax?",
+        "description": "Com um sistema inovador e uma equipe altamente qualificada, ajudamos empresas a manter o controle total sobre as vendas em cartão e vouchers. A Auditax oferece mais clareza e agilidade nos lucros, promovendo o crescimento do seu negócio.",
+        "features": {
+          "conferencia": {
+            "title": "Verificação Completa",
+            "description": "Conferência de todas as operações com cartão, desde a venda até o depósito bancário."
+          },
+          "sistema": {
+            "title": "Plataforma Integrada",
+            "description": "Sistema completo para conciliação de cartões e conciliação bancária das vendas."
+          },
+          "analise": {
+            "title": "Monitoramento Inteligente",
+            "description": "Acompanhamento detalhado dos valores, taxas e serviços cobrados pelas adquirentes."
+          },
+          "integracao": {
+            "title": "Integração Ampla",
+            "description": "Compatível com operadoras de cartão, ERPs, bancos e sistemas, sem complicação."
+          },
+          "visualizacao": {
+            "title": "Interface Clara",
+            "description": "Acesse todas as informações de vendas e relatórios mensais em uma plataforma unificada."
+          },
+          "suporte": {
+            "title": "Atendimento Ágil",
+            "description": "Oferecemos treinamento completo e suporte dedicado por telefone, chat e WhatsApp."
+          },
+          "consultoria": {
+            "title": "Aconselhamento Profissional",
+            "description": "Consultoria focada em otimizar resultados, reduzindo perdas e aumentando a rentabilidade."
+          },
+          "seguranca": {
+            "title": "Proteção Garantida",
+            "description": "Total segurança e confidencialidade em todas as transações da sua empresa."
+          }
+        }
+      },
+      "cta": {
+        "title": "Quer melhorar sua gestão de vendas com cartão?",
+        "description": "Nossa equipe está pronta para te ajudar a conciliar suas vendas com cartão com eficiência e segurança.",
+        "button": "Fale com um especialista"
+      },
+      "contact": {
+        "title": "Fale Conosco",
+        "description": "Nosso objetivo é oferecer suporte estratégico para empresas e áreas administrativas, garantindo precisão nas transações com cartão e contribuindo para a excelência e saúde financeira do seu negócio.",
+        "whatsapp": {
+          "title": "WhatsApp",
+          "value": "(41) 9 9822-7111"
+        },
+        "email": {
+          "title": "E-mail",
+          "value": "contato@auditax.tech"
+        }
+      }
+    }
   }
 }

@@ -240,7 +240,7 @@ export default function EstablishmentDetails() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-border h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-zinc-700 h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
       <div className="w-full flex flex-col gap-4">
         <h1 className="text-2xl font-medium text-zinc-200">
           {establishment.tradeName}
