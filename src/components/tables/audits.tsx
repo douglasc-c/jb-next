@@ -43,7 +43,9 @@ export function Audits({
         <div className="flex justify-between items-center">
           {establishmentId && (
             <>
-              <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
+              <h2 className="text-lg font-semibold text-zinc-200">
+                {t('audits')}
+              </h2>
               <div className="flex gap-2">
                 <ButtonGlobal
                   params={{ title: t('newAudit'), color: 'bg-title' }}

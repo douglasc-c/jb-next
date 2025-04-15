@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { MotionDiv, MotionH1, MotionP } from '@/components/ui/motion'
 import { NavbarHome } from '@/components/header/navbar-home'
 import Image from 'next/image'
@@ -39,7 +38,7 @@ export default function HomePage() {
       <section className="bg-card bg-cover bg-center py-32 relative overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-900/95 to-zinc-950/65 z-0"></div>
-        
+
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,7 +85,7 @@ export default function HomePage() {
                 items: [
                   t('problems.fraudes.items.0'),
                   t('problems.fraudes.items.1'),
-                  t('problems.fraudes.items.2')
+                  t('problems.fraudes.items.2'),
                 ],
                 icon: (
                   <svg
@@ -110,7 +109,7 @@ export default function HomePage() {
                 items: [
                   t('problems.erros.items.0'),
                   t('problems.erros.items.1'),
-                  t('problems.erros.items.2')
+                  t('problems.erros.items.2'),
                 ],
                 icon: (
                   <svg
@@ -133,7 +132,7 @@ export default function HomePage() {
                 title: t('problems.duvidas.title'),
                 items: [
                   t('problems.duvidas.items.0'),
-                  t('problems.duvidas.items.1')
+                  t('problems.duvidas.items.1'),
                 ],
                 icon: (
                   <svg
@@ -157,7 +156,7 @@ export default function HomePage() {
                 items: [
                   t('problems.problemas.items.0'),
                   t('problems.problemas.items.1'),
-                  t('problems.problemas.items.2')
+                  t('problems.problemas.items.2'),
                 ],
                 icon: (
                   <svg
@@ -186,18 +185,18 @@ export default function HomePage() {
                 className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 {group.icon}
-                <h3 className="text-xl font-semibold mb-4">
-                  {group.title}
-                </h3>
+                <h3 className="text-xl font-semibold mb-4">{group.title}</h3>
                 <ul className="text-gray-600 space-y-2">
-                  {Array.isArray(group.items) ? group.items.map((item: string) => (
-                    <li
-                      key={item}
-                      className="hover:text-[#e79204] transition-colors"
-                    >
-                      {item}
-                    </li>
-                  )) : (
+                  {Array.isArray(group.items) ? (
+                    group.items.map((item: string) => (
+                      <li
+                        key={item}
+                        className="hover:text-[#e79204] transition-colors"
+                      >
+                        {item}
+                      </li>
+                    ))
+                  ) : (
                     <li className="hover:text-[#e79204] transition-colors">
                       {group.items}
                     </li>
@@ -238,7 +237,9 @@ export default function HomePage() {
                   className="text-center"
                 >
                   <div className="text-4xl font-bold text-title">+15</div>
-                  <div className=" text-zinc-200 uppercase">{t('about.stats.adquirentes')}</div>
+                  <div className=" text-zinc-200 uppercase">
+                    {t('about.stats.adquirentes')}
+                  </div>
                 </MotionDiv>
                 <MotionDiv
                   initial={{ scale: 0.5, opacity: 0 }}
@@ -248,7 +249,9 @@ export default function HomePage() {
                   className="text-center"
                 >
                   <div className="text-4xl font-bold text-title">+6</div>
-                  <div className=" text-zinc-200 uppercase">{t('about.stats.bandeiras')}</div>
+                  <div className=" text-zinc-200 uppercase">
+                    {t('about.stats.bandeiras')}
+                  </div>
                 </MotionDiv>
               </div>
             </div>
@@ -289,9 +292,7 @@ export default function HomePage() {
               <h2 className="text-3xl font-bold mb-6">
                 {t('benefits.subtitle')}
               </h2>
-              <p className="text-lg mb-6">
-                {t('benefits.description')}
-              </p>
+              <p className="text-lg mb-6">{t('benefits.description')}</p>
               <MotionDiv
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -525,9 +526,7 @@ export default function HomePage() {
                   <div className="w-12 h-12 bg-[#e79204] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     {index + 1}
                   </div>
-                  <h3 className="text-xl font-semibold mb-4">
-                    {step.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-4">{step.title}</h3>
                   <p className="text-gray-600">{step.description}</p>
                 </div>
                 {index < 3 && (
@@ -553,7 +552,9 @@ export default function HomePage() {
               <h2 className="text-lg font-bold text-title uppercase">
                 {t('solution.title')}
               </h2>
-              <h3 className="text-3xl font-semibold mb-8">{t('solution.subtitle')}</h3>
+              <h3 className="text-3xl font-semibold mb-8">
+                {t('solution.subtitle')}
+              </h3>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t('solution.description')}
               </p>
@@ -619,9 +620,7 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-left p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
               >
-                <h3 className="text-xl font-semibold mb-4">
-                  {feature.title}
-                </h3>
+                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </MotionDiv>
             ))}
@@ -641,9 +640,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-8 text-title">
             {t('cta.title')}
           </h2>
-          <p className="text-xl mb-8 text-gray-100">
-            {t('cta.description')}
-          </p>
+          <p className="text-xl mb-8 text-gray-100">{t('cta.description')}</p>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
             <Button
               variant="secondary"
@@ -688,9 +685,7 @@ export default function HomePage() {
 
             {/* Contatos */}
             <div className="space-y-8">
-              <h2 className="text-3xl font-bold mb-8">
-                {t('contact.title')}
-              </h2>
+              <h2 className="text-3xl font-bold mb-8">{t('contact.title')}</h2>
               <div className="space-y-6">
                 {[
                   {
