@@ -3,8 +3,6 @@ import { AppProviders } from '@/context'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import './globals.css'
-import fs from 'fs/promises'
-import path from 'path'
 
 const languages = ['pt-BR', 'es-US']
 
@@ -29,14 +27,16 @@ export default async function RootLayout({
 
   let messages
   try {
-    const filePath = path.join(
-      process.cwd(),
-      'public',
-      'locales',
-      `${locale}.json`,
-    )
-    const fileContent = await fs.readFile(filePath, 'utf8')
-    messages = JSON.parse(fileContent)
+    // Em produção, a URL será relativa ao domínio atual
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+
+    const res = await fetch(`${baseUrl}/locales/${locale}.json`)
+    if (!res.ok) {
+      throw new Error(`Falha ao carregar traduções: ${res.status}`)
+    }
+    messages = await res.json()
   } catch (error) {
     console.error(`Erro ao carregar traduções para ${locale}:`, error)
     messages = {}
