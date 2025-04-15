@@ -13,10 +13,8 @@ export async function generateStaticParams() {
 
 export default async function AdminLayout({
   children,
-  params: { lng },
 }: {
   children: React.ReactNode
-  params: { lng: string }
 }) {
   const locale = await getLocale()
 
