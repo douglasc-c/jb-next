@@ -180,7 +180,7 @@ export function NewAuditModal({
         </div>
 
         <div className="space-y-4">
-          <div className="bg-zinc-800 p-4 rounded-lg">
+          <div className="bg-zinc-800 p-4 border border-zinc-700 rounded-lg">
             <button
               onClick={() => setIsHelpOpen(!isHelpOpen)}
               className="flex items-center gap-2 text-zinc-200 hover:text-title"
@@ -322,7 +322,7 @@ export function NewAuditModal({
 
         <div className="flex justify-end gap-2 mt-6">
           <ButtonGlobal
-            params={{ title: t('cancel'), color: 'bg-zinc-800' }}
+            params={{ title: t('cancel'), color: 'bg-zinc-900' }}
             onClick={handleClose}
           />
           <ButtonGlobal

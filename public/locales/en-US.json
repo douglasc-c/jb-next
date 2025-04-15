@@ -208,6 +208,157 @@
     "myDeposits": "My Deposits",
     "value": "Value",
     "generate": "Generate",
-    "youHaveNoDepositos": "You have no deposits"
+    "youHaveNoDepositos": "You have no deposits",
+    "home": {
+      "hero": {
+        "title": "Do you know how much you receive from your card sales?",
+        "subtitle": "We have a well-designed, easy-to-use and reliable system, so you can reconcile card payments in a simple and practical way."
+      },
+      "problems": {
+        "title": "What happens when you don't reconcile",
+        "fraudes": {
+          "title": "Frauds",
+          "items": {
+            "0": "Card machine exchange",
+            "1": "False receipts",
+            "2": "Chargeback (undone sales)"
+          }
+        },
+        "erros": {
+          "title": "Errors",
+          "items": {
+            "0": "Unpaid payments",
+            "1": "Incorrect charges",
+            "2": "Unauthorized advances"
+          }
+        },
+        "duvidas": {
+          "title": "Doubts",
+          "items": {
+            "0": "Discrepancies in entries",
+            "1": "Which fees were applied"
+          }
+        },
+        "problemas": {
+          "title": "Problems",
+          "items": {
+            "0": "Number of sales",
+            "1": "Excessive time",
+            "2": "Values that don't match"
+          }
+        }
+      },
+      "about": {
+        "title": "About us",
+        "subtitle": "Have the greatest control of your card sales",
+        "description": "Auditax was designed to help companies and administrative departments to have precision in all their card sales, always ensuring the quality of your business. Our main function is to ensure your profit and protect your economy through correct financial return.",
+        "stats": {
+          "adquirentes": "Adquirentes",
+          "bandeiras": "Bandeiras"
+        }
+      },
+      "benefits": {
+        "title": "Sales Reconciliation",
+        "subtitle": "Main Benefits",
+        "description": "Discover how our card reconciliation system can help you have more economy and control, as well as integrate all your information in one place.",
+        "items": {
+          "economia": {
+            "title": "Economy",
+            "description": "Reduce your costs with fees and card machines; Save time and team in reconciliations."
+          },
+          "controle": {
+            "title": "Control",
+            "description": "Know everything about fees and operational costs; Monitor your payments daily."
+          },
+          "integracao": {
+            "title": "Integration",
+            "description": "Integrate with any ERP, TEF or system; Import your sales directly from operators."
+          },
+          "atendimento": {
+            "title": "Service",
+            "description": "Our consultants are ready to help you with specialized support."
+          }
+        }
+      },
+      "steps": {
+        "title": "How it works",
+        "subtitle": "Step by Step",
+        "description": "With these steps, we can show you the information that will help you make decisions for your company.",
+        "items": {
+          "levantamento": {
+            "title": "Survey",
+            "description": "Understanding the environment to know how the sales flow works, identifying the acquirers used in the establishment."
+          },
+          "validacao": {
+            "title": "Validation",
+            "description": "We validate the acquirers selected by the company to proceed with the necessary procedures."
+          },
+          "recebimentos": {
+            "title": "Receiving information",
+            "description": "We start building the client's database to receive information."
+          },
+          "treinamento": {
+            "title": "Training",
+            "description": "After receiving all the information sent by the acquirer, we make an analysis and then schedule a training with the company to present the data."
+          }
+        }
+      },
+      "solution": {
+        "title": "Our solution",
+        "subtitle": "Why Auditax?",
+        "description": "Through our innovative system, together with our team of experts, we help various companies to obtain greater control of all card sales transactions, as well as vouchers. With Auditax, you have greater clarity and speed about the profits to be received, ensuring the growth of your business.",
+        "features": {
+          "conferencia": {
+            "title": "Total Conference",
+            "description": "Conference of all card transactions, from sale to bank deposit payment."
+          },
+          "sistema": {
+            "title": "Complete System",
+            "description": "A complete card reconciliation and bank reconciliation system for card sales."
+          },
+          "analise": {
+            "title": "Direct Analysis",
+            "description": "Monitoring of card sales values, as well as fees and services applied by the acquirer."
+          },
+          "integracao": {
+            "title": "Complete Integration",
+            "description": "Integration with acquirers (card operators), ERP systems, banks, without bureaucracy."
+          },
+          "visualizacao": {
+            "title": "Simple Visualization",
+            "description": "Access to all card sales information and monthly reports in a single platform."
+          },
+          "suporte": {
+            "title": "Efficient Support",
+            "description": "Focusing on solving your needs, we offer complete training and excellent support via phone, chat and WhatsApp."
+          },
+          "consultoria": {
+            "title": "Specialized Consulting",
+            "description": "Complete guidance and support to improve your sales, increasing company profits and reducing possible losses (such as high fees)."
+          },
+          "seguranca": {
+            "title": "Security",
+            "description": "Total security and confidentiality in transactions made by your company."
+          }
+        }
+      },
+      "cta": {
+        "title": "Want to increase management and efficiency in card sales reconciliation?",
+        "description": "Our team of experts is ready for you to reconcile your card sales.",
+        "button": "Talk to a Consultant"
+      },
+      "contact": {
+        "title": "Our Contacts",
+        "description": "With the purpose of offering strategic support to companies and administrative departments, we work to ensure total precision in sales made by card, contributing to operational excellence and the quality of your business. Our main mission is to protect your profitability and ensure economy, through precise and transparent financial reconciliation.",
+        "whatsapp": {
+          "title": "WhatsApp",
+          "value": "(41) 9 9822-7111"
+        },
+        "email": {
+          "title": "Email",
+          "value": "contato@auditax.tech"
+        }
+      }
+    }
   }
 }

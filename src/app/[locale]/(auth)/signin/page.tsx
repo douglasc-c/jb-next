@@ -117,7 +117,7 @@ export default function SignIn() {
           <div className="w-full max-w-md space-y-1">
             <h2 className="text-4xl font-medium text-zinc-200">{t('enter')}</h2>
           </div>
-          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-zinc-200 border border-border  rounded-lg">
+          <div className="w-full max-w-md p-8 space-y-8 shadow-lg bg-zinc-200 border border-zinc-700  rounded-lg">
             <form className="space-y-6 text-zinc-800" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <span>{t('email')}</span>

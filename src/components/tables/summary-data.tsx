@@ -224,7 +224,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
   }, [])
 
   return (
-    <div className="bg-primary p-4 rounded-b-lg rounded-r-lg">
+    <div className="bg-zinc-900 p-4 rounded-b-lg rounded-r-lg">
       {showCopiedMessage && (
         <div className="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 animate-fade-in-out">
           {t('summaryLinkCopied')}

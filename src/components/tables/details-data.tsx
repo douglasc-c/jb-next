@@ -176,7 +176,7 @@ export function DetailsDataTable({
   }
 
   return (
-    <div className="bg-primary p-4 rounded-lg">
+    <div className="bg-zinc-900 p-4 rounded-lg">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-zinc-200">
           {t('detailsData')}

@@ -41,14 +41,16 @@ export function Audits({
     <>
       <div className="h-auto w-full p-4 bg-primary antialiased rounded-xl">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
           {establishmentId && (
-            <div className="flex gap-2">
-              <ButtonGlobal
-                params={{ title: t('newAudit'), color: 'bg-title' }}
-                onClick={() => handleNewAudit(establishmentId)}
-              />
-            </div>
+            <>
+              <h2 className="text-lg font-semibold text-zinc-200">{t('audits')}</h2>
+              <div className="flex gap-2">
+                <ButtonGlobal
+                  params={{ title: t('newAudit'), color: 'bg-title' }}
+                  onClick={() => handleNewAudit(establishmentId)}
+                />
+              </div>
+            </>
           )}
         </div>
         <section className="h-auto w-full antialiased text-textPrimary">
@@ -60,7 +62,7 @@ export function Audits({
             ) : (
               <table className="table-auto w-full border-collapse text-sm">
                 <thead className="uppercase border-b border-zinc-500">
-                  <tr className="border-b border-border">
+                  <tr>
                     <th className="px-4 py-2 text-left text-xs font-medium">
                       {t('id')}
                     </th>

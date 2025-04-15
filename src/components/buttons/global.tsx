@@ -25,7 +25,7 @@ export default function ButtonGlobal({
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={`text-sm p-2 rounded-md text-white w-full items-center hover:text-primary justify-center ${color} ${disabled ? 'cursor-not-allowed' : ''} ${width || ''}`}
+      className={`text-sm p-2 rounded-md text-white w-full items-center hover:bg-amber-500 justify-center ${color} ${disabled ? 'cursor-not-allowed' : ''} ${width || ''}`}
     >
       {title}
     </button>
