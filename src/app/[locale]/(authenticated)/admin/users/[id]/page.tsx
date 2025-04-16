@@ -285,7 +285,7 @@ export default function UserDetails() {
 
             <section>
               <div
-                className={`bg-primary p-4 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''} rounded-b-lg rounded-r-lg w-full `}
+                className={`bg-zinc-900 p-4 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''} rounded-b-lg rounded-r-lg w-full `}
               >
                 {activeTab === 'user' && (
                   <UserTab
