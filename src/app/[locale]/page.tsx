@@ -298,7 +298,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative h-[276px] rounded-lg overflow-hidden shadow-2xl mt-8"
+                className="relative h-[300px] rounded-lg overflow-hidden shadow-2xl mt-8"
               >
                 <Image
                   src="/images/bg/table-graph.jpeg"

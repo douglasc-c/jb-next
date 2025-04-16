@@ -28,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
   const handleSignOut = () => {
     setAuthData({ token: '', user: {} as User })
     document.cookie = 'auth-token=; Max-Age=0; path=/;'
-    window.location.href = '/'
+    window.location.href = '/signin'
   }
 
   return (
