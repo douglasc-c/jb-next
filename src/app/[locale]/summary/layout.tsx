@@ -6,7 +6,7 @@ export default function SummaryLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-primary antialiased">
+    <div className="min-h-screen bg-zinc-900 antialiased">
       <main>{children}</main>
     </div>
   )
