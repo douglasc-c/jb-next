@@ -171,7 +171,7 @@
       "about": {
         "title": "Quem somos",
         "subtitle": "O controle completo das suas vendas em cartão",
-        "description": "A Auditax nasceu com o objetivo de apoiar empresas e equipes administrativas na precisão dos dados de vendas em cartão, assegurando sempre a saúde financeira do seu negócio. Nosso compromisso é proteger seu lucro e garantir que você receba exatamente o que é seu por direito.",
+        "description": "A Auditaxs nasceu com o objetivo de apoiar empresas e equipes administrativas na precisão dos dados de vendas em cartão, assegurando sempre a saúde financeira do seu negócio. Nosso compromisso é proteger seu lucro e garantir que você receba exatamente o que é seu por direito.",
         "stats": {
           "adquirentes": "Adquirentes",
           "bandeiras": "Bandeiras"
@@ -180,23 +180,23 @@
       "benefits": {
         "title": "Conciliação de Cartões",
         "subtitle": "Benefícios Principais",
-        "description": "Veja como nosso sistema pode melhorar seu controle financeiro, reduzir custos e centralizar todas as informações de vendas em um único lugar.",
+        "description": "Veja como nosso sistema pode melhorar seu controle financeiro, reduzir custos e tempo na conferência das operações, centralizando todas as informações de vendas e recebimento em um único lugar, dispondo de relatórios analíticos de todas as operações.",
         "items": {
           "economia": {
             "title": "Redução de Custos",
-            "description": "Corte gastos com taxas e maquininhas; otimize tempo e recursos humanos nas análises."
+            "description": "Corte de gastos com sistemas de conferência. Aumento de resultado financeiro na liquidação das operações. Otimização de gestão de tempo e recursos humanos."
           },
           "controle": {
             "title": "Gestão Eficiente",
-            "description": "Acompanhe suas taxas e custos com clareza; monitore diariamente seus recebimentos."
+            "description": "Acompanhe com clareza as taxas contratuais nas liquidações de cada operação; monitoramento momentâneo de seus recebimentos."
           },
           "integracao": {
             "title": "Conexão Total",
-            "description": "Compatível com qualquer ERP, TEF ou sistema; integre dados diretamente das operadoras."
+            "description": "Compatível com qualquer sistema, ERP, TEF, etc. Integração de dados com a empresa adquirente."
           },
           "atendimento": {
             "title": "Suporte Atento",
-            "description": "Nossa equipe especializada está disponível para te auxiliar com atendimento personalizado."
+            "description": "Nossa equipe dispõe de especialistas disponíveis para auxílio ao cliente, dispondo de atendimento personalizado."
           }
         }
       },
@@ -207,30 +207,30 @@
         "items": {
           "levantamento": {
             "title": "Mapeamento",
-            "description": "Analisamos o ambiente de vendas para entender o fluxo e identificar as adquirentes utilizadas."
+            "description": "Analisamos o ambiente de vendas e as regras de contrato , para entender o fluxo financeiro de liquidação da empresa e identificar adquirentes e condições contratuais."
           },
           "validacao": {
             "title": "Confirmação",
-            "description": "Validamos as adquirentes apontadas pela empresa para darmos sequência ao processo."
+            "description": "Validamos as adquirentes utilizadas por sua empresa, período de análise e objeto, delimitando o serviço a ser realizado, condições, possibilitando sequenciar o processo de análise."
           },
           "recebimentos": {
             "title": "Importação de Dados",
-            "description": "Estruturamos o banco de dados do cliente para receber e armazenar todas as informações."
+            "description": "Estruturamos banco de dados próprio do cliente, para receber e armazenar todas as informações de relatórios de vendas e pagamentos."
           },
           "treinamento": {
-            "title": "Capacitação",
-            "description": "Com os dados em mãos, analisamos e agendamos um treinamento para apresentar os resultados à empresa."
+            "title": "Execução",
+            "description": "Em posse dos dados é feita a conferência e auditoria nas operações financeiras de sua empresa, apresentando resultado das operações, identificadas por natureza e tipo, e potenciais valores a serem recuperados por meio de relatório analítico."
           }
         }
       },
       "solution": {
         "title": "Nossa Solução",
-        "subtitle": "Por que escolher a Auditax?",
-        "description": "Com um sistema inovador e uma equipe altamente qualificada, ajudamos empresas a manter o controle total sobre as vendas em cartão e vouchers. A Auditax oferece mais clareza e agilidade nos lucros, promovendo o crescimento do seu negócio.",
+        "subtitle": "Por que escolher a Auditaxs?",
+        "description": "Com um sistema inovador e uma equipe altamente qualificada, ajudamos empresas a manter o controle total sobre as vendas em cartão e vouchers. Auditaxs oferece mais clareza e agilidade na conferência de dados financeiros de sua empresa, otimizando e maximizando seus lucros, contribuindo ao crescimento de seu negócio.",
         "features": {
           "conferencia": {
             "title": "Verificação Completa",
-            "description": "Conferência de todas as operações com cartão, desde a venda até o depósito bancário."
+            "description": "Conferência de todas as operações com cartão, desde a venda até a liquidação bancária."
           },
           "sistema": {
             "title": "Plataforma Integrada",
@@ -238,27 +238,27 @@
           },
           "analise": {
             "title": "Monitoramento Inteligente",
-            "description": "Acompanhamento detalhado dos valores, taxas e serviços cobrados pelas adquirentes."
+            "description": "Acompanhamento detalhado da liquidação de todas operações, taxas e serviços cobrados."
           },
           "integracao": {
             "title": "Integração Ampla",
-            "description": "Compatível com operadoras de cartão, ERPs, bancos e sistemas, sem complicação."
+            "description": "Compatível com os sistemas de adquirentes e credenciadoras de cartões, ERPs, bancos e outros sistemas."
           },
           "visualizacao": {
-            "title": "Interface Clara",
+            "title": "Interface Simples",
             "description": "Acesse todas as informações de vendas e relatórios mensais em uma plataforma unificada."
           },
           "suporte": {
             "title": "Atendimento Ágil",
-            "description": "Oferecemos treinamento completo e suporte dedicado por telefone, chat e WhatsApp."
+            "description": "Atendimento e Suporte personalizado ao cliente."
           },
           "consultoria": {
             "title": "Aconselhamento Profissional",
-            "description": "Consultoria focada em otimizar resultados, reduzindo perdas e aumentando a rentabilidade."
+            "description": "Consultoria e Auditoria financeira e contábil focada em otimizar resultados, reduzindo perdas, aumentando sua rentabilidade, otimizando sua gestão de tempo e resultados."
           },
           "seguranca": {
             "title": "Proteção Garantida",
-            "description": "Total segurança e confidencialidade em todas as transações da sua empresa."
+            "description": "Total segurança e confidencialidade das informações e transações de sua empresa."
           }
         }
       },
@@ -269,14 +269,14 @@
       },
       "contact": {
         "title": "Fale Conosco",
-        "description": "Nosso objetivo é oferecer suporte estratégico para empresas e áreas administrativas, garantindo precisão nas transações com cartão e contribuindo para a excelência e saúde financeira do seu negócio.",
+        "description": "Nosso objetivo é oferecer suporte estratégico para empresas e áreas administrativas, garantindo extrema acurácia e precisão na liquidação de transações financeiras com modelo de adquirencia, contribuindo para a excelência e saúde financeira do seu negócio.",
         "whatsapp": {
           "title": "WhatsApp",
           "value": "(41) 9 9822-7111"
         },
         "email": {
           "title": "E-mail",
-          "value": "contato@auditax.tech"
+          "value": "contato@auditaxs.com.br"
         }
       }
     }
