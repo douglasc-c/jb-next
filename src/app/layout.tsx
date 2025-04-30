@@ -2,6 +2,7 @@
 import { AppProviders } from '@/context'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
 const languages = ['pt-BR', 'es-US']
@@ -42,6 +43,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProviders authValue={authValue}>{children}</AppProviders>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   )
