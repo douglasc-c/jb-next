@@ -3,7 +3,7 @@ import { useState } from 'react'
 import ButtonGlobal from '../buttons/global'
 import processApi from '@/lib/process-api'
 import api from '@/lib/api'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Audit } from '@/types/audit'
 import { PulseLoader } from 'react-spinners'
 
@@ -28,6 +28,8 @@ export function NewAuditModal({
 }: NewAuditModalProps) {
   const t = useTranslations('TextLang')
   const router = useRouter()
+  const pathname = usePathname()
+  const isAdmin = pathname.includes('/admin')
   const [files, setFiles] = useState<File[]>([])
   const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
     { bandeira: '', tipoTransacao: '', percentage: 0 },
@@ -81,6 +83,10 @@ export function NewAuditModal({
       chunks.push(array.slice(i, i + chunkSize))
     }
     return chunks
+  }
+
+  const handleRedirect = (id: number) => {
+    router.push(isAdmin ? `/admin/audits/${id}` : `/audits/${id}`)
   }
 
   const handleSubmit = async () => {
@@ -172,7 +178,7 @@ export function NewAuditModal({
       onClose()
 
       // Redirecionar para a página de detalhes da auditoria
-      router.push(`/audits/${auditId}`)
+      handleRedirect(auditId)
     } catch (error) {
       console.error('Erro ao criar auditoria:', error)
       setError(
