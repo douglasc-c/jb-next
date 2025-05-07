@@ -40,7 +40,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-zinc-800 p-6 rounded-lg shadow-lg w-full md:w-1/2">
+      <div className="bg-zinc-900 p-6 rounded-lg shadow-lg w-full md:w-1/2">
         <h2 className="text-2xl mb-4 text-zinc-200">{t('addUser')}</h2>
         <form onSubmit={handleSubmit} className="overflow-auto">
           <div className="space-y-4">
@@ -64,14 +64,14 @@ const AddUserModal: FC<AddUserModalProps> = ({
               isEditing={true}
               onChange={(value) => handleChange('email', value)}
             />
-            <InputField
-              label={t('password')}
-              type="password"
-              value={formData.password}
-              isEditing={true}
-              onChange={(value) => handleChange('password', value)}
-            />
             <div className="grid md:grid-cols-2 grid-cols-2 gap-2">
+              <InputField
+                label={t('password')}
+                type="password"
+                value={formData.password}
+                isEditing={true}
+                onChange={(value) => handleChange('password', value)}
+              />
               <InputField
                 label={t('role')}
                 value={formData.role}
@@ -108,7 +108,7 @@ const AddUserModal: FC<AddUserModalProps> = ({
                   ) : (
                     t('add')
                   ),
-                  color: 'bg-primary',
+                  color: 'bg-title',
                 }}
               />
             </div>

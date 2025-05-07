@@ -166,7 +166,7 @@ export default function SignIn() {
                   params={{
                     title: loading ? (
                       <PulseLoader
-                        color="#3f3f3f"
+                        color="#fff"
                         loading={loading}
                         size={6}
                         aria-label="Loading Spinner"

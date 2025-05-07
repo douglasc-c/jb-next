@@ -392,10 +392,10 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             <thead className="uppercase border-b border-zinc-500">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium">
-                  {t('flag')}
+                  {t('brand')}
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium">
-                  {t('method')}
+                  {t('product')}
                 </th>
                 {years.map((year) => (
                   <th
@@ -415,18 +415,18 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 <tr
                   key={index}
                   className={`${
-                    row.flag === 'Total'
+                    row.brand === 'Total'
                       ? 'bg-gray-100 font-bold'
                       : index % 2 === 0
                         ? 'bg-zinc-900'
-                        : 'bg-slate-800'
+                        : 'bg-zinc-800'
                   }`}
                 >
                   <td className="px-4 py-2 text-left text-xs font-medium">
-                    {row.flag}
+                    {row.brand}
                   </td>
                   <td className="px-4 py-2 text-left text-xs font-medium">
-                    {row.method}
+                    {row.product}
                   </td>
                   {years.map((year) => (
                     <td

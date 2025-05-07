@@ -33,6 +33,7 @@ export function NewAuditModal({
   ])
   const [loading, setLoading] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const clearForm = () => {
     setFiles([])
@@ -147,7 +148,7 @@ export function NewAuditModal({
       }
     } catch (error) {
       console.error('Erro ao criar auditoria:', error)
-      alert(
+      setError(
         error instanceof Error
           ? error.message
           : 'Ocorreu um erro ao processar a auditoria.',
@@ -166,7 +167,12 @@ export function NewAuditModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-primary p-6 rounded-lg w-full max-w-2xl">
+      <div className="bg-zinc-900 p-6 rounded-lg w-full max-w-2xl">
+        {error && (
+          <div className="mb-4 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200">
+            {error}
+          </div>
+        )}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-zinc-200">
             {t('newAudit')}
@@ -180,7 +186,7 @@ export function NewAuditModal({
         </div>
 
         <div className="space-y-4">
-          <div className="bg-zinc-800 p-4 border border-zinc-700 rounded-lg">
+          <div className="bg-zinc-800 p-4 rounded-lg">
             <button
               onClick={() => setIsHelpOpen(!isHelpOpen)}
               className="flex items-center gap-2 text-zinc-200 hover:text-title"
@@ -239,7 +245,7 @@ export function NewAuditModal({
               accept=".xlsx,.xls"
               onChange={handleFileChange}
               multiple
-              className="w-full p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+              className="w-full p-2 bg-zinc-800 text-zinc-200 rounded"
             />
             {files.length > 0 && (
               <div className="mt-2 space-y-2">
@@ -270,7 +276,7 @@ export function NewAuditModal({
               </label>
               <button
                 onClick={handleAddFlag}
-                className="text-sm text-title hover:text-title/80"
+                className="text-sm text-title hover:text-amber-500"
               >
                 {t('addFlag')}
               </button>
@@ -285,7 +291,7 @@ export function NewAuditModal({
                       handleFlagChange(index, 'bandeira', e.target.value)
                     }
                     placeholder={t('flag')}
-                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <input
                     type="text"
@@ -294,7 +300,7 @@ export function NewAuditModal({
                       handleFlagChange(index, 'tipoTransacao', e.target.value)
                     }
                     placeholder={t('tipoTransacao')}
-                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                    className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <input
                     type="number"
@@ -306,7 +312,7 @@ export function NewAuditModal({
                     step="0.1"
                     min="0"
                     max="100"
-                    className="w-24 p-2 bg-zinc-800 text-zinc-200 rounded border border-zinc-700"
+                    className="w-24 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <button
                     onClick={() => handleRemoveFlag(index)}
@@ -321,10 +327,13 @@ export function NewAuditModal({
         </div>
 
         <div className="flex justify-end gap-2 mt-6">
-          <ButtonGlobal
-            params={{ title: t('cancel'), color: 'bg-zinc-900' }}
+          <button
+            type="button"
             onClick={handleClose}
-          />
+            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+          >
+            {t('cancel')}
+          </button>
           <ButtonGlobal
             params={{ title: t('create'), color: 'bg-title' }}
             onClick={handleSubmit}
