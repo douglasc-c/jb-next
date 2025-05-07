@@ -1,6 +1,7 @@
 'use client'
 
 import { Loading } from '@/components/loading/loading'
+import { UserActions } from '@/components/tables/user-actions'
 import { AddressTab } from '@/components/tabs/address'
 import { UserTab } from '@/components/tabs/user'
 import api from '@/lib/api'
@@ -27,12 +28,24 @@ interface UserData {
   }
 }
 
+interface Action {
+  id: string
+  userId: string
+  action: string
+  entity: string
+  entityId: string
+  ip: string
+  metadata: string
+  created_at: string
+}
+
 type TabType = 'user' | 'address'
 
 export default function UserDetails() {
   const t = useTranslations('TextLang')
   const params = useParams()
   const [user, setUser] = useState<UserData | null>(null)
+  const [actions, setActions] = useState<Action[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -41,12 +54,14 @@ export default function UserDetails() {
   const [editableData, setEditableData] = useState<UserData | null>(null)
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
       try {
         const response = await api.get(`/users/${params.id}`)
+        console.log(response.data)
         const userData = response.data.user
-
+        const actionsData = response.data.actions
         setUser(userData)
+        setActions(actionsData)
         setEditableData({
           ...userData,
           address: userData.address
@@ -66,7 +81,9 @@ export default function UserDetails() {
         })
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          setError(error.response?.data.message || 'Erro ao carregar usuário')
+          setError(
+            error.response?.data.message || 'Erro ao carregar dados do usuário',
+          )
         } else {
           setError('Erro inesperado ao conectar ao servidor.')
         }
@@ -75,7 +92,7 @@ export default function UserDetails() {
       }
     }
 
-    fetchUser()
+    fetchUserData()
   }, [params.id])
 
   const handleInputChange = (
@@ -246,7 +263,7 @@ export default function UserDetails() {
         <h1 className="text-2xl font-medium text-zinc-200 mb-6">
           {user.firstName} {user.lastName}
         </h1>
-        <div className="flex flex-row w-full gap-4">
+        <div className="flex flex-col w-full gap-4">
           <div className="w-full">
             <section className="flex text-zinc-200 w-full">
               <div className="flex flex-row w-full gap-6 text-xs md:text-sm custom-scroll">
@@ -284,9 +301,7 @@ export default function UserDetails() {
             </section>
 
             <section>
-              <div
-                className={`bg-zinc-900 p-4 ${activeTab === 'address' ? 'rounded-t-lg p-2 bg-zinc-900 text-zinc-200' : ''} rounded-b-lg rounded-r-lg w-full `}
-              >
+              <div className="bg-zinc-900 p-4 rounded-b-lg rounded-r-lg w-full">
                 {activeTab === 'user' && (
                   <UserTab
                     isEditing={isEditing}
@@ -295,7 +310,7 @@ export default function UserDetails() {
                   />
                 )}
 
-                {activeTab === 'address' && editableData.address && (
+                {activeTab === 'address' && editableData?.address && (
                   <AddressTab
                     isEditing={isEditing}
                     editableData={editableData}
@@ -307,6 +322,11 @@ export default function UserDetails() {
 
             {success && <p className="text-green-600 text-sm">{success}</p>}
             {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
+          </div>
+
+          {/* Seção de Ações */}
+          <div className="bg-zinc-900 p-4 rounded-lg">
+            <UserActions actions={actions} />
           </div>
         </div>
       </div>

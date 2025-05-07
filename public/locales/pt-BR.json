@@ -130,6 +130,13 @@
     "brand": "Bandeira",
     "products": "Produtos",
     "searchAudits": "Buscar auditorias...",
+    "noActions": "Nenhuma ação encontrada",
+    "action": "Ação",
+    "actions": "Ações",
+    "entity": "Entidade",
+    "ip": "IP",
+    "metadata": "Metadados",
+    "date": "Data",
     "home": {
       "hero": {
         "title": "Você tem clareza sobre quanto recebe nas vendas com cartão?",

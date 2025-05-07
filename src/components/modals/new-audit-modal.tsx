@@ -3,8 +3,9 @@ import { useState } from 'react'
 import ButtonGlobal from '../buttons/global'
 import processApi from '@/lib/process-api'
 import api from '@/lib/api'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Audit } from '@/types/audit'
+import { PulseLoader } from 'react-spinners'
 
 interface FlagPercentage {
   bandeira: string
@@ -27,6 +28,8 @@ export function NewAuditModal({
 }: NewAuditModalProps) {
   const t = useTranslations('TextLang')
   const router = useRouter()
+  const pathname = usePathname()
+  const isAdmin = pathname.includes('/admin')
   const [files, setFiles] = useState<File[]>([])
   const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
     { bandeira: '', tipoTransacao: '', percentage: 0 },
@@ -73,10 +76,24 @@ export function NewAuditModal({
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
   }
 
+  // Função para dividir os dados em chunks
+  const chunkArray = <T,>(array: T[], chunkSize: number): T[][] => {
+    const chunks: T[][] = []
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize))
+    }
+    return chunks
+  }
+
+  const handleRedirect = (id: number) => {
+    router.push(isAdmin ? `/admin/audits/${id}` : `/audits/${id}`)
+  }
+
   const handleSubmit = async () => {
     if (files.length === 0) return
 
     setLoading(true)
+    setError(null)
     try {
       const formData = new FormData()
 
@@ -99,7 +116,6 @@ export function NewAuditModal({
         {} as Record<string, Record<string, number>>,
       )
 
-      // Adicionar flag_percentages como um objeto JSON
       formData.append('flag_percentages', JSON.stringify(flagPercentagesObject))
 
       // Processar os arquivos
@@ -121,31 +137,48 @@ export function NewAuditModal({
         )
       }
 
-      // Salvar os dados processados no backend principal
-      try {
-        const response = await api.post(
-          `/establishments/${establishmentId}/audits`,
+      // Dividir os dados em chunks menores
+      const CHUNK_SIZE = 1000 // Ajuste este valor conforme necessário
+      const detailsChunks = chunkArray(processResponse.data.details, CHUNK_SIZE)
+      const summaryChunks = chunkArray(processResponse.data.summary, CHUNK_SIZE)
+
+      // Criar a auditoria inicial
+      const initialResponse = await api.post(
+        `/establishments/${establishmentId}/audits`,
+        {
+          detailsData: detailsChunks[0], // Primeiro chunk
+          summaryData: summaryChunks[0], // Primeiro chunk
+          totalChunks: detailsChunks.length,
+          chunkIndex: 0, // Adicionando o chunkIndex inicial
+        },
+      )
+
+      const auditId = initialResponse.data.audit.id
+
+      // Enviar os chunks restantes
+      for (let i = 1; i < detailsChunks.length; i++) {
+        await api.post(
+          `/establishments/${establishmentId}/audits/${auditId}/chunks`,
           {
-            detailsData: processResponse.data.details,
-            summaryData: processResponse.data.summary,
+            detailsData: detailsChunks[i],
+            summaryData: summaryChunks[i],
+            chunkIndex: i,
+            totalChunks: detailsChunks.length,
           },
         )
-
-        console.log('Auditoria criada com sucesso:', response.data)
-
-        if (onSuccess) {
-          onSuccess(response.data.audit)
-        }
-
-        clearForm()
-        onClose()
-
-        // Redirecionar para a página de detalhes da auditoria
-        router.push(`/audits/${response.data.audit.id}`)
-      } catch (apiError) {
-        console.error('Erro ao salvar auditoria na API:', apiError)
-        throw new Error('Falha ao salvar a auditoria no sistema.')
       }
+
+      console.log('Auditoria criada com sucesso:', initialResponse.data)
+
+      if (onSuccess) {
+        onSuccess(initialResponse.data.audit)
+      }
+
+      clearForm()
+      onClose()
+
+      // Redirecionar para a página de detalhes da auditoria
+      handleRedirect(auditId)
     } catch (error) {
       console.error('Erro ao criar auditoria:', error)
       setError(
@@ -335,7 +368,20 @@ export function NewAuditModal({
             {t('cancel')}
           </button>
           <ButtonGlobal
-            params={{ title: t('create'), color: 'bg-title' }}
+            params={{
+              title: loading ? (
+                <PulseLoader
+                  color="#fff"
+                  loading={loading}
+                  size={6}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                t('create')
+              ),
+              color: 'bg-title',
+            }}
             onClick={handleSubmit}
             disabled={files.length === 0 || loading}
           />

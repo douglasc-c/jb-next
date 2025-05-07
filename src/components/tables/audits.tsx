@@ -6,6 +6,8 @@ import { useRouter, usePathname } from 'next/navigation'
 import ButtonGlobal from '../buttons/global'
 import { NewAuditModal } from '../modals/new-audit-modal'
 import { useState } from 'react'
+import api from '@/lib/api'
+import DeleteModal from '../modals/delete'
 
 interface AuditsProps {
   audits?: Audit[]
@@ -22,6 +24,8 @@ export function Audits({
   const router = useRouter()
   const pathname = usePathname()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [auditToDelete, setAuditToDelete] = useState<string | null>(null)
   const [selectedEstablishmentId, setSelectedEstablishmentId] = useState<
     number | null
   >(null)
@@ -35,6 +39,25 @@ export function Audits({
   const handleNewAudit = (establishmentId: number) => {
     setSelectedEstablishmentId(establishmentId)
     setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id: string) => {
+    setAuditToDelete(id)
+    setIsDeleteModalOpen(true)
+  }
+
+  const confirmDelete = async () => {
+    if (!auditToDelete) return
+
+    try {
+      await api.delete(`/audits/${auditToDelete}`)
+      window.location.reload()
+    } catch (error) {
+      console.error('Erro ao excluir auditoria:', error)
+    } finally {
+      setIsDeleteModalOpen(false)
+      setAuditToDelete(null)
+    }
   }
 
   return (
@@ -99,6 +122,27 @@ export function Audits({
                           >
                             {t('seeMore')}
                           </button>
+                          <button
+                            onClick={() => handleDelete(String(audit.id))}
+                            className="rounded-full hover:text-red-500 py-1 px-2 bg-transparent"
+                            title={t('delete')}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M3 6h18" />
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                            </svg>
+                          </button>
                           {!establishmentId && audit.establishmentId && (
                             <ButtonGlobal
                               params={{
@@ -126,6 +170,15 @@ export function Audits({
         onClose={() => setIsModalOpen(false)}
         establishmentId={selectedEstablishmentId?.toString() || ''}
         onSuccess={onNewAudit}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false)
+          setAuditToDelete(null)
+        }}
+        handleSubmit={confirmDelete}
       />
     </>
   )
