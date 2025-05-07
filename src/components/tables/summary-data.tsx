@@ -1,11 +1,11 @@
 'use client'
 
+import React, { useState, useMemo, useRef, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { SummaryData } from '@/types/audit'
 import ButtonGlobal from '../buttons/global'
 import { jsPDF as JSPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { useState, useMemo, useRef, useEffect } from 'react'
 import { DoughnutChart } from '../charts/doughnut-chart'
 import { BarChart } from '../charts/bar-chart'
 import { HorizontalBarChart } from '../charts/horizontal-bar-chart'
@@ -38,19 +38,19 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
       ? Object.keys(safeData[0])
           .filter(
             (key) =>
-              key !== 'flag' && key !== 'method' && key !== 'Total Geral',
+              key !== 'brand' && key !== 'product' && key !== 'Total Geral',
           )
           .sort()
       : []
 
   // Extrair bandeiras e métodos únicos
   const uniqueFlags = useMemo(() => {
-    const flags = new Set(safeData.map((row) => row.flag))
+    const flags = new Set(safeData.map((row) => row.brand))
     return Array.from(flags).sort()
   }, [safeData])
 
   const uniqueMethods = useMemo(() => {
-    const methods = new Set(safeData.map((row) => row.method))
+    const methods = new Set(safeData.map((row) => row.product))
     return Array.from(methods).sort()
   }, [safeData])
 
@@ -58,8 +58,8 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
   const filteredData = useMemo(() => {
     return safeData.filter((row) => {
       const flagMatch =
-        selectedFlags.length === 0 || selectedFlags.includes(row.flag)
-      const methodMatch = !selectedMethod || row.method === selectedMethod
+        selectedFlags.length === 0 || selectedFlags.includes(row.brand)
+      const methodMatch = !selectedMethod || row.product === selectedMethod
       return flagMatch && methodMatch
     })
   }, [safeData, selectedFlags, selectedMethod])
@@ -125,8 +125,8 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
     // Preparar os dados para a tabela
     const tableData = [
       ...filteredData.map((row) => [
-        row.flag,
-        row.method,
+        row.brand,
+        row.product,
         ...years.map((year) => formatValue(row[year])),
         formatNumberBR(calculateRowTotal(row)),
       ]),
@@ -146,7 +146,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
     ]
 
     // Configurar as colunas
-    const columns = [t('flag'), t('method'), ...years, t('totalGeneral')]
+    const columns = [t('brand'), t('product'), ...years, t('totalGeneral')]
 
     // Adicionar a tabela ao PDF
     autoTable(doc, {
@@ -347,7 +347,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
               labels: uniqueFlags,
               values: uniqueFlags.map((flag) =>
                 filteredData
-                  .filter((row) => row.flag === flag)
+                  .filter((row) => row.brand === flag)
                   .reduce((sum, row) => sum + calculateRowTotal(row), 0),
               ),
             }}
@@ -378,7 +378,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
               labels: uniqueMethods,
               values: uniqueMethods.map((method) =>
                 filteredData
-                  .filter((row) => row.method === method)
+                  .filter((row) => row.product === method)
                   .reduce((sum, row) => sum + calculateRowTotal(row), 0),
               ),
             }}
@@ -413,13 +413,9 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             <tbody>
               {filteredData.map((row, index) => (
                 <tr
-                  key={index}
+                  key={`${row.brand}-${row.product}-${index}`}
                   className={`${
-                    row.brand === 'Total'
-                      ? 'bg-gray-100 font-bold'
-                      : index % 2 === 0
-                        ? 'bg-zinc-900'
-                        : 'bg-zinc-800'
+                    index % 2 === 0 ? 'bg-zinc-900' : 'bg-zinc-800'
                   }`}
                 >
                   <td className="px-4 py-2 text-left text-xs font-medium">
@@ -430,7 +426,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                   </td>
                   {years.map((year) => (
                     <td
-                      key={year}
+                      key={`${row.brand}-${row.product}-${year}`}
                       className="px-4 py-2 text-left text-xs font-medium"
                     >
                       {formatValue(row[year])}
@@ -442,7 +438,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 </tr>
               ))}
               {/* Linha de total */}
-              <tr className={` font-bold`}>
+              <tr className="font-bold">
                 <td className="px-4 py-2 text-left text-sm font-bold">
                   {t('total')}
                 </td>
