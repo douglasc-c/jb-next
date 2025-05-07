@@ -1,6 +1,9 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import InputField from '../inputs/input-field'
+import { PulseLoader } from 'react-spinners'
+import ButtonGlobal from '../buttons/global'
 
 interface FormData {
   tradeName: string
@@ -47,93 +50,74 @@ export default function AddEstablishmentModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-zinc-800 p-6 rounded-lg w-full max-w-2xl">
+      <div className="bg-zinc-900 p-6 rounded-lg w-full max-w-2xl">
         <h2 className="text-xl font-bold text-zinc-200 mb-4">
           {t('addEstablishment')}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              Nome Fantasia
-            </label>
-            <input
-              type="text"
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2">
+              <InputField
+                label={t('companyName')}
+                value={formData.companyName}
+                isEditing={true}
+                onChange={(value) => handleChange('companyName', value)}
+              />
+            </div>
+            <InputField
+              label={t('tradeName')}
               value={formData.tradeName}
-              onChange={(e) => handleChange('tradeName', e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-lg text-zinc-200"
-              required
+              isEditing={true}
+              onChange={(value) => handleChange('tradeName', value)}
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              Razão Social
-            </label>
-            <input
-              type="text"
-              value={formData.companyName}
-              onChange={(e) => handleChange('companyName', e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-lg text-zinc-200"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              CNPJ
-            </label>
-            <input
-              type="text"
+            <InputField
+              label={t('cnpj')}
               value={formData.cnpj}
-              onChange={(e) => handleChange('cnpj', e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-lg text-zinc-200"
-              required
+              isEditing={true}
+              onChange={(value) => handleChange('cnpj', value)}
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              Telefone
-            </label>
-            <input
-              type="text"
+            <InputField
+              label={t('phone')}
               value={formData.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-lg text-zinc-200"
-              required
+              isEditing={true}
+              onChange={(value) => handleChange('phone', value)}
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              Responsável
-            </label>
-            <input
-              type="text"
+            <InputField
+              label={t('responsible')}
               value={formData.responsible}
-              onChange={(e) => handleChange('responsible', e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-lg text-zinc-200"
-              required
+              isEditing={true}
+              onChange={(value) => handleChange('responsible', value)}
             />
           </div>
 
           {error && <div className="text-red-400 text-sm">{error}</div>}
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end mt-4 space-x-2">
             <button
               type="button"
               onClick={closeModal}
-              className="px-4 py-2 text-zinc-200 hover:text-zinc-300"
+              className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
             >
-              Cancelar
+              {t('cancel')}
             </button>
-            <button
+            <ButtonGlobal
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Salvando...' : 'Salvar'}
-            </button>
+              params={{
+                title: loading ? (
+                  <PulseLoader
+                    color="#fff"
+                    loading={loading}
+                    size={6}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                ) : (
+                  t('add')
+                ),
+                color: 'bg-title',
+              }}
+            />
           </div>
         </form>
       </div>
