@@ -1,15 +1,16 @@
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ButtonGlobal from '../buttons/global'
 import processApi from '@/lib/process-api'
 import api from '@/lib/api'
 import { useRouter, usePathname } from 'next/navigation'
 import { Audit } from '@/types/audit'
 import { PulseLoader } from 'react-spinners'
+import Image from 'next/image'
 
 interface FlagPercentage {
-  bandeira: string
-  tipoTransacao: string
+  brand: string
+  product: string
   percentage: number
 }
 
@@ -31,40 +32,52 @@ export function NewAuditModal({
   const pathname = usePathname()
   const isAdmin = pathname.includes('/admin')
   const [files, setFiles] = useState<File[]>([])
-  const [flagPercentages, setFlagPercentages] = useState<FlagPercentage[]>([
-    { bandeira: '', tipoTransacao: '', percentage: 0 },
+  const [brandPercentages, setBrandPercentages] = useState<FlagPercentage[]>([
+    { brand: '', product: '', percentage: 0 },
   ])
   const [loading, setLoading] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const helpRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
+        setIsHelpOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const clearForm = () => {
     setFiles([])
-    setFlagPercentages([{ bandeira: '', tipoTransacao: '', percentage: 0 }])
+    setBrandPercentages([{ brand: '', product: '', percentage: 0 }])
   }
 
-  const handleAddFlag = () => {
-    setFlagPercentages([
-      ...flagPercentages,
-      { bandeira: '', tipoTransacao: '', percentage: 0 },
+  const handleAddBrand = () => {
+    setBrandPercentages([
+      ...brandPercentages,
+      { brand: '', product: '', percentage: 0 },
     ])
   }
 
-  const handleRemoveFlag = (index: number) => {
-    setFlagPercentages(flagPercentages.filter((_, i) => i !== index))
+  const handleRemoveBrand = (index: number) => {
+    setBrandPercentages(brandPercentages.filter((_, i) => i !== index))
   }
 
-  const handleFlagChange = (
+  const handleBrandChange = (
     index: number,
-    field: 'bandeira' | 'tipoTransacao' | 'percentage',
+    field: 'brand' | 'product' | 'percentage',
     value: string,
   ) => {
-    const newFlagPercentages = [...flagPercentages]
-    newFlagPercentages[index] = {
-      ...newFlagPercentages[index],
+    const newBrandPercentages = [...brandPercentages]
+    newBrandPercentages[index] = {
+      ...newBrandPercentages[index],
       [field]: field === 'percentage' ? parseFloat(value) || 0 : value,
     }
-    setFlagPercentages(newFlagPercentages)
+    setBrandPercentages(newBrandPercentages)
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,21 +115,24 @@ export function NewAuditModal({
         formData.append('files', file)
       })
 
-      // Converter array de flagPercentages para objeto agrupado por bandeira
-      const flagPercentagesObject = flagPercentages.reduce(
-        (acc, { bandeira, tipoTransacao, percentage }) => {
-          if (bandeira && tipoTransacao && percentage > 0) {
-            if (!acc[bandeira]) {
-              acc[bandeira] = {}
+      // Converter array de flagPercentages para objeto agrupado por brand
+      const brandPercentagesObject = brandPercentages.reduce(
+        (acc, { brand, product, percentage }) => {
+          if (brand && product && percentage > 0) {
+            if (!acc[brand]) {
+              acc[brand] = {}
             }
-            acc[bandeira][tipoTransacao] = percentage
+            acc[brand][product] = percentage
           }
           return acc
         },
         {} as Record<string, Record<string, number>>,
       )
 
-      formData.append('flag_percentages', JSON.stringify(flagPercentagesObject))
+      formData.append(
+        'brand_percentages',
+        JSON.stringify(brandPercentagesObject),
+      )
 
       // Processar os arquivos
       let processResponse
@@ -126,10 +142,6 @@ export function NewAuditModal({
             'Content-Type': 'multipart/form-data',
           },
         })
-        console.log(
-          'Processamento de Excel bem-sucedido:',
-          processResponse.data,
-        )
       } catch (processError) {
         console.error('Erro no processamento do Excel:', processError)
         throw new Error(
@@ -137,8 +149,8 @@ export function NewAuditModal({
         )
       }
 
-      // Dividir os dados em chunks menores
-      const CHUNK_SIZE = 1000 // Ajuste este valor conforme necessário
+      // Dividir os dados em chunks dinâmicos
+      const CHUNK_SIZE = 1000 // Usa o maior tamanho como chunk
       const detailsChunks = chunkArray(processResponse.data.details, CHUNK_SIZE)
       const summaryChunks = chunkArray(processResponse.data.summary, CHUNK_SIZE)
 
@@ -146,10 +158,10 @@ export function NewAuditModal({
       const initialResponse = await api.post(
         `/establishments/${establishmentId}/audits`,
         {
-          detailsData: detailsChunks[0], // Primeiro chunk
-          summaryData: summaryChunks[0], // Primeiro chunk
+          detailsData: detailsChunks[0],
+          summaryData: summaryChunks[0],
           totalChunks: detailsChunks.length,
-          chunkIndex: 0, // Adicionando o chunkIndex inicial
+          chunkIndex: 0,
         },
       )
 
@@ -167,8 +179,6 @@ export function NewAuditModal({
           },
         )
       }
-
-      console.log('Auditoria criada com sucesso:', initialResponse.data)
 
       if (onSuccess) {
         onSuccess(initialResponse.data.audit)
@@ -199,7 +209,7 @@ export function NewAuditModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
       <div className="bg-zinc-900 p-6 rounded-lg w-full max-w-2xl">
         {error && (
           <div className="mb-4 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200">
@@ -213,16 +223,18 @@ export function NewAuditModal({
           <button
             onClick={handleClose}
             className="text-zinc-400 hover:text-zinc-200"
+            disabled={loading}
           >
             ✕
           </button>
         </div>
 
         <div className="space-y-4">
-          <div className="bg-zinc-800 p-4 rounded-lg">
+          <div className="bg-zinc-800 p-2 rounded-lg">
             <button
               onClick={() => setIsHelpOpen(!isHelpOpen)}
               className="flex items-center gap-2 text-zinc-200 hover:text-title"
+              disabled={loading}
             >
               <span className="text-sm font-medium">
                 {t('requiredColumns')}
@@ -245,7 +257,10 @@ export function NewAuditModal({
             </button>
 
             {isHelpOpen && (
-              <div className="mt-4 space-y-4 text-sm text-zinc-300">
+              <div
+                ref={helpRef}
+                className="mt-4 space-y-4 text-sm text-zinc-300"
+              >
                 <div>
                   <ul className="list-disc list-inside space-y-1">
                     <li>{t('columnDataPagamento')}</li>
@@ -278,7 +293,8 @@ export function NewAuditModal({
               accept=".xlsx,.xls"
               onChange={handleFileChange}
               multiple
-              className="w-full p-2 bg-zinc-800 text-zinc-200 rounded"
+              className="w-full p-2 bg-zinc-800 text-zinc-200 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
             />
             {files.length > 0 && (
               <div className="mt-2 space-y-2">
@@ -293,6 +309,7 @@ export function NewAuditModal({
                     <button
                       onClick={() => handleRemoveFile(index)}
                       className="text-zinc-400 hover:text-zinc-200 ml-2"
+                      disabled={loading}
                     >
                       ✕
                     </button>
@@ -304,42 +321,60 @@ export function NewAuditModal({
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-zinc-200">
-                {t('flagPercentages')}
-              </label>
+              <div className="flex items-center gap-2">
+                <label className="block text-sm font-medium text-zinc-200">
+                  {t('flagPercentages')}
+                </label>
+                <div className="relative group">
+                  <Image
+                    src="/images/svg/warning.svg"
+                    alt="Help"
+                    width={16}
+                    height={16}
+                    className="cursor-help"
+                  />
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block">
+                    <div className="bg-zinc-700 text-zinc-200 text-sm font-semibold px-3 py-2 rounded-lg whitespace-wrap min-w-48">
+                      {t('flagPercentagesWarning')}
+                    </div>
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 bg-zinc-700 rotate-45"></div>
+                  </div>
+                </div>
+              </div>
               <button
-                onClick={handleAddFlag}
+                onClick={handleAddBrand}
                 className="text-sm text-title hover:text-amber-500"
+                disabled={loading}
               >
                 {t('addFlag')}
               </button>
             </div>
-            <div className="space-y-2">
-              {flagPercentages.map((flag, index) => (
-                <div key={index} className="flex gap-2">
+            <div className="space-y-2 overflow-auto max-h-56">
+              {brandPercentages.map((brand, index) => (
+                <div key={index} className="flex gap-2 h-8">
                   <input
                     type="text"
-                    value={flag.bandeira}
+                    value={brand.brand}
                     onChange={(e) =>
-                      handleFlagChange(index, 'bandeira', e.target.value)
+                      handleBrandChange(index, 'brand', e.target.value)
                     }
-                    placeholder={t('flag')}
+                    placeholder={t('brand')}
                     className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <input
                     type="text"
-                    value={flag.tipoTransacao}
+                    value={brand.product}
                     onChange={(e) =>
-                      handleFlagChange(index, 'tipoTransacao', e.target.value)
+                      handleBrandChange(index, 'product', e.target.value)
                     }
-                    placeholder={t('tipoTransacao')}
+                    placeholder={t('product')}
                     className="flex-1 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <input
                     type="number"
-                    value={flag.percentage}
+                    value={brand.percentage}
                     onChange={(e) =>
-                      handleFlagChange(index, 'percentage', e.target.value)
+                      handleBrandChange(index, 'percentage', e.target.value)
                     }
                     placeholder={t('percentage')}
                     step="0.1"
@@ -348,8 +383,9 @@ export function NewAuditModal({
                     className="w-24 p-2 bg-zinc-800 text-zinc-200 rounded"
                   />
                   <button
-                    onClick={() => handleRemoveFlag(index)}
+                    onClick={() => handleRemoveBrand(index)}
                     className="text-zinc-400 hover:text-zinc-200"
+                    disabled={loading}
                   >
                     ✕
                   </button>
@@ -363,7 +399,8 @@ export function NewAuditModal({
           <button
             type="button"
             onClick={handleClose}
-            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg"
+            className="bg-zinc-600 text-zinc-300 py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading}
           >
             {t('cancel')}
           </button>
