@@ -3,23 +3,76 @@ import { PaginatedDetailsData, DetailsData } from '@/types/audit'
 import ButtonGlobal from '../buttons/global'
 import * as XLSX from 'xlsx'
 import api from '@/lib/api'
+import { useEffect, useState } from 'react'
+import { Loading } from '../loading/loading'
+import axios from 'axios'
 
 interface DetailsDataTableProps {
-  data: PaginatedDetailsData
-  onPageChange: (page: number) => void
-  onPageSizeChange: (pageSize: number) => void
-  currentPage: number
-  currentPageSize: number
+  auditId: string
 }
 
-export function DetailsDataTable({
-  data,
-  onPageChange,
-  onPageSizeChange,
-  currentPage,
-  currentPageSize,
-}: DetailsDataTableProps) {
+export function DetailsDataTable({ auditId }: DetailsDataTableProps) {
   const t = useTranslations('TextLang')
+  const [data, setData] = useState<PaginatedDetailsData | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPageSize, setCurrentPageSize] = useState(10)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      setLoading(true)
+      try {
+        console.log('Fetching details with params:', {
+          auditId,
+          page: currentPage,
+          limit: currentPageSize,
+        })
+
+        const response = await api.get(`/audits/${auditId}/details`, {
+          params: {
+            page: currentPage,
+            limit: currentPageSize,
+          },
+        })
+
+        console.log('Response:', response.data)
+
+        const formattedData: PaginatedDetailsData = {
+          data: response.data.detailsData,
+          totalPages: response.data.pagination.totalPages,
+          currentPage: response.data.pagination.page,
+          totalItems: response.data.pagination.total,
+          auditId,
+          pageSize: response.data.pagination.limit,
+        }
+
+        setData(formattedData)
+      } catch (error) {
+        console.error('Error fetching details:', error)
+        if (axios.isAxiosError(error)) {
+          setError(error.response?.data.message || 'Erro ao carregar detalhes')
+        } else {
+          setError('Erro inesperado ao conectar ao servidor.')
+        }
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (auditId) {
+      fetchDetails()
+    }
+  }, [auditId, currentPage, currentPageSize])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handlePageSizeChange = (pageSize: number) => {
+    setCurrentPageSize(pageSize)
+    setCurrentPage(1)
+  }
 
   const formatValue = (value: string) => {
     // Remove os pontos de separador de milhar
@@ -111,7 +164,7 @@ export function DetailsDataTable({
       pages.push(
         <button
           key={i}
-          onClick={() => onPageChange(i)}
+          onClick={() => handlePageChange(i)}
           className={`px-3 py-1 mx-1 rounded ${
             currentPage === i
               ? 'bg-title text-primary'
@@ -129,7 +182,7 @@ export function DetailsDataTable({
           <span className="text-zinc-400">{t('itemsPerPage')}:</span>
           <select
             value={currentPageSize}
-            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
             className="bg-zinc-800 text-zinc-200 rounded px-2 py-1"
           >
             <option value={10}>10</option>
@@ -140,7 +193,7 @@ export function DetailsDataTable({
         </div>
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className={`px-3 py-1 rounded ${
               currentPage === 1
@@ -152,7 +205,7 @@ export function DetailsDataTable({
           </button>
           {pages}
           <button
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === data.totalPages}
             className={`px-3 py-1 rounded ${
               currentPage === data.totalPages
@@ -163,6 +216,22 @@ export function DetailsDataTable({
             {t('next')}
           </button>
         </div>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center p-4">
+        <Loading loading={loading} width={100} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center p-4">
+        <p className="text-red-500">{error}</p>
       </div>
     )
   }

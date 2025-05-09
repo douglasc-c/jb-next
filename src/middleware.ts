@@ -32,7 +32,7 @@ export function middleware(request: NextRequest) {
         request.nextUrl.pathname.startsWith(`/${locale}/${route}`),
       )
     ) {
-      return NextResponse.redirect(new URL(`/${locale}`, request.url))
+      return NextResponse.redirect(new URL(`/${locale}/signin`, request.url))
     }
   }
 

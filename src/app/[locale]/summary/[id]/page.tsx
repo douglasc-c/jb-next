@@ -73,7 +73,7 @@ export default function SummaryPage({ params }: SummaryPageProps) {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-zinc-900">
       <div className="flex gap-6 bg-zinc-800 p-4 rounded-lg">
         <h2 className="text-lg font-semibold flex flex-col text-zinc-200">
           <span className="text-sm font-regular text-zinc-200">
