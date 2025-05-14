@@ -31,7 +31,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   const t = useTranslations('TextLang')
 
   return (
-    <div className="grid grid-cols-3 gap-4 text-left items-end">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left items-end">
       <div className="col-span-2">
         <InputField
           label={t('street')}

@@ -46,7 +46,10 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
       ? Object.keys(safeData[0])
           .filter(
             (key) =>
-              key !== 'brand' && key !== 'product' && key !== 'Total Geral',
+              key !== 'brand' &&
+              key !== 'product' &&
+              key !== 'percent' &&
+              key !== 'Total Geral',
           )
           .sort()
       : []
@@ -163,7 +166,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
       // Salvar o arquivo
       XLSX.writeFile(
         wb,
-        `details-${new Date().toISOString().split('T')[0]}.xlsx`,
+        `${t('analytics')}-${new Date().toISOString().split('T')[0]}.xlsx`,
       )
     } catch (error) {
       console.error('Erro ao exportar dados:', error)
@@ -196,6 +199,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
       ...filteredData.map((row) => [
         row.brand,
         row.product,
+        row.percent,
         ...years.map((year) => formatValue(row[year])),
         formatNumberBR(calculateRowTotal(row)),
       ]),
@@ -211,11 +215,18 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
         formatNumberBR(
           filteredData.reduce((sum, row) => sum + calculateRowTotal(row), 0),
         ),
+        '-',
       ],
     ]
 
     // Configurar as colunas
-    const columns = [t('brand'), t('product'), ...years, t('totalGeneral')]
+    const columns = [
+      t('brand'),
+      t('product'),
+      t('percent'),
+      ...years,
+      t('totalGeneral'),
+    ]
 
     // Adicionar a tabela ao PDF
     autoTable(doc, {
@@ -328,17 +339,17 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
           {t('summaryLinkCopied')}
         </div>
       )}
-      <div className="flex justify-between items-center mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-center mb-6 gap-2">
         <h1 className="text-lg font-semibold text-zinc-200 w-full">
           {t('summaryData')} <span className="text-title">#{auditId}</span>
         </h1>
 
-        <div className="flex gap-4 justify-end w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
           {/* Filtro de bandeiras com seleção múltipla */}
-          <div className="relative" ref={flagDropdownRef}>
+          <div className="relative w-full md:w-auto" ref={flagDropdownRef}>
             <button
               onClick={() => setIsFlagDropdownOpen(!isFlagDropdownOpen)}
-              className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700 flex items-center justify-between min-w-[150px]"
+              className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700 flex items-center justify-between w-full md:min-w-[150px]"
             >
               <span>
                 {selectedFlags.length === 0
@@ -400,10 +411,10 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             )}
           </div>
 
-          <div className="relative" ref={methodDropdownRef}>
+          <div className="relative w-full md:w-auto" ref={methodDropdownRef}>
             <button
               onClick={() => setIsMethodDropdownOpen(!isMethodDropdownOpen)}
-              className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700 flex items-center justify-between min-w-[150px]"
+              className="bg-zinc-800 text-zinc-200 text-sm rounded-lg p-2 border border-zinc-700 flex items-center justify-between w-full md:min-w-[150px]"
             >
               <span>
                 {selectedMethods.length === 0
@@ -465,50 +476,48 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             )}
           </div>
 
-          <div className="flex gap-2">
-            <div className="relative dropdown-container">
-              <ButtonGlobal
-                params={{
-                  title: t('share'),
-                  color: 'bg-title',
-                  // icon: (
-                  //   <Image
-                  //     src="/images/svg/share.svg"
-                  //     alt="share"
-                  //     width={20}
-                  //     height={20}
-                  //   />
-                  // ),
-                }}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              />
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-zinc-800 border border-zinc-700 z-10">
-                  <div className="">
+          <div className="relative dropdown-container w-full md:w-auto">
+            <ButtonGlobal
+              params={{
+                title: t('share'),
+                color: 'bg-title',
+                // icon: (
+                //   <Image
+                //     src="/images/svg/share.svg"
+                //     alt="share"
+                //     width={20}
+                //     height={20}
+                //   />
+                // ),
+              }}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            />
+            {isDropdownOpen && (
+              <div className="absolute mt-2 md:right-0 w-48 rounded-md shadow-lg bg-zinc-800 border border-zinc-700 z-10">
+                <div className="">
+                  <button
+                    onClick={handleShareSummary}
+                    className="w-full text-left px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
+                  >
+                    {t('shareSummary')}
+                  </button>
+                  <button
+                    onClick={handleExportPDF}
+                    className="w-full text-left px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
+                  >
+                    {t('exportPDF')}
+                  </button>
+                  {!isSummaryRoute && (
                     <button
-                      onClick={handleShareSummary}
+                      onClick={handleExportExcel}
                       className="w-full text-left px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
                     >
-                      {t('shareSummary')}
+                      {t('exportExcel')}
                     </button>
-                    <button
-                      onClick={handleExportPDF}
-                      className="w-full text-left px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
-                    >
-                      {t('exportPDF')}
-                    </button>
-                    {!isSummaryRoute && (
-                      <button
-                        onClick={handleExportExcel}
-                        className="w-full text-left px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
-                      >
-                        {t('exportExcel')}
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -574,6 +583,9 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 <th className="px-4 py-2 text-left text-xs font-medium">
                   {t('product')}
                 </th>
+                <th className="px-4 py-2 text-left text-xs font-medium">
+                  {t('fee')}
+                </th>
                 {years.map((year) => (
                   <th
                     key={year}
@@ -590,7 +602,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
             <tbody>
               {filteredData.map((row, index) => (
                 <tr
-                  key={`${row.brand}-${row.product}-${index}`}
+                  key={`${row.brand}-${row.product}-${row.percent}-${index}`}
                   className={`${
                     index % 2 === 0 ? 'bg-zinc-900' : 'bg-zinc-800'
                   }`}
@@ -601,9 +613,12 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                   <td className="px-4 py-2 text-left text-xs font-medium">
                     {row.product}
                   </td>
+                  <td className="px-4 py-2 text-left text-xs font-medium">
+                    {`${row.percent}%`}
+                  </td>
                   {years.map((year) => (
                     <td
-                      key={`${row.brand}-${row.product}-${year}`}
+                      key={`${row.brand}-${row.product}-${row.percent}-${year}`}
                       className="px-4 py-2 text-left text-xs font-medium"
                     >
                       {formatValue(row[year])}
@@ -619,6 +634,7 @@ export function SummaryDataTable({ data, auditId }: SummaryDataTableProps) {
                 <td className="px-4 py-2 text-left text-sm font-bold">
                   {t('total')}
                 </td>
+                <td className="px-4 py-2 text-left text-xs font-medium">-</td>
                 <td className="px-4 py-2 text-left text-xs font-medium">-</td>
                 {years.map((year) => (
                   <td

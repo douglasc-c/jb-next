@@ -8,7 +8,7 @@ import './globals.css'
 const languages = ['pt-BR', 'es-US']
 
 export const metadata: Metadata = {
-  title: 'Auditax',
+  title: 'Auditaxs',
 }
 
 export async function generateStaticParams() {

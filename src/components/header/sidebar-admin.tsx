@@ -43,14 +43,14 @@ const Sidebar: React.FC<SidebarProps> = ({ locale }) => {
           </h3>
         </div>
         <div className="flex flex-row items-center space-x-4">
-          <button className="p-2 border border-neutral-600 rounded-lg">
+          {/* <button className="p-2 border border-neutral-600 rounded-lg">
             <Image
               src="/images/svg/notification.svg"
               alt="notifications"
               height={18}
               width={18}
             />
-          </button>
+          </button> */}
           <button
             className="p-2 border z-50 border-neutral-600 rounded-lg md:hidden"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}

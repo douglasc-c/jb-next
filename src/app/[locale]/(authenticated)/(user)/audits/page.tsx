@@ -74,7 +74,7 @@ export default function AuditsPage() {
   }
 
   return (
-    <main className="m-4 md:ml-0 mt-0 bg-gray border border-zinc-700 h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
+    <main className="m-4 md:ml-0 mt-0 bg-gray border border-zinc-700 min-h-[calc(100vh-5rem)] flex flex-col items-start md:p-10 p-4 rounded-lg space-y-4 antialiased">
       <div className="grid md:grid-cols-3 grid-cols-2 items-center gap-4 w-full">
         <div className="col-span-3">
           <Search
