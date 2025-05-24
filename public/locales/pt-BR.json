@@ -1,153 +1,10 @@
 {
   "TextLang": {
-    "enter": "Entrar",
-    "useYour4HandsLoginToAccess": "Utilize seu login 4 Hands para acessar",
-    "email": "E-mail",
-    "password": "Senha",
-    "forgotYourPassword": "Esqueçeu sua senha?",
-    "signIn": "Acessar",
-    "privacyCookPolicy": "Privacy & Cookie Policy",
-    "TermsOfService": "Terms of Service",
-    "yourInformationIsSafe": "Suas informações estão seguras",
-    "welcome": "Bem vindo,",
-    "dashboard": "Dashboard",
-    "addEstablishment": "Adicionar estabelecimento",
-    "establishments": "Estabelecimentos",
-    "signOut": "Sair",
-    "estimatedAssets": "Patrimônio estimado",
-    "numberOfHouse": "Número de casas",
-    "land": "Terreno",
-    "avaliableValue": "Valor Disponível",
-    "seeMore": "Ver mais",
-    "tradeName": "Nome fantasia",
-    "companyName": "Razão social",
-    "cnpj": "CNPJ",
-    "shares": "Ações",
-    "name": "Nome",
-    "lastName": "Último nome",
-    "documentNumber": "Número de documento",
-    "dateOfBith": "Data de nascimento",
-    "company": "Empresa",
-    "audits": "Auditorias",
-    "totalAudits": "Total de auditorias",
-    "totalExported": "Total exportado",
-    "address": "Endereço",
-    "users": "Usuários",
-    "total": "Total",
-    "addUser": "Adicionar usuário",
-    "role": "Cargo",
-    "username": "Nome de usuário",
-    "cancel": "Cancelar",
-    "add": "Adicionar",
-    "admin": "Administrador",
-    "user": "Usuário",
-    "individual": "Individual",
-    "details": "Detalhes",
-    "firstName": "Primeiro nome",
-    "phone": "Telefone",
-    "edit": "Editar",
-    "save": "Salvar",
-    "summary": "Resumo",
-    "overview": "Visão geral",
-    "delete": "Deletar",
-    "areYouSureYouWantToDeleteIt": "Você tem certeza que seja deletar?",
-    "percentage": "Porcentagem",
-    "signup": "Registre-se",
-    "useYour4HandsSignupToAccess": "Utilize seus dados para cadastra-se",
-    "auditDetails": "Detalhes da auditoria",
-    "flag": "Bandeira",
-    "newAudit": "Nova auditoria",
-    "flagPercentages": "Porcentagens das bandeiras",
-    "addFlag": "Adicionar bandeira",
-    "flagPercentagesWarning": "O nome da bandeira e do produto devem ser idênticos aos que estão na planilha!",
-    "uploadFiles": "Upload dos arquivos",
-    "requiredColumns": "Colunas obrigatórias",
-    "requiredColumnsTitle": "Colunas obrigatórias",
-    "columnDataPagamento": "data_do_pagamento",
-    "columnDataVenda": "data_da_venda",
-    "columnNumeroEstabelecimento": "cod_estabelecimento",
-    "columnCodigoAutorizacao": "cod_autorizacao",
-    "columnProduto": "produto",
-    "columnTipoCartao": "tipo_do_cartao",
-    "columnBandeira": "bandeira",
-    "columnStatusVenda": "status_da_venda",
-    "columnValorBruto": "valor_bruto",
-    "columnValorTaxa": "valor_da_taxa",
-    "columnValorLiquido": "valor_liquido",
-    "columnNumeroCartao": "numero_do_cartao",
-    "columnNamesWarning": "Atenção: É fundamental que os nomes das colunas na planilha sejam exatamente iguais aos citados acima. Qualquer diferença nos nomes impedirá a leitura correta dos dados.",
-    "create": "Criar",
-    "id": "ID",
-    "createdAt": "Data de criação",
-    "updatedAt": "Data de atualização",
-    "responsible": "Responsável",
-    "street": "Rua",
-    "number": "Número",
-    "city": "Cidade",
-    "state": "Estado",
-    "zipCode": "CEP",
-    "country": "País",
-    "complement": "Complemento",
-    "postalCode": "CEP",
-    "totalGeneral": "Total geral",
-    "summaryData": "Resumo dos dados",
-    "export": "Exportar",
-    "establishmentCode": "Código do estabelecimento",
-    "acquirer": "Liquidador",
-    "saleDate": "Data da venda",
-    "status": "Status",
-    "nsu": "NSU",
-    "paymentMethod": "Método de pagamento",
-    "product": "Produto",
-    "saleValue": "Valor da venda",
-    "taxValue": "Valor da taxa",
-    "netValue": "Valor líquido",
-    "referencedTax": "Taxa referenciada",
-    "cardNumber": "Número do cartão",
-    "receiptDate": "Data de recebimento",
-    "auditedTax": "Taxa auditada",
-    "auditedTaxValue": "Valor da taxa auditada",
-    "differenceToReceive": "Diferença para receber",
-    "itemsPerPage": "Itens por página",
-    "previous": "Anterior",
-    "next": "Próximo",
-    "page": "Página",
-    "detailsData": "Dados detalhados",
-    "noAudits": "Nenhuma auditoria encontrada",
-    "noEstablishments": "Nenhum estabelecimento encontrado",
-    "noUsers": "Nenhum usuário encontrado",
-    "noData": "Nenhum dado encontrado",
-    "noDataFound": "Nenhum dado encontrado",
-    "allFlags": "Todas as bandeiras",
-    "flags": "Bandeiras",
-    "allMethods": "Todos os produtos",
-    "methods": "Produtos",
-    "allYears": "Todos os anos",
-    "userData": "Dados do usuário",
-    "admins": "Administradores",
-    "shareSummary": "Copiar link",
-    "exportPDF": "Exportar Resumo",
-    "exportExcel": "Exportar Analítico",
-    "analytics": "Analítico",
-    "share": "Compartilhar",
-    "summaryLinkCopied": "Link copiado",
-    "establishment": "Estabelecimento",
-    "brands": "Bandeiras",
-    "brand": "Bandeira",
-    "products": "Produtos",
-    "searchAudits": "Buscar auditorias...",
-    "noActions": "Nenhuma ação encontrada",
-    "action": "Ação",
-    "actions": "Ações",
-    "fee": "Taxa",
-    "entity": "Entidade",
-    "ip": "IP",
-    "metadata": "Metadados",
-    "date": "Data",
     "home": {
       "hero": {
-        "title": "Você tem clareza sobre quanto recebe nas vendas com cartão?",
-        "subtitle": "Contamos com um sistema intuitivo, seguro e eficiente para simplificar a conciliação dos seus recebimentos com cartão."
+        "title": "Soluções em Saúde e Bem-estar",
+        "subtitle": "Oferecemos produtos e serviços de alta qualidade para cuidar da sua saúde e bem-estar.",
+        "cta": "Conheça Nossos Produtos"
       },
       "problems": {
         "title": "O que pode acontecer sem a conciliação",
@@ -183,13 +40,67 @@
           }
         }
       },
+      "features": {
+        "feature1": {
+          "title": "Qualidade Garantida",
+          "description": "Todos os nossos produtos passam por rigorosos controles de qualidade."
+        },
+        "feature2": {
+          "title": "Atendimento Personalizado",
+          "description": "Nossa equipe está pronta para atender suas necessidades com excelência."
+        },
+        "feature3": {
+          "title": "Entrega Rápida",
+          "description": "Entregamos seus produtos com rapidez e segurança."
+        }
+      },
       "about": {
-        "title": "Quem somos",
-        "subtitle": "O controle completo das suas vendas em cartão",
-        "description": "A Auditaxs nasceu com o objetivo de apoiar empresas e equipes administrativas na precisão dos dados de vendas em cartão, assegurando sempre a saúde financeira do seu negócio. Nosso compromisso é proteger seu lucro e garantir que você receba exatamente o que é seu por direito.",
+        "title": "Joint Bill Pharma, onde conhecimento e tecnologia se encontram.",
+        "description": "Com foco em performance produtiva e qualidade, oferecemos o que há de melhor em equipamentos de processo e embalagem para sólidos, líquidos, injetáveis e semissólidos, para as indústrias farmacêutica, veterinária, alimentícia e cosmética.",
+        "history": {
+          "title": "NOSSA HISTÓRIA",
+          "description": "A Joint Bill Pharma teve seu início em 2014 com a missão de atender as necessidades dos clientes que buscavam equipamentos de alta tecnologia, voltados principalmente para a indústria farmacêutica, alimentícia, veterinária e cosmética.",
+          "description2": "Desde então, desenvolveu parcerias com os principais fornecedores de equipamentos de fabricação de sólidos, líquidos, injetáveis e semissólidos das Américas, Europa e Ásia, sempre buscando por soluções inovadoras."
+        },
         "stats": {
-          "adquirentes": "Adquirentes",
-          "bandeiras": "Bandeiras"
+          "equipamentos": "mais de 500 equipamentos vendidos",
+          "clientes": "mais de 200 clientes atendidos",
+          "equipe": "equipe técnica local especializada",
+          "representadas": "representadas reconhecidas"
+        },
+        "mission": {
+          "title": "NOSSA MISSÃO",
+          "description": "Através de soluções tecnológicas para diversos segmentos industriais, contribuir para otimização de produtos e processos, e gerar melhoria na qualidade de vida e bem estar para a comunidade em geral."
+        },
+        "vision": {
+          "title": "NOSSA VISÃO",
+          "description": "Estar entre as principais referências no mercado através da qualidade de seus produtos, conhecimento técnico de seus especialistas, relacionamento com seus clientes e pela excelência em desempenho."
+        },
+        "values": {
+          "title": "NOSSOS VALORES",
+          "items": {
+            "transparencia": "Transparência",
+            "flexibilidade": "Flexibilidade",
+            "respeito": "Respeito",
+            "confianca": "Confiança",
+            "etica": "Ética"
+          }
+        }
+      },
+      "services": {
+        "title": "Serviços Especializados",
+        "description": "Oferecemos soluções completas em equipamentos e ferramentais para a indústria farmacêutica, com foco em qualidade, eficiência e inovação.",
+        "service1": {
+          "title": "Pós-venda e Treinamentos",
+          "description": "Garantimos que nossos equipamentos operem de maneira consistente e estejam em conformidade com as especificações, através de treinamentos especializados e suporte contínuo."
+        },
+        "service2": {
+          "title": "Manutenção e Peças",
+          "description": "Contamos com equipe técnica especializada e estoque local de peças originais, garantindo agilidade na manutenção e reposição de componentes."
+        },
+        "service3": {
+          "title": "Consultoria Técnica",
+          "description": "Oferecemos consultoria especializada em equipamentos e ferramentais de produção e embalagem de sólidos, líquidos, injetáveis e semissólidos."
         }
       },
       "benefits": {
@@ -278,21 +189,47 @@
         }
       },
       "cta": {
-        "title": "Quer melhorar sua gestão de vendas com cartão?",
-        "description": "Nossa equipe está pronta para te ajudar a conciliar suas vendas com cartão com eficiência e segurança.",
-        "button": "Fale com um especialista"
+        "title": "Comece a Cuidar da Sua Saúde Hoje",
+        "description": "Entre em contato conosco e descubra como podemos ajudar você.",
+        "button": "Fale Conosco"
       },
       "contact": {
         "title": "Fale Conosco",
-        "description": "Nosso objetivo é oferecer suporte estratégico para empresas e áreas administrativas, garantindo extrema acurácia e precisão na liquidação de transações financeiras com modelo de adquirencia, contribuindo para a excelência e saúde financeira do seu negócio.",
+        "description": "Nosso objetivo é oferecer suporte estratégico para empresas e unidades farmacêuticas, garantindo total conformidade regulatória e precisão nos processos de faturamento, logística e auditoria, contribuindo para a excelência operacional e sustentabilidade do seu negócio.",
         "whatsapp": {
           "title": "WhatsApp",
-          "value": "(41) 9 9822-7111"
+          "value": "(41) 9 9999-9999"
         },
         "email": {
           "title": "E-mail",
-          "value": "contato@auditaxs.com.br"
+          "value": "contato@jointbill.com.br"
+        },
+        "form": {
+          "title": "Envie uma Mensagem",
+          "name": "Nome",
+          "email": "E-mail",
+          "message": "Mensagem",
+          "submit": "Enviar Mensagem"
         }
+      }
+    },
+    "about": {
+      "title": "Sobre Nós",
+      "description": "Somos uma empresa comprometida com a saúde e bem-estar das pessoas, oferecendo produtos e serviços de alta qualidade. Nossa missão é fornecer soluções inovadoras e de alta qualidade para nossos clientes, sempre mantendo os mais altos padrões de excelência e compromisso."
+    },
+    "equipment": {
+      "title": "Equipamentos e Ferramental",
+      "equipment1": {
+        "title": "Equipamentos de Precisão",
+        "description": "Equipamentos de alta precisão para medições e análises."
+      },
+      "equipment2": {
+        "title": "Ferramentas Especializadas",
+        "description": "Ferramentas desenvolvidas para atender necessidades específicas."
+      },
+      "equipment3": {
+        "title": "Equipamentos de Segurança",
+        "description": "Equipamentos de proteção individual e coletiva."
       }
     }
   }

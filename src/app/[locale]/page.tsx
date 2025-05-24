@@ -1,15 +1,37 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { MotionDiv, MotionH1, MotionP } from '@/components/ui/motion'
 import { NavbarHome } from '@/components/header/navbar-home'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react'
+
+const MotionDiv = motion.div
 
 export default function HomePage() {
   const t = useTranslations('TextLang.home')
-  const whatsappNumber = '5541998227111'
+  const whatsappNumber = '5541999999999'
   const whatsappUrl = `https://wa.me/${whatsappNumber}`
+
+  const backgrounds = [
+    '/images/carousel/carrossel-1.jpeg',
+    '/images/carousel/carrossel-2.jpeg',
+    '/images/carousel/carrossel-3.jpeg',
+    '/images/carousel/carrossel-4.jpeg',
+    '/images/carousel/carrossel-5.jpeg',
+    '/images/carousel/carrossel-6.jpeg',
+  ]
+
+  const [currentImage, setCurrentImage] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % backgrounds.length)
+    }, 5000) // Muda a cada 5 segundos
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className="min-h-screen">
@@ -35,632 +57,200 @@ export default function HomePage() {
       </a>
 
       {/* Hero Section */}
-      <section className="bg-card bg-cover bg-center py-32 relative overflow-hidden h-screen flex items-center justify-center">
-        {/* Background Image */}
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-900/95 to-zinc-950/65 z-0"></div>
-
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4 relative z-10"
-        >
-          <div className="max-w-3xl mx-auto text-center">
-            <MotionH1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-title"
+      <section className="relative h-screen">
+        <div className="absolute inset-0">
+          <AnimatePresence initial={false}>
+            <MotionDiv
+              key={currentImage}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
             >
-              {t('hero.title')}
-            </MotionH1>
-            <MotionP
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl mb-8 text-zinc-200"
-            >
-              {t('hero.subtitle')}
-            </MotionP>
+              <Image
+                src={backgrounds[currentImage]}
+                alt="Hero Background"
+                fill
+                className="object-cover"
+                priority
+              />
+            </MotionDiv>
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+        <div className="relative h-full flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl">
+              <MotionDiv
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-white"
+              >
+                <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                  {t('hero.title')}
+                </h1>
+                <p className="text-xl md:text-2xl mb-8 text-white/90">
+                  {t('hero.subtitle')}
+                </p>
+                <Button
+                  size="lg"
+                  className="bg-title hover:bg-title/90 text-lg px-8"
+                >
+                  {t('hero.cta')}
+                </Button>
+              </MotionDiv>
+            </div>
           </div>
-        </MotionDiv>
+        </div>
       </section>
 
-      {/* Problems Section */}
-      <section id="problems" className="py-20 bg-zinc-200">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4"
-        >
-          <h2 className="text-3xl font-bold text-center mb-12">
-            {t('problems.title')}
-          </h2>
-          <div className="grid md:grid-cols-4 gap-8">
+      {/* Stats Section */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              {
-                title: t('problems.fraudes.title'),
-                items: [
-                  t('problems.fraudes.items.0'),
-                  t('problems.fraudes.items.1'),
-                  t('problems.fraudes.items.2'),
-                ],
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('problems.erros.title'),
-                items: [
-                  t('problems.erros.items.0'),
-                  t('problems.erros.items.1'),
-                  t('problems.erros.items.2'),
-                ],
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('problems.duvidas.title'),
-                items: [
-                  t('problems.duvidas.items.0'),
-                  t('problems.duvidas.items.1'),
-                ],
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('problems.problemas.title'),
-                items: [
-                  t('problems.problemas.items.0'),
-                  t('problems.problemas.items.1'),
-                  t('problems.problemas.items.2'),
-                ],
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                ),
-              },
-            ].map((group, index) => (
+              { number: '15+', text: t('about.stats.adquirentes') },
+              { number: '6+', text: t('about.stats.bandeiras') },
+              { number: '100%', text: 'Satisfação' },
+              { number: '24/7', text: 'Suporte' },
+            ].map((stat, index) => (
               <MotionDiv
-                key={group.title}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+                className="text-center"
               >
-                {group.icon}
-                <h3 className="text-xl font-semibold mb-4">{group.title}</h3>
-                <ul className="text-gray-600 space-y-2">
-                  {Array.isArray(group.items) ? (
-                    group.items.map((item: string) => (
-                      <li
-                        key={item}
-                        className="hover:text-[#e79204] transition-colors"
-                      >
-                        {item}
-                      </li>
-                    ))
-                  ) : (
-                    <li className="hover:text-[#e79204] transition-colors">
-                      {group.items}
-                    </li>
-                  )}
-                </ul>
+                <div className="text-3xl md:text-4xl font-bold text-title mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-gray-600">{stat.text}</div>
               </MotionDiv>
             ))}
           </div>
-        </MotionDiv>
+        </div>
+      </section>
+
+      {/* Services Overview */}
+      <section className="py-20 bg-slate-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              {t('services.title')}
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              {t('services.description')}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {['service1', 'service2', 'service3'].map((service, index) => (
+              <MotionDiv
+                key={service}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="w-16 h-16 bg-title/10 rounded-full flex items-center justify-center mb-6">
+                  <svg
+                    className="w-8 h-8 text-title"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-4">
+                  {t(`services.${service}.title`)}
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {t(`services.${service}.description`)}
+                </p>
+                <Button variant="outline" className="w-full">
+                  Saiba mais
+                </Button>
+              </MotionDiv>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-zinc-800">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4"
-        >
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="max-w-xl">
-              <h2 className="text-lg font-bold text-title uppercase">
-                {t('about.title')}
-              </h2>
-              <h2 className="text-3xl font-bold mb-8 text-zinc-50">
-                {t('about.subtitle')}
-              </h2>
-              <p className="text-zinc-200 text-lg mb-6">
+            <MotionDiv
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                <Image
+                  src="/images/png/about-2.png"
+                  alt="About Us"
+                  width={600}
+                  height={400}
+                  className="rounded-lg w-full"
+                />
+                <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-title/10 rounded-lg hidden md:block"></div>
+              </div>
+            </MotionDiv>
+            <MotionDiv
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-3xl font-bold mb-6">{t('about.title')}</h2>
+              <p className="text-gray-600 mb-8 text-lg leading-relaxed">
                 {t('about.description')}
               </p>
-              <div className="grid grid-cols-2 gap-8 mt-8">
-                <MotionDiv
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="text-center"
-                >
-                  <div className="text-4xl font-bold text-title">+15</div>
-                  <div className=" text-zinc-200 uppercase">
-                    {t('about.stats.adquirentes')}
-                  </div>
-                </MotionDiv>
-                <MotionDiv
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-center"
-                >
-                  <div className="text-4xl font-bold text-title">+6</div>
-                  <div className=" text-zinc-200 uppercase">
-                    {t('about.stats.bandeiras')}
-                  </div>
-                </MotionDiv>
-              </div>
-            </div>
-            <MotionDiv
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative h-[400px] rounded-lg overflow-hidden shadow-2xl"
-            >
-              <Image
-                src="/images/bg/card.png"
-                alt="Controle de vendas em cartão"
-                className="object-cover w-full h-full"
-                width={1000}
-                height={1000}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/70 to-transparent"></div>
+              <Button
+                size="lg"
+                className="bg-title hover:bg-title/90 text-white"
+              >
+                Conheça nossa história
+              </Button>
             </MotionDiv>
           </div>
-        </MotionDiv>
-      </section>
-
-      {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-zinc-200">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4"
-        >
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-center md:text-left">
-              <h2 className="text-lg font-bold text-title uppercase">
-                {t('benefits.title')}
-              </h2>
-              <h2 className="text-3xl font-bold mb-6">
-                {t('benefits.subtitle')}
-              </h2>
-              <p className="text-lg mb-6">{t('benefits.description')}</p>
-              <MotionDiv
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative h-[320px] rounded-lg overflow-hidden shadow-2xl mt-8"
-              >
-                <Image
-                  src="/images/bg/table-graph.jpeg"
-                  alt="Benefícios da conciliação de cartões"
-                  className="object-cover w-full h-full"
-                  width={1000}
-                  height={1000}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/70 to-transparent"></div>
-              </MotionDiv>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: t('benefits.items.economia.title'),
-                  description: t('benefits.items.economia.description'),
-                  icon: (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  title: t('benefits.items.controle.title'),
-                  description: t('benefits.items.controle.description'),
-                  icon: (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  title: t('benefits.items.integracao.title'),
-                  description: t('benefits.items.integracao.description'),
-                  icon: (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  title: t('benefits.items.atendimento.title'),
-                  description: t('benefits.items.atendimento.description'),
-                  icon: (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                      />
-                    </svg>
-                  ),
-                },
-              ].map((benefit, index) => (
-                <MotionDiv
-                  key={benefit.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-                >
-                  {benefit.icon}
-                  <h3 className="text-xl font-semibold mb-4">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600">{benefit.description}</p>
-                </MotionDiv>
-              ))}
-            </div>
-          </div>
-        </MotionDiv>
-      </section>
-
-      {/* Passo a Passo Section */}
-      <section id="steps" className="py-20 bg-zinc-800">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4"
-        >
-          <h2 className="text-lg font-bold text-center text-title uppercase">
-            {t('steps.title')}
-          </h2>
-          <h3 className="text-3xl font-semibold mb-8 text-zinc-50 text-center">
-            {t('steps.subtitle')}
-          </h3>
-          <p className="text-center text-zinc-200 mb-12 max-w-3xl mx-auto">
-            {t('steps.description')}
-          </p>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                title: t('steps.items.levantamento.title'),
-                description: t('steps.items.levantamento.description'),
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('steps.items.validacao.title'),
-                description: t('steps.items.validacao.description'),
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('steps.items.recebimentos.title'),
-                description: t('steps.items.recebimentos.description'),
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('steps.items.treinamento.title'),
-                description: t('steps.items.treinamento.description'),
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 mx-auto mb-4 text-[#e79204]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                ),
-              },
-            ].map((step, index) => (
-              <MotionDiv
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative"
-              >
-                <div className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-                  <div className="w-12 h-12 bg-[#e79204] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                    {index + 1}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
-                </div>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-[#e79204] transform -translate-y-1/2" />
-                )}
-              </MotionDiv>
-            ))}
-          </div>
-        </MotionDiv>
-      </section>
-
-      {/* Como Funciona Section */}
-      <section id="solution" className="py-20 bg-zinc-200">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4"
-        >
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="text-left">
-              <h2 className="text-lg font-bold text-title uppercase">
-                {t('solution.title')}
-              </h2>
-              <h3 className="text-3xl font-semibold mb-8">
-                {t('solution.subtitle')}
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {t('solution.description')}
-              </p>
-            </div>
-            <MotionDiv
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative h-[300px] rounded-lg overflow-hidden shadow-2xl"
-            >
-              <Image
-                src="/images/bg/work-graph.jpeg"
-                alt="Nossa solução"
-                className="object-cover w-full h-full"
-                width={1000}
-                height={1000}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/70 to-transparent"></div>
-            </MotionDiv>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                title: t('solution.features.conferencia.title'),
-                description: t('solution.features.conferencia.description'),
-              },
-              {
-                title: t('solution.features.sistema.title'),
-                description: t('solution.features.sistema.description'),
-              },
-              {
-                title: t('solution.features.analise.title'),
-                description: t('solution.features.analise.description'),
-              },
-              {
-                title: t('solution.features.integracao.title'),
-                description: t('solution.features.integracao.description'),
-              },
-              {
-                title: t('solution.features.visualizacao.title'),
-                description: t('solution.features.visualizacao.description'),
-              },
-              {
-                title: t('solution.features.suporte.title'),
-                description: t('solution.features.suporte.description'),
-              },
-              {
-                title: t('solution.features.consultoria.title'),
-                description: t('solution.features.consultoria.description'),
-              },
-              {
-                title: t('solution.features.seguranca.title'),
-                description: t('solution.features.seguranca.description'),
-              },
-            ].map((feature, index) => (
-              <MotionDiv
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-left p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-              >
-                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </MotionDiv>
-            ))}
-          </div>
-        </MotionDiv>
+        </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white relative overflow-hidden">
-        <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="container mx-auto px-4 text-center relative z-10"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-title">
-            {t('cta.title')}
-          </h2>
-          <p className="text-xl mb-8 text-gray-100">{t('cta.description')}</p>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button
-              variant="secondary"
-              size="lg"
-              className="hover:scale-105 transition-transform"
-            >
+      <section className="py-20 bg-title">
+        <div className="container mx-auto px-4 text-center">
+          <MotionDiv
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              {t('cta.title')}
+            </h2>
+            <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
+              {t('cta.description')}
+            </p>
+            <Button variant="secondary" size="lg" className="text-lg px-8">
               {t('cta.button')}
             </Button>
-          </a>
-        </MotionDiv>
-
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute w-96 h-96 -top-48 -right-48 bg-white rounded-full mix-blend-overlay animate-blob"></div>
-          <div className="absolute w-96 h-96 -bottom-48 -left-48 bg-white rounded-full mix-blend-overlay animate-blob animation-delay-4000"></div>
+          </MotionDiv>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-zinc-200">
+      <section id="contact" className="py-20 bg-slate-100">
         <MotionDiv
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -669,23 +259,55 @@ export default function HomePage() {
           className="container mx-auto px-4"
         >
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Logo e Texto */}
             <div className="space-y-6">
               <Image
-                src="/images/svg/logoBlack.svg"
-                alt="Auditax Logo"
-                width={350}
-                height={80}
+                src="/images/png/logo.png"
+                alt="JB Logo"
+                width={150}
+                height={150}
                 className="mb-6"
               />
               <p className="text-gray-600 text-lg leading-relaxed">
                 {t('contact.description')}
               </p>
+              <div className="flex space-x-4">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-title text-white p-3 rounded-full hover:bg-title/90 transition-colors"
+                >
+                  <Image
+                    src="/images/svg/whatsapp.svg"
+                    width={24}
+                    height={24}
+                    alt="WhatsApp"
+                  />
+                </a>
+                <a
+                  href="mailto:contato@jointbill.com.br"
+                  className="bg-title text-white p-3 rounded-full hover:bg-title/90 transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </a>
+              </div>
             </div>
 
-            {/* Contatos */}
-            <div className="space-y-8">
-              <h2 className="text-3xl font-bold mb-8">{t('contact.title')}</h2>
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-6">{t('contact.title')}</h2>
               <div className="space-y-6">
                 {[
                   {
@@ -694,21 +316,21 @@ export default function HomePage() {
                     link: whatsappUrl,
                     icon: (
                       <Image
-                        src="/images/svg/whatsapp.svg"
-                        width={26}
-                        height={26}
-                        alt="Document"
+                        src="/images/svg/whatsappBlue.svg"
+                        width={24}
+                        height={24}
+                        alt="WhatsApp"
                       />
                     ),
                   },
                   {
                     title: t('contact.email.title'),
                     value: t('contact.email.value'),
-                    link: 'mailto:contato@auditax.tech',
+                    link: 'mailto:contato@jointbill.com.br',
                     icon: (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-[#e79204]"
+                        className="h-6 w-6 text-title"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -729,7 +351,7 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="flex items-center space-x-4 hover:transform hover:scale-105 transition-all"
+                    className="flex items-center space-x-4"
                   >
                     {contact.icon}
                     <a
@@ -738,7 +360,7 @@ export default function HomePage() {
                       rel="noopener noreferrer"
                       className="group"
                     >
-                      <div className="text-xl font-semibold">
+                      <div className="text-lg font-semibold">
                         {contact.title}
                       </div>
                       <div className="text-gray-600 group-hover:text-gray-800">

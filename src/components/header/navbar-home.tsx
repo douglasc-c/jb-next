@@ -1,14 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 export function NavbarHome() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,31 +24,12 @@ export function NavbarHome() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth',
-      })
-      setIsMenuOpen(false)
-    }
-  }
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-    setIsMenuOpen(false)
-  }
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-zinc-900/90 backdrop-blur-md shadow-lg'
-          : 'bg-transparent'
+          ? 'bg-slate-50/90 backdrop-blur-md shadow-lg'
+          : 'bg-transparent text-zinc-200'
       }`}
     >
       <div className="container mx-auto px-4">
@@ -55,10 +37,10 @@ export function NavbarHome() {
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-title">
               <Image
-                src={`/images/svg/logo.svg`}
+                src={`/images/png/logo.png`}
                 alt="logo"
-                height={180}
-                width={180}
+                height={130}
+                width={130}
                 className="transition-all duration-300"
               />
             </Link>
@@ -66,56 +48,50 @@ export function NavbarHome() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={scrollToTop}
-              className="text-zinc-200 hover:text-title transition-colors"
+            <Link
+              href="/"
+              className={`font-semibold transition-colors relative group ${
+                pathname === '/' ? 'text-title' : ''
+              }`}
             >
               Início
-            </button>
-            <button
-              onClick={() => scrollToSection('problems')}
-              className="text-zinc-200 hover:text-title transition-colors"
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link
+              href="/services"
+              className={`font-semibold transition-colors relative group ${
+                pathname === '/services' ? 'text-title' : ''
+              }`}
             >
-              Problemas
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-zinc-200 hover:text-title transition-colors"
+              Serviços
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link
+              href="/equipment"
+              className={`font-semibold transition-colors relative group ${
+                pathname === '/equipment' ? 'text-title' : ''
+              }`}
+            >
+              Equipamentos e Ferramental
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link
+              href="/about"
+              className={`font-semibold transition-colors relative group ${
+                pathname === '/about' ? 'text-title' : ''
+              }`}
             >
               Sobre
-            </button>
-            <button
-              onClick={() => scrollToSection('benefits')}
-              className="text-zinc-200 hover:text-title transition-colors"
-            >
-              Benefícios
-            </button>
-            <button
-              onClick={() => scrollToSection('steps')}
-              className="text-zinc-200 hover:text-title transition-colors"
-            >
-              Passo a Passo
-            </button>
-            <button
-              onClick={() => scrollToSection('solution')}
-              className="text-zinc-200 hover:text-title transition-colors"
-            >
-              Solução
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="text-zinc-200 hover:text-title transition-colors"
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link
+              href="/contact"
+              className={`font-semibold transition-colors relative group ${
+                pathname === '/contact' ? 'text-title' : ''
+              }`}
             >
               Contato
-            </button>
-            <Link href="/signin">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-title text-white hover:bg-title/90"
-              >
-                Entrar
-              </Button>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </nav>
 
@@ -123,7 +99,7 @@ export function NavbarHome() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-zinc-200 hover:text-title transition-colors"
+              className="font-semibold transition-colors"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -136,56 +112,56 @@ export function NavbarHome() {
         <div className="md:hidden bg-zinc-900/95 backdrop-blur-md">
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col space-y-4">
-              <button
-                onClick={scrollToTop}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
+              <Link
+                href="/"
+                className={`font-semibold transition-colors py-2 relative group ${
+                  pathname === '/' ? 'text-title' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Início
-              </button>
-              <button
-                onClick={() => scrollToSection('problems')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link
+                href="/services"
+                className={`font-semibold transition-colors py-2 relative group ${
+                  pathname === '/services' ? 'text-title' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
               >
-                Problemas
-              </button>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
+                Serviços
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+
+              <Link
+                href="/equipment"
+                className={`font-semibold transition-colors py-2 relative group ${
+                  pathname === '/equipment' ? 'text-title' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Equipamentos e Ferramental
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link
+                href="/about"
+                className={`font-semibold transition-colors py-2 relative group ${
+                  pathname === '/about' ? 'text-title' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Sobre
-              </button>
-              <button
-                onClick={() => scrollToSection('benefits')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
-              >
-                Benefícios
-              </button>
-              <button
-                onClick={() => scrollToSection('steps')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
-              >
-                Passo a Passo
-              </button>
-              <button
-                onClick={() => scrollToSection('solution')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
-              >
-                Solução
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="text-zinc-200 hover:text-title transition-colors py-2"
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link
+                href="/contact"
+                className={`font-semibold transition-colors py-2 relative group ${
+                  pathname === '/contact' ? 'text-title' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Contato
-              </button>
-              <Link href="/signin" className="pt-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="w-full bg-title text-white hover:bg-title/90"
-                >
-                  Entrar
-                </Button>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
           </div>

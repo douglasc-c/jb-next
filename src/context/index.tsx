@@ -1,18 +1,7 @@
-import React from 'react'
+'use client'
 
-import type { AuthContextProps } from './auth-context'
-import { AuthProvider } from './auth-context'
+import { ReactNode } from 'react'
 
-interface AppProvidersProps {
-  children: React.ReactNode
-  authValue: Omit<
-    AuthContextProps,
-    'authData' | 'setAuthData' | 'isLoadingAuthData'
-  >
+export function AppProviders({ children }: { children: ReactNode }) {
+  return <>{children}</>
 }
-
-export const AppProviders = ({ children, authValue }: AppProvidersProps) => {
-  return <AuthProvider value={authValue}>{children}</AuthProvider>
-}
-
-export default AppProviders

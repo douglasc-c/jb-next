@@ -1,14 +1,14 @@
 // src/app/layout.tsx
-import { AppProviders } from '@/context'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { Analytics } from '@vercel/analytics/react'
+import { AppProviders } from '@/context'
 import './globals.css'
 
 const languages = ['pt-BR', 'es-US']
 
 export const metadata: Metadata = {
-  title: 'Auditaxs',
+  title: 'Joint Bill',
 }
 
 export async function generateStaticParams() {
@@ -35,13 +35,12 @@ export default async function RootLayout({
 }) {
   const locale = lng || 'pt-BR'
   const messages = await getMessages(locale)
-  const authValue = {}
 
   return (
     <html lang={locale}>
       <body className="flex flex-col h-screen bg-primary antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AppProviders authValue={authValue}>{children}</AppProviders>
+          <AppProviders>{children}</AppProviders>
         </NextIntlClientProvider>
         <Analytics />
       </body>

@@ -25,41 +25,39 @@ const config: Config = {
         table: "url('/images/bg/table-graph.jpeg')",
       },
       colors: {
-        border: '#2c2c31',
+        border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          dark: 'hsl(var(--primary-dark))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: '#ffffff',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: '#F3F4F6', // Gray 100
+          foreground: '#1F2937', // Gray 800
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: '#EF4444', // Red 500
+          foreground: '#FFFFFF',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: '#F3F4F6', // Gray 100
+          foreground: '#6B7280', // Gray 500
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: '#F3F4F6', // Gray 100
+          foreground: '#1F2937', // Gray 800
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: '#FFFFFF',
+          foreground: '#1F2937', // Gray 800
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: '#FFFFFF',
+          foreground: '#1F2937', // Gray 800
         },
-        title: '#e79204',
+        title: '#185AA8', // Teal 200
         backgroundStart: '#1f1f23',
         backgroundEnd: '#1f1f23',
         textPrimary: '#e8e8e8',
