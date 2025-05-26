@@ -2,57 +2,9 @@
   "TextLang": {
     "home": {
       "hero": {
-        "title": "Soluções em Saúde e Bem-estar",
-        "subtitle": "Oferecemos produtos e serviços de alta qualidade para cuidar da sua saúde e bem-estar.",
-        "cta": "Conheça Nossos Produtos"
-      },
-      "problems": {
-        "title": "O que pode acontecer sem a conciliação",
-        "fraudes": {
-          "title": "Fraudes",
-          "items": {
-            "0": "Substituição de maquinetas",
-            "1": "Comprovantes forjados",
-            "2": "Estornos (chargebacks)"
-          }
-        },
-        "erros": {
-          "title": "Erros",
-          "items": {
-            "0": "Pagamentos não identificados",
-            "1": "Cobranças equivocadas",
-            "2": "Antecipações não autorizadas"
-          }
-        },
-        "duvidas": {
-          "title": "Incertezas",
-          "items": {
-            "0": "Inconsistências nos registros",
-            "1": "Desconhecimento das taxas aplicadas"
-          }
-        },
-        "problemas": {
-          "title": "Dificuldades",
-          "items": {
-            "0": "Número de vendas incorreto",
-            "1": "Excesso de tempo investido",
-            "2": "Diferenças nos valores finais"
-          }
-        }
-      },
-      "features": {
-        "feature1": {
-          "title": "Qualidade Garantida",
-          "description": "Todos os nossos produtos passam por rigorosos controles de qualidade."
-        },
-        "feature2": {
-          "title": "Atendimento Personalizado",
-          "description": "Nossa equipe está pronta para atender suas necessidades com excelência."
-        },
-        "feature3": {
-          "title": "Entrega Rápida",
-          "description": "Entregamos seus produtos com rapidez e segurança."
-        }
+        "title": "Bem-vindo à Joint Bill Comercial, Industrial e Serviços de Engenharia Ltda (JBE)",
+        "description": "Há mais de 31 anos, a JBE é referência em importação, distribuição e fornecimento de equipamentos e embalagens para a indústria farmacêutica no Brasil. Especializada em atender às demandas do setor público e privado, entregamos tecnologia de ponta e produtos de alta qualidade que garantem excelência em cada etapa da produção farmacêutica.",
+        "cta": "Conheça Nossas Soluções"
       },
       "about": {
         "title": "Joint Bill Pharma, onde conhecimento e tecnologia se encontram.",
@@ -103,91 +55,6 @@
           "description": "Oferecemos consultoria especializada em equipamentos e ferramentais de produção e embalagem de sólidos, líquidos, injetáveis e semissólidos."
         }
       },
-      "benefits": {
-        "title": "Conciliação de Cartões",
-        "subtitle": "Benefícios Principais",
-        "description": "Veja como nosso sistema pode melhorar seu controle financeiro, reduzir custos e tempo na conferência das operações, centralizando todas as informações de vendas e recebimento em um único lugar, dispondo de relatórios analíticos de todas as operações.",
-        "items": {
-          "economia": {
-            "title": "Redução de Custos",
-            "description": "Corte de gastos com sistemas de conferência. Aumento de resultado financeiro na liquidação das operações. Otimização de gestão de tempo e recursos humanos."
-          },
-          "controle": {
-            "title": "Gestão Eficiente",
-            "description": "Acompanhe com clareza as taxas contratuais nas liquidações de cada operação; monitoramento momentâneo de seus recebimentos."
-          },
-          "integracao": {
-            "title": "Conexão Total",
-            "description": "Compatível com qualquer sistema, ERP, TEF, etc. Integração de dados com a empresa adquirente."
-          },
-          "atendimento": {
-            "title": "Suporte Atento",
-            "description": "Nossa equipe dispõe de especialistas disponíveis para auxílio ao cliente, dispondo de atendimento personalizado."
-          }
-        }
-      },
-      "steps": {
-        "title": "Nosso processo",
-        "subtitle": "Etapas de Implementação",
-        "description": "Cada fase foi pensada para trazer clareza e apoiar decisões estratégicas para o seu negócio.",
-        "items": {
-          "levantamento": {
-            "title": "Mapeamento",
-            "description": "Analisamos o ambiente de vendas e as regras de contrato , para entender o fluxo financeiro de liquidação da empresa e identificar adquirentes e condições contratuais."
-          },
-          "validacao": {
-            "title": "Confirmação",
-            "description": "Validamos as adquirentes utilizadas por sua empresa, período de análise e objeto, delimitando o serviço a ser realizado, condições, possibilitando sequenciar o processo de análise."
-          },
-          "recebimentos": {
-            "title": "Importação de Dados",
-            "description": "Estruturamos banco de dados próprio do cliente, para receber e armazenar todas as informações de relatórios de vendas e pagamentos."
-          },
-          "treinamento": {
-            "title": "Execução",
-            "description": "Em posse dos dados é feita a conferência e auditoria nas operações financeiras de sua empresa, apresentando resultado das operações, identificadas por natureza e tipo, e potenciais valores a serem recuperados por meio de relatório analítico."
-          }
-        }
-      },
-      "solution": {
-        "title": "Nossa Solução",
-        "subtitle": "Por que escolher a Auditaxs?",
-        "description": "Com um sistema inovador e uma equipe altamente qualificada, ajudamos empresas a manter o controle total sobre as vendas em cartão e vouchers. Auditaxs oferece mais clareza e agilidade na conferência de dados financeiros de sua empresa, otimizando e maximizando seus lucros, contribuindo ao crescimento de seu negócio.",
-        "features": {
-          "conferencia": {
-            "title": "Verificação Completa",
-            "description": "Conferência de todas as operações com cartão, desde a venda até a liquidação bancária."
-          },
-          "sistema": {
-            "title": "Plataforma Integrada",
-            "description": "Sistema completo para conciliação de cartões e conciliação bancária das vendas."
-          },
-          "analise": {
-            "title": "Monitoramento Inteligente",
-            "description": "Acompanhamento detalhado da liquidação de todas operações, taxas e serviços cobrados."
-          },
-          "integracao": {
-            "title": "Integração Ampla",
-            "description": "Compatível com os sistemas de adquirentes e credenciadoras de cartões, ERPs, bancos e outros sistemas."
-          },
-          "visualizacao": {
-            "title": "Interface Simples",
-            "description": "Acesse todas as informações de vendas e relatórios mensais em uma plataforma unificada."
-          },
-          "suporte": {
-            "title": "Atendimento Ágil",
-            "description": "Atendimento e Suporte personalizado ao cliente."
-          },
-          "consultoria": {
-            "title": "Aconselhamento Profissional",
-            "description": "Consultoria e Auditoria financeira e contábil focada em otimizar resultados, reduzindo perdas, aumentando sua rentabilidade, otimizando sua gestão de tempo e resultados."
-          },
-          "seguranca": {
-            "title": "Proteção Garantida",
-            "description": "Total segurança e confidencialidade das informações e transações de sua empresa."
-          }
-        }
-      },
       "cta": {
         "title": "Comece a Cuidar da Sua Saúde Hoje",
         "description": "Entre em contato conosco e descubra como podemos ajudar você.",
@@ -211,11 +78,52 @@
           "message": "Mensagem",
           "submit": "Enviar Mensagem"
         }
+      },
+      "differentials": {
+        "title": "Por que escolher a JBE?",
+        "items": {
+          "experience": {
+            "title": "31+ anos de excelência",
+            "description": "Experiência incomparável no setor farmacêutico."
+          },
+          "quality": {
+            "title": "Qualidade certificada",
+            "description": "Todos os equipamentos e processos atendem às normas da Anvisa, com validação de Qualificação de Instalação (QI), Operação (QO) e Desempenho (QD)."
+          },
+          "partnerships": {
+            "title": "Parcerias globais",
+            "description": "Trabalhamos com líderes mundiais como Freund-Vector, Fabrima, ACG e Gerresheimer para oferecer soluções de classe mundial."
+          },
+          "expertise": {
+            "title": "Expertise no setor público",
+            "description": "Décadas de parcerias bem-sucedidas com laboratórios públicos."
+          }
+        }
       }
     },
     "about": {
-      "title": "Sobre Nós",
-      "description": "Somos uma empresa comprometida com a saúde e bem-estar das pessoas, oferecendo produtos e serviços de alta qualidade. Nossa missão é fornecer soluções inovadoras e de alta qualidade para nossos clientes, sempre mantendo os mais altos padrões de excelência e compromisso."
+      "title": "Sobre a JBE: Seu Parceiro Confiável em Soluções Farmacêuticas",
+      "description": "Fundada há mais de três décadas, a Joint Bill Comercial, Industrial e Serviços de Engenharia Ltda (JBE) consolidou-se como um pilar da indústria farmacêutica brasileira. Com um compromisso inabalável com qualidade, inovação e satisfação do cliente, especializamo-nos na importação, distribuição e revenda de equipamentos e embalagens farmacêuticas de alta performance.",
+      "mission": {
+        "title": "Nossa Missão",
+        "description": "Capacitar fabricantes farmacêuticos com as ferramentas e a expertise necessárias para produzir medicamentos seguros, eficazes e de alta qualidade."
+      },
+      "clients": {
+        "title": "Nosso Legado de Excelência",
+        "description": "Ao longo de 31 anos, a JBE tem orgulho de atender algumas das instituições públicas mais prestigiadas do Brasil:",
+        "list": [
+          "FURP (Fundação para o Remédio Popular – São Paulo)",
+          "Fiocruz Bio-Manguinhos",
+          "Lafepe (Laboratório Farmacêutico de Pernambuco)",
+          "FUNED (Fundação Ezequiel Dias – Minas Gerais)",
+          "BahiaFarma (Bahia)",
+          "Laboratórios do Exército, Marinha e Aeronáutica"
+        ]
+      },
+      "vision": {
+        "title": "Nossa Visão",
+        "description": "Ser o parceiro preferencial de fabricantes farmacêuticos que buscam soluções inovadoras, sustentáveis e econômicas."
+      }
     },
     "equipment": {
       "title": "Equipamentos e Ferramental",
@@ -230,6 +138,133 @@
       "equipment3": {
         "title": "Equipamentos de Segurança",
         "description": "Equipamentos de proteção individual e coletiva."
+      }
+    },
+    "services": {
+      "title": "Produtos e Serviços",
+      "subtitle": "Soluções Completas para a Excelência Farmacêutica",
+      "description": "Na JBE, oferecemos uma gama completa de equipamentos farmacêuticos, soluções de embalagem e serviços técnicos projetados para otimizar seus processos produtivos.",
+      "equipment": {
+        "title": "Equipamentos Farmacêuticos",
+        "description": "Oferecemos uma ampla gama de equipamentos farmacêuticos de alta qualidade para atender às necessidades específicas da sua empresa.",
+        "categories": {
+          "solids": {
+            "title": "Equipamentos para Sólidos",
+            "description": "Linha completa de equipamentos para processamento de sólidos, incluindo misturadores, granuladores e compressores."
+          },
+          "packaging": {
+            "title": "Equipamentos para Embalagem",
+            "description": "Soluções avançadas para embalagem, incluindo máquinas de enchimento, selagem e rotulagem."
+          },
+          "cleanroom": {
+            "title": "Equipamentos para Sala Limpa",
+            "description": "Equipamentos especializados para ambientes controlados, garantindo a qualidade e segurança dos produtos."
+          }
+        }
+      },
+      "packaging": {
+        "title": "Embalagens Farmacêuticas",
+        "description": "Soluções completas em embalagens para o setor farmacêutico, garantindo a integridade e segurança dos produtos.",
+        "categories": {
+          "plastic": {
+            "title": "Embalagens Plásticas",
+            "description": "Ampla variedade de embalagens plásticas para medicamentos, incluindo frascos, potes e blister packs."
+          },
+          "blister": {
+            "title": "Blister Packs",
+            "description": "Soluções personalizadas em blister packs para diferentes tipos de medicamentos e dosagens."
+          },
+          "glass": {
+            "title": "Embalagens em Vidro",
+            "description": "Embalagens em vidro de alta qualidade para produtos farmacêuticos que requerem máxima proteção."
+          }
+        }
+      },
+      "technical": {
+        "title": "Serviços Técnicos",
+        "description": "Oferecemos serviços técnicos especializados para garantir o funcionamento ideal dos seus equipamentos.",
+        "services": {
+          "installation": {
+            "title": "Instalação",
+            "description": "Instalação profissional de equipamentos, seguindo todas as normas e regulamentações do setor."
+          },
+          "maintenance": {
+            "title": "Manutenção",
+            "description": "Programas de manutenção preventiva e corretiva para garantir a longevidade dos equipamentos."
+          },
+          "consulting": {
+            "title": "Consultoria",
+            "description": "Consultoria técnica especializada para otimização de processos e seleção de equipamentos."
+          }
+        }
+      }
+    },
+    "public": {
+      "title": "Expertise no Setor Público: Confiança das Principais Instituições do Brasil",
+      "description": "Há mais de 31 anos, a JBE é a escolha preferencial do setor público farmacêutico brasileiro, fornecendo equipamentos e embalagens por meio de licitações públicas competitivas.",
+      "certifications": {
+        "title": "Excelência Certificada",
+        "items": {
+          "qi": {
+            "title": "Qualificação de Instalação (QI)",
+            "description": "Garante configuração e integração adequadas."
+          },
+          "qo": {
+            "title": "Qualificação de Operação (QO)",
+            "description": "Verifica a funcionalidade do equipamento."
+          },
+          "qd": {
+            "title": "Qualificação de Desempenho (QD)",
+            "description": "Confirma desempenho consistente em condições reais."
+          }
+        }
+      }
+    },
+    "partners": {
+      "title": "Nossos Parceiros Confiáveis",
+      "subtitle": "Líderes Globais em Soluções Farmacêuticas",
+      "description": "Na JBE, colaboramos com os fabricantes mais respeitados do mundo para oferecer tecnologia de ponta e soluções de embalagem.",
+      "list": {
+        "freund": {
+          "name": "Freund-Vector",
+          "description": "Líder global em equipamentos para processamento de sólidos, oferecendo granuladores, prensas de comprimidos e sistemas de revestimento."
+        },
+        "fabrima": {
+          "name": "Fabrima",
+          "description": "Principal fabricante brasileiro de máquinas de embalagem, especializado em soluções de cartonagem, envase e encaixotamento."
+        },
+        "acg": {
+          "name": "ACG",
+          "description": "Líder mundial em filmes e folhas de barreira, fornecendo soluções de embalagem blister sustentáveis e de alto desempenho."
+        },
+        "gerresheimer": {
+          "name": "Gerresheimer",
+          "description": "Especialista global em embalagens farmacêuticas de plástico e vidro, oferecendo frascos, gotejadores e fechamentos."
+        },
+        "controlar": {
+          "name": "Controlar Filtros",
+          "description": "Especialista em sistemas de filtragem para salas limpas e segurança biológica, garantindo ambientes livres de contaminação."
+        }
+      }
+    },
+    "contact": {
+      "title": "Entre em Contato com a JBE",
+      "description": "Pronto para elevar suas operações farmacêuticas com as soluções de classe mundial da JBE? Nossa equipe está pronta para oferecer suporte personalizado.",
+      "info": {
+        "phone": "Telefone",
+        "email": "E-mail",
+        "address": "Endereço"
+      },
+      "form": {
+        "title": "Formulário de Consulta",
+        "description": "Preencha o formulário abaixo para solicitar um orçamento, agendar uma consulta ou saber mais sobre nossas soluções.",
+        "fields": {
+          "name": "Nome",
+          "email": "E-mail",
+          "company": "Empresa",
+          "message": "Mensagem",
+          "submit": "Enviar Mensagem"
+        }
       }
     }
   }

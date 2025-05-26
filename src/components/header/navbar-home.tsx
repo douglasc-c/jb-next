@@ -28,7 +28,7 @@ export function NavbarHome() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-slate-50/90 backdrop-blur-md shadow-lg'
+          ? 'bg-slate-50/90 backdrop-blur-md shadow-lg text-zinc-200 md:text-zinc-900'
           : 'bg-transparent text-zinc-200'
       }`}
     >
@@ -101,7 +101,17 @@ export function NavbarHome() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="font-semibold transition-colors"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? (
+                <X
+                  size={24}
+                  className={` ${scrolled ? 'text-zinc-900' : 'text-zinc-200'}`}
+                />
+              ) : (
+                <Menu
+                  size={24}
+                  className={` ${scrolled ? 'text-zinc-900' : 'text-zinc-200'}`}
+                />
+              )}
             </button>
           </div>
         </div>
