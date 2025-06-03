@@ -106,12 +106,20 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-50 p-6 rounded-lg"
+                className="bg-stone-100 p-6 rounded-lg shadow-md"
               >
+                <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
+                  <Image
+                    src={`/images/png/${category}.jpeg`}
+                    alt={t(`services.${category}.title`)}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <h3 className="text-2xl font-semibold mb-4 text-blue-900">
                   {t(`services.${category}.title`)}
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-stone-600 mb-6">
                   {t(`services.${category}.description`)}
                 </p>
                 <Link
