@@ -12,13 +12,15 @@ export function Footer() {
           {/* Logo e Descrição */}
           <div className="col-span-1 md:col-span-2">
             <Image
-              src="/images/png/logo.png"
-              alt="JBE Logo"
-              width={150}
-              height={150}
-              className="mb-6"
+              src={`/images/svg/logo.svg`}
+              alt="logo"
+              height={280}
+              width={280}
+              className="transition-all duration-300"
             />
-            <p className="text-slate-900 mb-6">{t('about.description')}</p>
+            <p className="text-slate-900 mb-6 text-justify">
+              {t('about.description')}
+            </p>
             <div className="flex space-x-4">
               <a
                 href="https://wa.me/5541999999999"
@@ -34,23 +36,67 @@ export function Footer() {
                 />
               </a>
               <a
+                href="https://instagram.com/jointbill"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-title text-white p-3 rounded-full hover:bg-blue-900 transition-colors"
+              >
+                <Image
+                  src="/images/svg/instagram.svg"
+                  width={24}
+                  height={24}
+                  alt="Instagram"
+                />
+              </a>
+              <a
+                href="https://x.com/jointbill"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-title text-white p-3 rounded-full hover:bg-blue-900 transition-colors"
+              >
+                <Image
+                  src="/images/svg/x.svg"
+                  width={24}
+                  height={24}
+                  alt="X (Twitter)"
+                />
+              </a>
+              <a
+                href="https://t.me/jointbill"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-title text-white p-3 rounded-full hover:bg-blue-900 transition-colors"
+              >
+                <Image
+                  src="/images/svg/telegram.svg"
+                  width={24}
+                  height={24}
+                  alt="Telegram"
+                />
+              </a>
+              <a
+                href="https://linkedin.com/company/jointbill"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-title text-white p-3 rounded-full hover:bg-blue-900 transition-colors"
+              >
+                <Image
+                  src="/images/svg/linkedin.svg"
+                  width={24}
+                  height={24}
+                  alt="LinkedIn"
+                />
+              </a>
+              <a
                 href="mailto:contato@jointbill.com.br"
                 className="bg-title text-white p-3 rounded-full hover:bg-blue-900 transition-colors"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+                <Image
+                  src="/images/svg/email.svg"
+                  width={24}
+                  height={24}
+                  alt="Email"
+                />
               </a>
             </div>
           </div>

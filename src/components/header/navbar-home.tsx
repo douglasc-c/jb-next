@@ -37,10 +37,10 @@ export function NavbarHome() {
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-title">
               <Image
-                src={`/images/png/logo.png`}
+                src={`/images/svg/logo.svg`}
                 alt="logo"
-                height={130}
-                width={130}
+                height={280}
+                width={280}
                 className="transition-all duration-300"
               />
             </Link>
@@ -72,7 +72,7 @@ export function NavbarHome() {
                 pathname === '/equipment' ? 'text-title' : ''
               }`}
             >
-              Equipamentos e Ferramental
+              Produtos, Equipamentos e Ferramental
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link

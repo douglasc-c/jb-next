@@ -2,7 +2,8 @@
   "TextLang": {
     "home": {
       "hero": {
-        "title": "Bem-vindo à Joint Bill Comercial, Industrial e Serviços de Engenharia (JBE)",
+        "title": "Bem-vindo à",
+        "subtitle": "Joint Bill Comercial, Industrial e Serviços de Engenharia (JBE)",
         "description": "Há mais de 31 anos, a JBE é referência em importação, distribuição e fornecimento de equipamentos e embalagens para a indústria farmacêutica no Brasil. Especializada em atender às demandas do setor público e privado, entregamos tecnologia de ponta e produtos de alta qualidade que garantem excelência em cada etapa da produção farmacêutica.",
         "cta": "Conheça Nossas Soluções"
       },
@@ -126,7 +127,7 @@
       }
     },
     "equipment": {
-      "title": "Equipamentos e Ferramental",
+      "title": "Produtos, Equipamentos e Ferramental",
       "equipment1": {
         "title": "Equipamentos de Precisão",
         "description": "Equipamentos de alta precisão para medições e análises."

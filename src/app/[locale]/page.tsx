@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Footer } from '@/components/footer'
+import { TypeAnimation } from 'react-type-animation'
 
 export default function Home() {
   const t = useTranslations('TextLang')
@@ -16,15 +17,17 @@ export default function Home() {
       <NavbarHome />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-blue-950 to-blue-900 text-white md:p-8">
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-blue-950 to-blue-900 text-white">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/carousel/carrossel-1.jpeg"
-            alt="Hero Background"
-            fill
-            className="object-cover opacity-60"
-            priority
-          />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-60"
+          >
+            <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          </video>
         </div>
         <div className="container mx-auto px-4 z-10 text-center">
           <motion.h1
@@ -33,7 +36,27 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-3xl md:text-5xl font-bold mb-6"
           >
-            {t('home.hero.title')}
+            <TypeAnimation
+              sequence={[t('home.hero.title')]}
+              wrapper="span"
+              speed={50}
+              cursor={true}
+              repeat={0}
+            />
+          </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-3xl md:text-2xl font-bold mb-6"
+          >
+            <TypeAnimation
+              sequence={[1000, t('home.hero.subtitle')]}
+              wrapper="span"
+              speed={50}
+              cursor={true}
+              repeat={0}
+            />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -77,7 +100,7 @@ export default function Home() {
                   <h3 className="text-xl font-semibold mb-3 text-blue-900">
                     {t(`home.differentials.items.${item}.title`)}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-justify">
                     {t(`home.differentials.items.${item}.description`)}
                   </p>
                 </motion.div>
@@ -106,27 +129,26 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-stone-100 p-6 rounded-lg shadow-md"
+                className="bg-stone-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
               >
-                <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
-                  <Image
-                    src={`/images/png/${category}.jpeg`}
-                    alt={t(`services.${category}.title`)}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-blue-900">
-                  {t(`services.${category}.title`)}
-                </h3>
-                <p className="text-stone-600 mb-6">
-                  {t(`services.${category}.description`)}
-                </p>
-                <Link
-                  href={`/services#${category}`}
-                  className="text-blue-900 font-semibold hover:text-blue-700 transition-colors"
-                >
-                  Saiba mais →
+                <Link href={`/services#${category}`} className="block">
+                  <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
+                    <Image
+                      src={`/images/png/${category}.jpeg`}
+                      alt={t(`services.${category}.title`)}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-4 text-blue-900">
+                    {t(`services.${category}.title`)}
+                  </h3>
+                  <p className="text-stone-600 mb-6 text-justify">
+                    {t(`services.${category}.description`)}
+                  </p>
+                  <span className="text-blue-900 font-semibold hover:text-blue-700 transition-colors">
+                    Saiba mais →
+                  </span>
                 </Link>
               </motion.div>
             ))}
@@ -159,7 +181,7 @@ export default function Home() {
                   <h3 className="text-xl font-semibold mb-3 text-blue-900">
                     {t(`partners.list.${partner}.name`)}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-justify">
                     {t(`partners.list.${partner}.description`)}
                   </p>
                 </motion.div>
