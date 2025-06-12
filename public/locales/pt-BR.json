@@ -267,6 +267,270 @@
           "submit": "Enviar Mensagem"
         }
       }
+    },
+    "products": {
+      "title": "Produtos: Soluções Diversificadas para Indústrias de Alta Performance",
+      "subtitle": "Há mais de 31 anos, a Joint Bill Comercial, Industrial e Serviços de Engenharia Ltda (JBE) é referência no fornecimento de produtos para as indústrias farmacêutica, química e metal-mecânica, além de atender a uma ampla gama de setores com soluções inovadoras e certificadas.",
+      "expertise": "Nosso portfólio diversificado inclui desde equipamentos especializados até embalagens e mobiliários, todos projetados para atender às exigências de qualidade, segurança e eficiência de nossos clientes no setor público e privado.",
+      "expertiseItems": {
+        "certifications": "Certificações",
+        "globalPartnerships": "Parcerias Globais",
+        "stateLabs": "Laboratórios Estatais",
+        "startups": "Startups"
+      },
+      "learnMore": "Saiba Mais",
+      "multisector": {
+        "title": "Expertise Multissetorial",
+        "description": "Com uma trajetória consolidada, a JBE combina conhecimento técnico e parcerias globais com líderes como Freund-Vector, Fabrima, ACG e Gerresheimer para oferecer produtos que atendem às normas regulatórias, como as da Anvisa, e às necessidades específicas de cada indústria. Nossa capacidade de fornecimento abrange desde laboratórios estatais até startups, garantindo soluções personalizadas para projetos de todos os tamanhos."
+      },
+      "plasticBags": {
+        "name": "Sacos Plásticos",
+        "description": "Disponíveis em versões seláveis ou não seláveis, Zip Lock, nossos sacos plásticos são ideais para embalagem de produtos farmacêuticos, químicos e alimentícios."
+      },
+      "ultraFreezers": {
+        "name": "Ultracongeladores Científicos",
+        "description": "Câmaras refrigeradas, refrigeradores especializados e ultracongeladores para armazenamento de vacinas, medicamentos e amostras biológicas."
+      },
+      "cartonage": {
+        "name": "Cartonagem e Cartuchos",
+        "description": "Soluções de cartonagem para embalagens de medicamentos e produtos alimentícios, incluindo cartuchos personalizados com acabamentos de alta resistência."
+      },
+      "leaflets": {
+        "name": "Bulas",
+        "description": "Produzimos bulas para medicamentos, com impressão de alta qualidade e informações claras, atendendo às normas da Anvisa."
+      },
+      "labEquipment": {
+        "name": "Equipamentos para Laboratórios",
+        "description": "Linha completa de equipamentos para laboratórios, incluindo centrífugas, espectrofotômetros, incubadoras e microscópios."
+      },
+      "thermalBoxes": {
+        "name": "Caixas Térmicas",
+        "description": "Caixas térmicas projetadas para o transporte seguro de vacinas e medicamentos termossensíveis, mantendo temperaturas controladas."
+      },
+      "orthopedicEquipment": {
+        "name": "Equipamentos Ortopédicos",
+        "description": "Equipamentos especializados para ortopedia e fitness, incluindo sistemas de mobilidade e reabilitação."
+      },
+      "specialLabels": {
+        "name": "Rótulos Especiais",
+        "description": "Rótulos personalizados para medicamentos, produtos químicos e alimentícios, com tecnologias de impressão de alta definição."
+      },
+      "software": {
+        "name": "Softwares e Automação",
+        "description": "Softwares de gestão e automação para laboratórios e startups, além de equipamentos para instalações industriais."
+      },
+      "stainlessFurniture": {
+        "name": "Mobiliário em Aço Inox",
+        "description": "Linha de mobiliário em aço inoxidável para laboratórios, incluindo bancadas, armários, pias e carrinhos."
+      },
+      "features": {
+        "selfWashable": "Auto lavável",
+        "sealable": "Selável",
+        "zipLock": "Zip Lock",
+        "pharmaGrade": "Grau farmacêutico",
+        "temperatureControl": "Controle de temperatura",
+        "vaccineStorage": "Armazenamento de vacinas",
+        "scientificGrade": "Grau científico",
+        "certified": "Certificado",
+        "customDesign": "Design personalizado",
+        "highResistance": "Alta resistência",
+        "regulatoryCompliant": "Conforme regulamentações",
+        "highQuality": "Alta qualidade",
+        "anvisaCompliant": "Conforme Anvisa",
+        "clearInfo": "Informações claras",
+        "customizable": "Personalizável",
+        "microbiology": "Microbiologia",
+        "chemistry": "Química",
+        "physics": "Física",
+        "validated": "Validado",
+        "vaccineTransport": "Transporte de vacinas",
+        "biosafety": "Biossegurança",
+        "longDuration": "Longa duração",
+        "mobility": "Mobilidade",
+        "rehabilitation": "Reabilitação",
+        "fitness": "Fitness",
+        "ergonomic": "Ergonômico",
+        "highDefinition": "Alta definição",
+        "resistant": "Resistente",
+        "automation": "Automação",
+        "management": "Gestão",
+        "scalable": "Escalável",
+        "innovative": "Inovador",
+        "cleanRoom": "Sala limpa",
+        "corrosionResistant": "Resistente à corrosão",
+        "hygienic": "Higiénico"
+      },
+      "quality": {
+        "title": "Compromisso com Qualidade e Conformidade",
+        "description": "Todos os nossos produtos são fornecidos com certificações que atendem às normas regulatórias, garantindo a excelência em cada etapa.",
+        "certifications": "Certificações",
+        "certificationsDesc": "Validação por QI, QO e QD para equipamentos e conformidade com BPF para embalagens.",
+        "technical": "Suporte Técnico",
+        "technicalDesc": "Equipe técnica composta por engenheiros registrados no CREA, garantindo suporte completo.",
+        "support": "Qualidade Garantida",
+        "supportDesc": "Suporte completo desde a instalação até a manutenção, assegurando o desempenho ideal."
+      },
+      "cta": {
+        "title": "Transforme Desafios em Oportunidades",
+        "description": "Seja para equipar laboratórios, otimizar embalagens ou apoiar startups, a JBE é sua parceira estratégica.",
+        "catalog": "Catálogo de Produtos",
+        "specs": "Especificações Técnicas"
+      },
+      "productsGrid": {
+        "title": "Nossa Gama de Produtos",
+        "description": "Explore abaixo nossa linha de produtos, desenvolvida para atender às demandas de produção, embalagem, armazenamento e inovação em diversos setores:"
+      },
+      "downloads": {
+        "title": "Documentação",
+        "catalog": "Catálogo de Produtos",
+        "technical": "Especificações Técnicas"
+      }
+    },
+    "supplier": {
+      "title": "Fornecedor Reconhecido: Excelência em Licitações Públicas",
+      "description": "Com mais de 31 anos de experiência, a Joint Bill Comercial, Industrial e Serviços de Engenharia Ltda (JBE) é um fornecedor altamente qualificado e reconhecido para atender às demandas do setor público brasileiro. Especializada em licitações públicas nas esferas federal, estadual e municipal, a JBE combina expertise técnica, jurídica, financeira e comercial para entregar equipamentos, embalagens e serviços que fortalecem a relação público-privada, com foco na eficiência e na conformidade.",
+      "sicaf": {
+        "title": "Cadastro no SICAF:",
+        "subtitle": "Porta de Entrada para Fornecimentos Federais",
+        "description": "A JBE está registrada no Sistema de Cadastramento Unificado de Fornecedores (SICAF), a plataforma oficial do governo federal que habilita fornecedores a participar de licitações e compras públicas. Esse cadastro nos permite atender com agilidade e transparência órgãos federais.",
+        "ministries": {
+          "health": "Ministério da Saúde",
+          "education": "Ministério da Educação",
+          "science": "Ministério da Ciência, Tecnologia e Inovações",
+          "defense": "Ministério da Defesa (Exército, Marinha e Aeronáutica)",
+          "sports": "Ministério dos Esportes",
+          "tourism": "Ministério do Turismo"
+        }
+      },
+      "registrations": {
+        "title": "Registros Profissionais: Garantia de Qualificação Técnica",
+        "description": "A JBE possui registros nos principais conselhos profissionais, reforçando nossa competência para atender às exigências técnicas de editais públicos:",
+        "crea": {
+          "title": "CREA (Conselho Regional de Engenharia e Arquitetura)",
+          "description": "Contamos com engenheiros mecânicos, eletricistas e civis registrados, habilitados para emitir Anotações de Responsabilidade Técnica (ARTs) e realizar atividades técnicas em projetos de engenharia correlatos às licitações."
+        },
+        "cfc": {
+          "title": "CFC (Conselho Federal de Química)",
+          "description": "Nosso registro assegura conformidade em processos químicos relacionados à produção e embalagem farmacêutica."
+        },
+        "core": {
+          "title": "CORE (Conselho Regional dos Representantes Comerciais)",
+          "description": "Garante nossa atuação profissional como distribuidores e revendedores, fortalecendo nossa qualificação comercial."
+        }
+      },
+      "team": {
+        "title": "Equipe Multidisciplinar para Licitações de Sucesso",
+        "description": "Nossa equipe é composta por profissionais especializados nas áreas jurídica, técnica, financeira-econômica e comercial, garantindo excelência em todas as etapas do processo licitatório:",
+        "technical": {
+          "title": "Qualificação Técnica",
+          "description": "Fornecemos atestados de capacidade técnica, certificações Anvisa (Qualificação de Instalação – QI, Operação – QO, Desempenho – QD) e documentação técnica completa, incluindo ARTs emitidas por engenheiros registrados."
+        },
+        "legal": {
+          "title": "Qualificação Jurídica",
+          "description": "Apresentamos documentação completa, como contratos sociais, certidões negativas e registros nos conselhos profissionais, atendendo às exigências legais dos editais."
+        },
+        "financial": {
+          "title": "Qualificação Financeira",
+          "description": "Demonstramos saúde financeira com balanços patrimoniais, índices econômicos e patrimônio líquido que cumprem os requisitos de habilitação."
+        },
+        "commercial": {
+          "title": "Qualificação Comercial",
+          "description": "Nosso histórico de 31 anos inclui fornecimentos bem-sucedidos para órgãos públicos, com entregas conformes e dentro dos prazos."
+        }
+      },
+      "national": {
+        "title": "Atuação Nacional em Todas as Esferas",
+        "description": "Na esfera federal, a JBE atende ministérios, autarquias e as Forças Armadas, fornecendo equipamentos de alta tecnologia e embalagens certificadas para projetos estratégicos. Nas esferas estadual e municipal, estamos cadastrados em secretarias como Saúde, Educação, Segurança Pública e Turismo em diversos estados da federação, além de prefeituras em todo o Brasil."
+      },
+      "commitment": {
+        "title": "Compromisso com a Excelência Governamental",
+        "description": "Como uma empresa especializada em fornecimentos governamentais, a JBE alia sua experiência de mais de três décadas a uma abordagem estratégica para licitações. Nosso objetivo é garantir o melhor desempenho na entrega de bens e serviços, contribuindo para o fortalecimento das instituições públicas e a melhoria da saúde pública no Brasil."
+      },
+      "cta": {
+        "title": "Entre em Contato para Licitações",
+        "description": "Seja para fornecer equipamentos farmacêuticos de ponta, embalagens conformes ou serviços técnicos certificados, a JBE é sua parceira confiável para licitações públicas em todo o Brasil."
+      }
+    },
+    "clients": {
+      "hero": {
+        "title": "Nossos Clientes: Parcerias de Confiança com o Setor Público",
+        "description": "Há mais de 31 anos, a Joint Bill Comercial, Industrial e Serviços de Engenharia Ltda (JBE) constrói parcerias sólidas com alguns dos mais prestigiados laboratórios estatais e repartições públicas do Brasil. Nossa trajetória é marcada pelo fornecimento de equipamentos farmacêuticos, embalagens certificadas e serviços técnicos de alta qualidade, atendendo às exigentes demandas das esferas federal, estadual e municipal."
+      },
+      "labs": {
+        "title": "Laboratórios Estatais de Referência",
+        "description": "Estamos orgulhosos de atender instituições renomadas que desempenham papéis estratégicos na saúde pública brasileira. Entre nossos clientes, destacam-se:",
+        "list": [
+          {
+            "name": "Laboratório Farmacêutico do Exército (LQFEx)",
+            "description": "Fornecimento de equipamentos e embalagens para a produção de medicamentos essenciais"
+          },
+          {
+            "name": "Laboratório Farmacêutico da Marinha (LFM)",
+            "description": "Soluções técnicas e embalagens para atender às necessidades da saúde naval"
+          },
+          {
+            "name": "Laboratórios da Aeronáutica",
+            "description": "Equipamentos especializados e serviços de validação para unidades de produção farmacêutica"
+          },
+          {
+            "name": "FURP (Fundação para o Remédio Popular – São Paulo)",
+            "description": "Parcerias de longa data para fornecimento de máquinas e embalagens invioláveis"
+          },
+          {
+            "name": "FUNED (Fundação Ezequiel Dias – Minas Gerais)",
+            "description": "Suporte técnico e embalagens para medicamentos e vacinas"
+          },
+          {
+            "name": "Fiocruz Bio-Manguinhos",
+            "description": "Equipamentos de ponta para produção de imunobiológicos e embalagens de alta segurança"
+          },
+          {
+            "name": "BahiaFarma (Bahia)",
+            "description": "Fornecimento de sistemas de granulação, máquinas de embalagem e frascos certificados"
+          },
+          {
+            "name": "Lafepe (Laboratório Farmacêutico de Pernambuco)",
+            "description": "Soluções completas para produção e embalagem de medicamentos"
+          }
+        ]
+      },
+      "public": {
+        "title": "Repartições Públicas Atendidas",
+        "description": "Esses laboratórios representam apenas uma parcela de nosso extenso portfólio de clientes. Ao longo de três décadas, a JBE também atendeu diversas outras repartições públicas, incluindo:",
+        "categories": {
+          "federal": {
+            "title": "Ministérios Federais",
+            "items": ["Saúde", "Educação", "Defesa", "Ciência e Tecnologia", "Esportes", "Turismo"]
+          },
+          "state": {
+            "title": "Secretarias Estaduais",
+            "items": ["Saúde", "Educação", "Segurança Pública", "Turismo"]
+          },
+          "municipal": {
+            "title": "Prefeituras Municipais",
+            "items": ["Soluções personalizadas para atender às necessidades locais em todo o Brasil"]
+          }
+        }
+      },
+      "commitment": {
+        "title": "Compromisso com a Excelência",
+        "description": "Cada parceria reflete nosso compromisso com a qualidade, a conformidade regulatória e a entrega pontual. Nossos equipamentos e embalagens atendem às normas da Anvisa, com validação por Qualificação de Instalação (QI), Operação (QO) e Desempenho (QD), garantindo segurança e eficiência para o setor público. Nossa experiência em licitações públicas, aliada ao cadastro no SICAF e registros em conselhos como CREA, CFC e CORE, nos posiciona como um fornecedor confiável para projetos de saúde pública. A confiança depositada por essas instituições é o resultado de nossa dedicação em oferecer soluções inovadoras e certificadas, contribuindo para a produção de medicamentos acessíveis e de qualidade para a população brasileira."
+      },
+      "cta": {
+        "title": "Conheça Nossas Soluções para o Setor Público"
+      }
+    },
+    "navbar": {
+      "home": "Início",
+      "about": "Sobre Nós",
+      "products": "Produtos",
+      "services": "Serviços",
+      "expertise": "Expertise no Setor Público",
+      "supplier": "Fornecedor Reconhecido",
+      "clients": "Nossos Clientes",
+      "partners": "Parceiros",
+      "imports": "Importações & Exportações",
+      "contact": "Contato"
     }
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { NavbarHome } from '@/components/header/navbar-home'
+import { NavbarHome } from '@/components/navbar'
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -129,7 +129,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-stone-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <Link href={`/services#${category}`} className="block">
                   <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { NavbarHome } from '@/components/header/navbar-home'
+import { NavbarHome } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
