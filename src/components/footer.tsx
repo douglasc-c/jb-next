@@ -112,7 +112,7 @@ export function Footer() {
                   href="/"
                   className="text-slate-900 hover:text-white transition-colors"
                 >
-                  Início
+                  {t('navbar.home')}
                 </Link>
               </li>
               <li>
@@ -120,15 +120,55 @@ export function Footer() {
                   href="/about"
                   className="text-slate-900 hover:text-white transition-colors"
                 >
-                  Sobre Nós
+                  {t('navbar.about')}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/products"
                   className="text-slate-900 hover:text-white transition-colors"
                 >
-                  Serviços
+                  {t('navbar.products')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/expertise"
+                  className="text-slate-900 hover:text-white transition-colors"
+                >
+                  {t('navbar.expertise')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/supplier"
+                  className="text-slate-900 hover:text-white transition-colors"
+                >
+                  {t('navbar.supplier')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/clients"
+                  className="text-slate-900 hover:text-white transition-colors"
+                >
+                  {t('navbar.clients')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/imports&exports"
+                  className="text-slate-900 hover:text-white transition-colors"
+                >
+                  {t('navbar.imports')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/partners"
+                  className="text-slate-900 hover:text-white transition-colors"
+                >
+                  {t('navbar.partners')}
                 </Link>
               </li>
               <li>
@@ -136,7 +176,7 @@ export function Footer() {
                   href="/contact"
                   className="text-slate-900 hover:text-white transition-colors"
                 >
-                  Contato
+                  {t('navbar.contact')}
                 </Link>
               </li>
             </ul>
