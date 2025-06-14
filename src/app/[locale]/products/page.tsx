@@ -385,7 +385,7 @@ export default function ProductsPage() {
               {t('cta.title')}
             </h2>
             <p className="text-xl mb-8 text-white/90">{t('cta.description')}</p>
-            <div className="flex flex-row gap-4 justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center">
               <Button
                 variant="secondary"
                 size="lg"
