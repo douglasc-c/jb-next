@@ -145,6 +145,18 @@
       "title": "Produtos e Serviços",
       "subtitle": "Soluções Completas para a Excelência Farmacêutica",
       "description": "Na JBE, oferecemos uma gama completa de equipamentos farmacêuticos, soluções de embalagem e serviços técnicos projetados para otimizar seus processos produtivos.",
+      "products": {
+        "title": "Produtos",
+        "description": "Oferecemos uma ampla gama de equipamentos farmacêuticos de alta qualidade para atender às necessidades específicas da sua empresa."
+      },
+      "supplier": {
+        "title": "Fornecedor Reconhecido",
+        "description": "Especializados em licitações públicas, fornecemos equipamentos e embalagens certificadas para o setor público."
+      },
+      "imports": {
+        "title": "Importações & Exportações",
+        "description": "Realizamos importação e exportação de equipamentos e materiais para a indústria farmacêutica, com expertise em logística internacional."
+      },
       "equipment": {
         "title": "Equipamentos Farmacêuticos",
         "description": "Oferecemos uma ampla gama de equipamentos farmacêuticos de alta qualidade para atender às necessidades específicas da sua empresa.",

@@ -123,7 +123,7 @@ export default function Home() {
             {t('services.description')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {['equipment', 'packaging', 'technical'].map((category, index) => (
+            {['products', 'supplier', 'imports'].map((category, index) => (
               <motion.div
                 key={category}
                 initial={{ opacity: 0, y: 20 }}
@@ -131,10 +131,10 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
               >
-                <Link href={`/services#${category}`} className="block">
+                <Link href={`/${category}`} className="block">
                   <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
                     <Image
-                      src={`/images/png/${category}.jpeg`}
+                      src={`/images/jpg/${category}.jpeg`}
                       alt={t(`services.${category}.title`)}
                       fill
                       className="object-cover"

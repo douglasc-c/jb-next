@@ -57,7 +57,7 @@ export default function Supplier() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center md:pl-14">
             <div className="relative h-[400px] rounded-xl overflow-hidden">
               <Image
-                src="/images/jpg/equipment.jpeg"
+                src="/images/png/sicaf.png"
                 alt="SICAF Illustration"
                 fill
                 className="object-cover rounded-xl"
@@ -143,7 +143,7 @@ export default function Supplier() {
                 className="relative w-96 h-96"
               >
                 <Image
-                  src="/images/jpg/equipment.jpeg"
+                  src="/images/png/actuation.png"
                   alt="SICAF Illustration"
                   fill
                   className="object-cover rounded-xl"
