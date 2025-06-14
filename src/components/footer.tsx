@@ -106,80 +106,62 @@ export function Footer() {
             <h3 className="text-xl font-semibold mb-4 text-slate-900">
               Links Rápidos
             </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.home')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.about')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.products')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/expertise"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.expertise')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/supplier"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.supplier')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/clients"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.clients')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/imports&exports"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.imports')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/partners"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.partners')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-slate-900 hover:text-white transition-colors"
-                >
-                  {t('navbar.contact')}
-                </Link>
-              </li>
-            </ul>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+              <Link
+                href="/"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.home')}
+              </Link>
+              <Link
+                href="/about"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.about')}
+              </Link>
+              <Link
+                href="/products"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.products')}
+              </Link>
+              <Link
+                href="/expertise"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.expertise')}
+              </Link>
+              <Link
+                href="/supplier"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.supplier')}
+              </Link>
+              <Link
+                href="/clients"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.clients')}
+              </Link>
+              <Link
+                href="/imports&exports"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.imports')}
+              </Link>
+              <Link
+                href="/partners"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.partners')}
+              </Link>
+              <Link
+                href="/contact"
+                className="text-slate-900 hover:text-white transition-colors"
+              >
+                {t('navbar.contact')}
+              </Link>
+            </div>
           </div>
 
           {/* Contato */}
