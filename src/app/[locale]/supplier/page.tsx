@@ -126,16 +126,16 @@ export default function Supplier() {
       {/* National Presence Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pl-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center md:pl-14">
             <div className="text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
                 {t('national.title')}
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-xl text-gray-600 md:text-justify">
                 {t('national.description')}
               </p>
             </div>
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
