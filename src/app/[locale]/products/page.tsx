@@ -103,6 +103,22 @@ export default function ProductsPage() {
       image: '/images/jpg/armario.jpg',
       features: ['cleanRoom', 'corrosionResistant', 'hygienic', 'customizable'],
     },
+    {
+      id: 11,
+      name: 'quadroComil',
+      description: 'quadroComil.description',
+      image: '/images/jpg/quadro-comil.jpg',
+      features: [
+        'highCapacity',
+        'narrowDistribution',
+        'lowHeat',
+        'minimalDust',
+        'easyMaintenance',
+        'gentleGrinding',
+        'fullDischarge',
+        'internationalStandards',
+      ],
+    },
   ]
 
   return (

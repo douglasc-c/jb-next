@@ -335,6 +335,7 @@
         "name": "Mobiliário em Aço Inox",
         "description": "Linha de mobiliário em aço inoxidável para laboratórios, incluindo bancadas, armários, pias e carrinhos."
       },
+     
       "features": {
         "selfWashable": "Auto lavável",
         "sealable": "Selável",
@@ -370,7 +371,15 @@
         "innovative": "Inovador",
         "cleanRoom": "Sala limpa",
         "corrosionResistant": "Resistente à corrosão",
-        "hygienic": "Higiénico"
+        "hygienic": "Higiénico",
+        "highCapacity": "Alta capacidade de produção",
+        "narrowDistribution": "Distribuição granulométrica estreita",
+        "lowHeat": "Baixa geração de calor",
+        "minimalDust": "Mínima geração de pó",
+        "easyMaintenance": "Fácil manutenção",
+        "gentleGrinding": "Moagem suave",
+        "fullDischarge": "Descarga positiva de 360°",
+        "internationalStandards": "Conformidade internacional"
       },
       "quality": {
         "title": "Compromisso com Qualidade e Conformidade",
@@ -396,6 +405,10 @@
         "title": "Documentação",
         "catalog": "Catálogo de Produtos",
         "technical": "Especificações Técnicas"
+      },
+      "quadroComil": {
+        "name": "Moinho Conical Quadro Comil®️ 194",
+        "description": "Na condição de importador e revendedor exclusivo no Brasil das marcas FREUND e QUADRO, disponibilizamos ao mercado nacional o Quadro Comil®️ Modelo 194, referência mundial em moagem cônica de alta performance. O Quadro Comil®️ Overdriven 194 é parte da série original de moinhos cônicos inventados pela Quadro Engineering em 1976. Este equipamento é amplamente utilizado para redução de tamanho, desaglomeração, dispersão, separação, reaproveitamento e ajuste de densidade aparente, oferecendo resultados escaláveis e repetíveis — do desenvolvimento à produção em larga escala."
       }
     },
     "supplier": {
