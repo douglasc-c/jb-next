@@ -1,15 +1,22 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { NavbarHome } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { AnimatedLogo, LoadingLogo, ParticleLogo } from '@/components/ui/animated-logo'
-import { TypewriterLogo, ShatterLogo, Particle3DLogo, EnergyLogo, HologramLogo } from '@/components/ui/advanced-logo-animations'
+import {
+  AnimatedLogo,
+  LoadingLogo,
+  ParticleLogo,
+} from '@/components/ui/animated-logo'
+import {
+  TypewriterLogo,
+  ShatterLogo,
+  Particle3DLogo,
+  EnergyLogo,
+  HologramLogo,
+} from '@/components/ui/advanced-logo-animations'
 import { motion } from 'framer-motion'
 
 export default function LogoAnimationsPage() {
-  const t = useTranslations('TextLang')
-
   const animations = [
     { name: 'Fade In', variant: 'fade-in' as const },
     { name: 'Slide In', variant: 'slide-in' as const },
@@ -298,14 +305,14 @@ export default function LogoAnimationsPage() {
               <h3 className="text-2xl font-semibold mb-6 text-blue-900">
                 Exemplos de Implementação
               </h3>
-              
+
               <div className="space-y-6">
                 <div>
                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
                     Animação Básica:
                   </h4>
                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<AnimatedLogo variant="fade-in" size="md" />`}
+                    {`<AnimatedLogo variant="fade-in" size="md" />`}
                   </pre>
                 </div>
 
@@ -314,7 +321,7 @@ export default function LogoAnimationsPage() {
                     Animação com Loop:
                   </h4>
                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<AnimatedLogo variant="pulse" size="lg" loop={true} />`}
+                    {`<AnimatedLogo variant="pulse" size="lg" loop={true} />`}
                   </pre>
                 </div>
 
@@ -323,97 +330,132 @@ export default function LogoAnimationsPage() {
                     Logo de Loading:
                   </h4>
                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<LoadingLogo size="md" />`}
+                    {`<LoadingLogo size="md" />`}
                   </pre>
                 </div>
 
-                                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo com Partículas:
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<ParticleLogo size="lg" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo com Partículas:
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<ParticleLogo size="lg" />`}
+                  </pre>
+                </div>
 
-                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo com Digitação:
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<TypewriterLogo size="md" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo com Digitação:
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<TypewriterLogo size="md" />`}
+                  </pre>
+                </div>
 
-                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo Interativo (Clique):
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<ShatterLogo size="lg" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo Interativo (Clique):
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<ShatterLogo size="lg" />`}
+                  </pre>
+                </div>
 
-                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo 3D com Partículas:
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<Particle3DLogo size="lg" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo 3D com Partículas:
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<Particle3DLogo size="lg" />`}
+                  </pre>
+                </div>
 
-                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo com Energia:
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<EnergyLogo size="lg" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo com Energia:
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<EnergyLogo size="lg" />`}
+                  </pre>
+                </div>
 
-                 <div>
-                   <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                     Logo Holográfico:
-                   </h4>
-                   <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<HologramLogo size="lg" />`}
-                   </pre>
-                 </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-gray-800">
+                    Logo Holográfico:
+                  </h4>
+                  <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+                    {`<HologramLogo size="lg" />`}
+                  </pre>
+                </div>
               </div>
 
-                             <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                 <h4 className="text-lg font-semibold mb-2 text-blue-900">
-                   Variantes Básicas:
-                 </h4>
-                 <ul className="text-gray-700 space-y-1">
-                   <li>• <strong>fade-in:</strong> Aparece gradualmente</li>
-                   <li>• <strong>slide-in:</strong> Desliza da esquerda</li>
-                   <li>• <strong>scale-in:</strong> Cresce do centro</li>
-                   <li>• <strong>rotate-in:</strong> Gira ao aparecer</li>
-                   <li>• <strong>bounce-in:</strong> Quica ao entrar</li>
-                   <li>• <strong>flip-in:</strong> Vira no eixo Y</li>
-                   <li>• <strong>pulse:</strong> Pulsa continuamente</li>
-                   <li>• <strong>float:</strong> Flutua suavemente</li>
-                   <li>• <strong>glow:</strong> Brilha periodicamente</li>
-                   <li>• <strong>morph:</strong> Transformação complexa</li>
-                 </ul>
-               </div>
+              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                <h4 className="text-lg font-semibold mb-2 text-blue-900">
+                  Variantes Básicas:
+                </h4>
+                <ul className="text-gray-700 space-y-1">
+                  <li>
+                    • <strong>fade-in:</strong> Aparece gradualmente
+                  </li>
+                  <li>
+                    • <strong>slide-in:</strong> Desliza da esquerda
+                  </li>
+                  <li>
+                    • <strong>scale-in:</strong> Cresce do centro
+                  </li>
+                  <li>
+                    • <strong>rotate-in:</strong> Gira ao aparecer
+                  </li>
+                  <li>
+                    • <strong>bounce-in:</strong> Quica ao entrar
+                  </li>
+                  <li>
+                    • <strong>flip-in:</strong> Vira no eixo Y
+                  </li>
+                  <li>
+                    • <strong>pulse:</strong> Pulsa continuamente
+                  </li>
+                  <li>
+                    • <strong>float:</strong> Flutua suavemente
+                  </li>
+                  <li>
+                    • <strong>glow:</strong> Brilha periodicamente
+                  </li>
+                  <li>
+                    • <strong>morph:</strong> Transformação complexa
+                  </li>
+                </ul>
+              </div>
 
-               <div className="mt-6 p-4 bg-green-50 rounded-lg">
-                 <h4 className="text-lg font-semibold mb-2 text-green-900">
-                   Componentes Especiais:
-                 </h4>
-                 <ul className="text-gray-700 space-y-1">
-                   <li>• <strong>LoadingLogo:</strong> Rotação contínua</li>
-                   <li>• <strong>ParticleLogo:</strong> Efeito de partículas</li>
-                   <li>• <strong>TypewriterLogo:</strong> Efeito de digitação</li>
-                   <li>• <strong>ShatterLogo:</strong> Quebra e reconstrução (clique)</li>
-                   <li>• <strong>Particle3DLogo:</strong> Partículas 3D</li>
-                   <li>• <strong>EnergyLogo:</strong> Raios de energia</li>
-                   <li>• <strong>HologramLogo:</strong> Efeito holográfico</li>
-                 </ul>
-               </div>
+              <div className="mt-6 p-4 bg-green-50 rounded-lg">
+                <h4 className="text-lg font-semibold mb-2 text-green-900">
+                  Componentes Especiais:
+                </h4>
+                <ul className="text-gray-700 space-y-1">
+                  <li>
+                    • <strong>LoadingLogo:</strong> Rotação contínua
+                  </li>
+                  <li>
+                    • <strong>ParticleLogo:</strong> Efeito de partículas
+                  </li>
+                  <li>
+                    • <strong>TypewriterLogo:</strong> Efeito de digitação
+                  </li>
+                  <li>
+                    • <strong>ShatterLogo:</strong> Quebra e reconstrução
+                    (clique)
+                  </li>
+                  <li>
+                    • <strong>Particle3DLogo:</strong> Partículas 3D
+                  </li>
+                  <li>
+                    • <strong>EnergyLogo:</strong> Raios de energia
+                  </li>
+                  <li>
+                    • <strong>HologramLogo:</strong> Efeito holográfico
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
