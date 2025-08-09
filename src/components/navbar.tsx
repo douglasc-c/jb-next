@@ -51,9 +51,7 @@ export function NavbarHome() {
     <motion.header
       className="fixed top-0 left-0 right-0 z-50"
       animate={{
-        backgroundColor: scrolled
-          ? 'rgba(248, 250, 252, 0.9)'
-          : 'rgba(0, 0, 0, 0)',
+        backgroundColor: scrolled ? 'rgba(248, 250, 252)' : 'rgba(0, 0, 0, 0)',
         backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
         boxShadow: scrolled ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
         color: scrolled ? 'rgb(15, 23, 42)' : 'rgb(228, 228, 231)',
@@ -66,8 +64,8 @@ export function NavbarHome() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
-                opacity: scrolled || pathname.split('/').length > 2 ? 1 : 0,
-                scale: scrolled || pathname.split('/').length > 2 ? 1 : 0.8,
+                opacity: 1,
+                scale: 1,
               }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="overflow-hidden"
@@ -132,13 +130,13 @@ export function NavbarHome() {
                   id="services-dropdown"
                   className="absolute top-full left-0 mt-2 min-w-[220px] bg-white rounded-md shadow-lg py-2"
                 >
-                  <Link
+                  {/* <Link
                     href="/expertise"
                     className="block px-4 py-2 text-sm text-zinc-900"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     {t('expertise')}
-                  </Link>
+                  </Link> */}
                   <Link
                     href="/supplier"
                     className="block px-4 py-2 text-sm text-zinc-900"
@@ -153,18 +151,18 @@ export function NavbarHome() {
                   >
                     {t('clients')}
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/imports&exports"
                     className="block px-4 py-2 text-sm text-zinc-900"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     {t('imports')}
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
 
-            <Link
+            {/* <Link
               href="/partners"
               className={`font-medium transition-colors relative group ${
                 pathname === '/partners' ? 'text-blue-900' : ''
@@ -172,7 +170,7 @@ export function NavbarHome() {
             >
               {t('partners')}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title  group-hover:w-full"></span>
-            </Link>
+            </Link> */}
             <Link
               href="/contact"
               className={`font-medium transition-colors relative group ${
@@ -253,7 +251,7 @@ export function NavbarHome() {
                 <span className="font-medium text-gray-200">
                   {t('services')}
                 </span>
-                <Link
+                {/* <Link
                   href="/expertise"
                   className={`font-medium transition-colors py-2 relative group ${
                     pathname === '/expertise' ? 'text-title' : ''
@@ -262,7 +260,7 @@ export function NavbarHome() {
                 >
                   {t('expertise')}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title  group-hover:w-full"></span>
-                </Link>
+                </Link> */}
                 <Link
                   href="/supplier"
                   className={`font-medium transition-colors py-2 relative group ${
@@ -283,8 +281,18 @@ export function NavbarHome() {
                   {t('clients')}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title  group-hover:w-full"></span>
                 </Link>
+                {/* <Link
+                  href="/imports&exports"
+                  className={`font-medium transition-colors py-2 relative group ${
+                    pathname === '/imports&exports' ? 'text-title' : ''
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t('imports')}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title  group-hover:w-full"></span>
+                </Link> */}
               </div>
-              <Link
+              {/* <Link
                 href="/partners"
                 className={`font-medium transition-colors py-2 relative group ${
                   pathname === '/partners' ? 'text-title' : ''
@@ -293,7 +301,7 @@ export function NavbarHome() {
               >
                 {t('partners')}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-title  group-hover:w-full"></span>
-              </Link>
+              </Link> */}
               <Link
                 href="/contact"
                 className={`font-medium transition-colors py-2 relative group ${
