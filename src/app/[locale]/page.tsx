@@ -8,7 +8,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Footer } from '@/components/footer'
 import { TypeAnimation } from 'react-type-animation'
-import { AnimatedLogo } from '@/components/ui/animated-logo'
 
 export default function Home() {
   const t = useTranslations('TextLang')
@@ -45,23 +44,24 @@ export default function Home() {
               repeat={0}
             />
           </motion.h1>
-          <motion.div
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex justify-center mb-6"
+            transition={{ duration: 0.8 }}
+            className="text-3xl md:text-2xl font-bold mb-6"
           >
-            <AnimatedLogo
-              variant="pulse"
-              size="xl2"
-              className="lg:!h-36 lg:!w-96"
-              loop={true}
+            <TypeAnimation
+              sequence={[1000, t('home.hero.subtitle')]}
+              wrapper="span"
+              speed={50}
+              cursor={true}
+              repeat={0}
             />
-          </motion.div>
+          </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             className="text-md md:text-1xl mb-8 max-w-3xl mx-auto"
           >
             {t('home.hero.description')}
@@ -69,7 +69,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Link
               href="/services"
