@@ -6,6 +6,7 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { motion } from 'framer-motion'
 
 export function NavbarHome() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -47,25 +48,40 @@ export function NavbarHome() {
   }, [])
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50  ${
-        scrolled
-          ? 'bg-slate-50/90 backdrop-blur-md shadow-lg text-zinc-200 md:text-zinc-900'
-          : 'bg-transparent text-zinc-200'
-      }`}
+    <motion.header
+      className="fixed top-0 left-0 right-0 z-50"
+      animate={{
+        backgroundColor: scrolled
+          ? 'rgba(248, 250, 252, 0.9)'
+          : 'rgba(0, 0, 0, 0)',
+        backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+        boxShadow: scrolled ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
+        color: scrolled ? 'rgb(15, 23, 42)' : 'rgb(228, 228, 231)',
+      }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-title">
-              <Image
-                src={`/images/svg/logo.svg`}
-                alt="logo"
-                height={280}
-                width={280}
-                className=""
-              />
-            </Link>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{
+                opacity: scrolled || pathname.split('/').length > 2 ? 1 : 0,
+                scale: scrolled || pathname.split('/').length > 2 ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden"
+            >
+              <Link href="/" className="text-2xl font-bold text-title">
+                <Image
+                  src={`/images/svg/logo.svg`}
+                  alt="logo"
+                  height={280}
+                  width={280}
+                  className=""
+                />
+              </Link>
+            </motion.div>
           </div>
 
           {/* Desktop Navigation */}
@@ -73,7 +89,7 @@ export function NavbarHome() {
             <Link
               href="/"
               className={`font-medium transition-colors relative group ${
-                pathname === '/' ? 'text-title' : ''
+                pathname === '/' ? 'text-blue-900' : ''
               }`}
             >
               {t('home')}
@@ -82,7 +98,7 @@ export function NavbarHome() {
             <Link
               href="/about"
               className={`font-medium transition-colors relative group ${
-                pathname === '/about' ? 'text-title' : ''
+                pathname === '/about' ? 'text-blue-900' : ''
               }`}
             >
               {t('about')}
@@ -91,7 +107,7 @@ export function NavbarHome() {
             <Link
               href="/products"
               className={`font-medium transition-colors relative group ${
-                pathname === '/products' ? 'text-title' : ''
+                pathname === '/products' ? 'text-blue-900' : ''
               }`}
             >
               {t('products')}
@@ -151,7 +167,7 @@ export function NavbarHome() {
             <Link
               href="/partners"
               className={`font-medium transition-colors relative group ${
-                pathname === '/partners' ? 'text-title' : ''
+                pathname === '/partners' ? 'text-blue-900' : ''
               }`}
             >
               {t('partners')}
@@ -160,7 +176,7 @@ export function NavbarHome() {
             <Link
               href="/contact"
               className={`font-medium transition-colors relative group ${
-                pathname === '/contact' ? 'text-title' : ''
+                pathname === '/contact' ? 'text-blue-900' : ''
               }`}
             >
               {t('contact')}
@@ -192,7 +208,15 @@ export function NavbarHome() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-zinc-900/95 backdrop-blur-md">
+        <motion.div
+          className="md:hidden backdrop-blur-md"
+          animate={{
+            backgroundColor: scrolled
+              ? 'rgba(248, 250, 252, 0.95)'
+              : 'rgba(24, 24, 27, 0.95)',
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        >
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col space-y-4">
               <Link
@@ -282,8 +306,8 @@ export function NavbarHome() {
               </Link>
             </nav>
           </div>
-        </div>
+        </motion.div>
       )}
-    </header>
+    </motion.header>
   )
 }
